@@ -1,0 +1,88 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.0//EN">
+<HTML>
+<HEAD>
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="GENERATOR" CONTENT="Microsoft FrontPage 4.0">
+<TITLE>EXAMPLES (X.694 (2004) Amd.1:05/2007)</TITLE>
+</HEAD>
+<BODY  >
+-- Module EXAMPLES (X.694 (2004) Amd.1:05/2007)<br>
+-- See also <a href="/ITU-T/recommendations/fl.aspx?id=9111" target="_top">ITU-T X.694 (2004) Amend. 1 (05/2007)</a><br>
+-- See also the <a href="index2.html" target="_top">index</a> of all ASN.1 assignments needed in this document<br><br>
+<PRE>
+<A NAME="EXAMPLES"></A>EXAMPLES {joint-iso-itu-t asn1(1) examples(999) xml-defined-types(3)}
+<FONT COLOR=#0000FF><B>DEFINITIONS </B></FONT><FONT COLOR=#B22222><b>XER INSTRUCTIONS </b></FONT><FONT COLOR=#666666><B>AUTOMATIC TAGS</B></FONT> ::=
+<FONT COLOR=#0000FF><B>BEGIN</B></FONT>
+
+<FONT COLOR=#0000FF><B>IMPORTS</B></FONT>
+  String, Decimal, Int, Date, AnyType
+    <FONT COLOR=#0000FF><B>FROM</B></FONT> XSD {joint-iso-itu-t asn1(1) specification(0) modules(0) xsd-module(2)
+      version1(1)};<FONT COLOR=#B22222><I> /* For a Version 2 mapping, the last component of the module identifier would be version2(2) */</I></FONT>
+
+<A NAME="EXAMPLES.EXAMPLES"></A>EXAMPLES ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  personnelRecord       <A HREF="#EXAMPLES.PersonnelRecord" target="files">PersonnelRecord</A>,
+  number                <A HREF="XSDv1.html#XSD.Decimal" target="files">Decimal</A>,
+  daysOfTheWeek         <A HREF="#EXAMPLES.ListOfDays" target="files">ListOfDays</A>,
+  namesOfMemberNations  <A HREF="#EXAMPLES.NamesOfMemberNations" target="files">NamesOfMemberNations</A>,
+  fileIdentifier-list
+    <FONT COLOR=#B22222>[UNTAGGED]<I> </I></FONT><FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> <FONT COLOR=#228B22><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>SIZE</B></FONT> <FONT COLOR=#228B22>(1..<FONT COLOR=#228B22><B>MAX</B></FONT>)</FONT>)</FONT></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> fileidentifier <A HREF="#EXAMPLES.FileIdentifier" target="files">FileIdentifier</A>
+}
+
+<A NAME="EXAMPLES.PersonnelRecord"></A>PersonnelRecord ::=<FONT COLOR=#B22222><I> </I>[NAME AS UNCAPITALIZED]</FONT> <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  name          <A HREF="#EXAMPLES.Name" target="files">Name</A>,
+  title         <A HREF="XSDv1.html#XSD.String" target="files"></a><A HREF="XSDv1.html#XSD" target="files">XSD</A>.String,
+  number        <FONT COLOR=#5F9EA0><B>INTEGER</B></FONT>,
+  dateOfHire    <A HREF="XSDv1.html#XSD.Date" target="files"></a><A HREF="XSDv1.html#XSD" target="files">XSD</A>.Date,
+  nameOfSpouse  <A HREF="#EXAMPLES.NameOfSpouse" target="files">NameOfSpouse</A>,
+  children      <A HREF="#EXAMPLES.Children" target="files">Children</A>
+}
+
+<A NAME="EXAMPLES.NameOfSpouse"></A>NameOfSpouse ::=<FONT COLOR=#B22222><I> </I>[NAME AS UNCAPITALIZED]</FONT> <A HREF="#EXAMPLES.Name" target="files">Name</A>
+
+<A NAME="EXAMPLES.Name"></A>Name ::=<FONT COLOR=#B22222><I> </I>[NAME AS UNCAPITALIZED]</FONT> <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  givenName   <A HREF="XSDv1.html#XSD.String" target="files"></a><A HREF="XSDv1.html#XSD" target="files">XSD</A>.String,
+  initial     <A HREF="XSDv1.html#XSD.String" target="files"></a><A HREF="XSDv1.html#XSD" target="files">XSD</A>.String,
+  familyName  <A HREF="XSDv1.html#XSD.String" target="files"></a><A HREF="XSDv1.html#XSD" target="files">XSD</A>.String
+}
+
+<A NAME="EXAMPLES.Children"></A>Children ::=<FONT COLOR=#B22222><I> </I>[NAME AS UNCAPITALIZED]</FONT> <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  childInformation-list
+    <FONT COLOR=#B22222>[UNTAGGED]<I> </I></FONT><FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> childInformation<FONT COLOR=#B22222><I> </I>[NAME AS CAPITALIZED]<I> </I></FONT>
+      <A HREF="#EXAMPLES.ChildInformation" target="files">ChildInformation</A>
+}
+
+<A NAME="EXAMPLES.ChildInformation"></A>ChildInformation ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {name         <A HREF="#EXAMPLES.Name" target="files">Name</A>,
+                               dateOfBirth  <A HREF="XSDv1.html#XSD.Date" target="files"></a><A HREF="XSDv1.html#XSD" target="files">XSD</A>.Date
+}
+
+<A NAME="EXAMPLES.ListOfDays"></A>ListOfDays ::=<FONT COLOR=#B22222><I> </I>[LIST]</FONT> <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="#EXAMPLES.Day" target="files">Day</A>
+
+<A NAME="EXAMPLES.Day"></A>Day ::= <FONT COLOR=#5F9EA0><B>ENUMERATED</B></FONT> {
+  friday, monday, saturday, sunday, thursday, tuesday, wednesday}
+
+<A NAME="EXAMPLES.NamesOfMemberNations"></A><FONT COLOR=#B22222><I>-- Note that 12.4.1.3 specifies use of a lexicographical order, as
+</I></FONT><FONT COLOR=#B22222><I>-- the members of an enumeration are not ordered in an XML Schema
+</I></FONT>NamesOfMemberNations ::=<FONT COLOR=#B22222><I> </I>[NAME AS UNCAPITALIZED] [LIST]</FONT>
+  <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="XSDv1.html#XSD.String" target="files"></a><A HREF="XSDv1.html#XSD" target="files">XSD</A>.String<FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>FROM</B></FONT> <FONT COLOR=#228B22>({0,
+                                0,
+                                0,
+                                33}..{0, 16, 255, 253})</FONT>)</FONT>
+
+<A NAME="EXAMPLES.FileIdentifier"></A>FileIdentifier ::=<FONT COLOR=#B22222><I> </I>[NAME AS UNCAPITALIZED]</FONT> <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  choice
+    <FONT COLOR=#B22222>[UNTAGGED]<I> </I></FONT><FONT COLOR=#B8860B><B>CHOICE</B></FONT> {serialNumber  <A HREF="XSDv1.html#XSD.Int" target="files"></a><A HREF="XSDv1.html#XSD" target="files">XSD</A>.Int,
+                           relativeName  <A HREF="XSDv1.html#XSD.String" target="files"></a><A HREF="XSDv1.html#XSD" target="files">XSD</A>.String,
+                           unidentified  <A HREF="#EXAMPLES.Unidentified" target="files">Unidentified</A>}
+}
+
+<A NAME="EXAMPLES.Unidentified"></A>Unidentified ::=<FONT COLOR=#B22222><I> </I>[NAME AS UNCAPITALIZED]</FONT> <A HREF="XSDv1.html#XSD" target="files">XSD</A>.<A HREF="XSDv1.html#XSD.AnyType" target="files">AnyType</A>
+
+<FONT COLOR=#B22222><b>ENCODING-CONTROL XER
+GLOBAL-DEFAULTS MODIFIED-ENCODINGS
+GLOBAL-DEFAULTS CONTROL-NAMESPACE
+	&quot;http://www.w3.org/2001/XMLSchema-instance&quot; PREFIX &quot;xsi&quot;
+TEXT Day:ALL
+</b></FONT><FONT COLOR=#0000FF><B>END</B></FONT>
+</PRE>
+-- Generated by Asnp, the ASN.1 pretty-printer of France Telecom R&amp;D
+</BODY></HTML>

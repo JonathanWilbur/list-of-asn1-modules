@@ -1,0 +1,139 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.0//EN">
+<HTML>
+<HEAD>
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="GENERATOR" CONTENT="Microsoft FrontPage 6.0">
+<TITLE>SignatureSignRecordFormatModuleSample (X.695:11/2008)</TITLE>
+</HEAD>
+<BODY  >
+-- Module SignatureSignRecordFormatModuleSample (X.695:11/2008)<br>
+-- See also the <a target="_top" href="/ITU-T/recommendations/fl.aspx?id=9613">ITU-T X.695 (11/2008)</a><br>
+-- See also the <a href="index2.html" target="_top">index</a> of all ASN.1 assignments needed in this document<br>
+<PRE>
+<A NAME="SignatureSignRecordFormatModule"></A>SignatureSignRecordFormatModule {iso standard 19794 signature-sign(7)
+  modules(0) record-format(0) version(0)} <FONT COLOR=#0000FF><B>DEFINITIONS</B></FONT> <FONT COLOR=#666666><B>AUTOMATIC TAGS</B></FONT> ::=
+<FONT COLOR=#0000FF><B>BEGIN</B></FONT>
+
+<A NAME="SignatureSignRecordFormatModule.SignatureSignBlock"></A>SignatureSignBlock ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {header  <A HREF="#SignatureSignRecordFormatModule.Header" target="files">Header</A>,
+                                 body    <A HREF="#SignatureSignRecordFormatModule.Body" target="files">Body</A>
+}
+
+<A NAME="SignatureSignRecordFormatModule.Header"></A>Header ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  formatId             <FONT COLOR=#5F9EA0><B>IA5String</B></FONT><FONT COLOR=#228B22>(&quot;SDI&quot;)</FONT>,
+  standardVersion      <FONT COLOR=#5F9EA0><B>IA5String</B></FONT><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>SIZE</B></FONT> <FONT COLOR=#228B22>(3)</FONT>)</FONT><FONT COLOR=#B22222><I>-- &quot; 10&quot; (space-one-zero) for this version --</I></FONT>,
+  channelInclusions    <A HREF="#SignatureSignRecordFormatModule.ChannelInclusions" target="files">ChannelInclusions</A>,
+  channelDescriptions  <A HREF="#SignatureSignRecordFormatModule.ChannelDescriptions" target="files">ChannelDescriptions</A>
+}
+
+<A NAME="SignatureSignRecordFormatModule.ChannelInclusions"></A>ChannelInclusions ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  x-included   <FONT COLOR=#5F9EA0><B>BOOLEAN</B></FONT>,
+  y-included   <FONT COLOR=#5F9EA0><B>BOOLEAN</B></FONT>,
+  z-included   <FONT COLOR=#5F9EA0><B>BOOLEAN</B></FONT>,
+  vX-included  <FONT COLOR=#5F9EA0><B>BOOLEAN</B></FONT>,
+  vY-included  <FONT COLOR=#5F9EA0><B>BOOLEAN</B></FONT>,
+  aX-included  <FONT COLOR=#5F9EA0><B>BOOLEAN</B></FONT>,
+  aY-included  <FONT COLOR=#5F9EA0><B>BOOLEAN</B></FONT>,
+  t-included   <FONT COLOR=#5F9EA0><B>BOOLEAN</B></FONT>,
+  dt-included  <FONT COLOR=#5F9EA0><B>BOOLEAN</B></FONT>,
+  f-included   <FONT COLOR=#5F9EA0><B>BOOLEAN</B></FONT>,
+  s-included   <FONT COLOR=#5F9EA0><B>BOOLEAN</B></FONT>,
+  tX-included  <FONT COLOR=#5F9EA0><B>BOOLEAN</B></FONT>,
+  tY-included  <FONT COLOR=#5F9EA0><B>BOOLEAN</B></FONT>,
+  az-included  <FONT COLOR=#5F9EA0><B>BOOLEAN</B></FONT>,
+  el-included  <FONT COLOR=#5F9EA0><B>BOOLEAN</B></FONT>,
+  r-included   <FONT COLOR=#5F9EA0><B>BOOLEAN</B></FONT>
+}<FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>WITH COMPONENTS</B></FONT> {
+    x-included  <FONT COLOR=#228B22>(<FONT COLOR=#5F9EA0><B>TRUE</B></FONT>)</FONT>,
+    y-included  <FONT COLOR=#228B22>(<FONT COLOR=#5F9EA0><B>TRUE</B></FONT>)</FONT>
+  })</FONT>
+
+<A NAME="SignatureSignRecordFormatModule.ChannelDescriptions"></A>ChannelDescriptions ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  x   <A HREF="#SignatureSignRecordFormatModule.SignedChannelDescr" target="files">SignedChannelDescr</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  y   <A HREF="#SignatureSignRecordFormatModule.SignedChannelDescr" target="files">SignedChannelDescr</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  z   <A HREF="#SignatureSignRecordFormatModule.UnsignedChannelDescr" target="files">UnsignedChannelDescr</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  vX  <A HREF="#SignatureSignRecordFormatModule.SignedChannelDescr" target="files">SignedChannelDescr</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  vY  <A HREF="#SignatureSignRecordFormatModule.SignedChannelDescr" target="files">SignedChannelDescr</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  aX  <A HREF="#SignatureSignRecordFormatModule.SignedChannelDescr" target="files">SignedChannelDescr</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  aY  <A HREF="#SignatureSignRecordFormatModule.SignedChannelDescr" target="files">SignedChannelDescr</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  t   <A HREF="#SignatureSignRecordFormatModule.UnsignedChannelDescr" target="files">UnsignedChannelDescr</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  dt  <A HREF="#SignatureSignRecordFormatModule.UnsignedChannelDescr" target="files">UnsignedChannelDescr</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  f   <A HREF="#SignatureSignRecordFormatModule.UnsignedChannelDescr" target="files">UnsignedChannelDescr</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  s   <A HREF="#SignatureSignRecordFormatModule.UnsignedChannelDescr" target="files">UnsignedChannelDescr</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  tX  <A HREF="#SignatureSignRecordFormatModule.SignedChannelDescr" target="files">SignedChannelDescr</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  tY  <A HREF="#SignatureSignRecordFormatModule.SignedChannelDescr" target="files">SignedChannelDescr</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  az  <A HREF="#SignatureSignRecordFormatModule.UnsignedChannelDescr" target="files">UnsignedChannelDescr</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  el  <A HREF="#SignatureSignRecordFormatModule.UnsignedChannelDescr" target="files">UnsignedChannelDescr</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  r   <A HREF="#SignatureSignRecordFormatModule.UnsignedChannelDescr" target="files">UnsignedChannelDescr</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>
+}
+<FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>CONSTRAINED BY</B></FONT> {
+   <A HREF="#SignatureSignRecordFormatModule.ChannelInclusions" target="files">ChannelInclusions</A><FONT COLOR=#B22222><I>-- Each element can be present if and only if permitted by
+   </I></FONT><FONT COLOR=#B22222><I>-- the ChannelInclusions --</I></FONT>})</FONT>
+
+<A NAME="SignatureSignRecordFormatModule.SignedChannelDescr"></A>SignedChannelDescr ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  reserved      <FONT COLOR=#5F9EA0><B>INTEGER</B></FONT><FONT COLOR=#228B22>(0..8)</FONT>,
+  scalingValue  <A HREF="#SignatureSignRecordFormatModule.ScalingValue" target="files">ScalingValue</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  min           <A HREF="#SignatureSignRecordFormatModule.SignedInt16" target="files">SignedInt16</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  max           <A HREF="#SignatureSignRecordFormatModule.SignedInt16" target="files">SignedInt16</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  mean          <A HREF="#SignatureSignRecordFormatModule.SignedInt16" target="files">SignedInt16</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  std           <A HREF="#SignatureSignRecordFormatModule.UnsignedInt16" target="files">UnsignedInt16</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>
+}
+
+<A NAME="SignatureSignRecordFormatModule.UnsignedChannelDescr"></A>UnsignedChannelDescr ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  reserved      <FONT COLOR=#5F9EA0><B>INTEGER</B></FONT><FONT COLOR=#228B22>(0..8)</FONT>,
+  scalingValue  <A HREF="#SignatureSignRecordFormatModule.ScalingValue" target="files">ScalingValue</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  min           <A HREF="#SignatureSignRecordFormatModule.UnsignedInt16" target="files">UnsignedInt16</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  max           <A HREF="#SignatureSignRecordFormatModule.UnsignedInt16" target="files">UnsignedInt16</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  mean          <A HREF="#SignatureSignRecordFormatModule.UnsignedInt16" target="files">UnsignedInt16</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  std           <A HREF="#SignatureSignRecordFormatModule.UnsignedInt16" target="files">UnsignedInt16</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>
+}
+
+<A NAME="SignatureSignRecordFormatModule.ScalingValue"></A>ScalingValue ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  exponent  <FONT COLOR=#5F9EA0><B>INTEGER</B></FONT><FONT COLOR=#228B22>(-16..15)</FONT>,
+  fraction  <FONT COLOR=#5F9EA0><B>INTEGER</B></FONT><FONT COLOR=#228B22>(0..2047)</FONT>
+}
+
+<A NAME="SignatureSignRecordFormatModule.Body"></A>Body ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  samplePoints  <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> <FONT COLOR=#228B22><B>SIZE</B></FONT> <FONT COLOR=#228B22><FONT COLOR=#228B22>(0..16777215)</FONT></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="#SignatureSignRecordFormatModule.SamplePoint" target="files">SamplePoint</A>,
+  extendedData  <FONT COLOR=#5F9EA0><B>OCTET STRING</B></FONT> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>
+}
+
+<A NAME="SignatureSignRecordFormatModule.SamplePoint"></A>SamplePoint ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  x   <A HREF="#SignatureSignRecordFormatModule.SignedInt16" target="files">SignedInt16</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  y   <A HREF="#SignatureSignRecordFormatModule.SignedInt16" target="files">SignedInt16</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  z   <A HREF="#SignatureSignRecordFormatModule.UnsignedInt16" target="files">UnsignedInt16</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  vX  <A HREF="#SignatureSignRecordFormatModule.SignedInt16" target="files">SignedInt16</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  vY  <A HREF="#SignatureSignRecordFormatModule.SignedInt16" target="files">SignedInt16</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  aX  <A HREF="#SignatureSignRecordFormatModule.SignedInt16" target="files">SignedInt16</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  aY  <A HREF="#SignatureSignRecordFormatModule.SignedInt16" target="files">SignedInt16</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  t   <A HREF="#SignatureSignRecordFormatModule.UnsignedInt16" target="files">UnsignedInt16</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  dt  <A HREF="#SignatureSignRecordFormatModule.UnsignedInt16" target="files">UnsignedInt16</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  f   <A HREF="#SignatureSignRecordFormatModule.UnsignedInt16" target="files">UnsignedInt16</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  s   <A HREF="#SignatureSignRecordFormatModule.UnsignedInt8" target="files">UnsignedInt8</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  tX  <A HREF="#SignatureSignRecordFormatModule.SignedInt16" target="files">SignedInt16</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  tY  <A HREF="#SignatureSignRecordFormatModule.SignedInt16" target="files">SignedInt16</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  az  <A HREF="#SignatureSignRecordFormatModule.UnsignedInt16" target="files">UnsignedInt16</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  el  <A HREF="#SignatureSignRecordFormatModule.UnsignedInt16" target="files">UnsignedInt16</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  r   <A HREF="#SignatureSignRecordFormatModule.UnsignedInt16" target="files">UnsignedInt16</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>
+}
+<FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>CONSTRAINED BY</B></FONT> {
+   <A HREF="#SignatureSignRecordFormatModule.ChannelInclusions" target="files">ChannelInclusions</A><FONT COLOR=#B22222><I>-- Each element can be present if and only if
+   </I></FONT><FONT COLOR=#B22222><I>-- permitted by the channel inclusions --</I></FONT>})</FONT>
+
+<A NAME="SignatureSignRecordFormatModule.UnsignedInt16"></A>UnsignedInt16 ::= <FONT COLOR=#5F9EA0><B>INTEGER</B></FONT><FONT COLOR=#228B22>(0..65535)</FONT>
+
+<A NAME="SignatureSignRecordFormatModule.SignedInt16"></A>SignedInt16 ::= <FONT COLOR=#5F9EA0><B>INTEGER</B></FONT><FONT COLOR=#228B22>(-32768..32767)</FONT>
+
+<A NAME="SignatureSignRecordFormatModule.UnsignedInt8"></A>UnsignedInt8 ::= <FONT COLOR=#5F9EA0><B>INTEGER</B></FONT><FONT COLOR=#228B22>(0..255)</FONT>
+
+<FONT COLOR=#B22222>ENCODING-CONTROL PER
+[NULL] IA5String
+[OPTIONALITY-IN Header.channel-inclusions] ChannelDescriptions, SamplePoint 
+[ENCODE-DIRECTLY] ScalingValue.exponent, SignedInt16
+[SIZE 8] Body
+[LENGTH 3] Body.samplePoints
+[COUNT-OCTETS] Body.samplePoints
+[TERMINATED-BY-CARRIER] Body.extendedData
+</FONT><FONT COLOR=#0000FF><B>END</B></FONT>
+</PRE>
+-- Generated by Asnp, the ASN.1 pretty-printer of France Telecom R&amp;D
+</BODY></HTML>

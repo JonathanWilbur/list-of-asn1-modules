@@ -1,0 +1,307 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.0//EN">
+<HTML>
+<HEAD>
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="GENERATOR" CONTENT="Microsoft FrontPage 4.0">
+<TITLE>XSDv1 (X.694 (2004) Amd.1:05/2007)</TITLE>
+</HEAD>
+<BODY  >
+-- Module XSDv1 (X.694 (2004) Amd.1:05/2007)<br>
+-- See also <a href="/ITU-T/recommendations/fl.aspx?id=9111" target="_top">ITU-T X.694 (2004) Amend. 1 (05/2007)</a><br>
+-- See also the <a href="index2.html" target="_top">index</a> of all ASN.1 assignments needed in this document<br><br>
+<PRE>
+<A NAME="XSD"></A>XSD {joint-iso-itu-t asn1(1) specification(0) modules(0) xsd-module(2)
+  version1(1)} <FONT COLOR=#0000FF><B>DEFINITIONS</B></FONT> <FONT COLOR=#666666><B>AUTOMATIC TAGS</B></FONT> ::=
+<FONT COLOR=#0000FF><B>BEGIN</B></FONT>
+
+<A NAME="XSD.AnySimpleType"></A><FONT COLOR=#B22222><I>/* xsd:anySimpleType */
+</I></FONT>AnySimpleType ::= <A HREF="#XSD.XMLCompatibleString" target="files">XMLCompatibleString</A>
+
+<A NAME="XSD.AnyType"></A><FONT COLOR=#B22222><I>/* xsd:anyType */
+</I></FONT>AnyType ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  embed-values  <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="#XSD.String" target="files">String</A>,
+  attr
+    <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> <FONT COLOR=#228B22>
+      <FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>CONSTRAINED BY</B></FONT> {
+         
+         <FONT COLOR=#B22222><I>/* Each item shall conform to the &quot;AnyAttributeFormat&quot; specified
+	in ITU-T Rec. X.693 | ISO/IEC 8825-4, clause 18 */ </I></FONT>})</FONT></FONT>
+      <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="#XSD.String" target="files">String</A>,
+  elem-list
+    <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> elem
+      <A HREF="#XSD.String" target="files">String</A>
+        <FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>CONSTRAINED BY</B></FONT> {
+           
+           <FONT COLOR=#B22222><I>/* Shall conform to the &quot;AnyElementFormat&quot; specified
+        in ITU-T Rec. X.693 | ISO/IEC 8825-4, clause 19 */ </I></FONT>})</FONT>
+}
+<FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>CONSTRAINED BY</B></FONT> {
+   
+   <FONT COLOR=#B22222><I>/* Shall conform to ITU-T Rec. X.693 | ISO/IEC 8825-4, clause 25 */</I></FONT>})</FONT>
+
+<A NAME="XSD.AnyType-nillable"></A>AnyType-nillable ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  embed-values  <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="#XSD.String" target="files">String</A>,
+  attr
+    <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> <FONT COLOR=#228B22>
+      <FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>CONSTRAINED BY</B></FONT> {
+         
+         <FONT COLOR=#B22222><I>/* Each item shall conform to the &quot;AnyAttributeFormat&quot; specified
+	in ITU-T Rec. X.693 | ISO/IEC 8825-4, clause 18 */ </I></FONT>})</FONT></FONT>
+      <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="#XSD.String" target="files">String</A>,
+  content
+    <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {elem-list
+                <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> elem
+                  <A HREF="#XSD.String" target="files">String</A>
+                    <FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>CONSTRAINED BY</B></FONT> {
+                       
+                       <FONT COLOR=#B22222><I>/* Shall conform to the &quot;AnyElementFormat&quot; specified
+     		   in ITU-T Rec. X.693 | ISO/IEC 8825-4, clause 19 */ </I></FONT>})</FONT>
+  } <FONT COLOR=#666666><B>OPTIONAL</B></FONT>
+}
+<FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>CONSTRAINED BY</B></FONT> {
+   
+   <FONT COLOR=#B22222><I>/* Shall conform to ITU-T Rec. X.693 | ISO/IEC 8825-4, clause 25 */</I></FONT>})</FONT>
+
+<A NAME="XSD.AnyURI"></A><FONT COLOR=#B22222><I>/* xsd:anyUri */
+</I></FONT>AnyURI ::=
+  <A HREF="#XSD.XMLStringWithNoCRLFHT" target="files">XMLStringWithNoCRLFHT</A>
+    <FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>CONSTRAINED BY</B></FONT> {
+       
+       <FONT COLOR=#B22222><I>/* The XMLStringWithNoCRLFHT shall be a valid URI as defined in IETF RFC
+	 2396 */</I></FONT>})</FONT>
+
+<A NAME="XSD.Date"></A><FONT COLOR=#B22222><I>/* xsd:date */
+</I></FONT>Date ::= <A HREF="#XSD.DateTimeType" target="files">DateTimeType</A><FONT COLOR=#228B22>(<A HREF="#XSD.DateOnly" target="files">DateOnly</A>)</FONT>
+
+<A NAME="XSD.DateTime"></A><FONT COLOR=#B22222><I>/* xsd:dateTime */
+</I></FONT>DateTime ::= <A HREF="#XSD.DateTimeType" target="files">DateTimeType</A>
+
+<A NAME="XSD.Decimal"></A><FONT COLOR=#B22222><I>/* xsd:decimal */
+</I></FONT>Decimal ::=
+  <FONT COLOR=#5F9EA0><B>REAL</B></FONT><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>WITH COMPONENTS</B></FONT> {
+         ...,
+         base  <FONT COLOR=#228B22>(10)</FONT>
+       })</FONT><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>ALL EXCEPT</B></FONT> (0 <FONT COLOR=#228B22><B>|</B></FONT> <FONT COLOR=#5F9EA0><B>MINUS-INFINITY</B></FONT> <FONT COLOR=#228B22><B>|</B></FONT> <FONT COLOR=#5F9EA0><B>PLUS-INFINITY</B></FONT><I><FONT COLOR=#B22222> </FONT><b>|</b><FONT COLOR=#B22222> </FONT></I></FONT><font color="#5F9EA0"><b>NOT-A-NUMBER</b></font><FONT COLOR=#228B22>))</FONT>
+
+<A NAME="XSD.Double"></A><FONT COLOR=#B22222><I>/* xsd:double */
+</I></FONT>Double ::=
+  <FONT COLOR=#5F9EA0><B>REAL</B></FONT>
+    <FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>WITH COMPONENTS</B></FONT> {
+       mantissa  <FONT COLOR=#228B22>(-9007199254740991..9007199254740991)</FONT>,
+       base      <FONT COLOR=#228B22>(2)</FONT>,
+       exponent  <FONT COLOR=#228B22>(-1075..970)</FONT>
+     })</FONT>
+
+<A NAME="XSD.Duration"></A><FONT COLOR=#B22222><I>/* xsd:duration */
+</I></FONT>Duration ::= <A HREF="#XSD.DurationType" target="files">DurationType</A>
+
+<A NAME="XSD.ENTITIES"></A><FONT COLOR=#B22222><I>/* xsd:ENTITIES */
+</I></FONT>ENTITIES ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> <FONT COLOR=#228B22><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>SIZE</B></FONT> <FONT COLOR=#228B22>(1..<FONT COLOR=#228B22><B>MAX</B></FONT>)</FONT>)</FONT></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="#XSD.ENTITY" target="files">ENTITY</A>
+
+<A NAME="XSD.ENTITY"></A><FONT COLOR=#B22222><I>/* xsd:ENIITY */
+</I></FONT>ENTITY ::= <A HREF="#XSD.NCName" target="files">NCName</A>
+
+<A NAME="XSD.Float"></A><FONT COLOR=#B22222><I>/* xsd:float */
+</I></FONT>Float ::=
+  <FONT COLOR=#5F9EA0><B>REAL</B></FONT>
+    <FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>WITH COMPONENTS</B></FONT> {
+       mantissa  <FONT COLOR=#228B22>(-16777215..16777215)</FONT>,
+       base      <FONT COLOR=#228B22>(2)</FONT>,
+       exponent  <FONT COLOR=#228B22>(-149..104)</FONT>
+     })</FONT>
+
+<A NAME="XSD.GDay"></A><FONT COLOR=#B22222><I>/* xsd:gDay */
+</I></FONT>GDay ::= <A HREF="#XSD.DateTimeType" target="files">DateTimeType</A><FONT COLOR=#228B22>(<A HREF="#XSD.Day" target="files">Day</A>)</FONT>
+
+<A NAME="XSD.GMonth"></A><FONT COLOR=#B22222><I>/* xsd:gMonth */
+</I></FONT>GMonth ::= <A HREF="#XSD.DateTimeType" target="files">DateTimeType</A><FONT COLOR=#228B22>(<A HREF="#XSD.Month" target="files">Month</A>)</FONT>
+
+<A NAME="XSD.GMonthDay"></A><FONT COLOR=#B22222><I>/* xsd:gMonthDay */
+</I></FONT>GMonthDay ::= <A HREF="#XSD.DateTimeType" target="files">DateTimeType</A><FONT COLOR=#228B22>(<A HREF="#XSD.MonthDay" target="files">MonthDay</A>)</FONT>
+
+<A NAME="XSD.GYear"></A><FONT COLOR=#B22222><I>/* xsd:gYear */
+</I></FONT>GYear ::= <A HREF="#XSD.DateTimeType" target="files">DateTimeType</A><FONT COLOR=#228B22>(<A HREF="#XSD.Year" target="files">Year</A>)</FONT>
+
+<A NAME="XSD.GYearMonth"></A><FONT COLOR=#B22222><I>/* xsd:gYearMonth */
+</I></FONT>GYearMonth ::= <A HREF="#XSD.DateTimeType" target="files">DateTimeType</A><FONT COLOR=#228B22>(<A HREF="#XSD.YearMonth" target="files">YearMonth</A>)</FONT>
+
+<A NAME="XSD.ID"></A><FONT COLOR=#B22222><I>/* xsd:ID */
+</I></FONT>ID ::= <A HREF="#XSD.NCName" target="files">NCName</A>
+
+<A NAME="XSD.IDREF"></A><FONT COLOR=#B22222><I>/* xsd:IDREF */
+</I></FONT>IDREF ::= <A HREF="#XSD.NCName" target="files">NCName</A>
+
+<A NAME="XSD.IDREFS"></A><FONT COLOR=#B22222><I>/* xsd:IDREFS */
+</I></FONT>IDREFS ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> <FONT COLOR=#228B22><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>SIZE</B></FONT> <FONT COLOR=#228B22>(1..<FONT COLOR=#228B22><B>MAX</B></FONT>)</FONT>)</FONT></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="#XSD.IDREF" target="files">IDREF</A>
+
+<A NAME="XSD.Int"></A><FONT COLOR=#B22222><I>/* xsd:int */
+</I></FONT>Int ::= <FONT COLOR=#5F9EA0><B>INTEGER</B></FONT><FONT COLOR=#228B22>(-2147483648..2147483647)</FONT>
+
+<A NAME="XSD.Language"></A><FONT COLOR=#B22222><I>/* xsd:language */
+</I></FONT>Language ::=
+  <FONT COLOR=#5F9EA0><B>VisibleString</B></FONT><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>FROM</B></FONT> <FONT COLOR=#228B22>(&quot;a&quot;..&quot;z&quot; <FONT COLOR=#228B22><B>|</B></FONT> &quot;A&quot;..&quot;Z&quot; <FONT COLOR=#228B22><B>|</B></FONT> &quot;-&quot; <FONT COLOR=#228B22><B>|</B></FONT> &quot;0&quot;..&quot;9&quot;)</FONT>)</FONT>
+    <FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>PATTERN</B></FONT> &quot;[a-zA-Z]#(1,8)(-[a-zA-Z0-9]#(1,8))*&quot;)</FONT>
+
+<A NAME="XSD.Long"></A><FONT COLOR=#B22222><I>/* The semantics of Language is specified in IETF RFC 3066 */
+</I></FONT><FONT COLOR=#B22222><I>/* xsd:long */
+</I></FONT>Long ::= <FONT COLOR=#5F9EA0><B>INTEGER</B></FONT><FONT COLOR=#228B22>(-9223372036854775808..9223372036854775807)</FONT>
+
+<A NAME="XSD.Name"></A><FONT COLOR=#B22222><I>/* xsd:name */
+</I></FONT>Name ::=
+  <A HREF="#XSD.Token" target="files">Token</A><FONT COLOR=#228B22>(<A HREF="#XSD.XMLStringWithNoWhitespace" target="files">XMLStringWithNoWhitespace</A>)</FONT>
+    <FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>CONSTRAINED BY</B></FONT> {
+       
+       <FONT COLOR=#B22222><I>/* The Token shall be a Name as defined in W3C XML 1.0, 2.3 */</I></FONT>})</FONT>
+
+<A NAME="XSD.NCName"></A><FONT COLOR=#B22222><I>/* xsd:NCName */
+</I></FONT>NCName ::=
+  <A HREF="#XSD.Name" target="files">Name</A>
+    <FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>CONSTRAINED BY</B></FONT> {
+       
+       <FONT COLOR=#B22222><I>/* The Name shall be an NCName as defined in W3C XML Namespaces, 2 */</I></FONT>})</FONT>
+
+<A NAME="XSD.NMTOKEN"></A><FONT COLOR=#B22222><I>/* xsd:NMTOKEN */
+</I></FONT>NMTOKEN ::=
+  <A HREF="#XSD.Token" target="files">Token</A><FONT COLOR=#228B22>(<A HREF="#XSD.XMLStringWithNoWhitespace" target="files">XMLStringWithNoWhitespace</A>)</FONT>
+    <FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>CONSTRAINED BY</B></FONT> {
+       
+       <FONT COLOR=#B22222><I>/* The Token shall be an NMTOKEN as defined in W3C XML 1.0, 2.3 */</I></FONT>})</FONT>
+
+<A NAME="XSD.NMTOKENS"></A><FONT COLOR=#B22222><I>/* xsd:NMTOKENS */
+</I></FONT>NMTOKENS ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> <FONT COLOR=#228B22><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>SIZE</B></FONT> <FONT COLOR=#228B22>(1..<FONT COLOR=#228B22><B>MAX</B></FONT>)</FONT>)</FONT></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="#XSD.NMTOKEN" target="files">NMTOKEN</A>
+
+<A NAME="XSD.NormalizedString"></A><FONT COLOR=#B22222><I>/* xsd:normalizedString */
+</I></FONT>NormalizedString ::=
+  <A HREF="#XSD.String" target="files">String</A><FONT COLOR=#228B22>(<A HREF="#XSD.XMLStringWithNoCRLFHT" target="files">XMLStringWithNoCRLFHT</A>)</FONT>
+    <FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>CONSTRAINED BY</B></FONT> {
+       
+       <FONT COLOR=#B22222><I>/* The String shall be a normalizedString as defined in W3C XML Schema
+       Part 2, 3.3.1 */</I></FONT>})</FONT>
+
+<A NAME="XSD.NOTATION"></A><FONT COLOR=#B22222><I>/* xsd:NOTATION */
+</I></FONT>NOTATION ::= <A HREF="#XSD.QName" target="files">QName</A>
+
+<A NAME="XSD.QName"></A><FONT COLOR=#B22222><I>/* xsd:QName */
+</I></FONT>QName ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {uri   <A HREF="#XSD.AnyURI" target="files">AnyURI</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+                    name  <A HREF="#XSD.NCName" target="files">NCName</A>
+}
+
+<A NAME="XSD.Short"></A><FONT COLOR=#B22222><I>/* xsd:short */
+</I></FONT>Short ::= <FONT COLOR=#5F9EA0><B>INTEGER</B></FONT><FONT COLOR=#228B22>(-32768..32767)</FONT>
+
+<A NAME="XSD.String"></A><FONT COLOR=#B22222><I>/* xsd:string */
+</I></FONT>String ::= <A HREF="#XSD.XMLCompatibleString" target="files">XMLCompatibleString</A>
+
+<A NAME="XSD.Time"></A><FONT COLOR=#B22222><I>/* xsd:time */
+</I></FONT>Time ::= <A HREF="#XSD.DateTimeType" target="files">DateTimeType</A><FONT COLOR=#228B22>(<A HREF="#XSD.TimeOnly" target="files">TimeOnly</A>)</FONT>
+
+<A NAME="XSD.Token"></A><FONT COLOR=#B22222><I>/* xsd:token */
+</I></FONT>Token ::=
+  <A HREF="#XSD.NormalizedString" target="files">NormalizedString</A>
+    <FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>CONSTRAINED BY</B></FONT> {
+       
+       <FONT COLOR=#B22222><I>/* The NormalizedString shall be a token as defined in W3C XML Schema Part 2,
+   3.3.2 */</I></FONT>})</FONT>
+
+<A NAME="XSD.UnsignedInt"></A><FONT COLOR=#B22222><I>/* xsd:unsignedInt */
+</I></FONT>UnsignedInt ::= <FONT COLOR=#5F9EA0><B>INTEGER</B></FONT><FONT COLOR=#228B22>(0..4294967295)</FONT>
+
+<A NAME="XSD.UnsignedLong"></A><FONT COLOR=#B22222><I>/* xsd:unsignedLong */
+</I></FONT>UnsignedLong ::= <FONT COLOR=#5F9EA0><B>INTEGER</B></FONT><FONT COLOR=#228B22>(0..18446744073709551615)</FONT>
+
+<A NAME="XSD.UnsignedShort"></A><FONT COLOR=#B22222><I>/* xsd:unsignedShort */
+</I></FONT>UnsignedShort ::= <FONT COLOR=#5F9EA0><B>INTEGER</B></FONT><FONT COLOR=#228B22>(0..65535)</FONT>
+
+<A NAME="XSD.XMLCompatibleString"></A><FONT COLOR=#B22222><I>/* ASN.1 type definitions supporting the mapping of W3C XML Schema built-in types */
+</I></FONT>XMLCompatibleString ::=
+  <FONT COLOR=#5F9EA0><B>UTF8String</B></FONT>
+    <FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>FROM</B></FONT> <FONT COLOR=#228B22>({0,
+            0,
+            0,
+            9} <FONT COLOR=#228B22><B>|</B></FONT> {0, 0, 0, 10} <FONT COLOR=#228B22><B>|</B></FONT> {0, 0, 0, 13} <FONT COLOR=#228B22><B>|</B></FONT>
+           {0, 0, 0, 32}..{0, 0, 215, 255} <FONT COLOR=#228B22><B>|</B></FONT> {0, 0, 224, 0}..{0, 0, 255, 253} <FONT COLOR=#228B22><B>|</B></FONT>
+           {0, 1, 0, 0}..{0, 16, 255, 253})</FONT>)</FONT>
+
+<A NAME="XSD.XMLStringWithNoWhitespace"></A>XMLStringWithNoWhitespace ::=
+  <FONT COLOR=#5F9EA0><B>UTF8String</B></FONT>
+    <FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>FROM</B></FONT> <FONT COLOR=#228B22>({0,
+            0,
+            0,
+            33}..{0, 0, 215, 255} <FONT COLOR=#228B22><B>|</B></FONT> {0, 0, 224, 0}..{0, 0, 255, 253} <FONT COLOR=#228B22><B>|</B></FONT>
+           {0, 1, 0, 0}..{0, 16, 255, 253})</FONT>)</FONT>
+
+<A NAME="XSD.XMLStringWithNoCRLFHT"></A>XMLStringWithNoCRLFHT ::=
+  <FONT COLOR=#5F9EA0><B>UTF8String</B></FONT>
+    <FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>FROM</B></FONT> <FONT COLOR=#228B22>({0,
+            0,
+            0,
+            32}..{0, 0, 215, 255} <FONT COLOR=#228B22><B>|</B></FONT> {0, 0, 224, 0}..{0, 0, 255, 253} <FONT COLOR=#228B22><B>|</B></FONT>
+           {0, 1, 0, 0}..{0, 16, 255, 253})</FONT>)</FONT>
+
+<A NAME="XSD.DurationType"></A><FONT COLOR=#B22222><I>/* ASN.1 type definitions supporting the mapping of W3C XML Schema built-in date and time datatypes */
+</I></FONT>DurationType ::=
+  <FONT COLOR=#5F9EA0><B>VisibleString</B></FONT><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>FROM</B></FONT> <FONT COLOR=#228B22>(&quot;0&quot;..&quot;9&quot; <FONT COLOR=#228B22><B>|</B></FONT> &quot;DHMPSTY:.+-&quot;)</FONT>)</FONT>
+    <FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>CONSTRAINED BY</B></FONT> {<FONT COLOR=#B22222><I> /* W3C XML Schema Part 2, 3.2.6 */</I></FONT>})</FONT>
+
+<A NAME="XSD.DateTimeType"></A>DateTimeType ::=
+  <FONT COLOR=#5F9EA0><B>VisibleString</B></FONT><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>FROM</B></FONT> <FONT COLOR=#228B22>(&quot;0&quot;..&quot;9&quot; <FONT COLOR=#228B22><B>|</B></FONT> &quot;TZ:.+-&quot;)</FONT>)</FONT>
+    <FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>CONSTRAINED BY</B></FONT> {<FONT COLOR=#B22222><I> /* W3C XML Schema Part 2, 3.2.7 */</I></FONT>})</FONT>
+
+<A NAME="XSD.DateOnly"></A>DateOnly ::=
+  <A HREF="#XSD.DateTimeType" target="files">DateTimeType</A><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>FROM</B></FONT> <FONT COLOR=#228B22>(&quot;0&quot;..&quot;9&quot; <FONT COLOR=#228B22><B>|</B></FONT> &quot;Z:+-&quot;)</FONT>)</FONT>
+    <FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>CONSTRAINED BY</B></FONT> {<FONT COLOR=#B22222><I> /* W3C XML Schema Part 2, 3.2.9 */</I></FONT>})</FONT>
+
+<A NAME="XSD.Day"></A>Day ::=
+  <A HREF="#XSD.DateTimeType" target="files">DateTimeType</A><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>FROM</B></FONT> <FONT COLOR=#228B22>(&quot;0&quot;..&quot;9&quot; <FONT COLOR=#228B22><B>|</B></FONT> &quot;Z:+-&quot;)</FONT>)</FONT>
+    <FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>CONSTRAINED BY</B></FONT> {<FONT COLOR=#B22222><I> /* W3C XML Schema Part 2, 3.2.13 */</I></FONT>})</FONT>
+
+<A NAME="XSD.Month"></A>Month ::=
+  <A HREF="#XSD.DateTimeType" target="files">DateTimeType</A><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>FROM</B></FONT> <FONT COLOR=#228B22>(&quot;0&quot;..&quot;9&quot; <FONT COLOR=#228B22><B>|</B></FONT> &quot;Z:+-&quot;)</FONT>)</FONT>
+    <FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>CONSTRAINED BY</B></FONT> {<FONT COLOR=#B22222><I> /* W3C XML Schema Part 2, 3.2.14 */</I></FONT>})</FONT>
+
+<A NAME="XSD.MonthDay"></A>MonthDay ::=
+  <A HREF="#XSD.DateTimeType" target="files">DateTimeType</A><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>FROM</B></FONT> <FONT COLOR=#228B22>(&quot;0&quot;..&quot;9&quot; <FONT COLOR=#228B22><B>|</B></FONT> &quot;Z:+-&quot;)</FONT>)</FONT>
+    <FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>CONSTRAINED BY</B></FONT> {<FONT COLOR=#B22222><I> /* W3C XML Schema Part 2, 3.2.12 */</I></FONT>})</FONT>
+
+<A NAME="XSD.Year"></A>Year ::=
+  <A HREF="#XSD.DateTimeType" target="files">DateTimeType</A><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>FROM</B></FONT> <FONT COLOR=#228B22>(&quot;0&quot;..&quot;9&quot; <FONT COLOR=#228B22><B>|</B></FONT> &quot;Z:+-&quot;)</FONT>)</FONT>
+    <FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>CONSTRAINED BY</B></FONT> {<FONT COLOR=#B22222><I> /* W3C XML Schema Part 2, 3.2.11 */</I></FONT>})</FONT>
+
+<A NAME="XSD.YearMonth"></A>YearMonth ::=
+  <A HREF="#XSD.DateTimeType" target="files">DateTimeType</A><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>FROM</B></FONT> <FONT COLOR=#228B22>(&quot;0&quot;..&quot;9&quot; <FONT COLOR=#228B22><B>|</B></FONT> &quot;Z:+-&quot;)</FONT>)</FONT>
+    <FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>CONSTRAINED BY</B></FONT> {<FONT COLOR=#B22222><I> /* W3C XML Schema Part 2, 3.2.10 */</I></FONT>})</FONT>
+
+<A NAME="XSD.TimeOnly"></A>TimeOnly ::=
+  <A HREF="#XSD.DateTimeType" target="files">DateTimeType</A><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>FROM</B></FONT> <FONT COLOR=#228B22>(&quot;0&quot;..&quot;9&quot; <FONT COLOR=#228B22><B>|</B></FONT> &quot;Z:.+-&quot;)</FONT>)</FONT>
+    <FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>CONSTRAINED BY</B></FONT> {<FONT COLOR=#B22222><I> /* W3C XML Schema Part 2, 3.2.8 */</I></FONT>})</FONT>
+
+<FONT COLOR=#B22222><b>ENCODING-CONTROL XER
+	GLOBAL-DEFAULTS MODIFIED-ENCODINGS
+	GLOBAL-DEFAULTS CONTROL-NAMESPACE
+		&quot;http://www.w3.org/2001/XMLSchema-instance&quot;
+		PREFIX &quot;xsi&quot;
+	NAMESPACE ALL, ALL IN ALL AS 
+		&quot;http://www.w3.org/2001/XMLSchema&quot; 
+		PREFIX &quot;xsd&quot;
+	USE-QNAME QName
+	DECIMAL Decimal
+	LIST ENTITIES, IDREFS, NMTOKENS
+	EMBED-VALUES AnyType,
+	ANY-ATTRIBUTES AnyType.attr,
+	ANY-ELEMENT AnyType.elem-list.*,
+	UNTAGGED AnyType.elem-list
+
+		NAME AnySimpleType, AnyURI, Boolean,
+			Byte, Date, DateTime, Decimal, Double, Duration,
+		Float, GDay, GMonth, GMonthDay, GYear, GYearMonth,
+		Int, Language, Long, NormalizedString, Short, 
+		String, Time, Token,
+		UnsignedInt, UnsignedLong, UnsignedShort
+		AS UNCAPITALIZED
+	USE-NIL AnyType-nillable
+	WHITESPACE AnyURI, Language, Token, DurationType, DateTimeType COLLAPSE
+	WHITESPACE NormalizedString REPLACE
+</b></FONT><FONT COLOR=#0000FF><B>END</B></FONT>
+</PRE>
+-- Generated by Asnp, the ASN.1 pretty-printer of France Telecom R&amp;D
+</BODY></HTML>

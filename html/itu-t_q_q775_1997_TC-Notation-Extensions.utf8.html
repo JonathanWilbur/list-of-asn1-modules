@@ -1,0 +1,94 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.0//EN">
+<HTML>
+<HEAD>
+<META NAME="GENERATOR" CONTENT="Microsoft FrontPage 4.0">
+<TITLE>TC-Notation-Extensions (Rec. Q.775:06/1997)</TITLE>
+</HEAD>
+<BODY  >
+-- Module TC-Notation-Extensions (Q.775:06/1997)<br>-- See also <a href="/ITU-T/recommendations/fl.aspx?id=4081" target="_top">ITU-T Q.775 (06/1997)</a><br>-- See also the <a href="index2.html" target="_top">index</a> of all ASN.1 assignments needed in this Recommendation<br><br>
+<PRE>
+<A NAME="TC-Notation-Extensions"></A>TC-Notation-Extensions {itu-t recommendation q 775 modules(2)
+  notation-extension(4) version1(1)} <FONT COLOR=#0000FF><B>DEFINITIONS</B></FONT> ::=
+<FONT COLOR=#0000FF><B>BEGIN</B></FONT>
+
+<FONT COLOR=#0000FF><B>IMPORTS</B></FONT>
+  TCMessage{}
+    <FONT COLOR=#0000FF><B>FROM</B></FONT> TCAPMessages {itu-t recommendation q 773 modules(2) messages(1)
+      version3(3)}
+  Bind{}, Unbind{}
+    <FONT COLOR=#0000FF><B>FROM</B></FONT> Remote-Operations-Generic-ROS-PDUs {joint-iso-itu-t
+      remote-operations(4) generic-ROS-PDUs(6) version1(0)}
+  AllOperations{}, ConsumerPerforms{}, SupplierPerforms{}, combine{}
+    <FONT COLOR=#0000FF><B>FROM</B></FONT> Remote-Operations-Useful-Definitions {joint-iso-itu-t
+      remote-operations(4) useful-definitions(7) version1(0)}
+  CONTRACT, OPERATION-PACKAGE
+    <FONT COLOR=#0000FF><B>FROM</B></FONT> Remote-Operations-Information-Objects {joint-iso-itu-t
+      remote-operations(4) informationObjects(5) version1(0)}
+  UniDialoguePDU, uniDialogue-as-id
+    <FONT COLOR=#0000FF><B>FROM</B></FONT> UnidialoguePDUs {itu-t recommendation q 773 modules(2)
+      unidialoguePDUs(3) version1(1)}
+  DialoguePDU, dialogue-as-id
+    <FONT COLOR=#0000FF><B>FROM</B></FONT> DialoguePDUs {itu-t recommendation q 773 modules(2) dialoguePDUs(2)
+      version1(1)};
+
+<A NAME="TC-Notation-Extensions.APPLICATION-CONTEXT"></A>APPLICATION-CONTEXT ::= <FONT COLOR=#9370DB><B>CLASS</B></FONT> {
+  &amp;associationContract           <A HREF="../../../x/x880/1994-TC1/Remote-Operations-Information-Objects.html#Remote-Operations-Information-Objects.CONTRACT" target="files">CONTRACT</A>,
+  &amp;dialogueMode                  <A HREF="#TC-Notation-Extensions.DialogueMode" target="files">DialogueMode</A>,
+  &amp;termination                   <A HREF="#TC-Notation-Extensions.Termination" target="files">Termination</A> <FONT COLOR=#9370DB><B>OPTIONAL</B></FONT>,
+  &amp;componentGrouping             <FONT COLOR=#5F9EA0><B>BOOLEAN</B></FONT> <FONT COLOR=#9370DB><B>DEFAULT</B></FONT> <FONT COLOR=#5F9EA0><B>TRUE</B></FONT>,
+  &amp;dialogueAndComponentGrouping  <FONT COLOR=#5F9EA0><B>BOOLEAN</B></FONT> <FONT COLOR=#9370DB><B>DEFAULT</B></FONT> <FONT COLOR=#5F9EA0><B>TRUE</B></FONT>,
+  &amp;AdditionalASEs                <FONT COLOR=#5F9EA0><B>OBJECT IDENTIFIER</B></FONT> <FONT COLOR=#9370DB><B>OPTIONAL</B></FONT>,
+  &amp;AbstractSyntaxes              <FONT COLOR=#9370DB><B>ABSTRACT-SYNTAX</B></FONT>,
+  &amp;applicationContextName        <FONT COLOR=#5F9EA0><B>OBJECT IDENTIFIER</B></FONT> <FONT COLOR=#9370DB><B>UNIQUE</B></FONT>
+}
+<FONT COLOR=#9370DB><B>WITH SYNTAX</B></FONT> {
+  CONTRACT &amp;associationContract
+  DIALOGUE MODE &amp;dialogueMode
+  [TERMINATION &amp;termination]
+  [COMPONENT GROUPING ALLOWED &amp;componentGrouping]
+  [DIALOGUE WITH COMPONENTS ALLOWED &amp;dialogueAndComponentGrouping]
+  [ADDITIONAL ASES &amp;AdditionalASEs]
+  ABSTRACT SYNTAXES &amp;AbstractSyntaxes
+  APPLICATION CONTEXT NAME &amp;applicationContextName
+}
+
+<A NAME="TC-Notation-Extensions.DialogueMode"></A>DialogueMode ::= <FONT COLOR=#5F9EA0><B>ENUMERATED</B></FONT> {structured(1), unstructured(2)}
+
+<A NAME="TC-Notation-Extensions.Termination"></A>Termination ::= <FONT COLOR=#5F9EA0><B>ENUMERATED</B></FONT> {basic(1), prearranged(2)}
+
+<A NAME="TC-Notation-Extensions.dialogue-abstract-syntax"></A>dialogue-abstract-syntax <FONT COLOR=#9370DB><B>ABSTRACT-SYNTAX</B></FONT> ::= {
+  <A HREF="../../q773/1997/DialoguePDUs.html#DialoguePDUs.DialoguePDU" target="files">DialoguePDU</A>
+  IDENTIFIED BY  <A HREF="../../q773/1997/DialoguePDUs.html#DialoguePDUs.dialogue-as-id" target="files">dialogue-as-id</A>
+}
+
+<A NAME="TC-Notation-Extensions.uniDialogue-abstract-syntax"></A>uniDialogue-abstract-syntax <FONT COLOR=#9370DB><B>ABSTRACT-SYNTAX</B></FONT> ::= {
+  <A HREF="../../q773/1997/UnidialoguePDUs.html#UnidialoguePDUs.UniDialoguePDU" target="files">UniDialoguePDU</A>
+  IDENTIFIED BY  <A HREF="../../q773/1997/UnidialoguePDUs.html#UnidialoguePDUs.uniDialogue-as-id" target="files">uniDialogue-as-id</A>
+}
+
+<A NAME="TC-Notation-Extensions.TCSingleAS"></A>TCSingleAS{<A HREF="../../../x/x880/1994-TC1/Remote-Operations-Information-Objects.html#Remote-Operations-Information-Objects.OPERATION-PACKAGE" target="files">OPERATION-PACKAGE</A>:package} ::=
+  <A HREF="../../q773/1997/TCAPMessages.html#TCAPMessages.TCMessage" target="files">TCMessage</A>{{<A HREF="../../../x/x880/1994-TC1/Remote-Operations-Useful-Definitions.html#Remote-Operations-Useful-Definitions.AllOperations" target="files">AllOperations</A>  {<FONT COLOR=#666666><I>package</I></FONT>}}, {<A HREF="../../../x/x880/1994-TC1/Remote-Operations-Useful-Definitions.html#Remote-Operations-Useful-Definitions.AllOperations" target="files">AllOperations</A>  {<FONT COLOR=#666666><I>package</I></FONT>}}}
+
+<A NAME="TC-Notation-Extensions.TCConsumerAS"></A>TCConsumerAS{<A HREF="../../../x/x880/1994-TC1/Remote-Operations-Information-Objects.html#Remote-Operations-Information-Objects.OPERATION-PACKAGE" target="files">OPERATION-PACKAGE</A>:package} ::=
+  <A HREF="../../q773/1997/TCAPMessages.html#TCAPMessages.TCMessage" target="files">TCMessage</A>{{<A HREF="../../../x/x880/1994-TC1/Remote-Operations-Useful-Definitions.html#Remote-Operations-Useful-Definitions.ConsumerPerforms" target="files">ConsumerPerforms</A>  {<FONT COLOR=#666666><I>package</I></FONT>}}, {<A HREF="../../../x/x880/1994-TC1/Remote-Operations-Useful-Definitions.html#Remote-Operations-Useful-Definitions.ConsumerPerforms" target="files">ConsumerPerforms</A>  {<FONT COLOR=#666666><I>package</I></FONT>}}}
+
+<A NAME="TC-Notation-Extensions.TCSupplierAS"></A>TCSupplierAS{<A HREF="../../../x/x880/1994-TC1/Remote-Operations-Information-Objects.html#Remote-Operations-Information-Objects.OPERATION-PACKAGE" target="files">OPERATION-PACKAGE</A>:package} ::=
+  <A HREF="../../q773/1997/TCAPMessages.html#TCAPMessages.TCMessage" target="files">TCMessage</A>{{<A HREF="../../../x/x880/1994-TC1/Remote-Operations-Useful-Definitions.html#Remote-Operations-Useful-Definitions.SupplierPerforms" target="files">SupplierPerforms</A>  {<FONT COLOR=#666666><I>package</I></FONT>}}, {<A HREF="../../../x/x880/1994-TC1/Remote-Operations-Useful-Definitions.html#Remote-Operations-Useful-Definitions.SupplierPerforms" target="files">SupplierPerforms</A>  {<FONT COLOR=#666666><I>package</I></FONT>}}}
+
+<A NAME="TC-Notation-Extensions.AllPackagesAS"></A>AllPackagesAS{<A HREF="#TC-Notation-Extensions.APPLICATION-CONTEXT" target="files">APPLICATION-CONTEXT</A>:ac} ::=
+  <A HREF="#TC-Notation-Extensions.TCSingleAS" target="files">TCSingleAS</A>
+    {<A HREF="../../../x/x880/1994-TC1/Remote-Operations-Useful-Definitions.html#Remote-Operations-Useful-Definitions.combine" target="files">combine</A>{{<FONT COLOR=#666666><I>ac</I></FONT>.&amp;associationContract.&amp;OperationsOf <FONT COLOR=#228B22><B>|</B></FONT>
+            <FONT COLOR=#666666><I>ac</I></FONT>.&amp;associationContract.&amp;InitiatorConsumerOf <FONT COLOR=#228B22><B>|</B></FONT>
+            <FONT COLOR=#666666><I>ac</I></FONT>.&amp;associationContract.&amp;InitiatorSupplierOf},
+            {...},<FONT COLOR=#B22222><I> --Illegaly empty, needs to be changed </I></FONT>
+            {<FONT COLOR=#B22222><I> -- Information Object of class OPERATION-PACKAGE to be defined --</I></FONT>}}}
+
+<A NAME="TC-Notation-Extensions.ConnectionAS"></A>ConnectionAS{<A HREF="#TC-Notation-Extensions.APPLICATION-CONTEXT" target="files">APPLICATION-CONTEXT</A>:ac} ::= <FONT COLOR=#B8860B><B>CHOICE</B></FONT> {
+  bind    <A HREF="../../../x/x880/1994-TC1/Remote-Operations-Generic-ROS-PDUs.html#Remote-Operations-Generic-ROS-PDUs.Bind" target="files">Bind</A>{<FONT COLOR=#666666><I>ac</I></FONT>.&amp;associationContract.&amp;connection.&amp;bind},
+  unbind  <A HREF="../../../x/x880/1994-TC1/Remote-Operations-Generic-ROS-PDUs.html#Remote-Operations-Generic-ROS-PDUs.Unbind" target="files">Unbind</A>{<FONT COLOR=#666666><I>ac</I></FONT>.&amp;associationContract.&amp;connection.&amp;unbind}
+}
+
+<FONT COLOR=#0000FF><B>END</B></FONT>
+</PRE>
+-- Generated by Asnp, the ASN.1 pretty-printer of France Telecom R&amp;D
+</BODY></HTML>

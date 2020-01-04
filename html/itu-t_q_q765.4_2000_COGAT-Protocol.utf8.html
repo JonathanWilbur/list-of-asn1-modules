@@ -1,0 +1,117 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.0//EN">
+<HTML>
+<HEAD>
+<META NAME="GENERATOR" CONTENT="Microsoft FrontPage 4.0">
+<TITLE>COGAT-Protocol (Q.765.4:06/2000)</TITLE>
+</HEAD>
+<BODY  >
+-- Module COGAT-Protocol (Q.765.4:06/2000)<br>
+-- See also <a href="/ITU-T/recommendations/fl.aspx?id=5120" target="_top">ITU-T Q.765.4 (06/2000)</a><br>
+-- See also the <a href="index2.html" target="_top">index</a> of all ASN.1 assignments needed in this document<br><br>
+<PRE>
+<A NAME="COGAT-Protocol"></A>COGAT-Protocol {itu-t(0) recommendation(0) q(17) q765(765) q765-4(4) 
+  modules(2) operations-and-errors(1) version1(1)} <FONT COLOR=#0000FF><B>DEFINITIONS</B></FONT> <FONT COLOR=#666666><B>IMPLICIT TAGS</B></FONT> ::=
+<FONT COLOR=#0000FF><B>BEGIN</B></FONT>
+
+<FONT COLOR=#0000FF><B>IMPORTS</B></FONT>
+  OPERATION, ERROR
+    <FONT COLOR=#0000FF><B>FROM</B></FONT> Remote-Operations-Information-Objects {joint-iso-itu-t
+      remote-operations(4) informationObjects(5) version1(0)}
+  GATPDU{}
+    <FONT COLOR=#0000FF><B>FROM</B></FONT> GAT-PDU {itu-t recommendation q 860 gat-pdu(1)};
+
+<A NAME="COGAT-Protocol.setUp"></A><FONT COLOR=#B22222><I>-- TYPE DEFINITIONS FOR OPERATIONS
+</I></FONT><FONT COLOR=#B22222><I>--Specification of Setup
+</I></FONT><FONT COLOR=#B22222><I>-- =================
+</I></FONT><FONT COLOR=#B22222><I>--Direction:	OLEX ® DLEX
+</I></FONT><FONT COLOR=#B22222><I>--Class:	3
+</I></FONT><FONT COLOR=#B22222><I>--Timer:	T1
+</I></FONT><FONT COLOR=#B22222><I>--Purpose:	Used for the establishment of a signalling association between a PIN and a PAN for a bearer unrelated signalling connection.
+</I></FONT>setUp{<A HREF="../../../x/x880/1994-TC1/Remote-Operations-Information-Objects.html#Remote-Operations-Information-Objects.OPERATION" target="files">OPERATION</A>:Invokable, <A HREF="../../../x/x880/1994-TC1/Remote-Operations-Information-Objects.html#Remote-Operations-Information-Objects.OPERATION" target="files">OPERATION</A>:Returnable} <A HREF="../../../x/x880/1994-TC1/Remote-Operations-Information-Objects.html#Remote-Operations-Information-Objects.OPERATION" target="files">OPERATION</A> ::= {
+  ARGUMENT  <A HREF="#COGAT-Protocol.SetUpArg" target="files">SetUpArg</A> {{<FONT COLOR=#666666><I>Invokable</I></FONT>},
+                      {<FONT COLOR=#666666><I>Returnable</I></FONT>}}
+  RESULT    <A HREF="#COGAT-Protocol.SetUpResultArg" target="files">SetUpResultArg</A> {{<FONT COLOR=#666666><I>Invokable</I></FONT>},
+                            {<FONT COLOR=#666666><I>Returnable</I></FONT>}}
+  CODE      global:{<A HREF="#COGAT-Protocol.cOGATOID" target="files">cOGATOID</A> setUp(1)}
+}
+
+<A NAME="COGAT-Protocol.release"></A><FONT COLOR=#B22222><I>--Specification of Release
+</I></FONT><FONT COLOR=#B22222><I>-- ==================
+</I></FONT><FONT COLOR=#B22222><I>--Direction:	OLEX ® DLEX and DLEX ® OLEX
+</I></FONT><FONT COLOR=#B22222><I>--Class:	4
+</I></FONT><FONT COLOR=#B22222><I>--Purpose:	Used for releasing a signalling association between a PIN and a PAN.
+</I></FONT>release{<A HREF="../../../x/x880/1994-TC1/Remote-Operations-Information-Objects.html#Remote-Operations-Information-Objects.OPERATION" target="files">OPERATION</A>:Invokable, <A HREF="../../../x/x880/1994-TC1/Remote-Operations-Information-Objects.html#Remote-Operations-Information-Objects.OPERATION" target="files">OPERATION</A>:Returnable} <A HREF="../../../x/x880/1994-TC1/Remote-Operations-Information-Objects.html#Remote-Operations-Information-Objects.OPERATION" target="files">OPERATION</A> ::= {
+  ARGUMENT  <A HREF="#COGAT-Protocol.ReleaseArg" target="files">ReleaseArg</A> {{<FONT COLOR=#666666><I>Invokable</I></FONT>},
+                        {<FONT COLOR=#666666><I>Returnable</I></FONT>}}
+  CODE      global:{<A HREF="#COGAT-Protocol.cOGATOID" target="files">cOGATOID</A> release(2)}
+}
+
+<A NAME="COGAT-Protocol.gATData"></A><FONT COLOR=#B22222><I>--Specification of GATData
+</I></FONT><FONT COLOR=#B22222><I>-- ====================
+</I></FONT><FONT COLOR=#B22222><I>--Direction:	OLEX ® DLEX and DLEX ® OLEX
+</I></FONT><FONT COLOR=#B22222><I>--Class:	4
+</I></FONT><FONT COLOR=#B22222><I>--Purpose:	Used for transporting GAT information flows during the active phase of a signalling connection.
+</I></FONT>gATData{<A HREF="../../../x/x880/1994-TC1/Remote-Operations-Information-Objects.html#Remote-Operations-Information-Objects.OPERATION" target="files">OPERATION</A>:Invokable, <A HREF="../../../x/x880/1994-TC1/Remote-Operations-Information-Objects.html#Remote-Operations-Information-Objects.OPERATION" target="files">OPERATION</A>:Returnable} <A HREF="../../../x/x880/1994-TC1/Remote-Operations-Information-Objects.html#Remote-Operations-Information-Objects.OPERATION" target="files">OPERATION</A> ::= {
+  ARGUMENT  <A HREF="#COGAT-Protocol.GATDataArg" target="files">GATDataArg</A> {{<FONT COLOR=#666666><I>Invokable</I></FONT>},
+                        {<FONT COLOR=#666666><I>Returnable</I></FONT>}}
+  CODE      global:{<A HREF="#COGAT-Protocol.cOGATOID" target="files">cOGATOID</A> gatData(3)}
+}
+
+<A NAME="COGAT-Protocol.activityTest"></A><FONT COLOR=#B22222><I>--Specification of ActivityTest
+</I></FONT><FONT COLOR=#B22222><I>-- =====================
+</I></FONT><FONT COLOR=#B22222><I>--Direction:	OLEX ® DLEX
+</I></FONT><FONT COLOR=#B22222><I>--Class:	3
+</I></FONT><FONT COLOR=#B22222><I>--Timer:	T2
+</I></FONT><FONT COLOR=#B22222><I>--Purpose:	Used to determine if the signalling association remains established between a PIN and a PAN.
+</I></FONT>activityTest <A HREF="../../../x/x880/1994-TC1/Remote-Operations-Information-Objects.html#Remote-Operations-Information-Objects.OPERATION" target="files">OPERATION</A> ::= {CODE  global:{<A HREF="#COGAT-Protocol.cOGATOID" target="files">cOGATOID</A> activityTest(4)}
+}
+
+<A NAME="COGAT-Protocol.SetUpArg"></A><FONT COLOR=#B22222><I>--TYPE DEFINITIONS FOR ERRORS
+</I></FONT><FONT COLOR=#B22222><I>-- TYPE DEFINITIONS FOR ARGUMENT DATA
+</I></FONT>SetUpArg{<A HREF="../../../x/x880/1994-TC1/Remote-Operations-Information-Objects.html#Remote-Operations-Information-Objects.OPERATION" target="files">OPERATION</A>:Invokable, <A HREF="../../../x/x880/1994-TC1/Remote-Operations-Information-Objects.html#Remote-Operations-Information-Objects.OPERATION" target="files">OPERATION</A>:Returnable} ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  destinationAddress  <A HREF="#COGAT-Protocol.CalledPartyNumber" target="files">CalledPartyNumber</A>,
+  gATPDU              <A HREF="../../../q/q860/2000/GAT-PDU.html#GAT-PDU.GATPDU" target="files">GATPDU</A>{{<FONT COLOR=#666666><I>Invokable</I></FONT>}, {<FONT COLOR=#666666><I>Returnable</I></FONT>}},
+  ...
+}
+
+<A NAME="COGAT-Protocol.SetUpResultArg"></A>SetUpResultArg{<A HREF="../../../x/x880/1994-TC1/Remote-Operations-Information-Objects.html#Remote-Operations-Information-Objects.OPERATION" target="files">OPERATION</A>:Invokable, <A HREF="../../../x/x880/1994-TC1/Remote-Operations-Information-Objects.html#Remote-Operations-Information-Objects.OPERATION" target="files">OPERATION</A>:Returnable} ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  cause   <A HREF="#COGAT-Protocol.Cause" target="files">Cause</A>,
+  gATPDU  <A HREF="../../../q/q860/2000/GAT-PDU.html#GAT-PDU.GATPDU" target="files">GATPDU</A>{{<FONT COLOR=#666666><I>Invokable</I></FONT>}, {<FONT COLOR=#666666><I>Returnable</I></FONT>}},
+  ...
+}
+
+<A NAME="COGAT-Protocol.ReleaseArg"></A>ReleaseArg{<A HREF="../../../x/x880/1994-TC1/Remote-Operations-Information-Objects.html#Remote-Operations-Information-Objects.OPERATION" target="files">OPERATION</A>:Invokable, <A HREF="../../../x/x880/1994-TC1/Remote-Operations-Information-Objects.html#Remote-Operations-Information-Objects.OPERATION" target="files">OPERATION</A>:Returnable} ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  cause   <A HREF="#COGAT-Protocol.Cause" target="files">Cause</A>,
+  gATPDU  <A HREF="../../../q/q860/2000/GAT-PDU.html#GAT-PDU.GATPDU" target="files">GATPDU</A>{{<FONT COLOR=#666666><I>Invokable</I></FONT>}, {<FONT COLOR=#666666><I>Returnable</I></FONT>}},
+  ...
+}
+
+<A NAME="COGAT-Protocol.GATDataArg"></A>GATDataArg{<A HREF="../../../x/x880/1994-TC1/Remote-Operations-Information-Objects.html#Remote-Operations-Information-Objects.OPERATION" target="files">OPERATION</A>:Invokable, <A HREF="../../../x/x880/1994-TC1/Remote-Operations-Information-Objects.html#Remote-Operations-Information-Objects.OPERATION" target="files">OPERATION</A>:Returnable} ::=
+  <A HREF="../../../q/q860/2000/GAT-PDU.html#GAT-PDU.GATPDU" target="files">GATPDU</A>{{<FONT COLOR=#666666><I>Invokable</I></FONT>}, {<FONT COLOR=#666666><I>Returnable</I></FONT>}}
+
+<A NAME="COGAT-Protocol.CalledPartyNumber"></A><FONT COLOR=#B22222><I>--TYPE DEFINITIONS FOR DATA
+</I></FONT>CalledPartyNumber ::= <FONT COLOR=#5F9EA0><B>OCTET STRING</B></FONT><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>SIZE</B></FONT> <FONT COLOR=#228B22>(1..<A HREF="#COGAT-Protocol.maxcdPlength" target="files">maxcdPlength</A>)</FONT>)</FONT>
+
+<A NAME="COGAT-Protocol.Cause"></A><FONT COLOR=#B22222><I>--The CalledPartyNumber is coded as described in Recommendation Q.763 [3].
+</I></FONT><FONT COLOR=#B22222><I>--The ISUP parameter name and length octets are not included.
+</I></FONT>Cause ::= <FONT COLOR=#5F9EA0><B>OCTET STRING</B></FONT><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>SIZE</B></FONT> <FONT COLOR=#228B22>(1..<A HREF="#COGAT-Protocol.maxCauseLength" target="files">maxCauseLength</A>)</FONT>)</FONT>
+
+<A NAME="COGAT-Protocol.maxCauseLength"></A><FONT COLOR=#B22222><I>--The Cause is coded as described in Recommendation Q.850 [18].
+</I></FONT><FONT COLOR=#B22222><I>--The information element identifier and length octets are not included.
+</I></FONT><FONT COLOR=#B22222><I>--DEFINITION OF RANGE CONSTANTS
+</I></FONT>maxCauseLength <FONT COLOR=#5F9EA0><B>INTEGER</B></FONT> ::=
+  30
+
+<A NAME="COGAT-Protocol.maxLength"></A>maxLength <FONT COLOR=#5F9EA0><B>INTEGER</B></FONT> ::= 2048
+
+<A NAME="COGAT-Protocol.maxcdPlength"></A>maxcdPlength <FONT COLOR=#5F9EA0><B>INTEGER</B></FONT> ::= 1<FONT COLOR=#B22222><I> -- Network specific</I></FONT>
+
+<A NAME="COGAT-Protocol.cOGATOID"></A><FONT COLOR=#B22222><I>--DEFINITION OF OBJECT IDENTIFIER PATH
+</I></FONT>cOGATOID <FONT COLOR=#5F9EA0><B>OBJECT IDENTIFIER</B></FONT> ::=
+  {itu-t(0) recommendation(0) q(17) q765(765) q765-4(4) modules(2)
+   operations-and-errors(1)}<FONT COLOR=#B22222><I> --of COGAT-Protocol</I></FONT>
+
+<FONT COLOR=#0000FF><B>END</B></FONT>
+</PRE>
+-- Generated by Asnp, the ASN.1 pretty-printer of France Telecom R&amp;D
+</BODY></HTML>

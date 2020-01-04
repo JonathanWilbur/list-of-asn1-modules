@@ -1,0 +1,382 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.0//EN">
+<HTML>
+<HEAD>
+<TITLE>ISO8823-PRESENTATION (X.226:07/1994)</TITLE>
+</HEAD>
+<BODY  >
+-- Module ISO8823-PRESENTATION (X.226:07/1994)<br>
+-- See also <a href="/ITU-T/recommendations/fl.aspx?id=3991" target="_top">ITU-T X.226 (1994) Amend. 2 (12/1997)</a><br>
+-- See also the <a href="index2.html" target="_top">index</a> of all ASN.1 assignments needed in this document<br><br>
+<PRE>
+<A NAME="ISO8823-PRESENTATION"></A>ISO8823-PRESENTATION <FONT COLOR=#0000FF><B>DEFINITIONS</B></FONT> ::=
+<FONT COLOR=#0000FF><B>BEGIN</B></FONT>
+
+<FONT COLOR=#B22222><I>-- 
+</I></FONT><FONT COLOR=#B22222><I>--  In X.410-1984 mode, the value of the SS-user data parameter of the S-CONNECT request and
+</I></FONT><FONT COLOR=#B22222><I>--  indication session-service primitives shall be a CP-type value.
+</I></FONT><FONT COLOR=#B22222><I>-- 
+</I></FONT><FONT COLOR=#B22222><I>--  In normal mode, the value of the SS-user data parameter of the S-CONNECT request and
+</I></FONT><FONT COLOR=#B22222><I>--  indication session-service primitives shall be a CP-type value, followed as a requestor's
+</I></FONT><FONT COLOR=#B22222><I>--  option by zero or more CPC-type values.
+</I></FONT><FONT COLOR=#0000FF><B>IMPORTS</B></FONT>
+  RTORQapdu, RTOACapdu, RTORJapdu, RTABapdu
+    <FONT COLOR=#0000FF><B>FROM</B></FONT> Reliable-Transfer-APDU {joint-iso-itu-t(2) reliable-transfer(3)
+      apdus(0)};
+
+<A NAME="ISO8823-PRESENTATION.CP-type"></A><FONT COLOR=#B22222><I>-- 
+</I></FONT>CP-type ::= <FONT COLOR=#B8860B><B>SET</B></FONT> {
+  mode-selector           <FONT COLOR=#666666><B>[0] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><A HREF="#ISO8823-PRESENTATION.Mode-selector" target="files">Mode-selector</A>,
+  x410-mode-parameters
+    <FONT COLOR=#666666><B>[1] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><FONT COLOR=#B8860B><B>SET</B></FONT> {<FONT COLOR=#228B22><B>COMPONENTS OF</B></FONT> <A HREF="../../x228/1988/Reliable-Transfer-APDU.html#Reliable-Transfer-APDU.RTORQapdu" target="files"></a><A HREF="../../x228/1988/Reliable-Transfer-APDU.html#Reliable-Transfer-APDU" target="files">Reliable-Transfer-APDU</A>.RTORQapdu} <FONT COLOR=#666666><B>OPTIONAL</B></FONT><FONT COLOR=#B22222><I>--  This OPTIONAL element shall be absent for a 
+  </I></FONT><FONT COLOR=#B22222><I>--  nested presentation connection.
+  </I></FONT><FONT COLOR=#B22222><I>--  Shall be used for X.410 mode only. Shall be bitwise
+  </I></FONT><FONT COLOR=#B22222><I>--  compatible with CCITT Recommendation X.410-1984.
+  </I></FONT><FONT COLOR=#B22222><I>--  This shall be the User data parameter of the CP PPDU1) --</I></FONT>,
+  normal-mode-parameters
+    <FONT COLOR=#666666><B>[2] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {protocol-version
+                             <FONT COLOR=#666666><B>[0] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><A HREF="#ISO8823-PRESENTATION.Protocol-version" target="files">Protocol-version</A> <FONT COLOR=#666666><B>DEFAULT</B></FONT> {version-1},
+                           calling-presentation-selector
+                             <FONT COLOR=#666666><B>[1] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><A HREF="#ISO8823-PRESENTATION.Calling-presentation-selector" target="files">Calling-presentation-selector</A>
+                               <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+                           called-presentation-selector
+                             <FONT COLOR=#666666><B>[2] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><A HREF="#ISO8823-PRESENTATION.Called-presentation-selector" target="files">Called-presentation-selector</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+                           presentation-context-definition-list
+                             <FONT COLOR=#666666><B>[4] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><A HREF="#ISO8823-PRESENTATION.Presentation-context-definition-list" target="files">Presentation-context-definition-list</A>
+                               <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+                           default-context-name
+                             <FONT COLOR=#666666><B>[6] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><A HREF="#ISO8823-PRESENTATION.Default-context-name" target="files">Default-context-name</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+                           presentation-requirements
+                             <FONT COLOR=#666666><B>[8] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><A HREF="#ISO8823-PRESENTATION.Presentation-requirements" target="files">Presentation-requirements</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+                           user-session-requirements
+                             <FONT COLOR=#666666><B>[9] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><A HREF="#ISO8823-PRESENTATION.User-session-requirements" target="files">User-session-requirements</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT><FONT COLOR=#B22222><I>-- shall not be present if equal to the Revised session
+                           </I></FONT><FONT COLOR=#B22222><I>-- requirements parameter --</I></FONT>,
+                           protocol-options
+                             <FONT COLOR=#666666><B>[11] </B></FONT> <A HREF="#ISO8823-PRESENTATION.Protocol-options" target="files">Protocol-options</A> <FONT COLOR=#666666><B>DEFAULT</B></FONT> {},
+                           <FONT COLOR=#B22222><I>--  shall be absent if no options are offered
+                           </I></FONT>initiators-nominated-context
+                             <FONT COLOR=#666666><B>[12] </B></FONT> <A HREF="#ISO8823-PRESENTATION.Presentation-context-identifier" target="files">Presentation-context-identifier</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+                           <FONT COLOR=#B22222><I>--  shall only be present if nominated-context is
+                           </I></FONT><FONT COLOR=#B22222><I>--  offered in protocol-options
+                           </I></FONT>extensions
+                             <FONT COLOR=#666666><B>[14] </B></FONT> <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {...} <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+                           <FONT COLOR=#B22222><I>--  to allow for future extensions
+                           </I></FONT>user-data
+                             <A HREF="#ISO8823-PRESENTATION.User-data" target="files">User-data</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>} <FONT COLOR=#666666><B>OPTIONAL</B></FONT>
+  <FONT COLOR=#B22222><I>-- Shall be used for normal mode only.
+  </I></FONT><FONT COLOR=#B22222><I>-- Shall be the parameters of the CP PPDU.</I></FONT>
+}
+
+<A NAME="ISO8823-PRESENTATION.CPC-type"></A><FONT COLOR=#B22222><I>--
+</I></FONT><FONT COLOR=#B22222><I>--  As an initiator's option, the presentation data values contained in a CP PPDU may be
+</I></FONT><FONT COLOR=#B22222><I>--  encoded more than once, using CPC-type values, to allow the transfer of the same
+</I></FONT><FONT COLOR=#B22222><I>--  presentation data values using a number of different transfer syntaxes.
+</I></FONT><FONT COLOR=#B22222><I>--
+</I></FONT>CPC-type ::=
+  <A HREF="#ISO8823-PRESENTATION.User-data" target="files">User-data</A>
+
+<A NAME="ISO8823-PRESENTATION.CPA-PPDU"></A><FONT COLOR=#B22222><I>--  Shall be used for normal mode only.
+</I></FONT><FONT COLOR=#B22222><I>--  Shall not be present if the Presentation context definition list parameter is not present
+</I></FONT><FONT COLOR=#B22222><I>--  in the CP PPDU. Each instance of this data type shall contain all of the presentation data
+</I></FONT><FONT COLOR=#B22222><I>--  values which were contained in the User data parameter of the CP PPDU.
+</I></FONT><FONT COLOR=#B22222><I>--  This shall be the same set of presentation data values which were contained in the CP-type.
+</I></FONT><FONT COLOR=#B22222><I>-- 
+</I></FONT><FONT COLOR=#B22222><I>--  The SS-user data parameter value of the S-CONNECT response 
+</I></FONT><FONT COLOR=#B22222><I>--  and confirm session-service primitives shall be a CPA-PPDU 
+</I></FONT><FONT COLOR=#B22222><I>--  value when the Result parameter value is &quot;accept&quot;. 
+</I></FONT><FONT COLOR=#B22222><I>--
+</I></FONT><FONT COLOR=#B22222><I>--
+</I></FONT>CPA-PPDU ::= <FONT COLOR=#B8860B><B>SET</B></FONT> {
+  mode-selector           <FONT COLOR=#666666><B>[0] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><A HREF="#ISO8823-PRESENTATION.Mode-selector" target="files">Mode-selector</A>,
+  x410-mode-parameters
+    <FONT COLOR=#666666><B>[1] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><FONT COLOR=#B8860B><B>SET</B></FONT> {<FONT COLOR=#228B22><B>COMPONENTS OF</B></FONT> <A HREF="../../x228/1988/Reliable-Transfer-APDU.html#Reliable-Transfer-APDU.RTOACapdu" target="files"></a><A HREF="../../x228/1988/Reliable-Transfer-APDU.html#Reliable-Transfer-APDU" target="files">Reliable-Transfer-APDU</A>.RTOACapdu} <FONT COLOR=#666666><B>OPTIONAL</B></FONT><FONT COLOR=#B22222><I>--  This OPTIONAL element shall be absent for a 
+  </I></FONT><FONT COLOR=#B22222><I>--  nested presentation connection.
+  </I></FONT><FONT COLOR=#B22222><I>--  Shall be used for X.410 mode only. Shall be bitwise
+  </I></FONT><FONT COLOR=#B22222><I>--  compatible with CCITT Recommendation X.410-1984.
+  </I></FONT><FONT COLOR=#B22222><I>--  This shall be the User data parameter of the CPA PPDU1) --</I></FONT>,
+  normal-mode-parameters
+    <FONT COLOR=#666666><B>[2] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {protocol-version
+                             <FONT COLOR=#666666><B>[0] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><A HREF="#ISO8823-PRESENTATION.Protocol-version" target="files">Protocol-version</A> <FONT COLOR=#666666><B>DEFAULT</B></FONT> {version-1},
+                           responding-presentation-selector
+                             <FONT COLOR=#666666><B>[3] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><A HREF="#ISO8823-PRESENTATION.Responding-presentation-selector" target="files">Responding-presentation-selector</A>
+                               <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+                           presentation-context-definition-result-list
+                             <FONT COLOR=#666666><B>[5] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><A HREF="#ISO8823-PRESENTATION.Presentation-context-definition-result-list" target="files">Presentation-context-definition-result-list</A>
+                               <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+                           presentation-requirements
+                             <FONT COLOR=#666666><B>[8] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><A HREF="#ISO8823-PRESENTATION.Presentation-requirements" target="files">Presentation-requirements</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+                           user-session-requirements
+                             <FONT COLOR=#666666><B>[9] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><A HREF="#ISO8823-PRESENTATION.User-session-requirements" target="files">User-session-requirements</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+                           <FONT COLOR=#B22222><I>--  shall not be present if equal to the Revised session
+                           </I></FONT><FONT COLOR=#B22222><I>--  requirements parameter 
+                           </I></FONT>protocol-options
+                             <FONT COLOR=#666666><B>[11] </B></FONT> <A HREF="#ISO8823-PRESENTATION.Protocol-options" target="files">Protocol-options</A> <FONT COLOR=#666666><B>DEFAULT</B></FONT> {},
+                           <FONT COLOR=#B22222><I>--  shall be absent if no options are selected
+                           </I></FONT>responders-nominated-context
+                             <FONT COLOR=#666666><B>[13] </B></FONT> <A HREF="#ISO8823-PRESENTATION.Presentation-context-identifier" target="files">Presentation-context-identifier</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+                           <FONT COLOR=#B22222><I>--  shall only be present if nominated-context is 
+                           </I></FONT><FONT COLOR=#B22222><I>--  selected in protocol-options
+                           </I></FONT>user-data
+                             <A HREF="#ISO8823-PRESENTATION.User-data" target="files">User-data</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>} <FONT COLOR=#666666><B>OPTIONAL</B></FONT>
+  <FONT COLOR=#B22222><I>--  Shall be used for normal mode only.</I></FONT>
+}
+
+<A NAME="ISO8823-PRESENTATION.CPR-PPDU"></A><FONT COLOR=#B22222><I>--
+</I></FONT><FONT COLOR=#B22222><I>--
+</I></FONT><FONT COLOR=#B22222><I>--  The SS-user data parameter value of the S-CONNECT response 
+</I></FONT><FONT COLOR=#B22222><I>--  and confirm session-service primitives shall be a CPR-PPDU 
+</I></FONT><FONT COLOR=#B22222><I>--  value when the Result parameter value is &quot;reject by SS-provider&quot; 
+</I></FONT><FONT COLOR=#B22222><I>--  or &quot;reject by called SS-user&quot;. 
+</I></FONT><FONT COLOR=#B22222><I>--
+</I></FONT>CPR-PPDU ::= <FONT COLOR=#B8860B><B>CHOICE</B></FONT> {
+  x400-mode-parameters    <FONT COLOR=#B8860B><B>SET</B></FONT> {<FONT COLOR=#228B22><B>COMPONENTS OF</B></FONT> <A HREF="../../x228/1988/Reliable-Transfer-APDU.html#Reliable-Transfer-APDU.RTORJapdu" target="files"></a><A HREF="../../x228/1988/Reliable-Transfer-APDU.html#Reliable-Transfer-APDU" target="files">Reliable-Transfer-APDU</A>.RTORJapdu}<FONT COLOR=#B22222><I>--  This OPTIONAL element shall be absent for a 
+  </I></FONT><FONT COLOR=#B22222><I>--  nested presentation connection.
+  </I></FONT><FONT COLOR=#B22222><I>--  Shall be used for X.410 mode only. Shall be bitwise
+  </I></FONT><FONT COLOR=#B22222><I>--  compatible with CCITT Recommendation X.410-1984.
+  </I></FONT><FONT COLOR=#B22222><I>--  This shall be the User data parameter of the CPR PPDU2) --</I></FONT>,
+  normal-mode-parameters
+    <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {protocol-version
+                <FONT COLOR=#666666><B>[0] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><A HREF="#ISO8823-PRESENTATION.Protocol-version" target="files">Protocol-version</A> <FONT COLOR=#666666><B>DEFAULT</B></FONT> {version-1},
+              responding-presentation-selector
+                <FONT COLOR=#666666><B>[3] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><A HREF="#ISO8823-PRESENTATION.Responding-presentation-selector" target="files">Responding-presentation-selector</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+              presentation-context-definition-result-list
+                <FONT COLOR=#666666><B>[5] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><A HREF="#ISO8823-PRESENTATION.Presentation-context-definition-result-list" target="files">Presentation-context-definition-result-list</A>
+                  <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+              default-context-result
+                <FONT COLOR=#666666><B>[7] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><A HREF="#ISO8823-PRESENTATION.Default-context-result" target="files">Default-context-result</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+              provider-reason
+                <FONT COLOR=#666666><B>[10] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><A HREF="#ISO8823-PRESENTATION.Provider-reason" target="files">Provider-reason</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+              user-data                                    <A HREF="#ISO8823-PRESENTATION.User-data" target="files">User-data</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>
+  }
+  <FONT COLOR=#B22222><I>--  Shall be used for normal mode only. </I></FONT>
+}
+
+<A NAME="ISO8823-PRESENTATION.Abort-type"></A><FONT COLOR=#B22222><I>--
+</I></FONT><FONT COLOR=#B22222><I>--
+</I></FONT><FONT COLOR=#B22222><I>--  The SS-user data parameter of the S-U-ABORT request and indication 
+</I></FONT><FONT COLOR=#B22222><I>--  service primitives shall be an Abort-type value. 
+</I></FONT><FONT COLOR=#B22222><I>--
+</I></FONT>Abort-type ::= <FONT COLOR=#B8860B><B>CHOICE</B></FONT> {
+  aru-ppdu  <A HREF="#ISO8823-PRESENTATION.ARU-PPDU" target="files">ARU-PPDU</A><FONT COLOR=#B22222><I>--  for a P-U-ABORT -- </I></FONT>,
+  arp-ppdu  <A HREF="#ISO8823-PRESENTATION.ARP-PPDU" target="files">ARP-PPDU</A><FONT COLOR=#B22222><I> --  for a P-P-ABORT </I></FONT>
+}
+
+<A NAME="ISO8823-PRESENTATION.ARU-PPDU"></A><FONT COLOR=#B22222><I>--
+</I></FONT>ARU-PPDU ::= <FONT COLOR=#B8860B><B>CHOICE</B></FONT> {
+  x400-mode-parameters    <FONT COLOR=#B8860B><B>SET</B></FONT> {<FONT COLOR=#228B22><B>COMPONENTS OF</B></FONT> <A HREF="../../x228/1988/Reliable-Transfer-APDU.html#Reliable-Transfer-APDU.RTABapdu" target="files"></a><A HREF="../../x228/1988/Reliable-Transfer-APDU.html#Reliable-Transfer-APDU" target="files">Reliable-Transfer-APDU</A>.RTABapdu}<FONT COLOR=#B22222><I>--  Shall be used for X.410 mode only. Shall be bitwise
+  </I></FONT><FONT COLOR=#B22222><I>--  compatible with CCITT Recommendation X.410-1984.
+  </I></FONT><FONT COLOR=#B22222><I>--  This shall be the User data parameter of the ARU PPDU3. --</I></FONT>,
+  normal-mode-parameters
+    <FONT COLOR=#666666><B>[0] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {presentation-context-identifier-list
+                             <FONT COLOR=#666666><B>[0] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><A HREF="#ISO8823-PRESENTATION.Presentation-context-identifier-list" target="files">Presentation-context-identifier-list</A>
+                               <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+                           user-data
+                             <A HREF="#ISO8823-PRESENTATION.User-data" target="files">User-data</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>}
+  <FONT COLOR=#B22222><I>--  Shall be used for normal mode only.</I></FONT>
+}
+
+<A NAME="ISO8823-PRESENTATION.ARP-PPDU"></A><FONT COLOR=#B22222><I>--
+</I></FONT>ARP-PPDU ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  provider-reason   <FONT COLOR=#666666><B>[0] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><A HREF="#ISO8823-PRESENTATION.Abort-reason" target="files">Abort-reason</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  event-identifier  <FONT COLOR=#666666><B>[1] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><A HREF="#ISO8823-PRESENTATION.Event-identifier" target="files">Event-identifier</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>
+}
+
+<A NAME="ISO8823-PRESENTATION.Typed-data-type"></A><FONT COLOR=#B22222><I>--
+</I></FONT><FONT COLOR=#B22222><I>--
+</I></FONT><FONT COLOR=#B22222><I>--  The SS-user data parameter value of the S-TYPED-DATA request 
+</I></FONT><FONT COLOR=#B22222><I>--  and indication service primitives shall be a Typed-data-type value. 
+</I></FONT><FONT COLOR=#B22222><I>--
+</I></FONT>Typed-data-type ::= <FONT COLOR=#B8860B><B>CHOICE</B></FONT> {
+  acPPDU   <FONT COLOR=#666666><B>[0] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><A HREF="#ISO8823-PRESENTATION.AC-PPDU" target="files">AC-PPDU</A><FONT COLOR=#B22222><I>--  P-ALTER-CONTEXT request and indication -- </I></FONT>,
+  acaPPDU  <FONT COLOR=#666666><B>[1] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><A HREF="#ISO8823-PRESENTATION.ACA-PPDU" target="files">ACA-PPDU</A><FONT COLOR=#B22222><I>--  P-ALTER-CONTEXT response and confirm -- </I></FONT>,
+  ttdPPDU  <A HREF="#ISO8823-PRESENTATION.User-data" target="files">User-data</A><FONT COLOR=#B22222><I> --  P-TYPED-DATA request and indication</I></FONT>
+}
+
+<A NAME="ISO8823-PRESENTATION.AC-PPDU"></A><FONT COLOR=#B22222><I>--
+</I></FONT>AC-PPDU ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  presentation-context-addition-list
+    <FONT COLOR=#666666><B>[0] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><A HREF="#ISO8823-PRESENTATION.Presentation-context-addition-list" target="files">Presentation-context-addition-list</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  presentation-context-deletion-list
+    <FONT COLOR=#666666><B>[1] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><A HREF="#ISO8823-PRESENTATION.Presentation-context-deletion-list" target="files">Presentation-context-deletion-list</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  user-data                           <A HREF="#ISO8823-PRESENTATION.User-data" target="files">User-data</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>
+}
+
+<A NAME="ISO8823-PRESENTATION.ACA-PPDU"></A><FONT COLOR=#B22222><I>--
+</I></FONT>ACA-PPDU ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  presentation-context-addition-result-list
+    <FONT COLOR=#666666><B>[0] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><A HREF="#ISO8823-PRESENTATION.Presentation-context-addition-result-list" target="files">Presentation-context-addition-result-list</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  presentation-context-deletion-result-list
+    <FONT COLOR=#666666><B>[1] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><A HREF="#ISO8823-PRESENTATION.Presentation-context-deletion-result-list" target="files">Presentation-context-deletion-result-list</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  user-data                                  <A HREF="#ISO8823-PRESENTATION.User-data" target="files">User-data</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>
+}
+
+<A NAME="ISO8823-PRESENTATION.RS-PPDU"></A><FONT COLOR=#B22222><I>--
+</I></FONT><FONT COLOR=#B22222><I>--
+</I></FONT><FONT COLOR=#B22222><I>--  The SS-user data parameter value of the S-RESYNCHRONIZE request and 
+</I></FONT><FONT COLOR=#B22222><I>--  indication service primitives shall be an RS-PPDU value. 
+</I></FONT><FONT COLOR=#B22222><I>--
+</I></FONT>RS-PPDU ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  presentation-context-identifier-list
+    <FONT COLOR=#666666><B>[0] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><A HREF="#ISO8823-PRESENTATION.Presentation-context-identifier-list" target="files">Presentation-context-identifier-list</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  user-data                             <A HREF="#ISO8823-PRESENTATION.User-data" target="files">User-data</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>
+}
+
+<A NAME="ISO8823-PRESENTATION.RSA-PPDU"></A><FONT COLOR=#B22222><I>--
+</I></FONT><FONT COLOR=#B22222><I>--  The SS-user data parameter value of the S-RESYNCHRONIZE response and 
+</I></FONT><FONT COLOR=#B22222><I>--  confirm service primitives shall be an RSA-PPDU value. 
+</I></FONT><FONT COLOR=#B22222><I>-- 
+</I></FONT>RSA-PPDU ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  presentation-context-identifier-list
+    <FONT COLOR=#666666><B>[0] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><A HREF="#ISO8823-PRESENTATION.Presentation-context-identifier-list" target="files">Presentation-context-identifier-list</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  user-data                             <A HREF="#ISO8823-PRESENTATION.User-data" target="files">User-data</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>
+}
+
+<A NAME="ISO8823-PRESENTATION.Abort-reason"></A><FONT COLOR=#B22222><I>--
+</I></FONT><FONT COLOR=#B22222><I>--
+</I></FONT><FONT COLOR=#B22222><I>--  The SS-user data parameter values of the S-DATA, S-CAPABILITY-DATA, 
+</I></FONT><FONT COLOR=#B22222><I>--  S-EXPEDITED-DATA request and indication session-service primitives 
+</I></FONT><FONT COLOR=#B22222><I>--  and S-CAPABILITY-DATA response and confirm session-service primitives 
+</I></FONT><FONT COLOR=#B22222><I>--  shall be of type User-data. 
+</I></FONT><FONT COLOR=#B22222><I>--
+</I></FONT><FONT COLOR=#B22222><I>--  The SS-user data parameter values of all other session-service 
+</I></FONT><FONT COLOR=#B22222><I>--  primitives not described above shall be of type User-data. 
+</I></FONT><FONT COLOR=#B22222><I>--
+</I></FONT><FONT COLOR=#B22222><I>--
+</I></FONT><FONT COLOR=#B22222><I>--
+</I></FONT>Abort-reason ::= <FONT COLOR=#5F9EA0><B>INTEGER</B></FONT> {
+  reason-not-specified(0), unrecognized-ppdu(1), unexpected-ppdu(2),
+  unexpected-session-service-primitive(3), unrecognized-ppdu-parameter(4),
+  unexpected-ppdu-parameter(5), invalid-ppdu-parameter-value(6)}
+
+<A NAME="ISO8823-PRESENTATION.Abstract-syntax-name"></A>Abstract-syntax-name ::= <FONT COLOR=#5F9EA0><B>OBJECT IDENTIFIER</B></FONT>
+
+<A NAME="ISO8823-PRESENTATION.Called-presentation-selector"></A>Called-presentation-selector ::= <A HREF="#ISO8823-PRESENTATION.Presentation-selector" target="files">Presentation-selector</A>
+
+<A NAME="ISO8823-PRESENTATION.Calling-presentation-selector"></A>Calling-presentation-selector ::= <A HREF="#ISO8823-PRESENTATION.Presentation-selector" target="files">Presentation-selector</A>
+
+<A NAME="ISO8823-PRESENTATION.Context-list"></A>Context-list ::=
+  <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> <FONT COLOR=#228B22><B>SIZE</B></FONT> <FONT COLOR=#228B22><FONT COLOR=#228B22>(0..7, ..., 8..<FONT COLOR=#228B22><B>MAX</B></FONT>)</FONT></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT>
+    <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {presentation-context-identifier  <A HREF="#ISO8823-PRESENTATION.Presentation-context-identifier" target="files">Presentation-context-identifier</A>,
+              abstract-syntax-name             <A HREF="#ISO8823-PRESENTATION.Abstract-syntax-name" target="files">Abstract-syntax-name</A>,
+              transfer-syntax-name-list        <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="#ISO8823-PRESENTATION.Transfer-syntax-name" target="files">Transfer-syntax-name</A>
+    }
+
+<A NAME="ISO8823-PRESENTATION.Default-context-name"></A>Default-context-name ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  abstract-syntax-name  <FONT COLOR=#666666><B>[0] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><A HREF="#ISO8823-PRESENTATION.Abstract-syntax-name" target="files">Abstract-syntax-name</A>,
+  transfer-syntax-name  <FONT COLOR=#666666><B>[1] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><A HREF="#ISO8823-PRESENTATION.Transfer-syntax-name" target="files">Transfer-syntax-name</A>
+}
+
+<A NAME="ISO8823-PRESENTATION.Default-context-result"></A>Default-context-result ::= <A HREF="#ISO8823-PRESENTATION.Result" target="files">Result</A>
+
+<A NAME="ISO8823-PRESENTATION.Event-identifier"></A>Event-identifier ::= <FONT COLOR=#5F9EA0><B>INTEGER</B></FONT> {
+  cp-PPDU(0), cpa-PPDU(1), cpr-PPDU(2), aru-PPDU(3), arp-PPDU(4), ac-PPDU(5),
+  aca-PPDU(6), td-PPDU(7), ttd-PPDU(8), te-PPDU(9), tc-PPDU(10), tcc-PPDU(11),
+  rs-PPDU(12), rsa-PPDU(13), s-release-indication(14), s-release-confirm(15),
+  s-token-give-indication(16), s-token-please-indication(17),
+  s-control-give-indication(18), s-sync-minor-indication(19),
+  s-sync-minor-confirm(20), s-sync-major-indication(21),
+  s-sync-major-confirm(22), s-p-exception-report-indication(23),
+  s-u-exception-report-indication(24), s-activity-start-indication(25),
+  s-activity-resume-indication(26), s-activity-interrupt-indication(27),
+  s-activity-interrupt-confirm(28), s-activity-discard-indication(29),
+  s-activity-discard-confirm(30), s-activity-end-indication(31),
+  s-activity-end-confirm(32)}
+
+<A NAME="ISO8823-PRESENTATION.Mode-selector"></A>Mode-selector ::= <FONT COLOR=#B8860B><B>SET</B></FONT> {
+  mode-value  <FONT COLOR=#666666><B>[0] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><FONT COLOR=#5F9EA0><B>INTEGER</B></FONT> {x410-1984-mode(0), normal-mode(1)}
+}
+
+<A NAME="ISO8823-PRESENTATION.Presentation-context-addition-list"></A>Presentation-context-addition-list ::= <A HREF="#ISO8823-PRESENTATION.Context-list" target="files">Context-list</A>
+
+<A NAME="ISO8823-PRESENTATION.Presentation-context-addition-result-list"></A>Presentation-context-addition-result-list ::= <A HREF="#ISO8823-PRESENTATION.Result-list" target="files">Result-list</A>
+
+<A NAME="ISO8823-PRESENTATION.Presentation-context-definition-list"></A>Presentation-context-definition-list ::= <A HREF="#ISO8823-PRESENTATION.Context-list" target="files">Context-list</A>
+
+<A NAME="ISO8823-PRESENTATION.Presentation-context-definition-result-list"></A>Presentation-context-definition-result-list ::= <A HREF="#ISO8823-PRESENTATION.Result-list" target="files">Result-list</A>
+
+<A NAME="ISO8823-PRESENTATION.Presentation-context-deletion-list"></A>Presentation-context-deletion-list ::=
+  <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> <FONT COLOR=#228B22><B>SIZE</B></FONT> <FONT COLOR=#228B22><FONT COLOR=#228B22>(0..7, ..., 8..<FONT COLOR=#228B22><B>MAX</B></FONT>)</FONT></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="#ISO8823-PRESENTATION.Presentation-context-identifier" target="files">Presentation-context-identifier</A>
+
+<A NAME="ISO8823-PRESENTATION.Presentation-context-deletion-result-list"></A>Presentation-context-deletion-result-list ::=
+  <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> <FONT COLOR=#228B22><B>SIZE</B></FONT> <FONT COLOR=#228B22><FONT COLOR=#228B22>(0..7, ..., 8..<FONT COLOR=#228B22><B>MAX</B></FONT>)</FONT></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT>
+    <FONT COLOR=#5F9EA0><B>INTEGER</B></FONT> {acceptance(0), user-rejection(1)}
+
+<A NAME="ISO8823-PRESENTATION.Presentation-context-identifier"></A>Presentation-context-identifier ::= <FONT COLOR=#5F9EA0><B>INTEGER</B></FONT><FONT COLOR=#228B22>(1..127, ..., 128..<FONT COLOR=#228B22><B>MAX</B></FONT>)</FONT>
+
+<A NAME="ISO8823-PRESENTATION.Presentation-context-identifier-list"></A>Presentation-context-identifier-list ::=
+  <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> <FONT COLOR=#228B22><B>SIZE</B></FONT> <FONT COLOR=#228B22><FONT COLOR=#228B22>(0..7, ..., 8..<FONT COLOR=#228B22><B>MAX</B></FONT>)</FONT></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT>
+    <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {presentation-context-identifier  <A HREF="#ISO8823-PRESENTATION.Presentation-context-identifier" target="files">Presentation-context-identifier</A>,
+              transfer-syntax-name             <A HREF="#ISO8823-PRESENTATION.Transfer-syntax-name" target="files">Transfer-syntax-name</A>}
+
+<A NAME="ISO8823-PRESENTATION.Presentation-requirements"></A>Presentation-requirements ::= <FONT COLOR=#5F9EA0><B>BIT STRING</B></FONT> {context-management(0), restoration(1)
+}
+
+<A NAME="ISO8823-PRESENTATION.Presentation-selector"></A>Presentation-selector ::= <FONT COLOR=#5F9EA0><B>OCTET STRING</B></FONT><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>SIZE</B></FONT> <FONT COLOR=#228B22>(1..4, ..., 5..<FONT COLOR=#228B22><B>MAX</B></FONT>)</FONT>)</FONT>
+
+<A NAME="ISO8823-PRESENTATION.Protocol-options"></A>Protocol-options ::= <FONT COLOR=#5F9EA0><B>BIT STRING</B></FONT> {
+  nominated-context(0), short-encoding(1), packed-encoding-rules(2)}
+
+<A NAME="ISO8823-PRESENTATION.Protocol-version"></A>Protocol-version ::= <FONT COLOR=#5F9EA0><B>BIT STRING</B></FONT> {version-1(0)}
+
+<A NAME="ISO8823-PRESENTATION.Provider-reason"></A>Provider-reason ::= <FONT COLOR=#5F9EA0><B>INTEGER</B></FONT> {
+  reason-not-specified(0), temporary-congestion(1), local-limit-exceeded(2),
+  called-presentation-address-unknown(3), protocol-version-not-supported(4),
+  default-context-not-supported(5), user-data-not-readable(6),
+  no-PSAP-available(7)}
+
+<A NAME="ISO8823-PRESENTATION.Responding-presentation-selector"></A>Responding-presentation-selector ::= <A HREF="#ISO8823-PRESENTATION.Presentation-selector" target="files">Presentation-selector</A>
+
+<A NAME="ISO8823-PRESENTATION.Result"></A>Result ::= <FONT COLOR=#5F9EA0><B>INTEGER</B></FONT> {acceptance(0), user-rejection(1), provider-rejection(2)}
+
+<A NAME="ISO8823-PRESENTATION.Result-list"></A>Result-list ::=
+  <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> <FONT COLOR=#228B22><B>SIZE</B></FONT> <FONT COLOR=#228B22><FONT COLOR=#228B22>(0..7, ..., 8..<FONT COLOR=#228B22><B>MAX</B></FONT>)</FONT></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT>
+    <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {result                <FONT COLOR=#666666><B>[0] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><A HREF="#ISO8823-PRESENTATION.Result" target="files">Result</A>,
+              transfer-syntax-name  <FONT COLOR=#666666><B>[1] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><A HREF="#ISO8823-PRESENTATION.Transfer-syntax-name" target="files">Transfer-syntax-name</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+              provider-reason
+                <FONT COLOR=#666666><B>[2] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><FONT COLOR=#5F9EA0><B>INTEGER</B></FONT> {reason-not-specified(0),
+                                      abstract-syntax-not-supported(1),
+                                      proposed-transfer-syntaxes-not-supported(2),
+                                      local-limit-on-DCS-exceeded(3)} <FONT COLOR=#666666><B>OPTIONAL</B></FONT>
+    }
+
+<A NAME="ISO8823-PRESENTATION.Transfer-syntax-name"></A>Transfer-syntax-name ::= <FONT COLOR=#5F9EA0><B>OBJECT IDENTIFIER</B></FONT>
+
+<A NAME="ISO8823-PRESENTATION.User-data"></A>User-data ::= <FONT COLOR=#B8860B><B>CHOICE</B></FONT> {
+  simply-encoded-data  <FONT COLOR=#666666><B>[<FONT COLOR=#666666><B>APPLICATION</B></FONT> 0] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><A HREF="#ISO8823-PRESENTATION.Simply-encoded-data" target="files">Simply-encoded-data</A>,
+  fully-encoded-data   <FONT COLOR=#666666><B>[<FONT COLOR=#666666><B>APPLICATION</B></FONT> 1] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><A HREF="#ISO8823-PRESENTATION.Fully-encoded-data" target="files">Fully-encoded-data</A>,
+  ...
+}
+
+<A NAME="ISO8823-PRESENTATION.Simply-encoded-data"></A><FONT COLOR=#B22222><I>--  Subclause 8.4 defines when each of the two alternatives shall be used.
+</I></FONT>Simply-encoded-data ::= <FONT COLOR=#5F9EA0><B>OCTET STRING</B></FONT>
+
+<A NAME="ISO8823-PRESENTATION.Fully-encoded-data"></A><FONT COLOR=#B22222><I>--  See 8.4.1.
+</I></FONT>Fully-encoded-data ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> <FONT COLOR=#228B22><B>SIZE</B></FONT> <FONT COLOR=#228B22><FONT COLOR=#228B22>(1, ..., 2..<FONT COLOR=#228B22><B>MAX</B></FONT>)</FONT></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="#ISO8823-PRESENTATION.PDV-list" target="files">PDV-list</A>
+
+<A NAME="ISO8823-PRESENTATION.PDV-list"></A><FONT COLOR=#B22222><I>--  contains one or more PDV-list values.
+</I></FONT><FONT COLOR=#B22222><I>--  See 8.4.2.
+</I></FONT>PDV-list ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  transfer-syntax-name             <A HREF="#ISO8823-PRESENTATION.Transfer-syntax-name" target="files">Transfer-syntax-name</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  presentation-context-identifier  <A HREF="#ISO8823-PRESENTATION.Presentation-context-identifier" target="files">Presentation-context-identifier</A>,
+  presentation-data-values
+    <FONT COLOR=#B8860B><B>CHOICE</B></FONT> {single-ASN1-type
+              <FONT COLOR=#666666><B>[0] </B></FONT> <FONT COLOR=#9370DB><B>ABSTRACT-SYNTAX</B></FONT>.&amp;Type
+                     <FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>CONSTRAINED BY</B></FONT> {
+                        
+                        <FONT COLOR=#B22222><I>--  Type corresponding to presentation context identifier -- </I></FONT>})</FONT>,
+            octet-aligned     <FONT COLOR=#666666><B>[1] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><FONT COLOR=#5F9EA0><B>OCTET STRING</B></FONT>,
+            arbitrary         <FONT COLOR=#666666><B>[2] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><FONT COLOR=#5F9EA0><B>BIT STRING</B></FONT>}
+  <FONT COLOR=#B22222><I>--  Contains one or more presentation data values from the same
+  </I></FONT><FONT COLOR=#B22222><I>--  presentation context.
+  </I></FONT><FONT COLOR=#B22222><I>--  See 8.4.2.</I></FONT>
+}
+
+<A NAME="ISO8823-PRESENTATION.User-session-requirements"></A>User-session-requirements ::= <FONT COLOR=#5F9EA0><B>BIT STRING</B></FONT> {
+  half-duplex(0), duplex(1), expedited-data(2), minor-synchronize(3),
+  major-synchronize(4), resynchronize(5), activity-management(6),
+  negotiated-release(7), capability-data(8), exceptions(9), typed-data(10),
+  symmetric-synchronize(11), data-separation(12)}
+
+<FONT COLOR=#0000FF><B>END</B></FONT>
+</PRE>
+-- Generated by Asnp, the ASN.1 pretty-printer of France Telecom R&amp;D
+</BODY></HTML>

@@ -1,0 +1,63 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.0//EN">
+<HTML>
+<HEAD>
+<META NAME="GENERATOR" CONTENT="Microsoft FrontPage 4.0">
+<TITLE>IPMSForwardedContentBodyPartType (X.420:06/1999)</TITLE>
+</HEAD>
+<BODY  >
+-- Module IPMSForwardedContentBodyPartType (X.420:06/1999)<br>
+-- See also <a href="/ITU-T/recommendations/fl.aspx?id=4171" target="_top">ITU-T X.420 (06/1999)</a><br>
+-- See also the <a href="index2.html" target="_top">index</a> of all ASN.1 assignments needed in this document<br><br>
+<PRE>
+<A NAME="IPMSForwardedContentBodyPartType"></A>IPMSForwardedContentBodyPartType {joint-iso-itu-t mhs(6) ipms(1) modules(0)
+  forwarded-content-body-part-type(15)} <FONT COLOR=#0000FF><B>DEFINITIONS</B></FONT> <FONT COLOR=#666666><B>IMPLICIT TAGS</B></FONT> ::=
+<FONT COLOR=#0000FF><B>BEGIN</B></FONT>
+
+<FONT COLOR=#B22222><I>-- Prologue
+</I></FONT><FONT COLOR=#B22222><I>-- Exports everything.
+</I></FONT><FONT COLOR=#0000FF><B>IMPORTS</B></FONT>
+  <FONT COLOR=#B22222><I>-- MTS Abstract Service
+  </I></FONT>Content, ExtendedContentType, MessageDeliveryIdentifier, MessageDeliveryTime,
+    MessageSubmissionEnvelope, OriginatingMTACertificate,
+    OtherMessageDeliveryFields, ProofOfSubmission
+    <FONT COLOR=#B22222><I>--==
+    </I></FONT><FONT COLOR=#0000FF><B>FROM</B></FONT> MTSAbstractService {joint-iso-itu-t mhs(6) mts(3) modules(0)
+      mts-abstract-service(1) version-1999(1)}
+  <FONT COLOR=#B22222><I>-- IPMS Information Objects
+  </I></FONT>EXTENDED-BODY-PART-TYPE
+    <FONT COLOR=#B22222><I>--==
+    </I></FONT><FONT COLOR=#0000FF><B>FROM</B></FONT> IPMSInformationObjects {joint-iso-itu-t mhs(6) ipms(1) modules(0)
+      information-objects(2) version-1999(1)}
+  <FONT COLOR=#B22222><I>-- IPMS Object Identifiers
+  </I></FONT>id-ep-content, id-et-content
+    <FONT COLOR=#B22222><I>--==
+    </I></FONT><FONT COLOR=#0000FF><B>FROM</B></FONT> IPMSObjectIdentifiers {joint-iso-itu-t mhs(6) ipms(1) modules(0)
+      object-identifiers(0) version-1999(1)};
+
+<A NAME="IPMSForwardedContentBodyPartType.content-body-part"></A><FONT COLOR=#B22222><I>-- Forwarded Content body part
+</I></FONT>content-body-part{<A HREF="../../x411/1999/MTSAbstractService.html#MTSAbstractService.ExtendedContentType" target="files">ExtendedContentType</A>:content-type} <A HREF="IPMSInformationObjects.html#IPMSInformationObjects.EXTENDED-BODY-PART-TYPE" target="files">EXTENDED-BODY-PART-TYPE</A> ::=
+  {
+<FONT COLOR=#B22222><I>  </I></FONT>PARAMETERS
+    {<A HREF="#IPMSForwardedContentBodyPartType.ForwardedContentParameters" target="files">ForwardedContentParameters</A>
+     IDENTIFIED BY  {<A HREF="IPMSObjectIdentifiers.html#IPMSObjectIdentifiers.id-ep-content" target="files">id-ep-content</A>  <FONT COLOR=#666666><I>content-type</I></FONT>}},
+  DATA        {<A HREF="../../x411/1999/MTSAbstractService.html#MTSAbstractService.Content" target="files">Content</A>
+               IDENTIFIED BY  {<A HREF="IPMSObjectIdentifiers.html#IPMSObjectIdentifiers.id-et-content" target="files">id-et-content</A>  <FONT COLOR=#666666><I>content-type</I></FONT>}}
+}
+
+<A NAME="IPMSForwardedContentBodyPartType.ForwardedContentParameters"></A>ForwardedContentParameters ::= <FONT COLOR=#B8860B><B>SET</B></FONT> {
+  delivery-time      <FONT COLOR=#666666><B>[0] </B></FONT> <A HREF="../../x411/1999/MTSAbstractService.html#MTSAbstractService.MessageDeliveryTime" target="files">MessageDeliveryTime</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  delivery-envelope  <FONT COLOR=#666666><B>[1] </B></FONT> <A HREF="../../x411/1999/MTSAbstractService.html#MTSAbstractService.OtherMessageDeliveryFields" target="files">OtherMessageDeliveryFields</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  mts-identifier     <FONT COLOR=#666666><B>[2] </B></FONT> <A HREF="../../x411/1999/MTSAbstractService.html#MTSAbstractService.MessageDeliveryIdentifier" target="files">MessageDeliveryIdentifier</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  submission-proof   <FONT COLOR=#666666><B>[3] </B></FONT> <A HREF="#IPMSForwardedContentBodyPartType.SubmissionProof" target="files">SubmissionProof</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>
+}
+
+<A NAME="IPMSForwardedContentBodyPartType.SubmissionProof"></A>SubmissionProof ::= <FONT COLOR=#B8860B><B>SET</B></FONT> {
+  proof-of-submission          <FONT COLOR=#666666><B>[0] </B></FONT> <A HREF="../../x411/1999/MTSAbstractService.html#MTSAbstractService.ProofOfSubmission" target="files">ProofOfSubmission</A>,
+  originating-MTA-certificate  <FONT COLOR=#666666><B>[1] </B></FONT> <A HREF="../../x411/1999/MTSAbstractService.html#MTSAbstractService.OriginatingMTACertificate" target="files">OriginatingMTACertificate</A>,
+  message-submission-envelope  <A HREF="../../x411/1999/MTSAbstractService.html#MTSAbstractService.MessageSubmissionEnvelope" target="files">MessageSubmissionEnvelope</A>
+}
+
+<FONT COLOR=#0000FF><B>END</B></FONT><FONT COLOR=#B22222><I> -- of IPMSForwardedContentBodyPartType</I></FONT>
+</PRE>
+-- Generated by Asnp, the ASN.1 pretty-printer of France Telecom R&amp;D
+</BODY></HTML>

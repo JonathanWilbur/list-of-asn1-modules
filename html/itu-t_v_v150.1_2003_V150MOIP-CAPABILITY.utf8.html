@@ -1,0 +1,92 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.0//EN">
+<HTML>
+<HEAD>
+<META NAME="GENERATOR" CONTENT="Microsoft FrontPage 4.0">
+<TITLE>V150MOIP-CAPABILITY (V.150.1:01/2003)</TITLE>
+</HEAD>
+<BODY  >
+-- Module V150MOIP-CAPABILITY (V.150.1:01/2003)<br>
+-- See also <a href="/ITU-T/recommendations/fl.aspx?id=6223" target="_top">ITU-T V.150.1 (01/2003)</a><br>
+-- See also the <a href="index2.html" target="_top">index</a> of all ASN.1 assignments needed in this document<br><br>
+<PRE>
+<A NAME="V150MOIP-CAPABILITY"></A>V150MOIP-CAPABILITY {<span lang="EN-GB" style="font-size:12.0pt;mso-bidi-font-size:
+10.0pt;font-family:&quot;Times New Roman&quot;;mso-fareast-font-family:&quot;Times New Roman&quot;;
+mso-ansi-language:EN-GB;mso-fareast-language:EN-US;mso-bidi-language:AR-SA">itu-t (0) recommendation (0) v (22) 150 moip (0) major-version-one(1) minor-version-one(1)}</span></PRE>
+<PRE><FONT COLOR=#0000FF><B>DEFINITIONS</B></FONT> <FONT COLOR=#666666><B>AUTOMATIC TAGS</B></FONT> ::=
+<FONT COLOR=#0000FF><B>BEGIN</B></FONT>
+
+<FONT COLOR=#0000FF><B>IMPORTS</B></FONT> NonStandardParameter
+          <FONT COLOR=#0000FF><B>FROM</B></FONT> MULTIMEDIA-SYSTEM-CONTROL;
+
+<A NAME="V150MOIP-CAPABILITY.V150MoIPCapability"></A>V150MoIPCapability ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  nonStandard             <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="../../../h/h245/2001/MULTIMEDIA-SYSTEM-CONTROL.html#MULTIMEDIA-SYSTEM-CONTROL.NonStandardParameter" target="files">NonStandardParameter</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  modemRelayType          <FONT COLOR=#B8860B><B>CHOICE</B></FONT> {v-mr  <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+                                  u-mr  <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+                                  ...},
+  gatewayType
+    <FONT COLOR=#B8860B><B>CHOICE</B></FONT> {ntcx  <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,<FONT COLOR=#B22222><I> -- No Transcompression--</I></FONT>
+            stcx  <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,<FONT COLOR=#B22222><I> -- Single Transcompression--</I></FONT>
+            dtcx
+              <FONT COLOR=#B8860B><B>CHOICE</B></FONT><FONT COLOR=#B22222><I>-- Double Transcompression--</I></FONT> {single  <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,<FONT COLOR=#B22222><I> -- Preferred mode between two gateways--</I></FONT>
+                                                  double  <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,<FONT COLOR=#B22222><I> --  with double transcompression ability--</I></FONT>
+                                                  ...},
+            ...},
+  callDiscriminationMode
+    <FONT COLOR=#B8860B><B>CHOICE</B></FONT> {audio        <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+            g2-choice    <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+            combination  <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+            ...},
+  sprtParameters
+    <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {maxPayloadSizeChannel0  <FONT COLOR=#5F9EA0><B>INTEGER</B></FONT><FONT COLOR=#228B22>(140..256)</FONT> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,<FONT COLOR=#B22222><I> -- Default 140--</I></FONT>
+              maxPayloadSizeChannel1  <FONT COLOR=#5F9EA0><B>INTEGER</B></FONT><FONT COLOR=#228B22>(132..256)</FONT> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,<FONT COLOR=#B22222><I> -- Default 132--</I></FONT>
+              maxWindowSizeChannel1   <FONT COLOR=#5F9EA0><B>INTEGER</B></FONT><FONT COLOR=#228B22>(32..96)</FONT> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,<FONT COLOR=#B22222><I> -- Default 32--</I></FONT>
+              maxPayloadSizeChannel2  <FONT COLOR=#5F9EA0><B>INTEGER</B></FONT><FONT COLOR=#228B22>(132..256)</FONT> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,<FONT COLOR=#B22222><I> -- Default 132--</I></FONT>
+              maxWindowSizeChannel2   <FONT COLOR=#5F9EA0><B>INTEGER</B></FONT><FONT COLOR=#228B22>(8..32)</FONT> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,<FONT COLOR=#B22222><I> -- Default 8,--</I></FONT>
+              maxPayloadSizeChannel3  <FONT COLOR=#5F9EA0><B>INTEGER</B></FONT><FONT COLOR=#228B22>(140..256)</FONT> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,<FONT COLOR=#B22222><I> -- Default 140--</I></FONT>
+              ...} <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  modulationSupport
+    <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {v34FullDuplex  <FONT COLOR=#5F9EA0><B>NULL</B></FONT> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+              v34HalfDuplex  <FONT COLOR=#5F9EA0><B>NULL</B></FONT> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+              v32bis-v32     <FONT COLOR=#5F9EA0><B>NULL</B></FONT> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+              v22bis-v22     <FONT COLOR=#5F9EA0><B>NULL</B></FONT> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+              v17            <FONT COLOR=#5F9EA0><B>NULL</B></FONT> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+              v29HalfDuplex  <FONT COLOR=#5F9EA0><B>NULL</B></FONT> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+              v27ter         <FONT COLOR=#5F9EA0><B>NULL</B></FONT> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+              v26ter         <FONT COLOR=#5F9EA0><B>NULL</B></FONT> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+              v26bis         <FONT COLOR=#5F9EA0><B>NULL</B></FONT> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+              v23FullDuplex  <FONT COLOR=#5F9EA0><B>NULL</B></FONT> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+              v23HalfDuplex  <FONT COLOR=#5F9EA0><B>NULL</B></FONT> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+              v21            <FONT COLOR=#5F9EA0><B>NULL</B></FONT> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+              v90Analog      <FONT COLOR=#5F9EA0><B>NULL</B></FONT> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+              v90Digital     <FONT COLOR=#5F9EA0><B>NULL</B></FONT> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+              v92Analog      <FONT COLOR=#5F9EA0><B>NULL</B></FONT> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+              v92Digital     <FONT COLOR=#5F9EA0><B>NULL</B></FONT> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+              v91            <FONT COLOR=#5F9EA0><B>NULL</B></FONT> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+              ...},
+  compressionMode
+    <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {<FONT COLOR=#B22222><I>-- Including a SEQUENCE for a particular compression mode, but not
+              </I></FONT><FONT COLOR=#B22222><I>-- including any of the optional parameters within the SEQUENCE,
+              </I></FONT><FONT COLOR=#B22222><I>-- indicates support for the specific compression mode, but assumes that
+              </I></FONT><FONT COLOR=#B22222><I>-- all parameter values are set to their default values
+              </I></FONT>mnp5    <FONT COLOR=#5F9EA0><B>NULL</B></FONT> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+              v44
+                <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {numTxCodewords     <FONT COLOR=#5F9EA0><B>INTEGER</B></FONT><FONT COLOR=#228B22>(256..65535)</FONT>,
+                          numRxCodewords     <FONT COLOR=#5F9EA0><B>INTEGER</B></FONT><FONT COLOR=#228B22>(256..65535)</FONT>,
+                          maxTxStringLength  <FONT COLOR=#5F9EA0><B>INTEGER</B></FONT><FONT COLOR=#228B22>(32..255)</FONT>,
+                          maxRxStringLength  <FONT COLOR=#5F9EA0><B>INTEGER</B></FONT><FONT COLOR=#228B22>(32..255)</FONT>,
+                          lenTxHistory       <FONT COLOR=#5F9EA0><B>INTEGER</B></FONT><FONT COLOR=#228B22>(512..65535)</FONT>,
+                          lenRxHistory       <FONT COLOR=#5F9EA0><B>INTEGER</B></FONT><FONT COLOR=#228B22>(512..65535)</FONT>,
+                          ...} <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+              v42bis
+                <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {numCodewords     <FONT COLOR=#5F9EA0><B>INTEGER</B></FONT><FONT COLOR=#228B22>(512..65535)</FONT> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+                          maxStringLength  <FONT COLOR=#5F9EA0><B>INTEGER</B></FONT><FONT COLOR=#228B22>(6..250)</FONT> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+                          ...} <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+              ...} <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  delayedJMEnabled        <FONT COLOR=#5F9EA0><B>BOOLEAN</B></FONT>,
+  ...
+}
+
+<FONT COLOR=#0000FF><B>END</B></FONT><FONT COLOR=#B22222><I> -- End of ASN.1 definition</I></FONT>
+</PRE>
+-- Generated by Asnp, the ASN.1 pretty-printer of France Telecom R&amp;D
+</BODY></HTML>
