@@ -1,0 +1,488 @@
+
+
+
+
+IN-CS2-classes (Q.1228:09/1997)
+
+
+-- Module IN-CS2-classes (Q.1228:09/1997)
+-- See also ITU-T Q.1228 (09/1997)
+-- See also the index of all ASN.1 assignments needed in this document
+
+IN-CS2-classes {itu-t recommendation q 1228 modules(0) in-cs2-classes(4)
+  version1(0)} DEFINITIONS ::=
+BEGIN
+
+IMPORTS
+  ROS-OBJECT-CLASS, CONTRACT, OPERATION-PACKAGE, Code, OPERATION,
+    CONNECTION-PACKAGE
+    FROM Remote-Operations-Information-Objects {joint-iso-itu-t
+      remote-operations(4) informationObjects(5) version1(0)}
+  emptyBind, emptyUnbind
+    FROM Remote-Operations-Useful-Definitions {joint-iso-itu-t
+      remote-operations(4) useful-definitions(7) version1(0)}
+  id-package-emptyConnection, id-rosObject-scf, id-rosObject-cusf,
+    id-rosObject-dssp, id-rosObject-srf, id-rosObject-ssf,
+    ros-InformationObjects, ros-UsefulDefinitions, ssf-scf-Protocol,
+    scf-cusf-Protocol, scf-scf-Protocol, scf-srf-Protocol, scf-sdf-Protocol,
+    datatypes
+    FROM IN-CS2-object-identifiers {itu-t recommendation q 1228 modules(0)
+      in-cs2-object-identifiers(17) version1(0)}
+  inCs2AssistHandoffSsfToScf, inCs2ScfToSsfDpSpecific, inCs2ScfToSsfGeneric,
+    inCs2ScfToSsfStatusReporting, inCs2ScfToSsfTrafficManagement,
+    inCs2SsfToScfDpSpecific, inCs2SsfToScfGeneric,
+    inCs2SsfToScfServiceManagement, inCs2ScfToSsfServiceManagement,
+    inCs2ScfToSsfTriggerManagement
+    FROM IN-CS2-SSF-SCF-pkgs-contracts-acs {itu-t recommendation q 1228
+      modules(0) in-cs2-ssf-scf-pkgs-contracts-acs(6) version1(0)}
+  cusf-scf-contract, scf-cusf-contract
+    FROM IN-CS2-SCF-CUSF-pkgs-contracts-acs {itu-t recommendation q 1228
+      modules(0) in-cs2-scf-cusf-pkgs-contracts-acs(16) version1(0)}
+  dsspContract, scf-scfContract
+    FROM IN-CS2-SCF-SCF-pkgs-contracts-acs {itu-t recommendation q 1228
+      modules(0) in-cs2-scf-scf-pkgs-contracts-acs(14) version1(0)}
+  srf-scf-contract
+    FROM IN-CS2-SCF-SRF-pkgs-contracts-acs {itu-t recommendation q 1228
+      modules(0) in-cs2-scf-srf-pkgs-contracts-acs(8) version1(0)}
+  dapContract
+    FROM IN-CS2-SCF-SDF-Protocol {itu-t recommendation q 1228 modules(0)
+      in-scf-sdf-protocol(12) version1(0)}
+  CriticalityType
+    FROM IN-CS2-datatypes {itu-t recommendation q 1228 modules(0)
+      in-cs2-datatypes(0) version1(0)};
+
+ssf ROS-OBJECT-CLASS ::= {
+  INITIATES
+    {inCs2SsfToScfGeneric | inCs2SsfToScfDpSpecific |
+      inCs2AssistHandoffSsfToScf | inCs2SsfToScfServiceManagement}
+  RESPONDS
+    {inCs2ScfToSsfGeneric | inCs2ScfToSsfDpSpecific |
+      inCs2ScfToSsfTrafficManagement | inCs2SsfToScfServiceManagement |
+      inCs2ScfToSsfStatusReporting}
+  ID         id-rosObject-ssf
+}
+
+srf ROS-OBJECT-CLASS ::= {
+  INITIATES  {srf-scf-contract}
+  ID         id-rosObject-srf
+}
+
+cusf ROS-OBJECT-CLASS ::= {
+  INITIATES  {cusf-scf-contract}
+  RESPONDS   {scf-cusf-contract}
+  ID         id-rosObject-cusf
+}
+
+dssp ROS-OBJECT-CLASS ::= {BOTH  {dsspContract}
+                           ID    id-rosObject-dssp
+}
+
+scf ROS-OBJECT-CLASS ::= {
+  INITIATES
+    {inCs2ScfToSsfGeneric | inCs2ScfToSsfDpSpecific |
+      inCs2ScfToSsfTrafficManagement | inCs2ScfToSsfServiceManagement |
+      inCs2ScfToSsfTriggerManagement | inCs2ScfToSsfStatusReporting |
+       -- scf to cusf contracts
+      scf-cusf-contract |
+       -- scf to scf contracts
+      scf-scfContract | dsspContract |
+       -- sdf to scf contracts
+      dapContract}
+  RESPONDS
+    {inCs2SsfToScfGeneric | inCs2SsfToScfDpSpecific |
+      inCs2AssistHandoffSsfToScf | inCs2SsfToScfServiceManagement |
+       -- cusf to scf contracts
+      cusf-scf-contract |
+       -- srf to scf contracts
+      srf-scf-contract |
+       -- scf to scf contracts
+      scf-scfContract | dsspContract}
+  ID         id-rosObject-scf
+}
+
+EXTENSION ::= CLASS {
+  &amp;ExtensionType  ,
+  &amp;criticality    CriticalityType DEFAULT ignore,
+  &amp;id             Code
+}
+WITH SYNTAX {
+  EXTENSION-SYNTAX &amp;ExtensionType
+  [CRITICALITY &amp;criticality]
+  IDENTIFIED BY &amp;id
+}
+
+-- Example of addition of an extension named 'Some Network Specific Indicator' of type
+-- BOOLEAN, with criticality 'abort' and to be identified as extension number 1
+-- Example of definition using the above information object class:
+--
+-- SomeNetworkSpecificIndicator  EXTENSION ::= {
+-- 	EXTENSION-SYNTAX    BOOLEAN
+--	CRITICALITY         abort
+--	IDENTIFIED BY       local : 1
+--	}
+-- Example of transfer syntax, using the ExtensionField datatype as specified in 4.1.
+-- Assuming the value of the extension is set to TRUE, the extensions parameter
+-- becomes a Sequence of type INTEGER ::= 1, criticality ENUMERATED ::= 1 and value 1
+-- EXPLICIT BOOLEAN ::= TRUE.
+--
+-- Use of Q.1400 defined Extension is ffs
+-- In addition the extension mechanism marker is used to identify the future minor additions to INAP.
+firstExtension EXTENSION ::= {
+  EXTENSION-SYNTAX  NULL
+  CRITICALITY       ignore
+  IDENTIFIED BY     local:1
+}
+
+-- firstExtension is just an example.
+-- boundedExtension is another example, so that the bound parameter is used
+SupportedExtensions{PARAMETERS-BOUND:bound} EXTENSION ::=
+  {firstExtension | boundedExtension{bound}, ...
+  } -- full set of network operator extensions 
+
+boundedExtension{PARAMETERS-BOUND:bound} EXTENSION ::= {
+  EXTENSION-SYNTAX  BoundedExtensionSyntax {bound}
+  CRITICALITY       ignore
+  IDENTIFIED BY     local:2
+}
+
+-- this is just an example of an EXTENSION that uses the bound parameter
+BoundedExtensionSyntax{PARAMETERS-BOUND:bound} ::= SEQUENCE {
+  digits
+    OCTET STRING(SIZE (bound.&amp;minDigitsLength..bound.&amp;maxDigitsLength))
+}
+
+-- SupportedExtension is the full set of the network operator extensions.
+UISCRIPT ::= CLASS {
+  &amp;SpecificInfo  OPTIONAL,
+  &amp;Result        OPTIONAL,
+  &amp;id            Code
+}
+WITH SYNTAX {
+  [WITH-SPECIFICINFO &amp;SpecificInfo]
+  [WITH-RESULT &amp;Result]
+  IDENTIFIED BY &amp;id
+}
+
+firstScript UISCRIPT ::= {IDENTIFIED BY  local:1
+}
+
+-- firstScript is just an example.
+-- firstScript is just an example.
+-- boundedScript is another example, so that the bound parameter is used
+SupportedUIScripts{PARAMETERS-BOUND:bound} UISCRIPT ::=
+  {firstScript | boundedScript{bound}, ...
+  } -- full set of User Interaction script 
+
+-- SupportedUIScripts is the full set of User Interaction scripts.
+boundedScript{PARAMETERS-BOUND:bound} UISCRIPT ::= {
+  WITH-SPECIFICINFO  BoundedSpecificInfo {bound}
+  IDENTIFIED BY      local:2
+}
+
+-- this is just an example of a UISCRIPT syntax that uses the bound parameter
+BoundedSpecificInfo{PARAMETERS-BOUND:bound} ::= SEQUENCE {
+  digits
+    OCTET STRING(SIZE (bound.&amp;minDigitsLength..bound.&amp;maxDigitsLength))
+}
+
+-- SupportedUIScripts is the full set of User Interaction scripts.
+inEmptyUnbind OPERATION ::= {RETURN RESULT    FALSE
+                             ALWAYS RESPONDS  FALSE
+}
+
+emptyConnectionPackage CONNECTION-PACKAGE ::= {
+  BIND              emptyBind
+  UNBIND            inEmptyUnbind
+  RESPONDER UNBIND  TRUE
+  ID                id-package-emptyConnection
+}
+
+PARAMETERS-BOUND ::= CLASS {
+  &amp;minAChBillingChargingLength                INTEGER,
+  &amp;maxAChBillingChargingLength                INTEGER,
+  &amp;minAttributesLength                        INTEGER,
+  &amp;maxAttributesLength                        INTEGER,
+  &amp;minBackwardGVNSLength                      INTEGER,
+  &amp;maxBackwardGVNSLength                      INTEGER,
+  &amp;maxBearerCapabilityLength                  INTEGER,
+  &amp;minCalledPartyNumberLength                 INTEGER,
+  &amp;maxCalledPartyNumberLength                 INTEGER,
+  &amp;minCallingPartyNumberLength                INTEGER,
+  &amp;maxCallingPartyNumberLength                INTEGER,
+  &amp;minCallResultLength                        INTEGER,
+  &amp;maxCallResultLength                        INTEGER,
+  &amp;maxCauseLength                             INTEGER,
+  &amp;minDigitsLength                            INTEGER,
+  &amp;maxDigitsLength                            INTEGER,
+  &amp;minDisplayInformationLength                INTEGER,
+  &amp;maxDisplayInformationLength                INTEGER,
+  &amp;minEventSpecificInformationChargingLength  INTEGER,
+  &amp;maxEventSpecificInformationChargingLength  INTEGER,
+  &amp;minEventTypeChargingLength                 INTEGER,
+  &amp;maxEventTypeChargingLength                 INTEGER,
+  &amp;minFCIBillingChargingLength                INTEGER,
+  &amp;maxFCIBillingChargingLength                INTEGER,
+  &amp;minForwardGVNSLength                       INTEGER,
+  &amp;maxForwardGVNSLength                       INTEGER,
+  &amp;minGenericNameLength                       INTEGER,
+  &amp;maxGenericNameLength                       INTEGER,
+  &amp;minGenericNumberLength                     INTEGER,
+  &amp;maxGenericNumberLength                     INTEGER,
+  &amp;maxInitialTimeInterval                     INTEGER,
+  &amp;maxINServiceCompatibilityIndLength         INTEGER,
+  &amp;minIPAvailableLength                       INTEGER,
+  &amp;maxIPAvailableLength                       INTEGER,
+  &amp;minIPSSPCapabilitiesLength                 INTEGER,
+  &amp;maxIPSSPCapabilitiesLength                 INTEGER,
+  &amp;minLocationNumberLength                    INTEGER,
+  &amp;maxLocationNumberLength                    INTEGER,
+  &amp;minMailBoxIDLength                         INTEGER,
+  &amp;maxMailBoxIDLength                         INTEGER,
+  &amp;minMessageContentLength                    INTEGER,
+  &amp;maxMessageContentLength                    INTEGER,
+  &amp;minMidCallControlInfoNum                   INTEGER,
+  &amp;maxMidCallControlInfoNum                   INTEGER,
+  &amp;minOriginalCalledPartyIDLength             INTEGER,
+  &amp;maxOriginalCalledPartyIDLength             INTEGER,
+  &amp;minReasonLength                            INTEGER,
+  &amp;maxReasonLength                            INTEGER,
+  &amp;minReceivedInformationLength               INTEGER,
+  &amp;maxReceivedInformationLength               INTEGER,
+  &amp;maxRecordedMessageUnits                    INTEGER,
+  &amp;maxRecordingTime                           INTEGER,
+  &amp;minRedirectingPartyIDLength                INTEGER,
+  &amp;maxRedirectingPartyIDLength                INTEGER,
+  &amp;minRequestedUTSINum                        INTEGER,
+  &amp;maxRequestedUTSINum                        INTEGER,
+  &amp;minRouteListLength                         INTEGER,
+  &amp;maxRouteListLength                         INTEGER,
+  &amp;minScfIDLength                             INTEGER,
+  &amp;maxScfIDLength                             INTEGER,
+  &amp;minScfAddressLength                        INTEGER,
+  &amp;maxScfAddressLength                        INTEGER,
+  &amp;minSCIBillingChargingLength                INTEGER,
+  &amp;maxSCIBillingChargingLength                INTEGER,
+  &amp;minServiceInteractionIndicatorsLength      INTEGER,
+  &amp;maxServiceInteractionIndicatorsLength      INTEGER,
+  &amp;minSFBillingChargingLength                 INTEGER,
+  &amp;maxSFBillingChargingLength                 INTEGER,
+  &amp;minUSIInformationLength                    INTEGER,
+  &amp;maxUSIInformationLength                    INTEGER,
+  &amp;minUSIServiceIndicatorLength               INTEGER,
+  &amp;maxUSIServiceIndicatorLength               INTEGER,
+  &amp;numOfBCSMEvents                            INTEGER,
+  &amp;numOfBCUSMEvents                           INTEGER,
+  &amp;numOfChargingEvents                        INTEGER,
+  &amp;numOfCSAs                                  INTEGER,
+  &amp;numOfCSs                                   INTEGER,
+  &amp;numOfExtensions                            INTEGER,
+  &amp;numOfGenericNumbers                        INTEGER,
+  &amp;numOfInServiceCompatibilityIndLength       INTEGER,
+  &amp;numOfLegs                                  INTEGER,
+  &amp;numOfMessageIDs                            INTEGER,
+  &amp;maxAmount                                  INTEGER,
+  &amp;maxInitialUnitIncrement                    INTEGER,
+  &amp;maxScalingFactor                           INTEGER,
+  &amp;maxSegmentsPerDataInterval                 INTEGER,
+  &amp;maxTimePerInterval                         INTEGER,
+  &amp;maxUnitsPerDataInterval                    INTEGER,
+  &amp;maxUnitsPerInterval                        INTEGER,
+  &amp;ub-maxUserCredit                           INTEGER,
+  &amp;ub-nbCall                                  INTEGER
+}
+WITH SYNTAX {
+  MINIMUM-FOR-ACH-BILLING-CHARGING &amp;minAChBillingChargingLength
+  MAXIMUM-FOR-ACH-BILLING-CHARGING &amp;maxAChBillingChargingLength
+  MINIMUM-FOR-ATTRIBUTES &amp;minAttributesLength
+  MAXIMUM-FOR-ATTRIBUTES &amp;maxAttributesLength
+  MINIMUM-FOR-BACKWARD-GVNS &amp;minBackwardGVNSLength
+  MAXIMUM-FOR-BACKWARD-GVNS &amp;maxBackwardGVNSLength
+  MAXIMUM-FOR-BEARER-CAPABILITY &amp;maxBearerCapabilityLength
+  MINIMUM-FOR-CALLED-PARTY-NUMBER &amp;minCalledPartyNumberLength
+  MAXIMUM-FOR-CALLED-PARTY-NUMBER &amp;maxCalledPartyNumberLength
+  MINIMUM-FOR-CALLING-PARTY-NUMBER &amp;minCallingPartyNumberLength
+  MAXIMUM-FOR-CALLING-PARTY-NUMBER &amp;maxCallingPartyNumberLength
+  MINIMUM-FOR-CALL-RESULT &amp;minCallResultLength
+  MAXIMUM-FOR-CALL-RESULT &amp;maxCallResultLength
+  MAXIMUM-FOR-CAUSE &amp;maxCauseLength
+  MINIMUM-FOR-DIGITS &amp;minDigitsLength
+  MAXIMUM-FOR-DIGITS &amp;maxDigitsLength
+  MINIMUM-FOR-DISPLAY &amp;minDisplayInformationLength
+  MAXIMUM-FOR-DISPLAY &amp;maxDisplayInformationLength
+  MINIMUM-FOR-EVENT-SPECIFIC-CHARGING
+    &amp;minEventSpecificInformationChargingLength
+  MAXIMUM-FOR-EVENT-SPECIFIC-CHARGING
+    &amp;maxEventSpecificInformationChargingLength
+  MINIMUM-FOR-EVENT-TYPE-CHARGING &amp;minEventTypeChargingLength
+  MAXIMUM-FOR-EVENT-TYPE-CHARGING &amp;maxEventTypeChargingLength
+  MINIMUM-FOR-FCI-BILLING-CHARGING &amp;minFCIBillingChargingLength
+  MAXIMUM-FOR-FCI-BILLING-CHARGING &amp;maxFCIBillingChargingLength
+  MINIMUM-FOR-FORWARD-GVNS &amp;minForwardGVNSLength
+  MAXIMUM-FOR-FORWARD-GVNS &amp;maxForwardGVNSLength
+  MINIMUM-FOR-GENERIC-NAME &amp;minGenericNameLength
+  MAXIMUM-FOR-GENERIC-NAME &amp;maxGenericNameLength
+  MINIMUM-FOR-GENERIC-NUMBER &amp;minGenericNumberLength
+  MAXIMUM-FOR-GENERIC-NUMBER &amp;maxGenericNumberLength
+  MAXIMUM-FOR-INITIAL-TIME-INTERVAL &amp;maxInitialTimeInterval
+  MAXIMUM-FOR-IN-SERVICE-COMPATIBILITY &amp;maxINServiceCompatibilityIndLength
+  MINIMUM-FOR-IP-AVAILABLE &amp;minIPAvailableLength
+  MAXIMUM-FOR-IP-AVAILABLE &amp;maxIPAvailableLength
+  MINIMUM-FOR-IP-SSP-CAPABILITIES &amp;minIPSSPCapabilitiesLength
+  MAXIMUM-FOR-IP-SSP-CAPABILITIES &amp;maxIPSSPCapabilitiesLength
+  MINIMUM-FOR-LOCATION-NUMBER &amp;minLocationNumberLength
+  MAXIMUM-FOR-LOCATION-NUMBER &amp;maxLocationNumberLength
+  MINIMUM-FOR-MAIL-BOX-ID &amp;minMailBoxIDLength
+  MAXIMUM-FOR-MAIL-BOX-ID &amp;maxMailBoxIDLength
+  MINIMUM-FOR-MESSAGE-CONTENT &amp;minMessageContentLength
+  MAXIMUM-FOR-MESSAGE-CONTENT &amp;maxMessageContentLength
+  MINIMUM-FOR-MID-CALL-CONTROL-INFO &amp;minMidCallControlInfoNum
+  MAXIMUM-FOR-MID-CALL-CONTROL-INFO &amp;maxMidCallControlInfoNum
+  MINIMUM-FOR-ORIGINAL-CALLED-PARTY-ID &amp;minOriginalCalledPartyIDLength
+  MAXIMUM-FOR-ORIGINAL-CALLED-PARTY-ID &amp;maxOriginalCalledPartyIDLength
+  MINIMUM-FOR-REASON &amp;minReasonLength
+  MAXIMUM-FOR-REASON &amp;maxReasonLength
+  MINIMUM-FOR-RECEIVED-INFORMATION &amp;minReceivedInformationLength
+  MAXIMUM-FOR-RECEIVED-INFORMATION &amp;maxReceivedInformationLength
+  MAXIMUM-FOR-RECORDED-MESSAGE-UNITS &amp;maxRecordedMessageUnits
+  MAXIMUM-FOR-RECORDING-TIME &amp;maxRecordingTime
+  MINIMUM-FOR-REDIRECTING-ID &amp;minRedirectingPartyIDLength
+  MAXIMUM-FOR-REDIRECTING-ID &amp;maxRedirectingPartyIDLength
+  MINIMUM-FOR-REQUESTED-UTSI-NUM &amp;minRequestedUTSINum
+  MAXIMUM-FOR-REQUESTED-UTSI-NUM &amp;maxRequestedUTSINum
+  MINIMUM-FOR-ROUTE-LIST &amp;minRouteListLength
+  MAXIMUM-FOR-ROUTE-LIST &amp;maxRouteListLength
+  MINIMUM-FOR-SCF-ID &amp;minScfIDLength
+  MAXIMUM-FOR-SCF-ID &amp;maxScfIDLength
+  MINIMUM-FOR-SCF-ADDRESS &amp;minScfAddressLength
+  MAXIMUM-FOR-SCF-ADDRESS &amp;maxScfAddressLength
+  MINIMUM-FOR-SCI-BILLING-CHARGING &amp;minSCIBillingChargingLength
+  MAXIMUM-FOR-SCI-BILLING-CHARGING &amp;maxSCIBillingChargingLength
+  MINIMUM-FOR-SII &amp;minServiceInteractionIndicatorsLength
+  MAXIMUM-FOR-SII &amp;maxServiceInteractionIndicatorsLength
+  MINIMUM-FOR-SF-BILLING-CHARGING &amp;minSFBillingChargingLength
+  MAXIMUM-FOR-SF-BILLING-CHARGING &amp;maxSFBillingChargingLength
+  MINIMUM-FOR-USI-INFORMATION &amp;minUSIInformationLength
+  MAXIMUM-FOR-USI-INFORMATION &amp;maxUSIInformationLength
+  MINIMUM-FOR-USI-SERVICE-INDICATOR &amp;minUSIServiceIndicatorLength
+  MAXIMUM-FOR-USI-SERVICE-INDICATOR &amp;maxUSIServiceIndicatorLength
+  NUM-OF-BCSM-EVENT &amp;numOfBCSMEvents
+  NUM-OF-BCUSM-EVENT &amp;numOfBCUSMEvents
+  NUM-OF-CHARGING-EVENT &amp;numOfChargingEvents
+  NUM-OF-CSAS &amp;numOfCSAs
+  NUM-OF-CSS &amp;numOfCSs
+  NUM-OF-EXTENSIONS &amp;numOfExtensions
+  NUM-OF-GENERIC-NUMBERS &amp;numOfGenericNumbers
+  NUM-OF-IN-SERVICE-COMPATIBILITY-ID &amp;numOfInServiceCompatibilityIndLength
+  NUM-OF-LEGS &amp;numOfLegs
+  NUM-OF-MESSAGE-IDS &amp;numOfMessageIDs
+  MAXIMUM-FOR-AMOUNT &amp;maxAmount
+  MAXIMUM-FOR-INITIAL-UNIT-INCREMENT &amp;maxInitialUnitIncrement
+  MAXIMUM-FOR-SCALING-FACTOR &amp;maxScalingFactor
+  MAXIMUM-FOR-SEGMENTS-PER-DATA-INTERVAL &amp;maxSegmentsPerDataInterval
+  MAXIMUM-FOR-TIME-PER-INTERVAL &amp;maxTimePerInterval
+  MAXIMUM-FOR-UNITS-PER-DATA-INTERVAL &amp;maxUnitsPerDataInterval
+  MAXIMUM-FOR-UNITS-PER-INTERVAL &amp;maxUnitsPerInterval
+  MAXIMUM-FOR-UB-USER-CREDIT &amp;ub-maxUserCredit
+  MAXIMUM-FOR-UB-NB-CALL &amp;ub-nbCall
+}
+
+-- The following instance of the parameter bound is just an example
+networkSpecificBoundSet PARAMETERS-BOUND ::= {
+  MINIMUM-FOR-ACH-BILLING-CHARGING        1 -- example value
+  MAXIMUM-FOR-ACH-BILLING-CHARGING        5 -- example value
+  MINIMUM-FOR-ATTRIBUTES                  1 -- example value
+  MAXIMUM-FOR-ATTRIBUTES                  5 -- example value
+  MINIMUM-FOR-BACKWARD-GVNS               1 -- example value
+  MAXIMUM-FOR-BACKWARD-GVNS               5 -- example value
+  MAXIMUM-FOR-BEARER-CAPABILITY           5 -- example value
+  MINIMUM-FOR-CALLED-PARTY-NUMBER         1 -- example value
+  MAXIMUM-FOR-CALLED-PARTY-NUMBER         5 -- example value
+  MINIMUM-FOR-CALLING-PARTY-NUMBER        1 -- example value
+  MAXIMUM-FOR-CALLING-PARTY-NUMBER        5 -- example value
+  MINIMUM-FOR-CALL-RESULT                 1 -- example value
+  MAXIMUM-FOR-CALL-RESULT                 5 -- example value
+  MAXIMUM-FOR-CAUSE                       4 -- example value
+  MINIMUM-FOR-DIGITS                      1 -- example value
+  MAXIMUM-FOR-DIGITS                      5 -- example value
+  MINIMUM-FOR-DISPLAY                     1 -- example value
+  MAXIMUM-FOR-DISPLAY                     5 -- example value
+  MINIMUM-FOR-EVENT-SPECIFIC-CHARGING     1 -- example value
+  MAXIMUM-FOR-EVENT-SPECIFIC-CHARGING     5 -- example value
+  MINIMUM-FOR-EVENT-TYPE-CHARGING         1 -- example value
+  MAXIMUM-FOR-EVENT-TYPE-CHARGING         5 -- example value
+  MINIMUM-FOR-FCI-BILLING-CHARGING        1 -- example value
+  MAXIMUM-FOR-FCI-BILLING-CHARGING        5 -- example value
+  MINIMUM-FOR-FORWARD-GVNS                1 -- example value
+  MAXIMUM-FOR-FORWARD-GVNS                5 -- example value
+  MINIMUM-FOR-GENERIC-NAME                1 -- example value
+  MAXIMUM-FOR-GENERIC-NAME                5 -- example value
+  MINIMUM-FOR-GENERIC-NUMBER              1 -- example value
+  MAXIMUM-FOR-GENERIC-NUMBER              5 -- example value
+  MAXIMUM-FOR-INITIAL-TIME-INTERVAL       5 -- example value
+  MAXIMUM-FOR-IN-SERVICE-COMPATIBILITY    5 -- example value
+  MINIMUM-FOR-IP-AVAILABLE                1 -- example value
+  MAXIMUM-FOR-IP-AVAILABLE                5 -- example value
+  MINIMUM-FOR-IP-SSP-CAPABILITIES         1 -- example value
+  MAXIMUM-FOR-IP-SSP-CAPABILITIES         5 -- example value
+  MINIMUM-FOR-LOCATION-NUMBER             1 -- example value
+  MAXIMUM-FOR-LOCATION-NUMBER             5 -- example value
+  MINIMUM-FOR-MAIL-BOX-ID                 1 -- example value
+  MAXIMUM-FOR-MAIL-BOX-ID                 5 -- example value
+  MINIMUM-FOR-MESSAGE-CONTENT             1 -- example value
+  MAXIMUM-FOR-MESSAGE-CONTENT             5 -- example value
+  MINIMUM-FOR-MID-CALL-CONTROL-INFO       1 -- example value
+  MAXIMUM-FOR-MID-CALL-CONTROL-INFO       5 -- example value
+  MINIMUM-FOR-ORIGINAL-CALLED-PARTY-ID    1 -- example value
+  MAXIMUM-FOR-ORIGINAL-CALLED-PARTY-ID    5 -- example value
+  MINIMUM-FOR-REASON                      1 -- example value
+  MAXIMUM-FOR-REASON                      5 -- example value
+  MINIMUM-FOR-RECEIVED-INFORMATION        1 -- example value
+  MAXIMUM-FOR-RECEIVED-INFORMATION        5 -- example value
+  MAXIMUM-FOR-RECORDED-MESSAGE-UNITS      5 -- example value
+  MAXIMUM-FOR-RECORDING-TIME              5 -- example value
+  MINIMUM-FOR-REDIRECTING-ID              1 -- example value
+  MAXIMUM-FOR-REDIRECTING-ID              5 -- example value
+  MINIMUM-FOR-REQUESTED-UTSI-NUM          1 -- example value
+  MAXIMUM-FOR-REQUESTED-UTSI-NUM          5 -- example value
+  MINIMUM-FOR-ROUTE-LIST                  1 -- example value
+  MAXIMUM-FOR-ROUTE-LIST                  5 -- example value
+  MINIMUM-FOR-SCF-ID                      1 -- example value
+  MAXIMUM-FOR-SCF-ID                      5 -- example value
+  MINIMUM-FOR-SCF-ADDRESS                 1 -- example value
+  MAXIMUM-FOR-SCF-ADDRESS                 5 -- example value
+  MINIMUM-FOR-SCI-BILLING-CHARGING        1 -- example value
+  MAXIMUM-FOR-SCI-BILLING-CHARGING        5 -- example value
+  MINIMUM-FOR-SII                         1 -- example value
+  MAXIMUM-FOR-SII                         5 -- example value
+  MINIMUM-FOR-SF-BILLING-CHARGING         1 -- example value
+  MAXIMUM-FOR-SF-BILLING-CHARGING         5 -- example value
+  MINIMUM-FOR-USI-INFORMATION             1 -- example value
+  MAXIMUM-FOR-USI-INFORMATION             5 -- example value
+  MINIMUM-FOR-USI-SERVICE-INDICATOR       1 -- example value
+  MAXIMUM-FOR-USI-SERVICE-INDICATOR       5 -- example value
+  NUM-OF-BCSM-EVENT                       4 -- example value
+  NUM-OF-BCUSM-EVENT                      4 -- example value
+  NUM-OF-CHARGING-EVENT                   4 -- example value
+  NUM-OF-CSAS                             2 -- example value
+  NUM-OF-CSS                              2 -- example value
+  NUM-OF-EXTENSIONS                       1 -- example value
+  NUM-OF-GENERIC-NUMBERS                  2 -- example value
+  NUM-OF-IN-SERVICE-COMPATIBILITY-ID      2 -- example value
+  NUM-OF-LEGS                             2 -- example value
+  NUM-OF-MESSAGE-IDS                      2 -- example value
+  -- NUM-OF-RECORDED-MESSAGE-IDS			2	example value
+  MAXIMUM-FOR-AMOUNT                      2 -- example value
+  MAXIMUM-FOR-INITIAL-UNIT-INCREMENT      2 -- example value
+  MAXIMUM-FOR-SCALING-FACTOR              2 -- example value
+  MAXIMUM-FOR-SEGMENTS-PER-DATA-INTERVAL  5 -- example value
+  MAXIMUM-FOR-TIME-PER-INTERVAL           5 -- example value
+  MAXIMUM-FOR-UNITS-PER-DATA-INTERVAL     5 -- example value
+  MAXIMUM-FOR-UNITS-PER-INTERVAL          5 -- example value
+  MAXIMUM-FOR-UB-USER-CREDIT              5 -- example value
+  MAXIMUM-FOR-UB-NB-CALL                  5
+ -- example value--}
+
+END
+
+-- Generated by Asnp, the ASN.1 pretty-printer of France Telecom R&amp;D
+

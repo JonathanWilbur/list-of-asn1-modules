@@ -1,0 +1,854 @@
+
+
+
+
+
+InformationFramework (X.501:10/2012)
+
+
+-- Module InformationFramework (X.501:10/2012)
+-- See also ITU-T X.501 (10/2012)
+-- See also the index of all ASN.1 assignments needed in this document
+
+InformationFramework {joint-iso-itu-t ds(5) module(1) informationFramework(1) 
+  7} DEFINITIONS ::=
+BEGIN
+
+-- EXPORTS All 
+-- The types and values defined in this module are exported for use in the other ASN.1
+-- modules contained within these Directory Specifications, and for the use of other
+-- applications which will use them to access Directory services. Other applications
+-- may use them for their own purposes, but this will not constrain extensions and
+-- modifications needed to maintain or improve the Directory service.
+IMPORTS
+  -- from ITU-T Rec. X.501 | ISO/IEC 9594-2
+  directoryAbstractService, id-ar, id-at, id-mr, id-nf, id-oa, id-oc, 
+    id-sc, selectedAttributeTypes, serviceAdministration
+    FROM UsefulDefinitions {joint-iso-itu-t ds(5) module(1)
+      usefulDefinitions(0) 7}
+  SearchRule
+    FROM ServiceAdministration serviceAdministration
+  -- from  Rec. ITU-T X.511 | ISO/IEC 9594-3
+  TypeAndContextAssertion
+    FROM DirectoryAbstractService directoryAbstractService
+  -- from Rec. ITU-T X.520 | ISO/IEC 9594-6
+  booleanMatch, commonName, dn, generalizedTime, generalizedTimeMatch,
+    generalizedTimeOrderingMatch, integerFirstComponentMatch, integerMatch,
+    integerOrderingMatch, objectIdentifierFirstComponentMatch, oid,
+    subtreeSpec, UnboundedDirectoryString
+    FROM SelectedAttributeTypes selectedAttributeTypes;
+
+-- attribute data types 
+Attribute{ATTRIBUTE:SupportedAttributes} ::= SEQUENCE {
+  type               ATTRIBUTE.&amp;id({SupportedAttributes}),
+  values
+    SET SIZE (0..MAX) OF ATTRIBUTE.&amp;Type({SupportedAttributes}{@type}),
+  valuesWithContext
+    SET SIZE (1..MAX) OF
+      SEQUENCE {value        ATTRIBUTE.&amp;Type({SupportedAttributes}{@type}),
+                contextList  SET SIZE (1..MAX) OF Context,
+                ...} OPTIONAL,
+  ...
+}
+
+AttributeType ::= ATTRIBUTE.&amp;id
+
+AttributeValue ::= ATTRIBUTE.&amp;Type
+
+Context ::= SEQUENCE {
+  contextType    CONTEXT.&amp;id({SupportedContexts}),
+  contextValues
+    SET SIZE (1..MAX) OF CONTEXT.&amp;Type({SupportedContexts}{@contextType}),
+  fallback       BOOLEAN DEFAULT FALSE,
+  ...
+}
+
+AttributeValueAssertion ::= SEQUENCE {
+  type              ATTRIBUTE.&amp;id({SupportedAttributes}),
+  assertion
+    ATTRIBUTE.&amp;equality-match.&amp;AssertionType
+      ({SupportedAttributes}{@type}),
+  assertedContexts
+    CHOICE {allContexts       [0]  NULL,
+            selectedContexts  [1]  SET SIZE (1..MAX) OF ContextAssertion
+  } OPTIONAL,
+  ...
+}
+
+ContextAssertion ::= SEQUENCE {
+  contextType    CONTEXT.&amp;id({SupportedContexts}),
+  contextValues
+    SET SIZE (1..MAX) OF
+      CONTEXT.&amp;Assertion({SupportedContexts}{@contextType}),
+  ...
+}
+
+AttributeTypeAssertion ::= SEQUENCE {
+  type              ATTRIBUTE.&amp;id({SupportedAttributes}),
+  assertedContexts  SEQUENCE SIZE (1..MAX) OF ContextAssertion OPTIONAL,
+  ...
+}
+
+-- Definition of the following information object set is deferred, perhaps to 
+-- standardized profiles or to protocol implementation conformance statements. The set
+-- is required to specify a table constraint on the values component of Attribute, the
+-- value component of AttributeTypeAndValue, and the assertion component of
+-- AttributeValueAssertion.
+SupportedAttributes ATTRIBUTE ::=
+  {objectClass | aliasedEntryName, ...}
+
+-- Definition of the following information object set is deferred, perhaps to
+-- standardized profiles or to protocol implementation conformance statements. The set
+-- is required to specify a table constraint on the context specifications.
+SupportedContexts CONTEXT ::=
+  {...}
+
+-- naming data types 
+Name ::= CHOICE { -- only one possibility for now --rdnSequence  RDNSequence
+}
+
+RDNSequence ::= SEQUENCE OF RelativeDistinguishedName
+
+DistinguishedName ::= RDNSequence
+
+RelativeDistinguishedName ::= SET SIZE (1..MAX) OF AttributeTypeAndValue
+
+AttributeTypeAndValue ::= SEQUENCE {
+  type   ATTRIBUTE.&amp;id({SupportedAttributes}),
+  value  ATTRIBUTE.&amp;Type({SupportedAttributes}{@type}),
+  ...
+}
+
+-- subtree data types 
+SubtreeSpecification ::= SEQUENCE {
+  base                 [0]  LocalName DEFAULT {},
+  COMPONENTS OF ChopSpecification,
+  specificationFilter  [4]  Refinement OPTIONAL,
+  ...
+}
+
+-- empty sequence specifies whole administrative area
+LocalName ::= RDNSequence
+
+ChopSpecification ::= SEQUENCE {
+  specificExclusions
+    [1]  SET SIZE (1..MAX) OF
+           CHOICE {chopBefore  [0]  LocalName,
+                   chopAfter   [1]  LocalName,
+                   ...} OPTIONAL,
+  minimum             [2]  BaseDistance DEFAULT 0,
+  maximum             [3]  BaseDistance OPTIONAL,
+  ...
+}
+
+BaseDistance ::= INTEGER(0..MAX)
+
+Refinement ::= CHOICE {
+  item  [0]  OBJECT-CLASS.&amp;id,
+  and   [1]  SET SIZE (1..MAX) OF Refinement,
+  or    [2]  SET SIZE (1..MAX) OF Refinement,
+  not   [3]  Refinement,
+  ...
+}
+
+-- OBJECT-CLASS information object class specification 
+OBJECT-CLASS ::= CLASS {
+  &amp;Superclasses         OBJECT-CLASS OPTIONAL,
+  &amp;kind                 ObjectClassKind DEFAULT structural,
+  &amp;MandatoryAttributes  ATTRIBUTE OPTIONAL,
+  &amp;OptionalAttributes   ATTRIBUTE OPTIONAL,
+  &amp;ldapName             SEQUENCE SIZE (1..MAX) OF UTF8String OPTIONAL,
+  &amp;ldapDesc             UTF8String OPTIONAL,
+  &amp;id                   OBJECT IDENTIFIER UNIQUE
+}
+WITH SYNTAX {
+  [SUBCLASS OF &amp;Superclasses]
+  [KIND &amp;kind]
+  [MUST CONTAIN &amp;MandatoryAttributes]
+  [MAY CONTAIN &amp;OptionalAttributes]
+  [LDAP-NAME &amp;ldapName]
+  [LDAP-DESC &amp;ldapDesc]
+  ID &amp;id
+}
+
+ObjectClassKind ::= ENUMERATED {abstract(0), structural(1), auxiliary(2)}
+
+-- object classes 
+top OBJECT-CLASS ::= {
+  KIND          abstract
+  MUST CONTAIN  {objectClass}
+  LDAP-NAME     {"top"}
+  ID            id-oc-top
+}
+
+alias OBJECT-CLASS ::= {
+  SUBCLASS OF   {top}
+  MUST CONTAIN  {aliasedEntryName}
+  LDAP-NAME     {"alias"}
+  ID            id-oc-alias
+}
+
+parent OBJECT-CLASS ::= {KIND  abstract
+                         ID    id-oc-parent
+}
+
+child OBJECT-CLASS ::= {KIND  auxiliary
+                        ID    id-oc-child
+}
+
+-- ATTRIBUTE information object class specification 
+ATTRIBUTE ::= CLASS {
+  &amp;derivation            ATTRIBUTE OPTIONAL,
+  &amp;Type                  OPTIONAL, -- either &amp;Type or &amp;derivation required 
+  &amp;equality-match        MATCHING-RULE OPTIONAL,
+  &amp;ordering-match        MATCHING-RULE OPTIONAL,
+  &amp;substrings-match      MATCHING-RULE OPTIONAL,
+  &amp;single-valued         BOOLEAN DEFAULT FALSE,
+  &amp;collective            BOOLEAN DEFAULT FALSE,
+  &amp;dummy                 BOOLEAN DEFAULT FALSE,
+  -- operational extensions 
+  &amp;no-user-modification  BOOLEAN DEFAULT FALSE,
+  &amp;usage                 AttributeUsage DEFAULT userApplications,
+  &amp;ldapSyntax            SYNTAX-NAME.&amp;id OPTIONAL,
+  &amp;ldapName              SEQUENCE SIZE (1..MAX) OF UTF8String OPTIONAL,
+  &amp;ldapDesc              UTF8String OPTIONAL,
+  &amp;obsolete              BOOLEAN DEFAULT FALSE,
+  &amp;id                    OBJECT IDENTIFIER UNIQUE
+}
+WITH SYNTAX {
+  [SUBTYPE OF &amp;derivation]
+  [WITH SYNTAX &amp;Type]
+  [EQUALITY MATCHING RULE &amp;equality-match]
+  [ORDERING MATCHING RULE &amp;ordering-match]
+  [SUBSTRINGS MATCHING RULE &amp;substrings-match]
+  [SINGLE VALUE &amp;single-valued]
+  [COLLECTIVE &amp;collective]
+  [DUMMY &amp;dummy]
+  [NO USER MODIFICATION &amp;no-user-modification]
+  [USAGE &amp;usage]
+  [LDAP-SYNTAX &amp;ldapSyntax]
+  [LDAP-NAME &amp;ldapName]
+  [LDAP-DESC &amp;ldapDesc]
+  [OBSOLETE &amp;obsolete]
+  ID &amp;id
+}
+
+AttributeUsage ::= ENUMERATED {
+  userApplications(0), directoryOperation(1), distributedOperation(2),
+  dSAOperation(3), ...
+  }
+
+-- attributes 
+objectClass ATTRIBUTE ::= {
+  WITH SYNTAX             OBJECT IDENTIFIER
+  EQUALITY MATCHING RULE  objectIdentifierMatch
+  LDAP-SYNTAX             oid.&amp;id
+  LDAP-NAME               {"objectClass"}
+  ID                      id-at-objectClass
+}
+
+aliasedEntryName ATTRIBUTE ::= {
+  WITH SYNTAX             DistinguishedName
+  EQUALITY MATCHING RULE  distinguishedNameMatch
+  SINGLE VALUE            TRUE
+  LDAP-SYNTAX             dn.&amp;id
+  LDAP-NAME               {"aliasedObjectName"}
+  ID                      id-at-aliasedEntryName
+}
+
+-- MATCHING-RULE information object class specification
+MATCHING-RULE ::= CLASS {
+  &amp;ParentMatchingRules   MATCHING-RULE OPTIONAL,
+  &amp;AssertionType         OPTIONAL,
+  &amp;uniqueMatchIndicator  ATTRIBUTE OPTIONAL,
+  &amp;ldapSyntax            SYNTAX-NAME.&amp;id OPTIONAL,
+  &amp;ldapName              SEQUENCE SIZE (1..MAX) OF UTF8String OPTIONAL,
+  &amp;ldapDesc              UTF8String OPTIONAL,
+  &amp;id                    OBJECT IDENTIFIER UNIQUE
+}
+WITH SYNTAX {
+  [PARENT &amp;ParentMatchingRules]
+  [SYNTAX &amp;AssertionType]
+  [UNIQUE-MATCH-INDICATOR &amp;uniqueMatchIndicator]
+  [LDAP-SYNTAX &amp;ldapSyntax]
+  [LDAP-NAME &amp;ldapName]
+  [LDAP-DESC &amp;ldapDesc]
+  ID &amp;id
+}
+
+-- matching rules
+objectIdentifierMatch MATCHING-RULE ::= {
+  SYNTAX       OBJECT IDENTIFIER
+  LDAP-SYNTAX  oid.&amp;id
+  LDAP-NAME    {"objectIdentifierMatch"}
+  ID           id-mr-objectIdentifierMatch
+}
+
+distinguishedNameMatch MATCHING-RULE ::= {
+  SYNTAX       DistinguishedName
+  LDAP-SYNTAX  dn.&amp;id
+  LDAP-NAME    {"distinguishedNameMatch"}
+  ID           id-mr-distinguishedNameMatch
+}
+
+-- MATCHING-RULE information object class specification
+MAPPING-BASED-MATCHING{SelectedBy, BOOLEAN:combinable, MappingResult,
+                       OBJECT IDENTIFIER:matchingRule} ::= CLASS {
+  &amp;selectBy          SelectedBy OPTIONAL,
+  &amp;ApplicableTo      ATTRIBUTE,
+  &amp;subtypesIncluded  BOOLEAN DEFAULT TRUE,
+  &amp;combinable        BOOLEAN(combinable),
+  &amp;mappingResults    MappingResult OPTIONAL,
+  &amp;userControl       BOOLEAN DEFAULT FALSE,
+  &amp;exclusive         BOOLEAN DEFAULT TRUE,
+  &amp;matching-rule     MATCHING-RULE.&amp;id(matchingRule),
+  &amp;id                OBJECT IDENTIFIER UNIQUE
+}
+WITH SYNTAX {
+  [SELECT BY &amp;selectBy]
+  APPLICABLE TO &amp;ApplicableTo
+  [SUBTYPES INCLUDED &amp;subtypesIncluded]
+  COMBINABLE &amp;combinable
+  [MAPPING RESULTS &amp;mappingResults]
+  [USER CONTROL &amp;userControl]
+  [EXCLUSIVE &amp;exclusive]
+  MATCHING RULE &amp;matching-rule
+  ID &amp;id
+}
+
+-- NAME-FORM information object class specification 
+NAME-FORM ::= CLASS {
+  &amp;namedObjectClass     OBJECT-CLASS,
+  &amp;MandatoryAttributes  ATTRIBUTE,
+  &amp;OptionalAttributes   ATTRIBUTE OPTIONAL,
+  &amp;ldapName             SEQUENCE SIZE (1..MAX) OF UTF8String OPTIONAL,
+  &amp;ldapDesc             UTF8String OPTIONAL,
+  &amp;id                   OBJECT IDENTIFIER UNIQUE
+}
+WITH SYNTAX {
+  NAMES &amp;namedObjectClass
+  WITH ATTRIBUTES &amp;MandatoryAttributes
+  [AND OPTIONALLY &amp;OptionalAttributes]
+  [LDAP-NAME &amp;ldapName]
+  [LDAP-DESC &amp;ldapDesc]
+  ID &amp;id
+}
+
+-- STRUCTURE-RULE class and DIT structure rule data types
+DITStructureRule ::= SEQUENCE {
+  ruleIdentifier          RuleIdentifier,
+  -- shall be unique within the scope of the subschema
+  nameForm                NAME-FORM.&amp;id,
+  superiorStructureRules  SET SIZE (1..MAX) OF RuleIdentifier OPTIONAL,
+  ...
+}
+
+RuleIdentifier ::= INTEGER
+
+STRUCTURE-RULE ::= CLASS {
+  &amp;nameForm                NAME-FORM,
+  &amp;SuperiorStructureRules  STRUCTURE-RULE.&amp;id OPTIONAL,
+  &amp;id                      RuleIdentifier
+}
+WITH SYNTAX {
+  NAME FORM &amp;nameForm
+  [SUPERIOR RULES &amp;SuperiorStructureRules]
+  ID &amp;id
+}
+
+-- DIT content rule data type and CONTENT-RULE class
+DITContentRule ::= SEQUENCE {
+  structuralObjectClass  OBJECT-CLASS.&amp;id,
+  auxiliaries            SET SIZE (1..MAX) OF OBJECT-CLASS.&amp;id OPTIONAL,
+  mandatory              [1]  SET SIZE (1..MAX) OF ATTRIBUTE.&amp;id OPTIONAL,
+  optional               [2]  SET SIZE (1..MAX) OF ATTRIBUTE.&amp;id OPTIONAL,
+  precluded              [3]  SET SIZE (1..MAX) OF ATTRIBUTE.&amp;id OPTIONAL,
+  ...
+}
+
+CONTENT-RULEA HREF="#InformationFramework.ATTRIBUTE" target="files">ATTRIBUTE OPTIONAL,
+  &amp;Optional         ATTRIBUTE OPTIONAL,
+  &amp;Precluded        ATTRIBUTE OPTIONAL
+}
+WITH SYNTAX {
+  STRUCTURAL OBJECT-CLASS &amp;structuralClass
+  [AUXILIARY OBJECT-CLASSES &amp;Auxiliaries]
+  [MUST CONTAIN &amp;Mandatory]
+  [MAY CONTAIN &amp;Optional]
+  [MUST-NOT CONTAIN &amp;Precluded]
+}
+
+CONTEXT ::= CLASS {
+  &amp;Type          ,
+  &amp;defaultValue  &amp;Type OPTIONAL,
+  &amp;Assertion     OPTIONAL,
+  &amp;absentMatch   BOOLEAN DEFAULT TRUE,
+  &amp;id            OBJECT IDENTIFIER UNIQUE
+}
+WITH SYNTAX {
+  WITH SYNTAX &amp;Type
+  [DEFAULT-VALUE &amp;defaultValue]
+  [ASSERTED AS &amp;Assertion]
+  [ABSENT-MATCH &amp;absentMatch]
+  ID &amp;id
+}
+
+DITContextUse ::= SEQUENCE {
+  attributeType      ATTRIBUTE.&amp;id,
+  mandatoryContexts  [1]  SET SIZE (1..MAX) OF CONTEXT.&amp;id OPTIONAL,
+  optionalContexts   [2]  SET SIZE (1..MAX) OF CONTEXT.&amp;id OPTIONAL,
+  ...
+}
+
+DIT-CONTEXT-USE-RULE ::= CLASS {
+  &amp;attributeType  ATTRIBUTE.&amp;id UNIQUE,
+  &amp;Mandatory      CONTEXT OPTIONAL,
+  &amp;Optional       CONTEXT OPTIONAL
+}
+WITH SYNTAX {
+  ATTRIBUTE TYPE &amp;attributeType
+  [MANDATORY CONTEXTS &amp;Mandatory]
+  [OPTIONAL CONTEXTS &amp;Optional]
+}
+
+FRIENDS ::= CLASS {
+  &amp;anchor   ATTRIBUTE.&amp;id UNIQUE,
+  &amp;Friends  ATTRIBUTE
+}WITH SYNTAX {ANCHOR &amp;anchor
+              FRIENDS &amp;Friends
+}
+
+SYNTAX-NAME ::= CLASS {
+  &amp;ldapDesc  UTF8String,
+  &amp;Type      OPTIONAL,
+  &amp;id        OBJECT IDENTIFIER UNIQUE
+}WITH SYNTAX {LDAP-DESC &amp;ldapDesc
+              [DIRECTORY SYNTAX &amp;Type]
+              ID &amp;id
+}
+
+-- system schema information objects
+-- object classes
+subentry OBJECT-CLASS ::= {
+  SUBCLASS OF   {top}
+  KIND          structural
+  MUST CONTAIN  {commonName | subtreeSpecification}
+  LDAP-NAME     {"subentry"}
+  ID            id-sc-subentry
+}
+
+subentryNameForm NAME-FORM ::= {
+  NAMES            subentry
+  WITH ATTRIBUTES  {commonName}
+  ID               id-nf-subentryNameForm
+}
+
+subtreeSpecification ATTRIBUTE ::= {
+  WITH SYNTAX  SubtreeSpecification
+  USAGE        directoryOperation
+  LDAP-SYNTAX  subtreeSpec.&amp;id
+  LDAP-NAME    {"subtreeSpecification"}
+  ID           id-oa-subtreeSpecification
+}
+
+administrativeRole ATTRIBUTE ::= {
+  WITH SYNTAX             OBJECT-CLASS.&amp;id
+  EQUALITY MATCHING RULE  objectIdentifierMatch
+  USAGE                   directoryOperation
+  LDAP-SYNTAX             oid.&amp;id
+  LDAP-NAME               {"administrativeRole"}
+  ID                      id-oa-administrativeRole
+}
+
+createTimestamp ATTRIBUTE ::= {
+  WITH SYNTAX             GeneralizedTime
+  -- as per 46.3 b) or c) of Rec. ITU-T X.680 | ISO/IEC 8824-1
+  EQUALITY MATCHING RULE  generalizedTimeMatch
+  ORDERING MATCHING RULE  generalizedTimeOrderingMatch
+  SINGLE VALUE            TRUE
+  NO USER MODIFICATION    TRUE
+  USAGE                   directoryOperation
+  LDAP-SYNTAX             generalizedTime.&amp;id
+  LDAP-NAME               {"createTimestamp"}
+  ID                      id-oa-createTimestamp
+}
+
+modifyTimestamp ATTRIBUTE ::= {
+  WITH SYNTAX             GeneralizedTime
+  -- as per 46.3 b) or c) of Rec. ITU-T X.680 | ISO/IEC 8824-1
+  EQUALITY MATCHING RULE  generalizedTimeMatch
+  ORDERING MATCHING RULE  generalizedTimeOrderingMatch
+  SINGLE VALUE            TRUE
+  NO USER MODIFICATION    TRUE
+  USAGE                   directoryOperation
+  LDAP-SYNTAX             generalizedTime.&amp;id
+  LDAP-NAME               {"modifyTimestamp"}
+  ID                      id-oa-modifyTimestamp
+}
+
+subschemaTimestamp ATTRIBUTE ::= {
+  WITH SYNTAX             GeneralizedTime
+  -- as per 46.3 b) or c) of Rec. ITU-T X.680 | ISO/IEC 8824-1
+  EQUALITY MATCHING RULE  generalizedTimeMatch
+  ORDERING MATCHING RULE  generalizedTimeOrderingMatch
+  SINGLE VALUE            TRUE
+  NO USER MODIFICATION    TRUE
+  USAGE                   directoryOperation
+  ID                      id-oa-subschemaTimestamp
+}
+
+creatorsName ATTRIBUTE ::= {
+  WITH SYNTAX             DistinguishedName
+  EQUALITY MATCHING RULE  distinguishedNameMatch
+  SINGLE VALUE            TRUE
+  NO USER MODIFICATION    TRUE
+  USAGE                   directoryOperation
+  LDAP-SYNTAX             dn.&amp;id
+  LDAP-NAME               {"creatorsName"}
+  ID                      id-oa-creatorsName
+}
+
+modifiersName ATTRIBUTE ::= {
+  WITH SYNTAX             DistinguishedName
+  EQUALITY MATCHING RULE  distinguishedNameMatch
+  SINGLE VALUE            TRUE
+  NO USER MODIFICATION    TRUE
+  USAGE                   directoryOperation
+  LDAP-SYNTAX             dn.&amp;id
+  LDAP-NAME               {"modifiersName"}
+  ID                      id-oa-modifiersName
+}
+
+subschemaSubentryList ATTRIBUTE ::= {
+  WITH SYNTAX             DistinguishedName
+  EQUALITY MATCHING RULE  distinguishedNameMatch
+  SINGLE VALUE            TRUE
+  NO USER MODIFICATION    TRUE
+  USAGE                   directoryOperation
+  LDAP-SYNTAX             dn.&amp;id
+  LDAP-NAME               {"subschemaSubentry"}
+  ID                      id-oa-subschemaSubentryList
+}
+
+accessControlSubentryList ATTRIBUTE ::= {
+  WITH SYNTAX             DistinguishedName
+  EQUALITY MATCHING RULE  distinguishedNameMatch
+  NO USER MODIFICATION    TRUE
+  USAGE                   directoryOperation
+  ID                      id-oa-accessControlSubentryList
+}
+
+collectiveAttributeSubentryList ATTRIBUTE ::= {
+  WITH SYNTAX             DistinguishedName
+  EQUALITY MATCHING RULE  distinguishedNameMatch
+  NO USER MODIFICATION    TRUE
+  USAGE                   directoryOperation
+  ID                      id-oa-collectiveAttributeSubentryList
+}
+
+contextDefaultSubentryList ATTRIBUTE ::= {
+  WITH SYNTAX             DistinguishedName
+  EQUALITY MATCHING RULE  distinguishedNameMatch
+  NO USER MODIFICATION    TRUE
+  USAGE                   directoryOperation
+  ID                      id-oa-contextDefaultSubentryList
+}
+
+serviceAdminSubentryList ATTRIBUTE ::= {
+  WITH SYNTAX             DistinguishedName
+  EQUALITY MATCHING RULE  distinguishedNameMatch
+  NO USER MODIFICATION    TRUE
+  USAGE                   directoryOperation
+  ID                      id-oa-serviceAdminSubentryList
+}
+
+pwdAdminSubentryList ATTRIBUTE ::= {
+  WITH SYNTAX             DistinguishedName
+  EQUALITY MATCHING RULE  distinguishedNameMatch
+  SINGLE VALUE            TRUE
+  NO USER MODIFICATION    TRUE
+  USAGE                   directoryOperation
+  LDAP-SYNTAX             dn.&amp;id
+  LDAP-NAME               {"pwdAdminSubentryList"}
+  ID                      id-oa-pwdAdminSubentryList
+}
+
+hasSubordinates ATTRIBUTE ::= {
+  WITH SYNTAX             BOOLEAN
+  EQUALITY MATCHING RULE  booleanMatch
+  SINGLE VALUE            TRUE
+  NO USER MODIFICATION    TRUE
+  USAGE                   directoryOperation
+  ID                      id-oa-hasSubordinates
+}
+
+accessControlSubentry OBJECT-CLASS ::= {
+  KIND  auxiliary
+  ID    id-sc-accessControlSubentry
+}
+
+collectiveAttributeSubentry OBJECT-CLASS ::= {
+  KIND  auxiliary
+  ID    id-sc-collectiveAttributeSubentry
+}
+
+collectiveExclusions ATTRIBUTE ::= {
+  WITH SYNTAX             OBJECT IDENTIFIER
+  EQUALITY MATCHING RULE  objectIdentifierMatch
+  USAGE                   directoryOperation
+  ID                      id-oa-collectiveExclusions
+}
+
+contextAssertionSubentry OBJECT-CLASS ::= {
+  KIND          auxiliary
+  MUST CONTAIN  {contextAssertionDefaults}
+  ID            id-sc-contextAssertionSubentry
+}
+
+contextAssertionDefaults ATTRIBUTE ::= {
+  WITH SYNTAX             TypeAndContextAssertion
+  EQUALITY MATCHING RULE  objectIdentifierFirstComponentMatch
+  USAGE                   directoryOperation
+  ID                      id-oa-contextAssertionDefault
+}
+
+serviceAdminSubentry OBJECT-CLASS ::= {
+  KIND          auxiliary
+  MUST CONTAIN  {searchRules}
+  ID            id-sc-serviceAdminSubentry
+}
+
+searchRules ATTRIBUTE ::= {
+  WITH SYNTAX             SearchRuleDescription
+  EQUALITY MATCHING RULE  integerFirstComponentMatch
+  USAGE                   directoryOperation
+  ID                      id-oa-searchRules
+}
+
+SearchRuleDescription ::= SEQUENCE {
+  COMPONENTS OF SearchRule,
+  name         [28]  SET SIZE (1..MAX) OF UnboundedDirectoryString OPTIONAL,
+  description  [29]  UnboundedDirectoryString OPTIONAL,
+  ...
+}
+
+pwdAdminSubentry OBJECT-CLASS ::= {
+  KIND          auxiliary
+  MUST CONTAIN  {pwdAttribute}
+  LDAP-NAME     {"pwdAdminSubentry"}
+  ID            id-sc-pwdAdminSubentry
+}
+
+pwdAttribute ATTRIBUTE ::= {
+  WITH SYNTAX             ATTRIBUTE.&amp;id
+  EQUALITY MATCHING RULE  objectIdentifierMatch
+  SINGLE VALUE            TRUE
+  LDAP-SYNTAX             oid.&amp;id
+  LDAP-NAME               {"pwdAttribute"}
+  ID                      id-at-pwdAttribute
+}
+
+pwdHistory{ATTRIBUTE:passwordAttribute, MATCHING-RULE:historyMatch,
+           OBJECT IDENTIFIER:id} ATTRIBUTE ::= {
+  WITH SYNTAX             PwdHistory {passwordAttribute}
+  EQUALITY MATCHING RULE  historyMatch
+  USAGE                   directoryOperation
+  ID                      id
+}
+
+PwdHistory{ATTRIBUTE:passwordAttribute} ::= SEQUENCE {
+  time      GeneralizedTime,
+  password  passwordAttribute.&amp;Type,
+  ...
+}
+
+pwdRecentlyExpired{ATTRIBUTE:passwordAttribute, OBJECT IDENTIFIER:id} 
+  ATTRIBUTE ::= {
+  WITH SYNTAX             passwordAttribute.&amp;Type
+  EQUALITY MATCHING RULE  passwordAttribute.&amp;equality-match
+  SINGLE VALUE            TRUE
+  USAGE                   directoryOperation
+  ID                      id
+}
+
+pwdHistoryMatch{ATTRIBUTE:passwordAttribute, OBJECT IDENTIFIER:id}
+  MATCHING-RULE ::= {SYNTAX  passwordAttribute.&amp;Type
+                     ID      id
+}
+
+hierarchyLevel ATTRIBUTE ::= {
+  WITH SYNTAX             HierarchyLevel
+  EQUALITY MATCHING RULE  integerMatch
+  ORDERING MATCHING RULE  integerOrderingMatch
+  SINGLE VALUE            TRUE
+  NO USER MODIFICATION    TRUE
+  USAGE                   directoryOperation
+  ID                      id-oa-hierarchyLevel
+}
+
+HierarchyLevel ::= INTEGER
+
+hierarchyBelow ATTRIBUTE ::= {
+  WITH SYNTAX             HierarchyBelow
+  EQUALITY MATCHING RULE  booleanMatch
+  SINGLE VALUE            TRUE
+  NO USER MODIFICATION    TRUE
+  USAGE                   directoryOperation
+  ID                      id-oa-hierarchyBelow
+}
+
+HierarchyBelow ::= BOOLEAN
+
+hierarchyParent ATTRIBUTE ::= {
+  WITH SYNTAX             DistinguishedName
+  EQUALITY MATCHING RULE  distinguishedNameMatch
+  SINGLE VALUE            TRUE
+  USAGE                   directoryOperation
+  ID                      id-oa-hierarchyParent
+}
+
+hierarchyTop ATTRIBUTE ::= {
+  WITH SYNTAX             DistinguishedName
+  EQUALITY MATCHING RULE  distinguishedNameMatch
+  SINGLE VALUE            TRUE
+  USAGE                   directoryOperation
+  ID                      id-oa-hierarchyTop
+}
+
+-- object identifier assignments 
+-- object classes 
+id-oc-top OBJECT IDENTIFIER ::=
+  {id-oc 0}
+
+id-oc-alias OBJECT IDENTIFIER ::= {id-oc 1}
+
+id-oc-parent OBJECT IDENTIFIER ::= {id-oc 28}
+
+id-oc-child OBJECT IDENTIFIER ::= {id-oc 29}
+
+-- attributes 
+id-at-objectClass OBJECT IDENTIFIER ::= {id-at 0}
+
+id-at-aliasedEntryName OBJECT IDENTIFIER ::= {id-at 1}
+
+id-at-pwdAttribute OBJECT IDENTIFIER ::= {id-at 84}
+
+-- matching rules 
+id-mr-objectIdentifierMatch OBJECT IDENTIFIER ::= {id-mr 0}
+
+id-mr-distinguishedNameMatch OBJECT IDENTIFIER ::= {id-mr 1}
+
+-- operational attributes 
+id-oa-excludeAllCollectiveAttributes OBJECT IDENTIFIER ::=
+  {id-oa 0}
+
+id-oa-createTimestamp OBJECT IDENTIFIER ::= {id-oa 1}
+
+id-oa-modifyTimestamp OBJECT IDENTIFIER ::= {id-oa 2}
+
+id-oa-creatorsName OBJECT IDENTIFIER ::= {id-oa 3}
+
+id-oa-modifiersName OBJECT IDENTIFIER ::= {id-oa 4}
+
+id-oa-administrativeRole OBJECT IDENTIFIER ::= {id-oa 5}
+
+id-oa-subtreeSpecification OBJECT IDENTIFIER ::= {id-oa 6}
+
+id-oa-collectiveExclusions OBJECT IDENTIFIER ::= {id-oa 7}
+
+id-oa-subschemaTimestamp OBJECT IDENTIFIER ::= {id-oa 8}
+
+id-oa-hasSubordinates OBJECT IDENTIFIER ::= {id-oa 9}
+
+id-oa-subschemaSubentryList OBJECT IDENTIFIER ::= {id-oa 10}
+
+id-oa-accessControlSubentryList OBJECT IDENTIFIER ::= {id-oa 11}
+
+id-oa-collectiveAttributeSubentryList OBJECT IDENTIFIER ::= {id-oa 12}
+
+id-oa-contextDefaultSubentryList OBJECT IDENTIFIER ::= {id-oa 13}
+
+id-oa-contextAssertionDefault OBJECT IDENTIFIER ::= {id-oa 14}
+
+id-oa-serviceAdminSubentryList OBJECT IDENTIFIER ::= {id-oa 15}
+
+id-oa-searchRules OBJECT IDENTIFIER ::= {id-oa 16}
+
+id-oa-hierarchyLevel OBJECT IDENTIFIER ::= {id-oa 17}
+
+id-oa-hierarchyBelow OBJECT IDENTIFIER ::= {id-oa 18}
+
+id-oa-hierarchyParent OBJECT IDENTIFIER ::= {id-oa 19}
+
+id-oa-hierarchyTop OBJECT IDENTIFIER ::= {id-oa 20}
+
+id-oa-pwdAdminSubentryList OBJECT IDENTIFIER ::= {id-oa 21}
+
+-- id-oa-pwdStartTime                  OBJECT IDENTIFIER ::= {id-oa 22} X.509|Part8
+-- id-oa-pwdExpiryTime                 OBJECT IDENTIFIER ::= {id-oa 23} X.509|Part8
+-- id-oa-pwdEndTime                    OBJECT IDENTIFIER ::= {id-oa 24} X.509|Part8
+-- id-oa-pwdFails                      OBJECT IDENTIFIER ::= {id-oa 25} X.509|Part8
+-- id-oa-pwdFailureTime                OBJECT IDENTIFIER ::= {id-oa 26} X.509|Part8
+-- id-oa-pwdGracesUsed                 OBJECT IDENTIFIER ::= {id-oa 27} X.509|Part8
+-- id-oa-userPwdHistory                OBJECT IDENTIFIER ::= {id-oa 28} X.509|Part8
+-- id-oa-userPwdRecentlyExpired        OBJECT IDENTIFIER ::= {id-oa 29} X.509|Part8
+-- id-oa-pwdModifyEntryAllowed         OBJECT IDENTIFIER ::= {id-oa 30} X.509|Part8
+-- id-oa-pwdChangeAllowed              OBJECT IDENTIFIER ::= {id-oa 31} X.509|Part8
+-- id-oa-pwdMaxAge                     OBJECT IDENTIFIER ::= {id-oa 32} X.509|Part8
+-- id-oa-pwdExpiryAge                  OBJECT IDENTIFIER ::= {id-oa 33} X.509|Part8
+-- id-oa-pwdMinLength                  OBJECT IDENTIFIER ::= {id-oa 34} X.509|Part8
+-- id-oa-pwdVocabulary                 OBJECT IDENTIFIER ::= {id-oa 35} X.509|Part8
+-- id-oa-pwdAlphabet                   OBJECT IDENTIFIER ::= {id-oa 36} X.509|Part8
+-- id-oa-pwdDictionaries               OBJECT IDENTIFIER ::= {id-oa 37} X.509|Part8
+-- id-oa-pwdExpiryWarning              OBJECT IDENTIFIER ::= {id-oa 38} X.509|Part8
+-- id-oa-pwdGraces                     OBJECT IDENTIFIER ::= {id-oa 39} X.509|Part8
+-- id-oa-pwdFailureDuration            OBJECT IDENTIFIER ::= {id-oa 40} X.509|Part8
+-- id-oa-pwdLockoutDuration            OBJECT IDENTIFIER ::= {id-oa 41} X.509|Part8
+-- id-oa-pwdMaxFailures                OBJECT IDENTIFIER ::= {id-oa 42} X.509|Part8
+-- id-oa-pwdMaxTimeInHistory           OBJECT IDENTIFIER ::= {id-oa 43} X.509|Part8
+-- id-oa-pwdMinTimeInHistory           OBJECT IDENTIFIER ::= {id-oa 44} X.509|Part8
+-- id-oa-pwdHistorySlots               OBJECT IDENTIFIER ::= {id-oa 45} X.509|Part8
+-- id-oa-pwdRecentlyExpiredDuration    OBJECT IDENTIFIER ::= {id-oa 46} X.509|Part8
+-- id-oa-pwdEncAlg                     OBJECT IDENTIFIER ::= {id-oa 47} X.509|Part8
+id-oa-allAttributeTypes OBJECT IDENTIFIER ::=
+  {id-oa 48}
+
+-- subentry classes
+id-sc-subentry OBJECT IDENTIFIER ::= {id-sc 0}
+
+id-sc-accessControlSubentry OBJECT IDENTIFIER ::= {id-sc 1}
+
+id-sc-collectiveAttributeSubentry OBJECT IDENTIFIER ::= {id-sc 2}
+
+id-sc-contextAssertionSubentry OBJECT IDENTIFIER ::= {id-sc 3}
+
+id-sc-serviceAdminSubentry OBJECT IDENTIFIER ::= {id-sc 4}
+
+id-sc-pwdAdminSubentry OBJECT IDENTIFIER ::= {id-sc 5}
+
+--  Name forms 
+id-nf-subentryNameForm OBJECT IDENTIFIER ::= {id-nf 16}
+
+-- administrative roles 
+id-ar-autonomousArea OBJECT IDENTIFIER ::= {id-ar 1}
+
+id-ar-accessControlSpecificArea OBJECT IDENTIFIER ::= {id-ar 2}
+
+id-ar-accessControlInnerArea OBJECT IDENTIFIER ::= {id-ar 3}
+
+id-ar-subschemaAdminSpecificArea OBJECT IDENTIFIER ::= {id-ar 4}
+
+id-ar-collectiveAttributeSpecificArea OBJECT IDENTIFIER ::= {id-ar 5}
+
+id-ar-collectiveAttributeInnerArea OBJECT IDENTIFIER ::= {id-ar 6}
+
+id-ar-contextDefaultSpecificArea OBJECT IDENTIFIER ::= {id-ar 7}
+
+id-ar-serviceSpecificArea OBJECT IDENTIFIER ::= {id-ar 8}
+
+id-ar-pwdAdminSpecificArea OBJECT IDENTIFIER ::= {id-ar 9}
+
+END -- InformationFramework
+
+-- Generated by Asnp, the ASN.1 pretty-printer of France Telecom R&amp;D
+

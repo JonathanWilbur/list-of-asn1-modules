@@ -1,0 +1,308 @@
+
+
+
+
+IN-SSF-SCF-Classes (Q.1248.2:07/2001)
+
+
+-- Module IN-SSF-SCF-Classes (Q.1248.2:07/2001)
+-- See also ITU-T Q.1248.2 (07/2001)
+-- See also the index of all ASN.1 assignments needed in this document
+
+IN-SSF-SCF-Classes {itu-t recommendation q 1248 modules(1)
+  in-ssf-scf-classes(7) version1(0)} DEFINITIONS ::=
+BEGIN
+
+TRIGGER ::= CLASS {&amp;Parameter  OPTIONAL,
+                   &amp;id         INTEGER UNIQUE
+}WITH SYNTAX {[PARAMETER &amp;Parameter]
+              IDENTIFIED BY &amp;id
+}
+
+--The &amp;id field uniquely identifies a class of triggers. 
+--The &amp;Parameter field defines the ASN.1 type for representing specific parameters 
+-- (e.g. criteria, scfAddress, ...)
+--associated with this class of triggers.
+SCF-SSF-BOUNDS ::= CLASS {
+  &amp;highLayerCompatibilityLength                INTEGER OPTIONAL,
+  &amp;minAChBillingChargingLength                 INTEGER OPTIONAL,
+  &amp;maxAChBillingChargingLength                 INTEGER OPTIONAL,
+  &amp;minBackwardGVNSLength                       INTEGER OPTIONAL,
+  &amp;maxBackwardGVNSLength                       INTEGER OPTIONAL,
+  &amp;maxBearerCapabilityLength                   INTEGER OPTIONAL,
+  &amp;minCalledDirectoryNumberLength              INTEGER OPTIONAL,
+  &amp;maxCalledDirectoryNumberLength              INTEGER OPTIONAL,
+  &amp;minCalledPartyNumberLength                  INTEGER OPTIONAL,
+  &amp;maxCalledPartyNumberLength                  INTEGER OPTIONAL,
+  &amp;minCalledPartySubaddressLength              INTEGER OPTIONAL,
+  &amp;maxCalledPartySubaddressLength              INTEGER OPTIONAL,
+  &amp;minCallingGeodeticLocationLength            INTEGER OPTIONAL,
+  &amp;maxCallingGeodeticLocationLength            INTEGER OPTIONAL,
+  &amp;minCallingPartyNumberLength                 INTEGER OPTIONAL,
+  &amp;maxCallingPartyNumberLength                 INTEGER OPTIONAL,
+  &amp;minCallingPartySubaddressLength             INTEGER OPTIONAL,
+  &amp;maxCallingPartySubaddressLength             INTEGER OPTIONAL,
+  &amp;minCallResultLength                         INTEGER OPTIONAL,
+  &amp;maxCallResultLength                         INTEGER OPTIONAL,
+  &amp;maxCallReferenceLength                      INTEGER OPTIONAL,
+  &amp;minCarrierLength                            INTEGER OPTIONAL,
+  &amp;maxCarrierLength                            INTEGER OPTIONAL,
+  &amp;minCauseLength                              INTEGER OPTIONAL,
+  &amp;maxCauseLength                              INTEGER OPTIONAL,
+  &amp;maxCNInfoLength                             INTEGER OPTIONAL,
+  &amp;minDestinationIndexLength                   INTEGER OPTIONAL,
+  &amp;maxDestinationIndexLength                   INTEGER OPTIONAL,
+  &amp;minDigitsLength                             INTEGER OPTIONAL,
+  &amp;maxDigitsLength                             INTEGER OPTIONAL,
+  &amp;minDisplayInformationLength                 INTEGER OPTIONAL,
+  &amp;maxDisplayInformationLength                 INTEGER OPTIONAL,
+  &amp;minEventSpecificInformationChargingLength   INTEGER OPTIONAL,
+  &amp;maxEventSpecificInformationChargingLength   INTEGER OPTIONAL,
+  &amp;minEventTypeChargingLength                  INTEGER OPTIONAL,
+  &amp;maxEventTypeChargingLength                  INTEGER OPTIONAL,
+  &amp;minFCIBillingChargingLength                 INTEGER OPTIONAL,
+  &amp;maxFCIBillingChargingLength                 INTEGER OPTIONAL,
+  &amp;minForwardGVNSLength                        INTEGER OPTIONAL,
+  &amp;maxForwardGVNSLength                        INTEGER OPTIONAL,
+  &amp;minGenericNameLength                        INTEGER OPTIONAL,
+  &amp;maxGenericNameLength                        INTEGER OPTIONAL,
+  &amp;minGenericNumberLength                      INTEGER OPTIONAL,
+  &amp;maxGenericNumberLength                      INTEGER OPTIONAL,
+  &amp;maxInitialTimeInterval                      INTEGER OPTIONAL,
+  &amp;maxINServiceCompatibilityIndLength          INTEGER OPTIONAL,
+  &amp;minIPAvailableLength                        INTEGER OPTIONAL,
+  &amp;maxIPAvailableLength                        INTEGER OPTIONAL,
+  &amp;minIPSSPCapabilitiesLength                  INTEGER OPTIONAL,
+  &amp;maxIPSSPCapabilitiesLength                  INTEGER OPTIONAL,
+  &amp;minISDNAccessRelatedInfoLength              INTEGER OPTIONAL,
+  &amp;maxISDNAccessRelatedInfoLength              INTEGER OPTIONAL,
+  &amp;minLocationNumberLength                     INTEGER OPTIONAL,
+  &amp;maxLocationNumberLength                     INTEGER OPTIONAL,
+  &amp;maxNbOfRoutes                               INTEGER OPTIONAL,
+  &amp;minMidCallControlInfoNum                    INTEGER OPTIONAL,
+  &amp;maxMidCallControlInfoNum                    INTEGER OPTIONAL,
+  &amp;minOriginalCalledPartyIDLength              INTEGER OPTIONAL,
+  &amp;maxOriginalCalledPartyIDLength              INTEGER OPTIONAL,
+  &amp;minReasonLength                             INTEGER OPTIONAL,
+  &amp;maxReasonLength                             INTEGER OPTIONAL,
+  &amp;minRedirectingPartyIDLength                 INTEGER OPTIONAL,
+  &amp;maxRedirectingPartyIDLength                 INTEGER OPTIONAL,
+  &amp;minRequestedUTSINum                         INTEGER OPTIONAL,
+  &amp;maxRequestedUTSINum                         INTEGER OPTIONAL,
+  &amp;minRouteListLength                          INTEGER OPTIONAL,
+  &amp;maxRouteListLength                          INTEGER OPTIONAL,
+  &amp;minRouteingNumberLength                     INTEGER OPTIONAL,
+  &amp;maxRouteingNumberLength                     INTEGER OPTIONAL,
+  &amp;minScfIDLength                              INTEGER OPTIONAL,
+  &amp;maxScfIDLength                              INTEGER OPTIONAL,
+  &amp;minSCIBillingChargingLength                 INTEGER OPTIONAL,
+  &amp;maxSCIBillingChargingLength                 INTEGER OPTIONAL,
+  &amp;minSDSSinformationLength                    INTEGER OPTIONAL,
+  &amp;maxSDSSinformationLength                    INTEGER OPTIONAL,
+  &amp;minServiceInteractionIndicatorsLength       INTEGER OPTIONAL,
+  &amp;maxServiceInteractionIndicatorsLength       INTEGER OPTIONAL,
+  &amp;minSFBillingChargingLength                  INTEGER OPTIONAL,
+  &amp;maxSFBillingChargingLength                  INTEGER OPTIONAL,
+  &amp;minUSIInformationLength                     INTEGER OPTIONAL,
+  &amp;maxUSIInformationLength                     INTEGER OPTIONAL,
+  &amp;minUSIServiceIndicatorLength                INTEGER OPTIONAL,
+  &amp;maxUSIServiceIndicatorLength                INTEGER OPTIONAL,
+  &amp;numOfBCSMEvents                             INTEGER OPTIONAL,
+  &amp;numOfBCUSMEvents                            INTEGER OPTIONAL,
+  &amp;numOfChargingEvents                         INTEGER OPTIONAL,
+  &amp;numOfCounters                               INTEGER OPTIONAL,
+  &amp;numOfCSAs                                   INTEGER OPTIONAL,
+  &amp;numOfCSs                                    INTEGER OPTIONAL,
+  &amp;numOfGenericNumbers                         INTEGER OPTIONAL,
+  &amp;numOfInfoItems                              INTEGER OPTIONAL,
+  &amp;numOfInServiceCompatibilityIndLength        INTEGER OPTIONAL,
+  &amp;numOfLegs                                   INTEGER OPTIONAL,
+  &amp;numOfMessageIDs                             INTEGER OPTIONAL,
+  &amp;maxAmount                                   INTEGER OPTIONAL,
+  &amp;maxInitialUnitIncrement                     INTEGER OPTIONAL,
+  &amp;maxScalingFactor                            INTEGER OPTIONAL,
+  &amp;maxSegmentsPerDataInterval                  INTEGER OPTIONAL,
+  &amp;ub-nbCall                                   INTEGER OPTIONAL,
+  &amp;numOfAddresses                              INTEGER OPTIONAL,
+  &amp;numOfINProfile                              INTEGER OPTIONAL,
+  &amp;numOfTriggers                               INTEGER OPTIONAL,
+  &amp;minAALPLength                               INTEGER OPTIONAL,
+  &amp;maxAALPLength                               INTEGER OPTIONAL,
+  &amp;minAdditionalATMCellRateLength              INTEGER OPTIONAL,
+  &amp;maxAdditionalATMCellRateLength              INTEGER OPTIONAL,
+  &amp;minAESACalledPartyLength                    INTEGER OPTIONAL,
+  &amp;maxAESACalledPartyLength                    INTEGER OPTIONAL,
+  &amp;minAESACallingPartyLength                   INTEGER OPTIONAL,
+  &amp;maxAESACallingPartyLength                   INTEGER OPTIONAL,
+  &amp;minATMCellRateLength                        INTEGER OPTIONAL,
+  &amp;maxATMCellRateLength                        INTEGER OPTIONAL,
+  &amp;minCDVTDescriptorLength                     INTEGER OPTIONAL,
+  &amp;maxCDVTDescriptorLength                     INTEGER OPTIONAL,
+  &amp;minConnectionIdentifierLength               INTEGER OPTIONAL,
+  &amp;maxConnectionIdentifierLength               INTEGER OPTIONAL,
+  &amp;minCumulativeTransitDelayLength             INTEGER OPTIONAL,
+  &amp;maxCumulativeTransitDelayLength             INTEGER OPTIONAL,
+  &amp;minEndToEndTDLength                         INTEGER OPTIONAL,
+  &amp;maxEndToEndTDLength                         INTEGER OPTIONAL,
+  &amp;minGenericIdentifierLength                  INTEGER OPTIONAL,
+  &amp;maxGenericIdentifierLength                  INTEGER OPTIONAL,
+  &amp;minMinAcceptableATMTrafficDescriptorLength  INTEGER OPTIONAL,
+  &amp;maxMinAcceptableATMTrafficDescriptorLength  INTEGER OPTIONAL,
+  &amp;minAlternativeATMTrafficDescriptorLength    INTEGER OPTIONAL,
+  &amp;maxAlternativeATMTrafficDescriptorLength    INTEGER OPTIONAL,
+  &amp;minQoSParameterLength                       INTEGER OPTIONAL,
+  &amp;maxQoSParameterLength                       INTEGER OPTIONAL,
+  &amp;minBroadbandBearerCapabilityLength          INTEGER OPTIONAL,
+  &amp;maxBroadbandBearerCapabilityLength          INTEGER OPTIONAL,
+  &amp;maxGlobalCallReferenceLength                INTEGER OPTIONAL,
+  &amp;maxAlternativeIdentities                    INTEGER OPTIONAL,
+  &amp;maxAlternativeIds                           INTEGER OPTIONAL
+}
+WITH SYNTAX {
+  [HIGH-LAYER-COMPATIBILITY-LENGTH &amp;highLayerCompatibilityLength]
+  [MINIMUM-FOR-ACH-BILLING-CHARGING &amp;minAChBillingChargingLength]
+  [MAXIMUM-FOR-ACH-BILLING-CHARGING &amp;maxAChBillingChargingLength]
+  [MINIMUM-FOR-BACKWARD-GVNS &amp;minBackwardGVNSLength]
+  [MAXIMUM-FOR-BACKWARD-GVNS &amp;maxBackwardGVNSLength]
+  [MAXIMUM-FOR-BEARER-CAPABILITY &amp;maxBearerCapabilityLength]
+  [MINIMUM-FOR-CALLED-DIRECTORY-NUMBER &amp;minCalledDirectoryNumberLength]
+  [MAXIMUM-FOR-CALLED-DIRECTORY-NUMBER &amp;maxCalledDirectoryNumberLength]
+  [MINIMUM-FOR-CALLED-PARTY-NUMBER &amp;minCalledPartyNumberLength]
+  [MAXIMUM-FOR-CALLED-PARTY-NUMBER &amp;maxCalledPartyNumberLength]
+  [MINIMUM-FOR-CALLED-PARTY-SUBADDRESS &amp;minCalledPartySubaddressLength]
+  [MAXIMUM-FOR-CALLED-PARTY-SUBADDRESS &amp;maxCalledPartySubaddressLength]
+  [MINIMUM-FOR-CALLING-GEODETIC-LOCATION &amp;minCallingGeodeticLocationLength]
+  [MAXIMUM-FOR-CALLING-GEODETIC-LOCATION &amp;maxCallingGeodeticLocationLength]
+  [MINIMUM-FOR-CALLING-PARTY-NUMBER &amp;minCallingPartyNumberLength]
+  [MAXIMUM-FOR-CALLING-PARTY-NUMBER &amp;maxCallingPartyNumberLength]
+  [MINIMUM-FOR-CALLING-PARTY-SUBADDRESS &amp;minCallingPartySubaddressLength]
+  [MAXIMUM-FOR-CALLING-PARTY-SUBADDRESS &amp;maxCallingPartySubaddressLength]
+  [MINIMUM-FOR-CALL-RESULT &amp;minCallResultLength]
+  [MAXIMUM-FOR-CALL-RESULT &amp;maxCallResultLength]
+  [MINIMUM-FOR-CARRIER &amp;minCarrierLength]
+  [MAXIMUM-FOR-CARRIER &amp;maxCarrierLength]
+  [MINIMUM-FOR-CAUSE &amp;minCauseLength]
+  [MAXIMUM-FOR-CAUSE &amp;maxCauseLength]
+  [MINIMUM-FOR-DESTINATION &amp;minDestinationIndexLength]
+  [MAXIMUM-FOR-DESTINATION &amp;maxDestinationIndexLength]
+  [MINIMUM-FOR-DIGITS &amp;minDigitsLength]
+  [MAXIMUM-FOR-DIGITS &amp;maxDigitsLength]
+  [MINIMUM-FOR-DISPLAY &amp;minDisplayInformationLength]
+  [MAXIMUM-FOR-DISPLAY &amp;maxDisplayInformationLength]
+  [MINIMUM-FOR-EVENT-SPECIFIC-CHARGING
+     &amp;minEventSpecificInformationChargingLength]
+  [MAXIMUM-FOR-EVENT-SPECIFIC-CHARGING
+     &amp;maxEventSpecificInformationChargingLength]
+  [MINIMUM-FOR-EVENT-TYPE-CHARGING &amp;minEventTypeChargingLength]
+  [MAXIMUM-FOR-EVENT-TYPE-CHARGING &amp;maxEventTypeChargingLength]
+  [MINIMUM-FOR-FCI-BILLING-CHARGING &amp;minFCIBillingChargingLength]
+  [MAXIMUM-FOR-FCI-BILLING-CHARGING &amp;maxFCIBillingChargingLength]
+  [MINIMUM-FOR-FORWARD-GVNS &amp;minForwardGVNSLength]
+  [MAXIMUM-FOR-FORWARD-GVNS &amp;maxForwardGVNSLength]
+  [MINIMUM-FOR-GENERIC-NAME &amp;minGenericNameLength]
+  [MAXIMUM-FOR-GENERIC-NAME &amp;maxGenericNameLength]
+  [MINIMUM-FOR-GENERIC-NUMBER &amp;minGenericNumberLength]
+  [MAXIMUM-FOR-GENERIC-NUMBER &amp;maxGenericNumberLength]
+  [MAXIMUM-FOR-INITIAL-TIME-INTERVAL &amp;maxInitialTimeInterval]
+  [MAXIMUM-FOR-IN-SERVICE-COMPATIBILITY &amp;maxINServiceCompatibilityIndLength]
+  [MINIMUM-FOR-IP-AVAILABLE &amp;minIPAvailableLength]
+  [MAXIMUM-FOR-IP-AVAILABLE &amp;maxIPAvailableLength]
+  [MINIMUM-FOR-IP-SSP-CAPABILITIES &amp;minIPSSPCapabilitiesLength]
+  [MAXIMUM-FOR-IP-SSP-CAPABILITIES &amp;maxIPSSPCapabilitiesLength]
+  [MINIMUM-FOR-ISDN-ACCESS-RELATED-INFO &amp;minISDNAccessRelatedInfoLength]
+  [MAXIMUM-FOR-ISDN-ACCESS-RELATED-INFO &amp;maxISDNAccessRelatedInfoLength]
+  [MINIMUM-FOR-LOCATION-NUMBER &amp;minLocationNumberLength]
+  [MAXIMUM-FOR-LOCATION-NUMBER &amp;maxLocationNumberLength]
+  [MAXIMUM-NB-OF-ROUTES &amp;maxNbOfRoutes]
+  [MINIMUM-FOR-MID-CALL-CONTROL-INFO &amp;minMidCallControlInfoNum]
+  [MAXIMUM-FOR-MID-CALL-CONTROL-INFO &amp;maxMidCallControlInfoNum]
+  [MINIMUM-FOR-ORIGINAL-CALLED-PARTY-ID &amp;minOriginalCalledPartyIDLength]
+  [MAXIMUM-FOR-ORIGINAL-CALLED-PARTY-ID &amp;maxOriginalCalledPartyIDLength]
+  [MINIMUM-FOR-REASON &amp;minReasonLength]
+  [MAXIMUM-FOR-REASON &amp;maxReasonLength]
+  [MINIMUM-FOR-REDIRECTING-ID &amp;minRedirectingPartyIDLength]
+  [MAXIMUM-FOR-REDIRECTING-ID &amp;maxRedirectingPartyIDLength]
+  [MINIMUM-FOR-REQUESTED-UTSI-NUM &amp;minRequestedUTSINum]
+  [MAXIMUM-FOR-REQUESTED-UTSI-NUM &amp;maxRequestedUTSINum]
+  [MINIMUM-FOR-ROUTE-LIST &amp;minRouteListLength]
+  [MAXIMUM-FOR-ROUTE-LIST &amp;maxRouteListLength]
+  [MINIMUM-FOR-ROUTING-NUMBER &amp;minRouteingNumberLength]
+  [MAXIMUM-FOR-ROUTING-NUMBER &amp;maxRouteingNumberLength]
+  [MINIMUM-FOR-SCF-ID &amp;minScfIDLength]
+  [MAXIMUM-FOR-SCF-ID &amp;maxScfIDLength]
+  [MINIMUM-FOR-SCI-BILLING-CHARGING &amp;minSCIBillingChargingLength]
+  [MAXIMUM-FOR-SCI-BILLING-CHARGING &amp;maxSCIBillingChargingLength]
+  [MINIMUM-FOR-SDSS-INFORMATION &amp;minSDSSinformationLength]
+  [MAXIMUM-FOR-SDSS-INFORMATION &amp;maxSDSSinformationLength]
+  [MINIMUM-FOR-SII &amp;minServiceInteractionIndicatorsLength]
+  [MAXIMUM-FOR-SII &amp;maxServiceInteractionIndicatorsLength]
+  [MINIMUM-FOR-SF-BILLING-CHARGING &amp;minSFBillingChargingLength]
+  [MAXIMUM-FOR-SF-BILLING-CHARGING &amp;maxSFBillingChargingLength]
+  [MINIMUM-FOR-USI-INFORMATION &amp;minUSIInformationLength]
+  [MAXIMUM-FOR-USI-INFORMATION &amp;maxUSIInformationLength]
+  [MINIMUM-FOR-USI-SERVICE-INDICATOR &amp;minUSIServiceIndicatorLength]
+  [MAXIMUM-FOR-USI-SERVICE-INDICATOR &amp;maxUSIServiceIndicatorLength]
+  [NUM-OF-BCSM-EVENT &amp;numOfBCSMEvents]
+  [NUM-OF-BCUSM-EVENT &amp;numOfBCUSMEvents]
+  [NUM-OF-CHARGING-EVENT &amp;numOfChargingEvents]
+  [NUM-OF-COUNTERS &amp;numOfCounters]
+  [NUM-OF-CSAS &amp;numOfCSAs]
+  [NUM-OF-CSS &amp;numOfCSs]
+  [NUM-OF-GENERIC-NUMBERS &amp;numOfGenericNumbers]
+  [NUM-OF-INFO-ITEMS &amp;numOfInfoItems]
+  [NUM-OF-INPROFILE &amp;numOfINProfile]
+  [NUM-OF-SEVERALTRIGGER &amp;numOfTriggers]
+  [NUM-OF-IN-SERVICE-COMPATIBILITY-ID &amp;numOfInServiceCompatibilityIndLength]
+  [NUM-OF-LEGS &amp;numOfLegs]
+  [NUM-OF-MESSAGE-IDS &amp;numOfMessageIDs]
+  [MAXIMUM-FOR-AMOUNT &amp;maxAmount]
+  [MAXIMUM-FOR-CALL-REFERENCE &amp;maxCallReferenceLength]
+  [MAXIMUM-FOR-CNINFO &amp;maxCNInfoLength]
+  [MAXIMUM-FOR-INITIAL-UNIT-INCREMENT &amp;maxInitialUnitIncrement]
+  [MAXIMUM-FOR-SCALING-FACTOR &amp;maxScalingFactor]
+  [MAXIMUM-FOR-SEGMENTS-PER-DATA-INTERVAL &amp;maxSegmentsPerDataInterval]
+  [MAXIMUM-FOR-UB-NB-CALL &amp;ub-nbCall]
+  [NUM-OF-ADDRESSES &amp;numOfAddresses]
+  [MINIMUM-FOR-AAL-PARAMETERS &amp;minAALPLength]
+  [MAXIMUM-FOR-AAL-PARAMETERS &amp;maxAALPLength]
+  [MINIMUM-FOR-ADDITIONAL-ATM-CELL-RATE &amp;minAdditionalATMCellRateLength]
+  [MAXIMUM-FOR-ADDITIONAL-ATM-CELL-RATE &amp;maxAdditionalATMCellRateLength]
+  [MINIMUM-FOR-AESA-CALLED-PARTY &amp;minAESACalledPartyLength]
+  [MAXIMUM-FOR-AESA-CALLED-PARTY &amp;maxAESACalledPartyLength]
+  [MINIMUM-FOR-AESA-CALLING-PARTY &amp;minAESACallingPartyLength]
+  [MAXIMUM-FOR-AESA-CALLING-PARTY &amp;maxAESACallingPartyLength]
+  [MINIMUM-FOR-ATM-CELL-RATE &amp;minATMCellRateLength]
+  [MAXIMUM-FOR-ATM-CELL-RATE &amp;maxATMCellRateLength]
+  [MINIMUM-FOR-CDVT-DESCRIPTOR &amp;minCDVTDescriptorLength]
+  [MAXIMUM-FOR-CDVT-DESCRIPTOR &amp;maxCDVTDescriptorLength]
+  [MINIMUM-FOR-CONNECTION-IDENTIFIER &amp;minConnectionIdentifierLength]
+  [MAXIMUM-FOR-CONNECTION-IDENTIFIER &amp;maxConnectionIdentifierLength]
+  [MINIMUM-FOR-CUMULATIVE-TRANSIT-DELAY &amp;minCumulativeTransitDelayLength]
+  [MAXIMUM-FOR-CUMULATIVE-TRANSIT-DELAY &amp;maxCumulativeTransitDelayLength]
+  [MINIMUM-FOR-END-TO-END-TRANSIT-DELAY &amp;minEndToEndTDLength]
+  [MAXIMUM-FOR-END-TO-END-TRANSIT-DELAY &amp;maxEndToEndTDLength]
+  [MINIMUM-FOR-GENERIC-IDENTIFIER &amp;minGenericIdentifierLength]
+  [MAXIMUM-FOR-GENERIC-IDENTIFIER &amp;maxGenericIdentifierLength]
+  [MINIMUM-FOR-MIN-ACCEPTABLE-ATM-TRAFFIC-DESCRIPTOR
+     &amp;minMinAcceptableATMTrafficDescriptorLength]
+  [MAXIMUM-FOR-MIN-ACCEPTABLE-ATM-TRAFFIC-DESCRIPTOR
+     &amp;maxMinAcceptableATMTrafficDescriptorLength]
+  [MINIMUM-FOR-ALTERNATIVE-ATM-TRAFFIC-DESCRIPTOR
+     &amp;minAlternativeATMTrafficDescriptorLength]
+  [MAXIMUN-FOR-ALTERNATIVE-ATM-TRAFFIC-DESCRIPTOR
+     &amp;maxAlternativeATMTrafficDescriptorLength]
+  [MINIMUM-FOR-QOS-PARAMETER &amp;minQoSParameterLength]
+  [MAXIMUM-FOR-QOS-PARAMETER &amp;maxQoSParameterLength]
+  [MINIMUM-FOR-BROADBAND-BEARER-CAPABILITY
+     &amp;minBroadbandBearerCapabilityLength]
+  [MAXIMUM-FOR-BROADBAND-BEARER-CAPABILITY
+     &amp;maxBroadbandBearerCapabilityLength]
+  [MAXIMUM-GLOBAL-CALL-REFERENCE &amp;maxGlobalCallReferenceLength]
+  [MAXIMUM-ALTERNATIVE-IDENTITIES &amp;maxAlternativeIdentities]
+  [MAXIMUM-NB-OF-ALTERNATIVE-IDENTITIES &amp;maxAlternativeIds]
+}
+
+END
+
+-- Generated by Asnp, the ASN.1 pretty-printer of France Telecom R&amp;D
+
