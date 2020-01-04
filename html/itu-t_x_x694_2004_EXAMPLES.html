@@ -1,0 +1,77 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.0//EN">
+<HTML>
+<HEAD>
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<META NAME="GENERATOR" CONTENT="Microsoft FrontPage 4.0">
+<TITLE>EXAMPLES (X.694:01/2004)</TITLE>
+</HEAD>
+<BODY  >
+-- Module EXAMPLES (X.694:01/2004)<br>
+-- See also <a href="/ITU-T/recommendations/fl.aspx?id=7106" target="_top">ITU-T X.694 (01/2004)</a><br>
+-- See also the <a href="index2.html" target="_top">index</a> of all ASN.1 assignments needed in this document<br><br>
+<PRE>
+<A NAME="EXAMPLES"></A>EXAMPLES 
+<FONT COLOR=#0000FF><B>DEFINITIONS</B></FONT> <FONT COLOR=#666666><B>AUTOMATIC TAGS XER INSTRUCTIONS </B></FONT>::=
+<FONT COLOR=#0000FF><B>BEGIN</B></FONT>
+
+<FONT COLOR=#0000FF><B>IMPORTS</B></FONT>
+  String, Decimal, Int, Date, AnyType
+    <FONT COLOR=#0000FF><B>FROM</B></FONT> XSD {joint-iso-itu-t asn1(1) specification(0) modules(0) xsd-module(2)
+      version1(1)};
+
+<A NAME="EXAMPLES.EXAMPLES"></A>EXAMPLES ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  personnelRecord       <A HREF="#EXAMPLES.PersonnelRecord" target="files">PersonnelRecord</A>,
+  number                <A HREF="XSD.html#XSD.Decimal" target="files">Decimal</A>,
+  daysOfTheWeek         <A HREF="#EXAMPLES.ListOfDays" target="files">ListOfDays</A>,
+  namesOfMemberNations  <A HREF="#EXAMPLES.NamesOfMemberNations" target="files">NamesOfMemberNations</A>,
+  fileIdentifier-list
+    <I><FONT COLOR=#B22222> </FONT></I><B><font color="#B22222">[UNTAGGED]</font><FONT COLOR=#B8860B> SEQUENCE</FONT></B> <FONT COLOR=#228B22><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>SIZE</B></FONT> <FONT COLOR=#228B22>(1..<FONT COLOR=#228B22><B>MAX</B></FONT>)</FONT>)</FONT></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> fileidentifier <A HREF="#EXAMPLES.FileIdentifier" target="files">FileIdentifier</A>
+}
+
+<A NAME="EXAMPLES.PersonnelRecord"></A>PersonnelRecord ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  name          <A HREF="#EXAMPLES.Name" target="files">Name</A>,
+  title         <A HREF="XSD.html#XSD.String" target="files"></a><A HREF="XSD.html#XSD" target="files">XSD</A>.String,
+  number        <FONT COLOR=#5F9EA0><B>INTEGER</B></FONT>,
+  dateOfHire    <A HREF="XSD.html#XSD.Date" target="files">Date</A>,
+  nameOfSpouse  <A HREF="#EXAMPLES.NameOfSpouse" target="files">NameOfSpouse</A>,
+  children      <A HREF="#EXAMPLES.Children" target="files">Children</A>
+}
+
+<A NAME="EXAMPLES.NameOfSpouse"></A>NameOfSpouse ::= <font color="#B22222"><b>[NAME AS UNCAPITALIZED]</b></font> <A HREF="#EXAMPLES.Name" target="files">Name</A>
+
+<A NAME="EXAMPLES.Name"></A>Name ::= <B><font color="#B22222">[NAME AS UNCAPITALIZED]</font><FONT COLOR=#B8860B> SEQUENCE</FONT></B> {
+  givenName   <A HREF="XSD.html#XSD.String" target="files"></a><A HREF="XSD.html#XSD" target="files">XSD</A>.String,
+  initial     <A HREF="XSD.html#XSD.String" target="files"></a><A HREF="XSD.html#XSD" target="files">XSD</A>.String,
+  familyName  <A HREF="XSD.html#XSD.String" target="files"></a><A HREF="XSD.html#XSD" target="files">XSD</A>.String
+}
+
+<A NAME="EXAMPLES.Children"></A>Children ::= <B><font color="#B22222">[NAME AS UNCAPITALIZED] </font></B><FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  childInformation-list  <I><FONT COLOR=#B22222> </FONT></I><B><font color="#B22222">[UNTAGGED]</font><FONT COLOR=#B8860B> SEQUENCE</FONT></B> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="#EXAMPLES.ChildInformation" target="files">ChildInformation</A>
+}
+
+<A NAME="EXAMPLES.ChildInformation"></A>ChildInformation ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {name         <A HREF="#EXAMPLES.Name" target="files">Name</A>,
+                               dateOfBirth  <A HREF="XSD.html#XSD.Date" target="files">Date</A>
+}
+
+<A NAME="EXAMPLES.ListOfDays"></A>ListOfDays ::=<FONT COLOR=#B22222><I> </I></FONT>[LIST] <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="#EXAMPLES.Day" target="files">Day</A>
+
+<A NAME="EXAMPLES.Day"></A>Day ::= <FONT COLOR=#5F9EA0><B>ENUMERATED</B></FONT> {
+  monday, tuesday, wednesday, thursday, friday, saturday, sunday}
+
+<A NAME="EXAMPLES.NamesOfMemberNations"></A>NamesOfMemberNations ::=<FONT COLOR=#B22222><I> </I><b>[NAME AS UNCAPITALIZED] [LIST]</b></FONT> <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="XSD.html#XSD.String" target="files"></a><A HREF="XSD.html#XSD" target="files">XSD</A>.String
+
+<A NAME="EXAMPLES.FileIdentifier"></A>FileIdentifier ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  choice
+    <B><font color="#B22222">[UNTAGGED]</font><FONT COLOR=#B8860B> CHOICE</FONT></B> {serialNumber  <A HREF="XSD.html#XSD.Int" target="files">Int</A>,
+                           relativeName  <A HREF="XSD.html#XSD.String" target="files"></a><A HREF="XSD.html#XSD" target="files">XSD</A>.String,
+                           unidentified  <A HREF="#EXAMPLES.UNIDENTIFIED" target="files">UNIDENTIFIED</A>}
+}
+
+<A NAME="EXAMPLES.UNIDENTIFIED"></A>UNIDENTIFIED ::= <font color="#B22222"><b>[NAME AS LOWERCASED]</b></font> <A HREF="XSD.html#XSD" target="files">XSD</A>.<A HREF="XSD.html#XSD.AnyType" target="files">AnyType</A>
+
+<font color="#000000">ENCODING-CONTROL XER
+GLOBAL-DEFAULTS MODIFIED-ENCODINGS</font><FONT COLOR=#B22222><I>
+</I></FONT><FONT COLOR=#0000FF><B>END</B></FONT>
+</PRE>
+-- Generated by Asnp, the ASN.1 pretty-printer of France Telecom R&amp;D
+</BODY></HTML>

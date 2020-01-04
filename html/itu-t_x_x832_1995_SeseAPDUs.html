@@ -1,0 +1,128 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.0//EN">
+<HTML>
+<HEAD>
+<META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=iso-8859-1">
+<TITLE>SeseAPDUs (X.832:04/1995)</TITLE>
+</HEAD>
+<BODY  >
+-- Module SeseAPDUs (X.832:04/1995)<br>
+-- See also <a href="/ITU-T/recommendations/fl.aspx?id=3116" target="_top">ITU-T X.832 (04/1995)</a><br>
+-- See also the <a href="index2.html" target="_top">index</a> of all ASN.1 assignments needed in this document<br><br>
+<PRE>
+<A NAME="SeseAPDUs"></A>SeseAPDUs {joint-iso-itu-t genericULS(20) modules(1) seseAPDUs(6)} <FONT COLOR=#0000FF><B>DEFINITIONS</B></FONT>
+<FONT COLOR=#666666><B>AUTOMATIC TAGS</B></FONT> ::=
+<FONT COLOR=#0000FF><B>BEGIN</B></FONT>
+
+<FONT COLOR=#B22222><I>-- EXPORTS ALL 
+</I></FONT><FONT COLOR=#0000FF><B>IMPORTS</B></FONT>
+  notation
+    <FONT COLOR=#0000FF><B>FROM</B></FONT> ObjectIdentifiers {joint-iso-itu-t genericULS(20) modules(1)
+      objectIdentifiers(0)}
+  dirAuthenticationTwoWay
+    <FONT COLOR=#0000FF><B>FROM</B></FONT> GulsSecurityExchanges {joint-iso-itu-t genericULS(20) modules(1)
+      gulsSecurityExchanges(2)}
+  SECURITY-EXCHANGE, SE-ERROR
+    <FONT COLOR=#0000FF><B>FROM</B></FONT> Notation {joint-iso-itu-t genericULS(20) modules(1) notation(1)};
+
+<A NAME="SeseAPDUs.SESEapdus"></A>SESEapdus{<A HREF="../../x830/1995/Notation.html#Notation.SECURITY-EXCHANGE" target="files">SECURITY-EXCHANGE</A>:ValidSEs, <A HREF="#SeseAPDUs.InvocationId" target="files">InvocationId</A>:InvocationIdSet} ::=
+  <FONT COLOR=#B8860B><B>CHOICE</B></FONT> {
+  se-transfer  <A HREF="#SeseAPDUs.SETransfer" target="files">SETransfer</A>{{<FONT COLOR=#666666><I>ValidSEs</I></FONT>}, {<FONT COLOR=#666666><I>InvocationIdSet</I></FONT>}},
+  se-u-abort   <A HREF="#SeseAPDUs.SEUAbort" target="files">SEUAbort</A>{{<FONT COLOR=#666666><I>ValidSEs</I></FONT>}, {<FONT COLOR=#666666><I>InvocationIdSet</I></FONT>}},
+  se-p-abort   <A HREF="#SeseAPDUs.SEPAbort" target="files">SEPAbort</A>{{<FONT COLOR=#666666><I>ValidSEs</I></FONT>}, {<FONT COLOR=#666666><I>InvocationIdSet</I></FONT>}}
+}
+
+<A NAME="SeseAPDUs.SETransfer"></A>SETransfer{<A HREF="../../x830/1995/Notation.html#Notation.SECURITY-EXCHANGE" target="files">SECURITY-EXCHANGE</A>:ValidSEs, <A HREF="#SeseAPDUs.InvocationId" target="files">InvocationId</A>:InvocationIdSet} ::=
+  <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  seIdentifier    <A HREF="#Notation.SECURITY-EXCHANGE" target="files">SECURITY-EXCHANGE</A>.&amp;sE-Identifier<FONT COLOR=#228B22>({<FONT COLOR=#666666><I>ValidSEs</I></FONT>})</FONT>,
+  <FONT COLOR=#B22222><I>-- This identifies one of the security- 
+  </I></FONT><FONT COLOR=#B22222><I>-- exchanges supported by the particular SESE 
+  </I></FONT><FONT COLOR=#B22222><I>-- abstract syntax
+  </I></FONT>itemIdentifier
+    <A HREF="#Notation.SECURITY-EXCHANGE" target="files">SECURITY-EXCHANGE</A>.&amp;SE-Items.&amp;itemId<FONT COLOR=#228B22>({<FONT COLOR=#666666><I><FONT COLOR=#666666><I>ValidSEs</I></FONT></I></FONT>}{@seIdentifier})</FONT>,
+  <FONT COLOR=#B22222><I>-- This identifies one of the security-
+  </I></FONT><FONT COLOR=#B22222><I>-- exchange-items of the security exchange 
+  </I></FONT><FONT COLOR=#B22222><I>-- indicated by &quot;seIdentifier&quot; 
+  </I></FONT>seItem
+    <A HREF="#Notation.SECURITY-EXCHANGE" target="files">SECURITY-EXCHANGE</A>.&amp;SE-Items.&amp;ItemType
+      <FONT COLOR=#228B22>({<FONT COLOR=#666666><I><FONT COLOR=#666666><I>ValidSEs</I></FONT></I></FONT>}{@seIdentifier, @itemIdentifier})</FONT>,
+  invocationId
+    <A HREF="#SeseAPDUs.InvocationId" target="files">InvocationId</A><FONT COLOR=#228B22>(<FONT COLOR=#666666><I>InvocationIdSet</I></FONT>)</FONT>
+      <FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>CONSTRAINED BY</B></FONT> {<FONT COLOR=#B22222><I>-- Must be the same as the--</I></FONT><FONT COLOR=#B22222><I>-- invocationId on an active security exchange--</I></FONT>
+         
+         <FONT COLOR=#B22222><I>-- if start flag is not true -- </I></FONT>})</FONT> <FONT COLOR=#666666><B>DEFAULT</B></FONT> <A HREF="#SeseAPDUs.noInvocationId" target="files">noInvocationId</A>,
+  startFlag       <FONT COLOR=#5F9EA0><B>BOOLEAN</B></FONT> <FONT COLOR=#666666><B>DEFAULT</B></FONT> <FONT COLOR=#5F9EA0><B>FALSE</B></FONT>,
+  <FONT COLOR=#B22222><I>-- This field is set only as the first security-
+  </I></FONT><FONT COLOR=#B22222><I>-- exchange-item of a security-exchange is 
+  </I></FONT><FONT COLOR=#B22222><I>-- transferred. 
+  </I></FONT>endFlag         <FONT COLOR=#5F9EA0><B>BOOLEAN</B></FONT> <FONT COLOR=#666666><B>DEFAULT</B></FONT> <FONT COLOR=#5F9EA0><B>FALSE</B></FONT><FONT COLOR=#B22222><I>-- This field is set as the last security-exchange- 
+</I></FONT><FONT COLOR=#B22222><I>-- item of a security-exchange is transferred. It is 
+</I></FONT><FONT COLOR=#B22222><I>-- needed to accommodate those mechanisms requiring 
+</I></FONT><FONT COLOR=#B22222><I>-- n exchanges, where n is not known a priori </I></FONT>
+}
+
+<A NAME="SeseAPDUs.SEUAbort"></A>SEUAbort{<A HREF="../../x830/1995/Notation.html#Notation.SECURITY-EXCHANGE" target="files">SECURITY-EXCHANGE</A>:ValidSEs, <A HREF="#SeseAPDUs.InvocationId" target="files">InvocationId</A>:InvocationIdSet} ::=
+  <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  invocationId
+    <A HREF="#SeseAPDUs.InvocationId" target="files">InvocationId</A><FONT COLOR=#228B22>(<FONT COLOR=#666666><I>InvocationIdSet</I></FONT>)</FONT>
+      <FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>CONSTRAINED BY</B></FONT> {<FONT COLOR=#B22222><I>-- Must be the same as the--</I></FONT><FONT COLOR=#B22222><I>--  invocationId on an active or just-completed--</I></FONT>
+         
+         <FONT COLOR=#B22222><I>--  security exchange -- </I></FONT>})</FONT> <FONT COLOR=#666666><B>DEFAULT</B></FONT> <A HREF="#SeseAPDUs.noInvocationId" target="files">noInvocationId</A>,
+  itemIdentifier
+    <A HREF="#Notation.SECURITY-EXCHANGE" target="files">SECURITY-EXCHANGE</A>.&amp;SE-Items.&amp;itemId<FONT COLOR=#228B22>({<FONT COLOR=#666666><I>ValidSEs</I></FONT>.&amp;SE-Items})</FONT>
+      <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  This component will only be present
+  </I></FONT><FONT COLOR=#B22222><I>--  when the Abort is generated subsequent
+  </I></FONT><FONT COLOR=#B22222><I>--  to receipt of a SETransfer APDU.
+  </I></FONT>errors          <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="#SeseAPDUs.SEerror" target="files">SEerror</A>{{<FONT COLOR=#666666><I>ValidSEs</I></FONT>}} <FONT COLOR=#666666><B>OPTIONAL</B></FONT>
+  <FONT COLOR=#B22222><I>--  needed to handle multiple error codes </I></FONT>
+}
+
+<A NAME="SeseAPDUs.SEPAbort"></A>SEPAbort{<A HREF="../../x830/1995/Notation.html#Notation.SECURITY-EXCHANGE" target="files">SECURITY-EXCHANGE</A>:ValidSEs, <A HREF="#SeseAPDUs.InvocationId" target="files">InvocationId</A>:InvocationIdSet} ::=
+  <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  invocationId    <A HREF="#SeseAPDUs.InvocationId" target="files">InvocationId</A><FONT COLOR=#228B22>(<FONT COLOR=#666666><I>InvocationIdSet</I></FONT>)</FONT> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  itemIdentifier
+    <A HREF="#Notation.SECURITY-EXCHANGE" target="files">SECURITY-EXCHANGE</A>.&amp;SE-Items.&amp;itemId<FONT COLOR=#228B22>({<FONT COLOR=#666666><I>ValidSEs</I></FONT>.&amp;SE-Items})</FONT>
+      <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  This component will only be present
+  </I></FONT><FONT COLOR=#B22222><I>--  when the Abort is generated subsequent
+  </I></FONT><FONT COLOR=#B22222><I>--  to receipt of a SETransfer APDU.
+  </I></FONT>problemCode     <A HREF="#SeseAPDUs.ProblemCode" target="files">ProblemCode</A>
+}
+
+<A NAME="SeseAPDUs.InvocationId"></A>InvocationId ::= <FONT COLOR=#B8860B><B>CHOICE</B></FONT> {present  <FONT COLOR=#5F9EA0><B>INTEGER</B></FONT>,
+                         absent   <FONT COLOR=#5F9EA0><B>NULL</B></FONT>
+}
+
+<A NAME="SeseAPDUs.noInvocationId"></A>noInvocationId <A HREF="#SeseAPDUs.InvocationId" target="files">InvocationId</A> ::= absent:<FONT COLOR=#5F9EA0><B>NULL</B></FONT>
+
+<A NAME="SeseAPDUs.NoInvocationId"></A>NoInvocationId <A HREF="#SeseAPDUs.InvocationId" target="files">InvocationId</A> ::= {<A HREF="#SeseAPDUs.noInvocationId" target="files">noInvocationId</A>}
+
+<A NAME="SeseAPDUs.SEerror"></A>SEerror{<A HREF="../../x830/1995/Notation.html#Notation.SECURITY-EXCHANGE" target="files">SECURITY-EXCHANGE</A>:ValidSEs} ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  errorCode       <A HREF="#Notation.SE-ERROR" target="files">SE-ERROR</A>.&amp;errorCode<font color="#228b22">({<a href="#SeseAPDUs.Errors">Errors</a>{{<font color="#666666"><i>ValidSEs</i></font>}}})</font><FONT COLOR=#B22222><I> </I></FONT> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  errorParameter
+    <A HREF="#Notation.SE-ERROR" target="files">SE-ERROR</A>.&amp;ParameterType<font color="#228b22">({<a href="#SeseAPDUs.Errors">Errors</a>{{<font color="#666666"><i>ValidSEs</i></font>}}})</font><FONT COLOR=#B22222><I> </I></FONT> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>
+}
+
+<A NAME="SeseAPDUs.Errors"></A>Errors{<A HREF="../../x830/1995/Notation.html#Notation.SECURITY-EXCHANGE" target="files">SECURITY-EXCHANGE</A>:ValidSEs} <A HREF="../../x830/1995/Notation.html#Notation.SE-ERROR" target="files">SE-ERROR</A> ::=
+  {<FONT COLOR=#666666><I>ValidSEs</I></FONT>.&amp;SE-Items.&amp;Errors}
+
+<A NAME="SeseAPDUs.ProblemCode"></A>ProblemCode ::= <FONT COLOR=#B8860B><B>CHOICE</B></FONT> {
+  general   <A HREF="#SeseAPDUs.GeneralProblem" target="files">GeneralProblem</A>,
+  transfer  <A HREF="#SeseAPDUs.TransferProblem" target="files">TransferProblem</A>,
+  abort     <A HREF="#SeseAPDUs.AbortProblem" target="files">AbortProblem</A>
+}
+
+<A NAME="SeseAPDUs.GeneralProblem"></A>GeneralProblem ::= <FONT COLOR=#5F9EA0><B>ENUMERATED</B></FONT> {invalidAPDU(0)}
+
+<A NAME="SeseAPDUs.TransferProblem"></A>TransferProblem ::= <FONT COLOR=#5F9EA0><B>ENUMERATED</B></FONT> {
+  duplicateInvocationId(0), unrecognizedSecurityExchange(1), mistypedItem(2),
+  inappropriateInvocationId(3), alternatingSequenceError(4)}
+
+<A NAME="SeseAPDUs.AbortProblem"></A>AbortProblem ::= <FONT COLOR=#5F9EA0><B>ENUMERATED</B></FONT> {
+  unrecognizedInvocationId(0), abortUnexpected(1), unrecognizedError(2),
+  unexpectedError(3), mistypedErrorParameter(4)}
+
+<FONT COLOR=#0000FF><B>END</B></FONT>
+</PRE>
+-- Generated by Asnp, the ASN.1 pretty-printer of France Telecom R&amp;D
+</BODY></HTML>

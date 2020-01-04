@@ -1,0 +1,1130 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.0//EN">
+<HTML>
+<HEAD>
+<META NAME="GENERATOR" CONTENT="Microsoft FrontPage 4.0">
+<TITLE>URST-PROTOCOL (T.135:08/2007)</TITLE>
+</HEAD>
+<BODY  >
+-- Module URST-PROTOCOL (T.135:08/2007)<br>
+-- See also <a href="/ITU-T/recommendations/fl.aspx?id=9230" target="_top">ITU-T T.135 (08/2007)</a><br>
+-- See also the <a href="index2.html" target="_top">index</a> of all ASN.1 assignments needed in this document<br><br>
+<PRE>
+<A NAME="URST-PROTOCOL"></A>URST-PROTOCOL {itu-t(0) recommendation(0) t(20) t135(135) version(0) 2 
+  asn1Modules(2) urst-protocol(1)} <FONT COLOR=#0000FF><B>DEFINITIONS</B></FONT> <FONT COLOR=#666666><B>AUTOMATIC TAGS</B></FONT> ::=
+<FONT COLOR=#0000FF><B>BEGIN</B></FONT>
+
+<FONT COLOR=#B22222><I>-- Export all symbols
+</I></FONT><FONT COLOR=#B22222><I>-- Imports definitions from T.124
+</I></FONT><FONT COLOR=#0000FF><B>IMPORTS</B></FONT>
+  TextString, SimpleTextString, DiallingString, ExtraDiallingString,
+    SubAddressString, H221NonStandardIdentifier, Key, NonStandardParameter,
+    ChallengeResponse, ChallengeRequest, Privilege
+    <FONT COLOR=#0000FF><B>FROM</B></FONT> GCC-PROTOCOL;
+
+<A NAME="URST-PROTOCOL.UnsignedInteger"></A><FONT COLOR=#B22222><I>--========================
+</I></FONT><FONT COLOR=#B22222><I>-- Types definition
+</I></FONT><FONT COLOR=#B22222><I>--========================
+</I></FONT>UnsignedInteger ::= <FONT COLOR=#5F9EA0><B>INTEGER</B></FONT><FONT COLOR=#228B22>(0..<FONT COLOR=#228B22><B>MAX</B></FONT>)</FONT>
+
+<A NAME="URST-PROTOCOL.LatinCapitalLettersString"></A>LatinCapitalLettersString ::= <FONT COLOR=#5F9EA0><B>BMPString</B></FONT><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>FROM</B></FONT> <FONT COLOR=#228B22>(<A HREF="#URST-PROTOCOL.latinCapitalA" target="files">latinCapitalA</A>..<A HREF="#URST-PROTOCOL.latinCapitalZ" target="files">latinCapitalZ</A>)</FONT>)</FONT>
+
+<A NAME="URST-PROTOCOL.LatinSmallLettersString"></A>LatinSmallLettersString ::= <FONT COLOR=#5F9EA0><B>BMPString</B></FONT><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>FROM</B></FONT> <FONT COLOR=#228B22>(<A HREF="#URST-PROTOCOL.latinSmallA" target="files">latinSmallA</A>..<A HREF="#URST-PROTOCOL.latinSmallZ" target="files">latinSmallZ</A>)</FONT>)</FONT>
+
+<A NAME="URST-PROTOCOL.LatinLettersString"></A>LatinLettersString ::=
+  <FONT COLOR=#5F9EA0><B>BMPString</B></FONT><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>FROM</B></FONT> <FONT COLOR=#228B22>(<A HREF="#URST-PROTOCOL.LatinCapitalLettersString" target="files">LatinCapitalLettersString</A> <FONT COLOR=#228B22><B>|</B></FONT> <A HREF="#URST-PROTOCOL.LatinSmallLettersString" target="files">LatinSmallLettersString</A>)</FONT>)</FONT>
+
+<A NAME="URST-PROTOCOL.DigitalString"></A>DigitalString ::= <FONT COLOR=#5F9EA0><B>BMPString</B></FONT><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>FROM</B></FONT> <FONT COLOR=#228B22>(<A HREF="#URST-PROTOCOL.digit0" target="files">digit0</A>..<A HREF="#URST-PROTOCOL.digit9" target="files">digit9</A>)</FONT>)</FONT>
+
+<A NAME="URST-PROTOCOL.LatinAlphanumericString"></A>LatinAlphanumericString ::=
+  <FONT COLOR=#5F9EA0><B>BMPString</B></FONT><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>FROM</B></FONT> <FONT COLOR=#228B22>(<A HREF="#URST-PROTOCOL.LatinLettersString" target="files">LatinLettersString</A> <FONT COLOR=#228B22><B>|</B></FONT> <A HREF="#URST-PROTOCOL.DigitalString" target="files">DigitalString</A>)</FONT>)</FONT>
+
+<A NAME="URST-PROTOCOL.GenericID"></A>GenericID ::= <FONT COLOR=#B8860B><B>CHOICE</B></FONT> {
+  numberID  <A HREF="#URST-PROTOCOL.UnsignedInteger" target="files">UnsignedInteger</A>,
+  stringID  <A HREF="#URST-PROTOCOL.LatinAlphanumericString" target="files">LatinAlphanumericString</A>
+}
+
+<A NAME="URST-PROTOCOL.ConnectionID"></A>ConnectionID ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  owningFlag        <FONT COLOR=#5F9EA0><B>BOOLEAN</B></FONT>,
+  connectionNumber  <FONT COLOR=#5F9EA0><B>INTEGER</B></FONT><FONT COLOR=#228B22>(0..65535)</FONT>
+}
+
+<A NAME="URST-PROTOCOL.TransactionID"></A>TransactionID ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  owningFlag         <FONT COLOR=#5F9EA0><B>BOOLEAN</B></FONT>,
+  transactionNumber  <FONT COLOR=#5F9EA0><B>INTEGER</B></FONT><FONT COLOR=#228B22>(0..65535)</FONT>
+}
+
+<A NAME="URST-PROTOCOL.SimpleTextStringInterval"></A>SimpleTextStringInterval ::= <FONT COLOR=#B8860B><B>CHOICE</B></FONT> {
+  thisString         <A HREF="../../t124/2007/GCC-PROTOCOL.html#GCC-PROTOCOL.SimpleTextString" target="files">SimpleTextString</A>,
+  anyFromThisString  <A HREF="../../t124/2007/GCC-PROTOCOL.html#GCC-PROTOCOL.SimpleTextString" target="files">SimpleTextString</A>,
+  anyToThisString    <A HREF="../../t124/2007/GCC-PROTOCOL.html#GCC-PROTOCOL.SimpleTextString" target="files">SimpleTextString</A>,
+  inBetween
+    <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {inferiorString  <A HREF="../../t124/2007/GCC-PROTOCOL.html#GCC-PROTOCOL.SimpleTextString" target="files">SimpleTextString</A>,
+              superiorString  <A HREF="../../t124/2007/GCC-PROTOCOL.html#GCC-PROTOCOL.SimpleTextString" target="files">SimpleTextString</A>}
+}
+
+<A NAME="URST-PROTOCOL.Time"></A>Time ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {hour    <FONT COLOR=#5F9EA0><B>INTEGER</B></FONT><FONT COLOR=#228B22>(0..23)</FONT>,
+                   minute  <FONT COLOR=#5F9EA0><B>INTEGER</B></FONT><FONT COLOR=#228B22>(0..59)</FONT>
+}
+
+<A NAME="URST-PROTOCOL.TimeInterval"></A>TimeInterval ::= <FONT COLOR=#B8860B><B>CHOICE</B></FONT> {
+  whenEver                   <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  never                      <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  fromThisTimeUntilWhenever  <A HREF="#URST-PROTOCOL.Time" target="files">Time</A>,
+  fromNowUntilThisTime       <A HREF="#URST-PROTOCOL.Time" target="files">Time</A>,
+  inBetween                  <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {startTime  <A HREF="#URST-PROTOCOL.Time" target="files">Time</A>,
+                                       endTime    <A HREF="#URST-PROTOCOL.Time" target="files">Time</A>}
+}
+
+<A NAME="URST-PROTOCOL.Day"></A>Day ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  day    <FONT COLOR=#5F9EA0><B>INTEGER</B></FONT><FONT COLOR=#228B22>(0..31)</FONT>,
+  month  <FONT COLOR=#5F9EA0><B>INTEGER</B></FONT><FONT COLOR=#228B22>(1..12)</FONT>,
+  year   <A HREF="#URST-PROTOCOL.UnsignedInteger" target="files">UnsignedInteger</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT><FONT COLOR=#B22222><I> -- defaults implicitly to the current year</I></FONT>
+}
+
+<A NAME="URST-PROTOCOL.DaysInterval"></A>DaysInterval ::= <FONT COLOR=#B8860B><B>CHOICE</B></FONT> {
+  whenEver                  <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  never                     <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  todayOnly                 <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  thisDayOnly               <A HREF="#URST-PROTOCOL.Day" target="files">Day</A>,
+  fromThisDayUntilWhenever  <A HREF="#URST-PROTOCOL.Day" target="files">Day</A>,
+  fromNowUntilThisDay       <A HREF="#URST-PROTOCOL.Day" target="files">Day</A>,
+  inBetween                 <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {firstDay  <A HREF="#URST-PROTOCOL.Day" target="files">Day</A>,
+                                      lastDay   <A HREF="#URST-PROTOCOL.Day" target="files">Day</A>}
+}
+
+<A NAME="URST-PROTOCOL.Duration"></A>Duration ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {hours    <A HREF="#URST-PROTOCOL.UnsignedInteger" target="files">UnsignedInteger</A>,
+                       minutes  <FONT COLOR=#5F9EA0><B>INTEGER</B></FONT><FONT COLOR=#228B22>(0..59)</FONT>
+}
+
+<A NAME="URST-PROTOCOL.ConferenceDuration"></A>ConferenceDuration ::= <FONT COLOR=#B8860B><B>CHOICE</B></FONT> {
+  permanent         <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  untilTermination  <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  duration          <A HREF="#URST-PROTOCOL.Duration" target="files">Duration</A>
+}
+
+<A NAME="URST-PROTOCOL.SiteParticipationDuration"></A>SiteParticipationDuration ::= <FONT COLOR=#B8860B><B>CHOICE</B></FONT> {
+  allConference  <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  untilExit      <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  duration       <A HREF="#URST-PROTOCOL.Duration" target="files">Duration</A>
+}
+
+<A NAME="URST-PROTOCOL.AuthenticationData"></A>AuthenticationData ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  suppliedElement
+    <FONT COLOR=#B8860B><B>CHOICE</B></FONT> {passwordInTheClear  <A HREF="#URST-PROTOCOL.LatinAlphanumericString" target="files">LatinAlphanumericString</A>,<FONT COLOR=#B22222><I> -- password directly supplied--</I></FONT>
+            challengeResponse   <A HREF="../../t124/2007/GCC-PROTOCOL.html#GCC-PROTOCOL.ChallengeResponse" target="files">ChallengeResponse</A>} <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  requiredElement  <A HREF="../../t124/2007/GCC-PROTOCOL.html#GCC-PROTOCOL.ChallengeRequest" target="files">ChallengeRequest</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  ...
+}
+
+<A NAME="URST-PROTOCOL.AcknowledgmentType"></A>AcknowledgmentType ::= <FONT COLOR=#B8860B><B>CHOICE</B></FONT> {
+  noAcknowledgment  <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  simple            <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  explicit          <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  ...
+}
+
+<A NAME="URST-PROTOCOL.MCUCascadingMode"></A>MCUCascadingMode ::= <FONT COLOR=#B8860B><B>CHOICE</B></FONT> {
+  simple          <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  masterExternal  <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  masterInternal  <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  unspecified     <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  ...
+}
+
+<A NAME="URST-PROTOCOL.VideoSwitchingMethod"></A>VideoSwitchingMethod ::= <FONT COLOR=#B8860B><B>CHOICE</B></FONT> {
+  voiceActivityDetection  <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  periodicRotation        <A HREF="#URST-PROTOCOL.UnsignedInteger" target="files">UnsignedInteger</A>,<FONT COLOR=#B22222><I> -- period in seconds</I></FONT>
+  fixedBroadcaster        <A HREF="#URST-PROTOCOL.GenericID" target="files">GenericID</A>,<FONT COLOR=#B22222><I> -- ID obtained at site registration</I></FONT>
+  lastSpeakersMosaic      <A HREF="#URST-PROTOCOL.UnsignedInteger" target="files">UnsignedInteger</A>,<FONT COLOR=#B22222><I> -- number of sources</I></FONT>
+  fixedListMosaic         <FONT COLOR=#B8860B><B>SET</B></FONT> <FONT COLOR=#228B22><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>SIZE</B></FONT> <FONT COLOR=#228B22>(1..<FONT COLOR=#228B22><B>MAX</B></FONT>)</FONT>)</FONT></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="#URST-PROTOCOL.GenericID" target="files">GenericID</A>,<FONT COLOR=#B22222><I> -- sites registration IDs</I></FONT>
+  ...
+}
+
+<A NAME="URST-PROTOCOL.VideoFormat"></A>VideoFormat ::= <FONT COLOR=#B8860B><B>CHOICE</B></FONT> {
+  cif            <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  qcif           <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  sif            <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  sqcif          <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  runtimeChoice  <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  ...
+}
+
+<A NAME="URST-PROTOCOL.VideoCoding"></A>VideoCoding ::= <FONT COLOR=#B8860B><B>CHOICE</B></FONT> {
+  h261           <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  h262           <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  h263           <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  runtimeChoice  <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  ...
+}
+
+<A NAME="URST-PROTOCOL.AudioCoding"></A>AudioCoding ::= <FONT COLOR=#B8860B><B>CHOICE</B></FONT> {
+  g711-A         <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  g711-mu        <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  g722           <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  g723           <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  g728           <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  g729           <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  mpegAudio      <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  runtimeChoice  <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  ...
+}
+
+<A NAME="URST-PROTOCOL.WaitingListPolicy"></A>WaitingListPolicy ::= <FONT COLOR=#B8860B><B>CHOICE</B></FONT> {
+  allWaitingList  <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  bestEffort      <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  noWaitingList   <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  ...
+}
+
+<A NAME="URST-PROTOCOL.BillingMode"></A>BillingMode ::= <FONT COLOR=#B8860B><B>CHOICE</B></FONT> {
+  organizer            <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  participants         <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  mixed                <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  implicitBillingMode  <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  ...
+}
+
+<A NAME="URST-PROTOCOL.X400Address"></A>X400Address ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  administrationDomain  <A HREF="../../t124/2007/GCC-PROTOCOL.html#GCC-PROTOCOL.SimpleTextString" target="files">SimpleTextString</A>,<FONT COLOR=#B22222><I> -- A field</I></FONT>
+  country               <A HREF="../../t124/2007/GCC-PROTOCOL.html#GCC-PROTOCOL.SimpleTextString" target="files">SimpleTextString</A>,<FONT COLOR=#B22222><I> -- C field</I></FONT>
+  privateDomain         <A HREF="../../t124/2007/GCC-PROTOCOL.html#GCC-PROTOCOL.SimpleTextString" target="files">SimpleTextString</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,<FONT COLOR=#B22222><I> -- P field</I></FONT>
+  organization          <A HREF="../../t124/2007/GCC-PROTOCOL.html#GCC-PROTOCOL.SimpleTextString" target="files">SimpleTextString</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,<FONT COLOR=#B22222><I> -- O field</I></FONT>
+  organizationalUnits   <FONT COLOR=#B8860B><B>SET</B></FONT> <FONT COLOR=#228B22><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>SIZE</B></FONT> <FONT COLOR=#228B22>(1..4)</FONT>)</FONT></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="../../t124/2007/GCC-PROTOCOL.html#GCC-PROTOCOL.SimpleTextString" target="files">SimpleTextString</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,<FONT COLOR=#B22222><I> -- OUx fields</I></FONT>
+  givenName             <A HREF="../../t124/2007/GCC-PROTOCOL.html#GCC-PROTOCOL.SimpleTextString" target="files">SimpleTextString</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,<FONT COLOR=#B22222><I> -- G field</I></FONT>
+  initials              <A HREF="../../t124/2007/GCC-PROTOCOL.html#GCC-PROTOCOL.SimpleTextString" target="files">SimpleTextString</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,<FONT COLOR=#B22222><I> -- I field</I></FONT>
+  surname               <A HREF="../../t124/2007/GCC-PROTOCOL.html#GCC-PROTOCOL.SimpleTextString" target="files">SimpleTextString</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,<FONT COLOR=#B22222><I> -- S field</I></FONT>
+  generationQualifier   <A HREF="../../t124/2007/GCC-PROTOCOL.html#GCC-PROTOCOL.SimpleTextString" target="files">SimpleTextString</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,<FONT COLOR=#B22222><I> -- Q field</I></FONT>
+  commonName            <A HREF="../../t124/2007/GCC-PROTOCOL.html#GCC-PROTOCOL.SimpleTextString" target="files">SimpleTextString</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT><FONT COLOR=#B22222><I> -- C field</I></FONT>
+}
+
+<A NAME="URST-PROTOCOL.ElectronicAddress"></A>ElectronicAddress ::= <FONT COLOR=#B8860B><B>CHOICE</B></FONT> {
+  x400    <A HREF="#URST-PROTOCOL.X400Address" target="files">X400Address</A>,
+  e-mail  <A HREF="../../t124/2007/GCC-PROTOCOL.html#GCC-PROTOCOL.SimpleTextString" target="files">SimpleTextString</A>,
+  ...
+}
+
+<A NAME="URST-PROTOCOL.PersonDescription"></A>PersonDescription ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  name                 <A HREF="../../t124/2007/GCC-PROTOCOL.html#GCC-PROTOCOL.SimpleTextString" target="files">SimpleTextString</A>,
+  nameComplement       <A HREF="../../t124/2007/GCC-PROTOCOL.html#GCC-PROTOCOL.SimpleTextString" target="files">SimpleTextString</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  postalAddress        <A HREF="../../t124/2007/GCC-PROTOCOL.html#GCC-PROTOCOL.SimpleTextString" target="files">SimpleTextString</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  telephoneNumbers     <FONT COLOR=#B8860B><B>SET</B></FONT> <FONT COLOR=#228B22><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>SIZE</B></FONT> <FONT COLOR=#228B22>(1..<FONT COLOR=#228B22><B>MAX</B></FONT>)</FONT>)</FONT></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="../../t124/2007/GCC-PROTOCOL.html#GCC-PROTOCOL.DiallingString" target="files">DiallingString</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  facsimileNumbers     <FONT COLOR=#B8860B><B>SET</B></FONT> <FONT COLOR=#228B22><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>SIZE</B></FONT> <FONT COLOR=#228B22>(1..<FONT COLOR=#228B22><B>MAX</B></FONT>)</FONT>)</FONT></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="../../t124/2007/GCC-PROTOCOL.html#GCC-PROTOCOL.DiallingString" target="files">DiallingString</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  electronicAddresses  <FONT COLOR=#B8860B><B>SET</B></FONT> <FONT COLOR=#228B22><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>SIZE</B></FONT> <FONT COLOR=#228B22>(1..<FONT COLOR=#228B22><B>MAX</B></FONT>)</FONT>)</FONT></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="#URST-PROTOCOL.ElectronicAddress" target="files">ElectronicAddress</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  optionalStrings      <FONT COLOR=#B8860B><B>SET</B></FONT> <FONT COLOR=#228B22><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>SIZE</B></FONT> <FONT COLOR=#228B22>(1..<FONT COLOR=#228B22><B>MAX</B></FONT>)</FONT>)</FONT></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="../../t124/2007/GCC-PROTOCOL.html#GCC-PROTOCOL.SimpleTextString" target="files">SimpleTextString</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  ...
+}
+
+<A NAME="URST-PROTOCOL.JoiningMethod"></A>JoiningMethod ::= <FONT COLOR=#B8860B><B>CHOICE</B></FONT> {called   <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+                          calling  <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+                          ...
+}
+
+<A NAME="URST-PROTOCOL.ExtendedE164NetworkAddress"></A>ExtendedE164NetworkAddress ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  internationalNumber  <A HREF="../../t124/2007/GCC-PROTOCOL.html#GCC-PROTOCOL.DiallingString" target="files">DiallingString</A>,
+  subAddress           <A HREF="../../t124/2007/GCC-PROTOCOL.html#GCC-PROTOCOL.SubAddressString" target="files">SubAddressString</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  extraDialling        <A HREF="../../t124/2007/GCC-PROTOCOL.html#GCC-PROTOCOL.ExtraDiallingString" target="files">ExtraDiallingString</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>
+}
+
+<A NAME="URST-PROTOCOL.TransportAddress"></A>TransportAddress ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  nsapAddress        <FONT COLOR=#5F9EA0><B>OCTET STRING</B></FONT><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>SIZE</B></FONT> <FONT COLOR=#228B22>(1..20)</FONT>)</FONT>,
+  transportSelector  <FONT COLOR=#5F9EA0><B>OCTET STRING</B></FONT> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>
+}
+
+<A NAME="URST-PROTOCOL.NetworkAddress"></A>NetworkAddress ::= <FONT COLOR=#B8860B><B>CHOICE</B></FONT> {
+  extendedE164      <A HREF="#URST-PROTOCOL.ExtendedE164NetworkAddress" target="files">ExtendedE164NetworkAddress</A>,
+  transportAddress  <A HREF="#URST-PROTOCOL.TransportAddress" target="files">TransportAddress</A>,
+  nonStandard       <A HREF="../../t124/2007/GCC-PROTOCOL.html#GCC-PROTOCOL.NonStandardParameter" target="files">NonStandardParameter</A>,
+  ...
+}
+
+<A NAME="URST-PROTOCOL.ChannelAggregationMethod"></A>ChannelAggregationMethod ::= <FONT COLOR=#B8860B><B>CHOICE</B></FONT> {
+  h221           <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  h244           <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  iso-iec-13871  <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,<FONT COLOR=#B22222><I> -- The actual mode of bonding is dynamically selected according</I></FONT>
+  
+  <FONT COLOR=#B22222><I>-- to the procedures described in ISO/IEC 13871.
+  </I></FONT>nonStandard    <A HREF="../../t124/2007/GCC-PROTOCOL.html#GCC-PROTOCOL.NonStandardParameter" target="files">NonStandardParameter</A>,
+  ...
+}
+
+<A NAME="URST-PROTOCOL.Profile"></A>Profile ::= <FONT COLOR=#B8860B><B>CHOICE</B></FONT> {
+  simpleProfile
+    <FONT COLOR=#B8860B><B>CHOICE</B></FONT> {<FONT COLOR=#B22222><I>-- Basic transfer modes :
+            </I></FONT>speech             <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,<FONT COLOR=#B22222><I> -- Simple telephony--</I></FONT>
+            telephony-3kHz     <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,<FONT COLOR=#B22222><I> -- G.711 on ISDN or CSDN--</I></FONT>
+            telephony-7kHz     <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,<FONT COLOR=#B22222><I> -- G.722 on ISDN or CSDN--</I></FONT>
+            voice-band         <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,<FONT COLOR=#B22222><I> -- Modems--</I></FONT>
+            frameRelay         <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+            <FONT COLOR=#B22222><I>-- T.120-only data profiles (T.123):
+            </I></FONT>t123-pstn-basic    <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+            t123-psdn-basic    <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+            t123-b-isdn-basic  <FONT COLOR=#5F9EA0><B>NULL</B></FONT>},
+  multimediaProfile
+    <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {profile
+                <FONT COLOR=#B8860B><B>CHOICE</B></FONT> {h310   <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+                        h320   <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+                        h321   <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+                        h322   <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+                        h323   <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+                        h324   <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+                        h324m  <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+                        v61    <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,<FONT COLOR=#B22222><I> -- ASVD--</I></FONT>
+                        v70    <FONT COLOR=#5F9EA0><B>NULL</B></FONT><FONT COLOR=#B22222><I> -- DSVD</I></FONT>},
+              t120Indicator  <FONT COLOR=#5F9EA0><B>BOOLEAN</B></FONT><FONT COLOR=#B22222><I> -- indicates if T.120 protocols are operated for data</I></FONT>
+  },
+  dsmccDownloadProfile  <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  nonStandard           <A HREF="../../t124/2007/GCC-PROTOCOL.html#GCC-PROTOCOL.NonStandardParameter" target="files">NonStandardParameter</A>,
+  ...
+}
+
+<A NAME="URST-PROTOCOL.AllocatedNetworkAddress"></A>AllocatedNetworkAddress ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  connectionDescriptor
+    <FONT COLOR=#B8860B><B>CHOICE</B></FONT> {combinedCircuits
+              <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {circuitsList
+                          <FONT COLOR=#B8860B><B>SET</B></FONT> <FONT COLOR=#228B22><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>SIZE</B></FONT> <FONT COLOR=#228B22>(1..<FONT COLOR=#228B22><B>MAX</B></FONT>)</FONT>)</FONT></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT>
+                            <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {circuitMode
+                                        <FONT COLOR=#B8860B><B>CHOICE</B></FONT> {<FONT COLOR=#B22222><I>-- nominal circuits for ISDN and CSDN networks
+                                                </I></FONT>digital-56k         <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+                                                digital-64k         <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+                                                digital-2x64k       <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+                                                digital-384k        <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+                                                digital-1472k       <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+                                                digital-1536k       <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+                                                digital-1920k       <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+                                                multirate-base-64k
+                                                  <FONT COLOR=#5F9EA0><B>INTEGER</B></FONT><FONT COLOR=#228B22>(1..30)</FONT><FONT COLOR=#B22222><I> -- number of B channels</I></FONT>
+                                      },
+                                      networkAddress
+                                        <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {extendedE164
+                                                    <A HREF="#URST-PROTOCOL.ExtendedE164NetworkAddress" target="files">ExtendedE164NetworkAddress</A>,
+                                                  highLayerCompatibility
+                                                    <A HREF="#URST-PROTOCOL.HLCSupportedCodePoints" target="files">HLCSupportedCodePoints</A>
+                                                      <FONT COLOR=#666666><B>OPTIONAL</B></FONT>},
+                                      channelAggregations
+                                        <FONT COLOR=#B8860B><B>SET</B></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="#URST-PROTOCOL.ChannelAggregationMethod" target="files">ChannelAggregationMethod</A>
+                                          <FONT COLOR=#666666><B>OPTIONAL</B></FONT><FONT COLOR=#B22222><I> -- indicates the--</I></FONT>
+                                      <FONT COLOR=#B22222><I>-- aggregation methods that may be used to combine the circuits. Absence of
+                                      </I></FONT><FONT COLOR=#B22222><I>-- this parameter indicates that no channel aggregation shall be used.</I></FONT>
+                            },
+                        singleAddress
+                          <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {address                 <A HREF="#URST-PROTOCOL.NetworkAddress" target="files">NetworkAddress</A>,
+                                    highLayerCompatibility
+                                      <A HREF="#URST-PROTOCOL.HLCSupportedCodePoints" target="files">HLCSupportedCodePoints</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>
+                        }}},
+  networkInterfaceToUse  <A HREF="#URST-PROTOCOL.GenericID" target="files">GenericID</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  profileToOperate       <A HREF="#URST-PROTOCOL.Profile" target="files">Profile</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  ...
+}
+
+<A NAME="URST-PROTOCOL.HLCSupportedCodePoints"></A>HLCSupportedCodePoints ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  <FONT COLOR=#B22222><I>-- Those are supported code points for IE HLC of the D
+  </I></FONT><FONT COLOR=#B22222><I>-- protocol (Rec. Q.931).
+  </I></FONT>telephony3kHz    <FONT COLOR=#5F9EA0><B>BOOLEAN</B></FONT>,
+  telephony7kHz    <FONT COLOR=#5F9EA0><B>BOOLEAN</B></FONT>,
+  videotelephony   <FONT COLOR=#5F9EA0><B>BOOLEAN</B></FONT>,
+  videoconference  <FONT COLOR=#5F9EA0><B>BOOLEAN</B></FONT>,
+  audiographic     <FONT COLOR=#5F9EA0><B>BOOLEAN</B></FONT>,
+  audiovisual      <FONT COLOR=#5F9EA0><B>BOOLEAN</B></FONT>,
+  multimedia       <FONT COLOR=#5F9EA0><B>BOOLEAN</B></FONT>,
+  ...
+}
+
+<A NAME="URST-PROTOCOL.BookingSite"></A>BookingSite ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  siteID                   <A HREF="#URST-PROTOCOL.GenericID" target="files">GenericID</A>,
+  entryDelay               <A HREF="#URST-PROTOCOL.Duration" target="files">Duration</A> <FONT COLOR=#666666><B>DEFAULT</B></FONT> {hours 0, minutes 0},
+  duration                 <A HREF="#URST-PROTOCOL.SiteParticipationDuration" target="files">SiteParticipationDuration</A> <FONT COLOR=#666666><B>DEFAULT</B></FONT> allConference:<FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  transferRate             <FONT COLOR=#5F9EA0><B>INTEGER</B></FONT><FONT COLOR=#228B22>(1..30)</FONT> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,<FONT COLOR=#B22222><I> -- N? atomic channel</I></FONT>
+  joiningMethod            <A HREF="#URST-PROTOCOL.JoiningMethod" target="files">JoiningMethod</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  waitingListIndicator     <FONT COLOR=#5F9EA0><B>BOOLEAN</B></FONT> <FONT COLOR=#666666><B>DEFAULT</B></FONT> <FONT COLOR=#5F9EA0><B>FALSE</B></FONT>,
+  allocatedNetworkAddress  <A HREF="#URST-PROTOCOL.AllocatedNetworkAddress" target="files">AllocatedNetworkAddress</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  participantBillingRatio  <FONT COLOR=#5F9EA0><B>INTEGER</B></FONT><FONT COLOR=#228B22>(0..100)</FONT> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  conferees                <FONT COLOR=#B8860B><B>SET</B></FONT> <FONT COLOR=#228B22><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>SIZE</B></FONT> <FONT COLOR=#228B22>(1..<FONT COLOR=#228B22><B>MAX</B></FONT>)</FONT>)</FONT></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="#URST-PROTOCOL.PersonDescription" target="files">PersonDescription</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  ...
+}
+
+<A NAME="URST-PROTOCOL.ApplyingSite"></A>ApplyingSite ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  siteID                     <A HREF="#URST-PROTOCOL.GenericID" target="files">GenericID</A>,
+  entryDelay                 <A HREF="#URST-PROTOCOL.Duration" target="files">Duration</A> <FONT COLOR=#666666><B>DEFAULT</B></FONT> {hours 0, minutes 0},
+  duration
+    <A HREF="#URST-PROTOCOL.SiteParticipationDuration" target="files">SiteParticipationDuration</A> <FONT COLOR=#666666><B>DEFAULT</B></FONT> allConference:<FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  transferRate               <FONT COLOR=#5F9EA0><B>INTEGER</B></FONT><FONT COLOR=#228B22>(1..30)</FONT> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,<FONT COLOR=#B22222><I> -- N ? atomic channel</I></FONT>
+  possibleNetworkInterfaces  <FONT COLOR=#B8860B><B>SET</B></FONT> <FONT COLOR=#228B22><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>SIZE</B></FONT> <FONT COLOR=#228B22>(1..<FONT COLOR=#228B22><B>MAX</B></FONT>)</FONT>)</FONT></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="#URST-PROTOCOL.GenericID" target="files">GenericID</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  ...
+}
+
+<A NAME="URST-PROTOCOL.ConferenceModificationPolicy"></A>ConferenceModificationPolicy ::= <FONT COLOR=#B8860B><B>CHOICE</B></FONT> {
+  keepPrevious    <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  cancelPrevious  <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  allWaitingList  <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  bestEffort      <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  ...
+}
+
+<A NAME="URST-PROTOCOL.ConferenceStatus"></A>ConferenceStatus ::= <FONT COLOR=#B8860B><B>CHOICE</B></FONT> {
+  reserved           <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  partiallyReserved  <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  inWaitingList      <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  ongoing            <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  ...
+}
+
+<A NAME="URST-PROTOCOL.ConferenceSummary"></A>ConferenceSummary ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  conferenceReference    <A HREF="#URST-PROTOCOL.GenericID" target="files">GenericID</A>,
+  conferenceName         <A HREF="../../t124/2007/GCC-PROTOCOL.html#GCC-PROTOCOL.SimpleTextString" target="files">SimpleTextString</A>,
+  conferenceDescription  <A HREF="../../t124/2007/GCC-PROTOCOL.html#GCC-PROTOCOL.SimpleTextString" target="files">SimpleTextString</A> <FONT COLOR=#666666><B>DEFAULT</B></FONT> &quot;&quot;,
+  conferenceOwnerID      <A HREF="#URST-PROTOCOL.GenericID" target="files">GenericID</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  conferenceOwnerName    <A HREF="../../t124/2007/GCC-PROTOCOL.html#GCC-PROTOCOL.SimpleTextString" target="files">SimpleTextString</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  date                   <A HREF="#URST-PROTOCOL.Day" target="files">Day</A>,
+  time                   <A HREF="#URST-PROTOCOL.Time" target="files">Time</A>,
+  duration               <A HREF="#URST-PROTOCOL.ConferenceDuration" target="files">ConferenceDuration</A>,
+  status                 <A HREF="#URST-PROTOCOL.ConferenceStatus" target="files">ConferenceStatus</A>,
+  modifyRight            <FONT COLOR=#5F9EA0><B>BOOLEAN</B></FONT> <FONT COLOR=#666666><B>DEFAULT</B></FONT> <FONT COLOR=#5F9EA0><B>TRUE</B></FONT>,
+  ...
+}
+
+<A NAME="URST-PROTOCOL.ISDNInterface"></A>ISDNInterface ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  combinedInterfaces
+    <FONT COLOR=#B8860B><B>SET</B></FONT> <FONT COLOR=#228B22><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>SIZE</B></FONT> <FONT COLOR=#228B22>(1..<FONT COLOR=#228B22><B>MAX</B></FONT>)</FONT>)</FONT></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT>
+      <FONT COLOR=#B8860B><B>SEQUENCR=#5F9EA0&gt;<B>NULL</B></FONT>,
+                            digital-2x64k       <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+                            digital-384k        <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+                            digital-1536k       <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+                            digital-1920k       <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+                            multirate-base-64k
+                              <FONT COLOR=#B8860B><B>CHOICE</B></FONT> {specifiedMultiples  <FONT COLOR=#B8860B><B>SET</B></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <FONT COLOR=#5F9EA0><B>INTEGER</B></FONT><FONT COLOR=#228B22>(1..30)</FONT>,
+                                      allMultiples        <FONT COLOR=#5F9EA0><B>NULL</B></FONT>}},
+                networkAddress
+                  <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {extendedE164            <A HREF="#URST-PROTOCOL.ExtendedE164NetworkAddress" target="files">ExtendedE164NetworkAddress</A>,
+                            highLayerCompatibility
+                              <A HREF="#URST-PROTOCOL.HLCSupportedCodePoints" target="files">HLCSupportedCodePoints</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>},
+                ...},
+  channelAggregations  <FONT COLOR=#B8860B><B>SET</B></FONT> <FONT COLOR=#228B22><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>SIZE</B></FONT> <FONT COLOR=#228B22>(1..<FONT COLOR=#228B22><B>MAX</B></FONT>)</FONT>)</FONT></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="#URST-PROTOCOL.ChannelAggregationMethod" target="files">ChannelAggregationMethod</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  ...
+}
+
+<A NAME="URST-PROTOCOL.CSDNInterface"></A>CSDNInterface ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  combinedInterfaces
+    <FONT COLOR=#B8860B><B>SET</B></FONT> <FONT COLOR=#228B22><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>SIZE</B></FONT> <FONT COLOR=#228B22>(1..<FONT COLOR=#228B22><B>MAX</B></FONT>)</FONT>)</FONT></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT>
+      <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {baseRate
+                  <FONT COLOR=#B8860B><B>CHOICE</B></FONT> {digital-56k  <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+                          digital-64k  <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+                          ...},
+                networkAddress  <A HREF="#URST-PROTOCOL.ExtendedE164NetworkAddress" target="files">ExtendedE164NetworkAddress</A>,
+                ...},
+  channelAggregations  <FONT COLOR=#B8860B><B>SET</B></FONT> <FONT COLOR=#228B22><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>SIZE</B></FONT> <FONT COLOR=#228B22>(1..<FONT COLOR=#228B22><B>MAX</B></FONT>)</FONT>)</FONT></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="#URST-PROTOCOL.ChannelAggregationMethod" target="files">ChannelAggregationMethod</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  ...
+}
+
+<A NAME="URST-PROTOCOL.ATMInterface"></A>ATMInterface ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  networkAddress   <A HREF="#URST-PROTOCOL.NetworkAddress" target="files">NetworkAddress</A>,
+  <FONT COLOR=#B22222><I>-- The use of several addresses for multicast calls establishment is for further study.
+  </I></FONT>maxTransferRate  <FONT COLOR=#5F9EA0><B>INTEGER</B></FONT><FONT COLOR=#228B22>(0..<FONT COLOR=#228B22><B>MAX</B></FONT>)</FONT> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,<FONT COLOR=#B22222><I> -- expressed in cells per seconds</I></FONT>
+  ...
+}
+
+<A NAME="URST-PROTOCOL.GSTNInterface"></A>GSTNInterface ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {networkAddress  <A HREF="#URST-PROTOCOL.ExtendedE164NetworkAddress" target="files">ExtendedE164NetworkAddress</A>,
+                            ...
+}
+
+<A NAME="URST-PROTOCOL.MobileInterface"></A>MobileInterface ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {networkAddress  <A HREF="#URST-PROTOCOL.ExtendedE164NetworkAddress" target="files">ExtendedE164NetworkAddress</A>,
+                              ...
+}
+
+<A NAME="URST-PROTOCOL.PSDNInterface"></A>PSDNInterface ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {networkAddress  <A HREF="#URST-PROTOCOL.NetworkAddress" target="files">NetworkAddress</A>,
+                            ...
+}
+
+<A NAME="URST-PROTOCOL.LANInterface"></A>LANInterface ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  networkAddress   <A HREF="#URST-PROTOCOL.NetworkAddress" target="files">NetworkAddress</A>,
+  maxTransferRate  <FONT COLOR=#5F9EA0><B>INTEGER</B></FONT><FONT COLOR=#228B22>(0..<FONT COLOR=#228B22><B>MAX</B></FONT>)</FONT> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,<FONT COLOR=#B22222><I> -- expressed in kbit/s</I></FONT>
+  ...
+}
+
+<A NAME="URST-PROTOCOL.NetworkInterface"></A>NetworkInterface ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  interfaceID           <A HREF="#URST-PROTOCOL.GenericID" target="files">GenericID</A>,
+  interfaceDescription
+    <FONT COLOR=#B8860B><B>CHOICE</B></FONT> {isdnInterface    <A HREF="#URST-PROTOCOL.ISDNInterface" target="files">ISDNInterface</A>,
+            csdnInterface    <A HREF="#URST-PROTOCOL.CSDNInterface" target="files">CSDNInterface</A>,
+            atmInterface     <A HREF="#URST-PROTOCOL.ATMInterface" target="files">ATMInterface</A>,
+            gstnInterface    <A HREF="#URST-PROTOCOL.GSTNInterface" target="files">GSTNInterface</A>,
+            mobileInterface  <A HREF="#URST-PROTOCOL.MobileInterface" target="files">MobileInterface</A>,
+            psdnInterface    <A HREF="#URST-PROTOCOL.PSDNInterface" target="files">PSDNInterface</A>,
+            lanInterface     <A HREF="#URST-PROTOCOL.LANInterface" target="files">LANInterface</A>,
+            nonStandard      <A HREF="../../t124/2007/GCC-PROTOCOL.html#GCC-PROTOCOL.NonStandardParameter" target="files">NonStandardParameter</A>,
+            ...},
+  profilesSupported     <A HREF="#URST-PROTOCOL.Profile" target="files">Profile</A>,
+  ...
+}
+
+<A NAME="URST-PROTOCOL.SiteType"></A>SiteType ::= <FONT COLOR=#B8860B><B>CHOICE</B></FONT> {
+  mcu                  <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  combinedTerminalMCU  <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  terminal             <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  telephone            <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  specialDevice        <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  nonStandard          <A HREF="../../t124/2007/GCC-PROTOCOL.html#GCC-PROTOCOL.NonStandardParameter" target="files">NonStandardParameter</A>,
+  ...
+}
+
+<A NAME="URST-PROTOCOL.SiteClass"></A>SiteClass ::= <FONT COLOR=#B8860B><B>CHOICE</B></FONT> {
+  multimedia    <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  audiovisual   <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  audiographic  <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  visiographic  <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  dataOnly      <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  nonStandard   <A HREF="../../t124/2007/GCC-PROTOCOL.html#GCC-PROTOCOL.NonStandardParameter" target="files">NonStandardParameter</A>,
+  ...
+}
+
+<A NAME="URST-PROTOCOL.VendorModelVersion"></A>VendorModelVersion ::= <FONT COLOR=#B8860B><B>CHOICE</B></FONT> {
+  h221NonStandard  <A HREF="../../t124/2007/GCC-PROTOCOL.html#GCC-PROTOCOL.H221NonStandardIdentifier" target="files">H221NonStandardIdentifier</A>,
+  textForm
+    <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {vendor   <A HREF="../../t124/2007/GCC-PROTOCOL.html#GCC-PROTOCOL.SimpleTextString" target="files">SimpleTextString</A>,
+              model    <A HREF="../../t124/2007/GCC-PROTOCOL.html#GCC-PROTOCOL.SimpleTextString" target="files">SimpleTextString</A>,
+              version  <A HREF="../../t124/2007/GCC-PROTOCOL.html#GCC-PROTOCOL.SimpleTextString" target="files">SimpleTextString</A>}
+}
+
+<A NAME="URST-PROTOCOL.EquipmentDescription"></A>EquipmentDescription ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  generalInformation    <A HREF="#URST-PROTOCOL.VendorModelVersion" target="files">VendorModelVersion</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  imuxInformation       <A HREF="#URST-PROTOCOL.VendorModelVersion" target="files">VendorModelVersion</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  audioCodec            <A HREF="#URST-PROTOCOL.VendorModelVersion" target="files">VendorModelVersion</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  audioAlgorithms       <FONT COLOR=#B8860B><B>SET</B></FONT> <FONT COLOR=#228B22><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>SIZE</B></FONT> <FONT COLOR=#228B22>(1..<FONT COLOR=#228B22><B>MAX</B></FONT>)</FONT>)</FONT></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="#URST-PROTOCOL.AudioCoding" target="files">AudioCoding</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  videoCodec            <A HREF="#URST-PROTOCOL.VendorModelVersion" target="files">VendorModelVersion</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  videoAlgorithms       <FONT COLOR=#B8860B><B>SET</B></FONT> <FONT COLOR=#228B22><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>SIZE</B></FONT> <FONT COLOR=#228B22>(1..<FONT COLOR=#228B22><B>MAX</B></FONT>)</FONT>)</FONT></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="#URST-PROTOCOL.VideoCoding" target="files">VideoCoding</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  t120StackInformation  <A HREF="#URST-PROTOCOL.VendorModelVersion" target="files">VendorModelVersion</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  ...
+}
+
+<A NAME="URST-PROTOCOL.UserData"></A>UserData ::= <FONT COLOR=#B8860B><B>CHOICE</B></FONT> {
+  rawData         <FONT COLOR=#5F9EA0><B>OCTET STRING</B></FONT>,
+  identifiedData  <FONT COLOR=#B8860B><B>SET</B></FONT> <FONT COLOR=#228B22><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>SIZE</B></FONT> <FONT COLOR=#228B22>(1..<FONT COLOR=#228B22><B>MAX</B></FONT>)</FONT>)</FONT></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="../../t124/2007/GCC-PROTOCOL.html#GCC-PROTOCOL.NonStandardParameter" target="files">NonStandardParameter</A>
+}
+
+<A NAME="URST-PROTOCOL.ResultCode"></A>ResultCode ::= <FONT COLOR=#B8860B><B>CHOICE</B></FONT> {
+  success                   <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  badParameters             <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  badValues                 <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  transactionRefused        <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  defaultFailureCode        <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  authenticationInProgress  <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  authenticationFailed      <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  waitingList               <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  noResourcesAvailable      <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  noSuchConference          <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  temporaryModeForced       <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  usersSpaceFull            <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  noSuchSite                <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  noneMatchingCriteria      <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  nonStandard               <A HREF="../../t124/2007/GCC-PROTOCOL.html#GCC-PROTOCOL.NonStandardParameter" target="files">NonStandardParameter</A>,
+  ...
+}
+
+<A NAME="URST-PROTOCOL.latinCapitalA"></A><FONT COLOR=#B22222><I>--==============================
+</I></FONT><FONT COLOR=#B22222><I>-- Constants definition
+</I></FONT><FONT COLOR=#B22222><I>--==============================
+</I></FONT>latinCapitalA <FONT COLOR=#5F9EA0><B>BMPString</B></FONT> ::=
+  {0, 0, 0, 65}
+
+<A NAME="URST-PROTOCOL.latinCapitalZ"></A>latinCapitalZ <FONT COLOR=#5F9EA0><B>BMPString</B></FONT> ::= {0, 0, 0, 90}
+
+<A NAME="URST-PROTOCOL.latinSmallA"></A>latinSmallA <FONT COLOR=#5F9EA0><B>BMPString</B></FONT> ::= {0, 0, 0, 97}
+
+<A NAME="URST-PROTOCOL.latinSmallZ"></A>latinSmallZ <FONT COLOR=#5F9EA0><B>BMPString</B></FONT> ::= {0, 0, 0, 122}
+
+<A NAME="URST-PROTOCOL.digit0"></A>digit0 <FONT COLOR=#5F9EA0><B>BMPString</B></FONT> ::= {0, 0, 0, 48}
+
+<A NAME="URST-PROTOCOL.digit9"></A>digit9 <FONT COLOR=#5F9EA0><B>BMPString</B></FONT> ::= {0, 0, 0, 57}
+
+<A NAME="URST-PROTOCOL.implicitAccount"></A>implicitAccount <A HREF="#URST-PROTOCOL.GenericID" target="files">GenericID</A> ::= stringID:&quot;&quot;
+
+<A NAME="URST-PROTOCOL.connectedSubscriber"></A>connectedSubscriber <A HREF="#URST-PROTOCOL.GenericID" target="files">GenericID</A> ::= stringID:&quot;&quot;
+
+<A NAME="URST-PROTOCOL.noPassword"></A>noPassword <A HREF="#URST-PROTOCOL.LatinAlphanumericString" target="files">LatinAlphanumericString</A> ::= &quot;&quot;
+
+<A NAME="URST-PROTOCOL.RSConnectRequest"></A><FONT COLOR=#B22222><I>--=================
+</I></FONT><FONT COLOR=#B22222><I>-- PDUs definition
+</I></FONT><FONT COLOR=#B22222><I>--=================
+</I></FONT>RSConnectRequest ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  connectionID              <A HREF="#URST-PROTOCOL.ConnectionID" target="files">ConnectionID</A>,
+  subscriberID              <A HREF="#URST-PROTOCOL.GenericID" target="files">GenericID</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,<FONT COLOR=#B22222><I> -- enables anonymous access</I></FONT>
+  authenticationData        <A HREF="#URST-PROTOCOL.AuthenticationData" target="files">AuthenticationData</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  higherProtocolsSupported  <FONT COLOR=#B8860B><B>SET</B></FONT> <FONT COLOR=#228B22><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>SIZE</B></FONT> <FONT COLOR=#228B22>(1..<FONT COLOR=#228B22><B>MAX</B></FONT>)</FONT>)</FONT></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="../../t124/2007/GCC-PROTOCOL.html#GCC-PROTOCOL.Key" target="files">Key</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  userData                  <A HREF="#URST-PROTOCOL.UserData" target="files">UserData</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  ...
+}
+
+<A NAME="URST-PROTOCOL.RSConnectResponse"></A>RSConnectResponse ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  connectionID              <A HREF="#URST-PROTOCOL.ConnectionID" target="files">ConnectionID</A>,
+  subscriberID              <A HREF="#URST-PROTOCOL.GenericID" target="files">GenericID</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  authenticationData        <A HREF="#URST-PROTOCOL.AuthenticationData" target="files">AuthenticationData</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  higherProtocolsSupported  <FONT COLOR=#B8860B><B>SET</B></FONT> <FONT COLOR=#228B22><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>SIZE</B></FONT> <FONT COLOR=#228B22>(1..<FONT COLOR=#228B22><B>MAX</B></FONT>)</FONT>)</FONT></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="../../t124/2007/GCC-PROTOCOL.html#GCC-PROTOCOL.Key" target="files">Key</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  userData                  <A HREF="#URST-PROTOCOL.UserData" target="files">UserData</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  resultCode                <A HREF="#URST-PROTOCOL.ResultCode" target="files">ResultCode</A>,
+  resultMessage             <A HREF="../../t124/2007/GCC-PROTOCOL.html#GCC-PROTOCOL.SimpleTextString" target="files">SimpleTextString</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  ...
+}
+
+<A NAME="URST-PROTOCOL.RSDisconnectIndication"></A>RSDisconnectIndication ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  connectionID   <A HREF="#URST-PROTOCOL.ConnectionID" target="files">ConnectionID</A>,
+  reasonCode
+    <FONT COLOR=#B8860B><B>CHOICE</B></FONT> {normalTermination            <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+            disconnectingFromConference  <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+            defaultDisconnectionReason   <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+            nonStandard                  <A HREF="../../t124/2007/GCC-PROTOCOL.html#GCC-PROTOCOL.NonStandardParameter" target="files">NonStandardParameter</A>,
+            ...} <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  reasonMessage  <A HREF="../../t124/2007/GCC-PROTOCOL.html#GCC-PROTOCOL.SimpleTextString" target="files">SimpleTextString</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  userData       <A HREF="#URST-PROTOCOL.UserData" target="files">UserData</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  ...
+}
+
+<A NAME="URST-PROTOCOL.RSConferenceReserveRequest"></A>RSConferenceReserveRequest ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  connectionID                 <A HREF="#URST-PROTOCOL.ConnectionID" target="files">ConnectionID</A>,
+  transactionID                <A HREF="#URST-PROTOCOL.TransactionID" target="files">TransactionID</A>,
+  conferenceName               <A HREF="../../t124/2007/GCC-PROTOCOL.html#GCC-PROTOCOL.SimpleTextString" target="files">SimpleTextString</A>,
+  conferenceDescription        <A HREF="../../t124/2007/GCC-PROTOCOL.html#GCC-PROTOCOL.TextString" target="files">TextString</A> <FONT COLOR=#666666><B>DEFAULT</B></FONT> &quot;&quot;,<FONT COLOR=#B22222><I> -- no description</I></FONT>
+  mcuCascadingMode             <A HREF="#URST-PROTOCOL.MCUCascadingMode" target="files">MCUCascadingMode</A> <FONT COLOR=#666666><B>DEFAULT</B></FONT> unspecified:<FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  audiovisualChairControl      <FONT COLOR=#5F9EA0><B>BOOLEAN</B></FONT> <FONT COLOR=#666666><B>DEFAULT</B></FONT> <FONT COLOR=#5F9EA0><B>FALSE</B></FONT>,
+  audiovisualChairmanPassword  <A HREF="#URST-PROTOCOL.LatinAlphanumericString" target="files">LatinAlphanumericString</A> <FONT COLOR=#666666><B>DEFAULT</B></FONT> <A HREF="#URST-PROTOCOL.noPassword" target="files">noPassword</A>,
+  t120ExternalConvener         <FONT COLOR=#5F9EA0><B>BOOLEAN</B></FONT> <FONT COLOR=#666666><B>DEFAULT</B></FONT> <FONT COLOR=#5F9EA0><B>FALSE</B></FONT>,
+  t120ConductedMode            <FONT COLOR=#5F9EA0><B>BOOLEAN</B></FONT> <FONT COLOR=#666666><B>DEFAULT</B></FONT> <FONT COLOR=#5F9EA0><B>FALSE</B></FONT>,
+  t120ConductorPrivileges      <FONT COLOR=#B8860B><B>SET</B></FONT> <FONT COLOR=#228B22><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>SIZE</B></FONT> <FONT COLOR=#228B22>(1..<FONT COLOR=#228B22><B>MAX</B></FONT>)</FONT>)</FONT></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="../../t124/2007/GCC-PROTOCOL.html#GCC-PROTOCOL.Privilege" target="files">Privilege</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  t120CommonPrivileges         <FONT COLOR=#B8860B><B>SET</B></FONT> <FONT COLOR=#228B22><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>SIZE</B></FONT> <FONT COLOR=#228B22>(1..<FONT COLOR=#228B22><B>MAX</B></FONT>)</FONT>)</FONT></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="../../t124/2007/GCC-PROTOCOL.html#GCC-PROTOCOL.Privilege" target="files">Privilege</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  t120ConductorPassword        <A HREF="#URST-PROTOCOL.LatinAlphanumericString" target="files">LatinAlphanumericString</A> <FONT COLOR=#666666><B>DEFAULT</B></FONT> <A HREF="#URST-PROTOCOL.noPassword" target="files">noPassword</A>,
+  commonPassword               <A HREF="#URST-PROTOCOL.LatinAlphanumericString" target="files">LatinAlphanumericString</A> <FONT COLOR=#666666><B>DEFAULT</B></FONT> <A HREF="#URST-PROTOCOL.noPassword" target="files">noPassword</A>,
+  globalTransferRate           <FONT COLOR=#5F9EA0><B>INTEGER</B></FONT><FONT COLOR=#228B22>(1..30)</FONT>,<FONT COLOR=#B22222><I> -- N ? atomic channel</I></FONT>
+  videoSwitchingMethod
+    <A HREF="#URST-PROTOCOL.VideoSwitchingMethod" target="files">VideoSwitchingMethod</A> <FONT COLOR=#666666><B>DEFAULT</B></FONT> voiceActivityDetection:<FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  initialVideoFormat           <A HREF="#URST-PROTOCOL.VideoFormat" target="files">VideoFormat</A> <FONT COLOR=#666666><B>DEFAULT</B></FONT> runtimeChoice:<FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  initialVideoAlgorithm        <A HREF="#URST-PROTOCOL.VideoCoding" target="files">VideoCoding</A> <FONT COLOR=#666666><B>DEFAULT</B></FONT> runtimeChoice:<FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  initialAudioAlgorithm        <A HREF="#URST-PROTOCOL.AudioCoding" target="files">AudioCoding</A> <FONT COLOR=#666666><B>DEFAULT</B></FONT> runtimeChoice:<FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  waitingListPolicy            <A HREF="#URST-PROTOCOL.WaitingListPolicy" target="files">WaitingListPolicy</A> <FONT COLOR=#666666><B>DEFAULT</B></FONT> noWaitingList:<FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  billingMode                  <A HREF="#URST-PROTOCOL.BillingMode" target="files">BillingMode</A> <FONT COLOR=#666666><B>DEFAULT</B></FONT> implicitBillingMode:<FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  organizerBillingAccount      <A HREF="#URST-PROTOCOL.GenericID" target="files">GenericID</A> <FONT COLOR=#666666><B>DEFAULT</B></FONT> <A HREF="#URST-PROTOCOL.implicitAccount" target="files">implicitAccount</A>,
+  conferenceOwnerID            <A HREF="#URST-PROTOCOL.GenericID" target="files">GenericID</A> <FONT COLOR=#666666><B>DEFAULT</B></FONT> <A HREF="#URST-PROTOCOL.connectedSubscriber" target="files">connectedSubscriber</A>,
+  date                         <A HREF="#URST-PROTOCOL.Day" target="files">Day</A>,
+  time                         <A HREF="#URST-PROTOCOL.Time" target="files">Time</A>,
+  duration                     <A HREF="#URST-PROTOCOL.ConferenceDuration" target="files">ConferenceDuration</A> <FONT COLOR=#666666><B>DEFAULT</B></FONT> untilTermination:<FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  bookingSites                 <FONT COLOR=#B8860B><B>SET</B></FONT> <FONT COLOR=#228B22><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>SIZE</B></FONT> <FONT COLOR=#228B22>(2..<FONT COLOR=#228B22><B>MAX</B></FONT>)</FONT>)</FONT></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="#URST-PROTOCOL.BookingSite" target="files">BookingSite</A>,
+  sitesDefaultJoiningMethod    <A HREF="#URST-PROTOCOL.JoiningMethod" target="files">JoiningMethod</A>,
+  conferenceModifierPassword   <A HREF="#URST-PROTOCOL.LatinAlphanumericString" target="files">LatinAlphanumericString</A> <FONT COLOR=#666666><B>DEFAULT</B></FONT> <A HREF="#URST-PROTOCOL.noPassword" target="files">noPassword</A>,
+  userData                     <A HREF="#URST-PROTOCOL.UserData" target="files">UserData</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  ...
+}
+
+<A NAME="URST-PROTOCOL.RSConferenceReserveResponse"></A>RSConferenceReserveResponse ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  connectionID                 <A HREF="#URST-PROTOCOL.ConnectionID" target="files">ConnectionID</A>,
+  transactionID                <A HREF="#URST-PROTOCOL.TransactionID" target="files">TransactionID</A>,
+  conferenceName               <A HREF="../../t124/2007/GCC-PROTOCOL.html#GCC-PROTOCOL.SimpleTextString" target="files">SimpleTextString</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  conferenceDescription        <A HREF="../../t124/2007/GCC-PROTOCOL.html#GCC-PROTOCOL.TextString" target="files">TextString</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  mcuCascadingMode             <A HREF="#URST-PROTOCOL.MCUCascadingMode" target="files">MCUCascadingMode</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  audiovisualChairControl      <FONT COLOR=#5F9EA0><B>BOOLEAN</B></FONT> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  audiovisualChairmanPassword  <A HREF="#URST-PROTOCOL.LatinAlphanumericString" target="files">LatinAlphanumericString</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  t120ExternalConvener         <FONT COLOR=#5F9EA0><B>BOOLEAN</B></FONT> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  t120ConductedMode            <FONT COLOR=#5F9EA0><B>BOOLEAN</B></FONT> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  t120ConductorPrivileges      <FONT COLOR=#B8860B><B>SET</B></FONT> <FONT COLOR=#228B22><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>SIZE</B></FONT> <FONT COLOR=#228B22>(1..<FONT COLOR=#228B22><B>MAX</B></FONT>)</FONT>)</FONT></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="../../t124/2007/GCC-PROTOCOL.html#GCC-PROTOCOL.Privilege" target="files">Privilege</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  t120CommonPrivileges         <FONT COLOR=#B8860B><B>SET</B></FONT> <FONT COLOR=#228B22><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>SIZE</B></FONT> <FONT COLOR=#228B22>(1..<FONT COLOR=#228B22><B>MAX</B></FONT>)</FONT>)</FONT></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="../../t124/2007/GCC-PROTOCOL.html#GCC-PROTOCOL.Privilege" target="files">Privilege</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  t120ConductorPassword        <A HREF="#URST-PROTOCOL.LatinAlphanumericString" target="files">LatinAlphanumericString</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  commonPassword               <A HREF="#URST-PROTOCOL.LatinAlphanumericString" target="files">LatinAlphanumericString</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  globalTransferRate           <FONT COLOR=#5F9EA0><B>INTEGER</B></FONT><FONT COLOR=#228B22>(1..30)</FONT> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,<FONT COLOR=#B22222><I> -- N ? atomic channel</I></FONT>
+  videoSwitchingMethod         <A HREF="#URST-PROTOCOL.VideoSwitchingMethod" target="files">VideoSwitchingMethod</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  initialVideoFormat           <A HREF="#URST-PROTOCOL.VideoFormat" target="files">VideoFormat</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  initialVideoAlgorithm        <A HREF="#URST-PROTOCOL.VideoCoding" target="files">VideoCoding</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  initialAudioAlgorithm        <A HREF="#URST-PROTOCOL.AudioCoding" target="files">AudioCoding</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  billingMode                  <A HREF="#URST-PROTOCOL.BillingMode" target="files">BillingMode</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  organizerBillingAccount      <A HREF="#URST-PROTOCOL.GenericID" target="files">GenericID</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  conferenceOwnerID            <A HREF="#URST-PROTOCOL.GenericID" target="files">GenericID</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  date                         <A HREF="#URST-PROTOCOL.Day" target="files">Day</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  time                         <A HREF="#URST-PROTOCOL.Time" target="files">Time</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  duration                     <A HREF="#URST-PROTOCOL.ConferenceDuration" target="files">ConferenceDuration</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  bookingSites                 <FONT COLOR=#B8860B><B>SET</B></FONT> <FONT COLOR=#228B22><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>SIZE</B></FONT> <FONT COLOR=#228B22>(2..<FONT COLOR=#228B22><B>MAX</B></FONT>)</FONT>)</FONT></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="#URST-PROTOCOL.BookingSite" target="files">BookingSite</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  siteDefaultJoiningMethod     <A HREF="#URST-PROTOCOL.JoiningMethod" target="files">JoiningMethod</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  conferenceModifierPassword   <A HREF="#URST-PROTOCOL.LatinAlphanumericString" target="files">LatinAlphanumericString</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  conferenceReference          <A HREF="#URST-PROTOCOL.GenericID" target="files">GenericID</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  acknowledgmentType
+    <A HREF="#URST-PROTOCOL.AcknowledgmentType" target="files">AcknowledgmentType</A><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>WITH COMPONENTS</B></FONT> {
+                         simple    ,
+                         explicit  
+                       })</FONT> <FONT COLOR=#666666><B>DEFAULT</B></FONT> explicit:<FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  resultCode                   <A HREF="#URST-PROTOCOL.ResultCode" target="files">ResultCode</A>,
+  resultMessage                <A HREF="../../t124/2007/GCC-PROTOCOL.html#GCC-PROTOCOL.SimpleTextString" target="files">SimpleTextString</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  userData                     <A HREF="#URST-PROTOCOL.UserData" target="files">UserData</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  ...
+}
+
+<A NAME="URST-PROTOCOL.RSConferenceModifyRequest"></A>RSConferenceModifyRequest ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  connectionID                 <A HREF="#URST-PROTOCOL.ConnectionID" target="files">ConnectionID</A>,
+  transactionID                <A HREF="#URST-PROTOCOL.TransactionID" target="files">TransactionID</A>,
+  conferenceReference          <A HREF="#URST-PROTOCOL.GenericID" target="files">GenericID</A>,
+  conferenceModifierPassword   <A HREF="#URST-PROTOCOL.LatinAlphanumericString" target="files">LatinAlphanumericString</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  defaultPolicy
+    <A HREF="#URST-PROTOCOL.ConferenceModificationPolicy" target="files">ConferenceModificationPolicy</A> <FONT COLOR=#666666><B>DEFAULT</B></FONT> keepPrevious:<FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  conferenceName               <A HREF="../../t124/2007/GCC-PROTOCOL.html#GCC-PROTOCOL.SimpleTextString" target="files">SimpleTextString</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  conferenceDescription        <A HREF="../../t124/2007/GCC-PROTOCOL.html#GCC-PROTOCOL.TextString" target="files">TextString</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  mcuCascadingMode             <A HREF="#URST-PROTOCOL.MCUCascadingMode" target="files">MCUCascadingMode</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  audiovisualChairControl      <FONT COLOR=#5F9EA0><B>BOOLEAN</B></FONT> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  audiovisualChairmanPassword  <A HREF="#URST-PROTOCOL.LatinAlphanumericString" target="files">LatinAlphanumericString</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  t120ExternalConvener         <FONT COLOR=#5F9EA0><B>BOOLEAN</B></FONT> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  t120ConductedMode            <FONT COLOR=#5F9EA0><B>BOOLEAN</B></FONT> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  t120ConductorPrivileges      <FONT COLOR=#B8860B><B>SET</B></FONT> <FONT COLOR=#228B22><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>SIZE</B></FONT> <FONT COLOR=#228B22>(1..<FONT COLOR=#228B22><B>MAX</B></FONT>)</FONT>)</FONT></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="../../t124/2007/GCC-PROTOCOL.html#GCC-PROTOCOL.Privilege" target="files">Privilege</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  t120CommonPrivileges         <FONT COLOR=#B8860B><B>SET</B></FONT> <FONT COLOR=#228B22><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>SIZE</B></FONT> <FONT COLOR=#228B22>(1..<FONT COLOR=#228B22><B>MAX</B></FONT>)</FONT>)</FONT></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="../../t124/2007/GCC-PROTOCOL.html#GCC-PROTOCOL.Privilege" target="files">Privilege</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  t120ConductorPassword        <A HREF="#URST-PROTOCOL.LatinAlphanumericString" target="files">LatinAlphanumericString</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  commonPassword               <A HREF="#URST-PROTOCOL.LatinAlphanumericString" target="files">LatinAlphanumericString</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  globalTransferRate           <FONT COLOR=#5F9EA0><B>INTEGER</B></FONT><FONT COLOR=#228B22>(1..30)</FONT> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,<FONT COLOR=#B22222><I> -- N ? atomic channel</I></FONT>
+  videoSwitchingMethod         <A HREF="#URST-PROTOCOL.VideoSwitchingMethod" target="files">VideoSwitchingMethod</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  initialVideoFormat           <A HREF="#URST-PROTOCOL.VideoFormat" target="files">VideoFormat</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  initialVideoAlgorithm        <A HREF="#URST-PROTOCOL.VideoCoding" target="files">VideoCoding</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  initialAudioAlgorithm        <A HREF="#URST-PROTOCOL.AudioCoding" target="files">AudioCoding</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  billingMode                  <A HREF="#URST-PROTOCOL.BillingMode" target="files">BillingMode</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  organizerBillingAccount      <A HREF="#URST-PROTOCOL.GenericID" target="files">GenericID</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  conferenceOwnerID            <A HREF="#URST-PROTOCOL.GenericID" target="files">GenericID</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  date                         <A HREF="#URST-PROTOCOL.Day" target="files">Day</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  time                         <A HREF="#URST-PROTOCOL.Time" target="files">Time</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  duration                     <A HREF="#URST-PROTOCOL.ConferenceDuration" target="files">ConferenceDuration</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  bookingSites
+    <FONT COLOR=#B8860B><B>CHOICE</B></FONT> {fullRefresh     <FONT COLOR=#B8860B><B>SET</B></FONT> <FONT COLOR=#228B22><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>SIZE</B></FONT> <FONT COLOR=#228B22>(2.LOR=#228B22&gt;<B>SIZE</B></FONT> <FONT COLOR=#228B22>(1..<FONT COLOR=#228B22><B>MAX</B></FONT>)</FONT>)</FONT></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT>
+                <FONT COLOR=#B8860B><B>CHOICE</B></FONT> {deleteSite  <A HREF="#URST-PROTOCOL.GenericID" target="files">GenericID</A>,
+                        modifySite  <A HREF="#URST-PROTOCOL.BookingSite" target="files">BookingSite</A>,
+                        addSite     <A HREF="#URST-PROTOCOL.BookingSite" target="files">BookingSite</A>}} <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  siteDefaultJoiningMethod     <A HREF="#URST-PROTOCOL.JoiningMethod" target="files">JoiningMethod</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  newModifierPassword          <A HREF="#URST-PROTOCOL.LatinAlphanumericString" target="files">LatinAlphanumericString</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  userData                     <A HREF="#URST-PROTOCOL.UserData" target="files">UserData</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  ...
+}
+
+<A NAME="URST-PROTOCOL.RSConferenceModifyResponse"></A>RSConferenceModifyResponse ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  connectionID                 <A HREF="#URST-PROTOCOL.ConnectionID" target="files">ConnectionID</A>,
+  transactionID                <A HREF="#URST-PROTOCOL.TransactionID" target="files">TransactionID</A>,
+  conferenceReference          <A HREF="#URST-PROTOCOL.GenericID" target="files">GenericID</A>,
+  conferenceName               <A HREF="../../t124/2007/GCC-PROTOCOL.html#GCC-PROTOCOL.SimpleTextString" target="files">SimpleTextString</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  conferenceDescription        <A HREF="../../t124/2007/GCC-PROTOCOL.html#GCC-PROTOCOL.TextString" target="files">TextString</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  mcuCascadingMode             <A HREF="#URST-PROTOCOL.MCUCascadingMode" target="files">MCUCascadingMode</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  audiovisualChairControl      <FONT COLOR=#5F9EA0><B>BOOLEAN</B></FONT> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  audiovisualChairmanPassword  <A HREF="#URST-PROTOCOL.LatinAlphanumericString" target="files">LatinAlphanumericString</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  t120ExternalConvener         <FONT COLOR=#5F9EA0><B>BOOLEAN</B></FONT> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  t120ConductedMode            <FONT COLOR=#5F9EA0><B>BOOLEAN</B></FONT> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  t120ConductorPrivileges      <FONT COLOR=#B8860B><B>SET</B></FONT> <FONT COLOR=#228B22><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>SIZE</B></FONT> <FONT COLOR=#228B22>(1..<FONT COLOR=#228B22><B>MAX</B></FONT>)</FONT>)</FONT></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="../../t124/2007/GCC-PROTOCOL.html#GCC-PROTOCOL.Privilege" target="files">Privilege</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  t120CommonPrivileges         <FONT COLOR=#B8860B><B>SET</B></FONT> <FONT COLOR=#228B22><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>SIZE</B></FONT> <FONT COLOR=#228B22>(1..<FONT COLOR=#228B22><B>MAX</B></FONT>)</FONT>)</FONT></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="../../t124/2007/GCC-PROTOCOL.html#GCC-PROTOCOL.Privilege" target="files">Privilege</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  t120ConductorPassword        <A HREF="#URST-PROTOCOL.LatinAlphanumericString" target="files">LatinAlphanumericString</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  commonPassword               <A HREF="#URST-PROTOCOL.LatinAlphanumericString" target="files">LatinAlphanumericString</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  globalTransferRate           <FONT COLOR=#5F9EA0><B>INTEGER</B></FONT><FONT COLOR=#228B22>(1..30)</FONT> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,<FONT COLOR=#B22222><I> -- N ? atomic channel</I></FONT>
+  videoSwitchingMethod         <A HREF="#URST-PROTOCOL.VideoSwitchingMethod" target="files">VideoSwitchingMethod</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  initialVideoFormat           <A HREF="#URST-PROTOCOL.VideoFormat" target="files">VideoFormat</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  initialVideoAlgorithm        <A HREF="#URST-PROTOCOL.VideoCoding" target="files">VideoCoding</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  initialAudioAlgorithm        <A HREF="#URST-PROTOCOL.AudioCoding" target="files">AudioCoding</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  billingMode                  <A HREF="#URST-PROTOCOL.BillingMode" target="files">BillingMode</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  organizerBillingAccount      <A HREF="#URST-PROTOCOL.GenericID" target="files">GenericID</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  conferenceOwnerID            <A HREF="#URST-PROTOCOL.GenericID" target="files">GenericID</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  date                         <A HREF="#URST-PROTOCOL.Day" target="files">Day</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  time                         <A HREF="#URST-PROTOCOL.Time" target="files">Time</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  duration                     <A HREF="#URST-PROTOCOL.ConferenceDuration" target="files">ConferenceDuration</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  bookingSites                 <FONT COLOR=#B8860B><B>SET</B></FONT> <FONT COLOR=#228B22><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>SIZE</B></FONT> <FONT COLOR=#228B22>(2..<FONT COLOR=#228B22><B>MAX</B></FONT>)</FONT>)</FONT></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="#URST-PROTOCOL.BookingSite" target="files">BookingSite</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  siteDefaultJoiningMethod     <A HREF="#URST-PROTOCOL.JoiningMethod" target="files">JoiningMethod</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  newModifierPassword          <A HREF="#URST-PROTOCOL.LatinAlphanumericString" target="files">LatinAlphanumericString</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  acknowledgmentType
+    <A HREF="#URST-PROTOCOL.AcknowledgmentType" target="files">AcknowledgmentType</A><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>WITH COMPONENTS</B></FONT> {
+                         simple    ,
+                         explicit  
+                       })</FONT> <FONT COLOR=#666666><B>DEFAULT</B></FONT> explicit:<FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  resultCode                   <A HREF="#URST-PROTOCOL.ResultCode" target="files">ResultCode</A>,
+  resultMessage                <A HREF="../../t124/2007/GCC-PROTOCOL.html#GCC-PROTOCOL.SimpleTextString" target="files">SimpleTextString</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  userData                     <A HREF="#URST-PROTOCOL.UserData" target="files">UserData</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  ...
+}
+
+<A NAME="URST-PROTOCOL.RSConferenceCancelRequest"></A>RSConferenceCancelRequest ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  connectionID                <A HREF="#URST-PROTOCOL.ConnectionID" target="files">ConnectionID</A>,
+  transactionID               <A HREF="#URST-PROTOCOL.TransactionID" target="files">TransactionID</A>,
+  conferenceReference         <A HREF="#URST-PROTOCOL.GenericID" target="files">GenericID</A>,
+  conferenceModifierPassword  <A HREF="#URST-PROTOCOL.LatinAlphanumericString" target="files">LatinAlphanumericString</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  userData                    <A HREF="#URST-PROTOCOL.UserData" target="files">UserData</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  ...
+}
+
+<A NAME="URST-PROTOCOL.RSConferenceCancelResponse"></A>RSConferenceCancelResponse ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  connectionID         <A HREF="#URST-PROTOCOL.ConnectionID" target="files">ConnectionID</A>,
+  transactionID        <A HREF="#URST-PROTOCOL.TransactionID" target="files">TransactionID</A>,
+  conferenceReference  <A HREF="#URST-PROTOCOL.GenericID" target="files">GenericID</A>,
+  acknowledgmentType   <A HREF="#URST-PROTOCOL.AcknowledgmentType" target="files">AcknowledgmentType</A><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>WITH COMPONENTS</B></FONT> {
+                                            simple  
+                                          })</FONT> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  resultCode           <A HREF="#URST-PROTOCOL.ResultCode" target="files">ResultCode</A>,
+  resultMessage        <A HREF="../../t124/2007/GCC-PROTOCOL.html#GCC-PROTOCOL.SimpleTextString" target="files">SimpleTextString</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  userData             <A HREF="#URST-PROTOCOL.UserData" target="files">UserData</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  ...
+}
+
+<A NAME="URST-PROTOCOL.RSConferenceListInquireRequest"></A>RSConferenceListInquireRequest ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  connectionID               <A HREF="#URST-PROTOCOL.ConnectionID" target="files">ConnectionID</A>,
+  transactionID              <A HREF="#URST-PROTOCOL.TransactionID" target="files">TransactionID</A>,
+  conferenceOwnerIDFilter    <FONT COLOR=#B8860B><B>SET</B></FONT> <FONT COLOR=#228B22><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>SIZE</B></FONT> <FONT COLOR=#228B22>(1..<FONT COLOR=#228B22><B>MAX</B></FONT>)</FONT>)</FONT></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="#URST-PROTOCOL.GenericID" target="files">GenericID</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  conferenceOwnerNameFilter
+    <FONT COLOR=#B8860B><B>SET</B></FONT> <FONT COLOR=#228B22><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>SIZE</B></FONT> <FONT COLOR=#228B22>(1..<FONT COLOR=#228B22><B>MAX</B></FONT>)</FONT>)</FONT></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="#URST-PROTOCOL.SimpleTextStringInterval" target="files">SimpleTextStringInterval</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  conferenceNameFilter
+    <FONT COLOR=#B8860B><B>SET</B></FONT> <FONT COLOR=#228B22><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>SIZE</B></FONT> <FONT COLOR=#228B22>(1..<FONT COLOR=#228B22><B>MAX</B></FONT>)</FONT>)</FONT></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="#URST-PROTOCOL.SimpleTextStringInterval" target="files">SimpleTextStringInterval</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  conferenceStatusFilter     <FONT COLOR=#B8860B><B>SET</B></FONT> <FONT COLOR=#228B22><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>SIZE</B></FONT> <FONT COLOR=#228B22>(1..4)</FONT>)</FONT></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="#URST-PROTOCOL.ConferenceStatus" target="files">ConferenceStatus</A>,
+  dateFilter                 <FONT COLOR=#B8860B><B>SET</B></FONT> <FONT COLOR=#228B22><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>SIZE</B></FONT> <FONT COLOR=#228B22>(1..<FONT COLOR=#228B22><B>MAX</B></FONT>)</FONT>)</FONT></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="#URST-PROTOCOL.DaysInterval" target="files">DaysInterval</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  userData                   <A HREF="#URST-PROTOCOL.UserData" target="files">UserData</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  ...
+}
+
+<A NAME="URST-PROTOCOL.RSConferenceListInquireResponse"></A>RSConferenceListInquireResponse ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  connectionID         <A HREF="#URST-PROTOCOL.ConnectionID" target="files">ConnectionID</A>,
+  transactionID        <A HREF="#URST-PROTOCOL.TransactionID" target="files">TransactionID</A>,
+  conferenceSummaries  <FONT COLOR=#B8860B><B>SET</B></FONT> <FONT COLOR=#228B22><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>SIZE</B></FONT> <FONT COLOR=#228B22>(1..<FONT COLOR=#228B22><B>MAX</B></FONT>)</FONT>)</FONT></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="#URST-PROTOCOL.ConferenceSummary" target="files">ConferenceSummary</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  acknowledgmentType
+    <A HREF="#URST-PROTOCOL.AcknowledgmentType" target="files">AcknowledgmentType</A><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>WITH COMPONENTS</B></FONT> {
+                         noAcknowledgment  
+                       })</FONT> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  resultCode           <A HREF="#URST-PROTOCOL.ResultCode" target="files">ResultCode</A>,
+  resultMessage        <A HREF="../../t124/2007/GCC-PROTOCOL.html#GCC-PROTOCOL.SimpleTextString" target="files">SimpleTextString</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  userData             <A HREF="#URST-PROTOCOL.UserData" target="files">UserData</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  ...
+}
+
+<A NAME="URST-PROTOCOL.RSConferenceDetailInquireRequest"></A>RSConferenceDetailInquireRequest ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  connectionID         <A HREF="#URST-PROTOCOL.ConnectionID" target="files">ConnectionID</A>,
+  transactionID        <A HREF="#URST-PROTOCOL.TransactionID" target="files">TransactionID</A>,
+  conferenceReference  <A HREF="#URST-PROTOCOL.GenericID" target="files">GenericID</A>,
+  userData             <A HREF="#URST-PROTOCOL.UserData" target="files">UserData</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  ...
+}
+
+<A NAME="URST-PROTOCOL.RSConferenceDetailInquireResponse"></A>RSConferenceDetailInquireResponse ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  connectionID                 <A HREF="#URST-PROTOCOL.ConnectionID" target="files">ConnectionID</A>,
+  transactionID                <A HREF="#URST-PROTOCOL.TransactionID" target="files">TransactionID</A>,
+  conferenceReference          <A HREF="#URST-PROTOCOL.GenericID" target="files">GenericID</A>,
+  conferenceName               <A HREF="../../t124/2007/GCC-PROTOCOL.html#GCC-PROTOCOL.SimpleTextString" target="files">SimpleTextString</A>,
+  conferenceDescription        <A HREF="../../t124/2007/GCC-PROTOCOL.html#GCC-PROTOCOL.TextString" target="files">TextString</A> <FONT COLOR=#666666><B>DEFAULT</B></FONT> &quot;&quot;,
+  conferenceOwnerID            <A HREF="#URST-PROTOCOL.GenericID" target="files">GenericID</A> <FONT COLOR=#666666><B>DEFAULT</B></FONT> <A HREF="#URST-PROTOCOL.connectedSubscriber" target="files">connectedSubscriber</A>,
+  conferenceOwnerName          <A HREF="../../t124/2007/GCC-PROTOCOL.html#GCC-PROTOCOL.SimpleTextString" target="files">SimpleTextString</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  mcuCascadingMode             <A HREF="#URST-PROTOCOL.MCUCascadingMode" target="files">MCUCascadingMode</A> <FONT COLOR=#666666><B>DEFAULT</B></FONT> unspecified:<FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  audiovisualChairControl      <FONT COLOR=#5F9EA0><B>BOOLEAN</B></FONT> <FONT COLOR=#666666><B>DEFAULT</B></FONT> <FONT COLOR=#5F9EA0><B>FALSE</B></FONT>,
+  audiovisualChairmanPassword  <A HREF="#URST-PROTOCOL.LatinAlphanumericString" target="files">LatinAlphanumericString</A> <FONT COLOR=#666666><B>DEFAULT</B></FONT> <A HREF="#URST-PROTOCOL.noPassword" target="files">noPassword</A>,
+  t120ExternalConvener         <FONT COLOR=#5F9EA0><B>BOOLEAN</B></FONT> <FONT COLOR=#666666><B>DEFAULT</B></FONT> <FONT COLOR=#5F9EA0><B>FALSE</B></FONT>,
+  t120ConductedMode            <FONT COLOR=#5F9EA0><B>BOOLEAN</B></FONT> <FONT COLOR=#666666><B>DEFAULT</B></FONT> <FONT COLOR=#5F9EA0><B>FALSE</B></FONT>,
+  t120ConductorPrivileges      <FONT COLOR=#B8860B><B>SET</B></FONT> <FONT COLOR=#228B22><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>SIZE</B></FONT> <FONT COLOR=#228B22>(1..<FONT COLOR=#228B22><B>MAX</B></FONT>)</FONT>)</FONT></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="../../t124/2007/GCC-PROTOCOL.html#GCC-PROTOCOL.Privilege" target="files">Privilege</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  t120CommonPrivileges         <FONT COLOR=#B8860B><B>SET</B></FONT> <FONT COLOR=#228B22><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>SIZE</B></FONT> <FONT COLOR=#228B22>(1..<FONT COLOR=#228B22><B>MAX</B></FONT>)</FONT>)</FONT></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="../../t124/2007/GCC-PROTOCOL.html#GCC-PROTOCOL.Privilege" target="files">Privilege</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  t120ConductorPassword        <A HREF="#URST-PROTOCOL.LatinAlphanumericString" target="files">LatinAlphanumericString</A> <FONT COLOR=#666666><B>DEFAULT</B></FONT> <A HREF="#URST-PROTOCOL.noPassword" target="files">noPassword</A>,
+  commonPassword               <A HREF="#URST-PROTOCOL.LatinAlphanumericString" target="files">LatinAlphanumericString</A> <FONT COLOR=#666666><B>DEFAULT</B></FONT> <A HREF="#URST-PROTOCOL.noPassword" target="files">noPassword</A>,
+  globalTransferRate           <FONT COLOR=#5F9EA0><B>INTEGER</B></FONT><FONT COLOR=#228B22>(1..30)</FONT>,<FONT COLOR=#B22222><I> -- N ? atomic channel</I></FONT>
+  videoSwitchingMethod
+    <A HREF="#URST-PROTOCOL.VideoSwitchingMethod" target="files">VideoSwitchingMethod</A> <FONT COLOR=#666666><B>DEFAULT</B></FONT> voiceActivityDetection:<FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  initialVideoFormat           <A HREF="#URST-PROTOCOL.VideoFormat" target="files">VideoFormat</A> <FONT COLOR=#666666><B>DEFAULT</B></FONT> runtimeChoice:<FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  initialVideoAlgorithm        <A HREF="#URST-PROTOCOL.VideoCoding" target="files">VideoCoding</A> <FONT COLOR=#666666><B>DEFAULT</B></FONT> runtimeChoice:<FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  initialAudioAlgorithm        <A HREF="#URST-PROTOCOL.AudioCoding" target="files">AudioCoding</A> <FONT COLOR=#666666><B>DEFAULT</B></FONT> runtimeChoice:<FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  billingMode                  <A HREF="#URST-PROTOCOL.BillingMode" target="files">BillingMode</A> <FONT COLOR=#666666><B>DEFAULT</B></FONT> implicitBillingMode:<FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  organizerBillingAccount      <A HREF="#URST-PROTOCOL.GenericID" target="files">GenericID</A> <FONT COLOR=#666666><B>DEFAULT</B></FONT> <A HREF="#URST-PROTOCOL.implicitAccount" target="files">implicitAccount</A>,
+  date                         <A HREF="#URST-PROTOCOL.Day" target="files">Day</A>,
+  time                         <A HREF="#URST-PROTOCOL.Time" target="files">Time</A>,
+  duration                     <A HREF="#URST-PROTOCOL.ConferenceDuration" target="files">ConferenceDuration</A>,
+  bookingSites                 <FONT COLOR=#B8860B><B>SET</B></FONT> <FONT COLOR=#228B22><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>SIZE</B></FONT> <FONT COLOR=#228B22>(2..<FONT COLOR=#228B22><B>MAX</B></FONT>)</FONT>)</FONT></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="#URST-PROTOCOL.BookingSite" target="files">BookingSite</A>,
+  siteDefaultJoiningMethod     <A HREF="#URST-PROTOCOL.JoiningMethod" target="files">JoiningMethod</A>,
+  conferenceModifierPassword   <A HREF="#URST-PROTOCOL.LatinAlphanumericString" target="files">LatinAlphanumericString</A> <FONT COLOR=#666666><B>DEFAULT</B></FONT> <A HREF="#URST-PROTOCOL.noPassword" target="files">noPassword</A>,
+  modifyRight                  <FONT COLOR=#5F9EA0><B>BOOLEAN</B></FONT> <FONT COLOR=#666666><B>DEFAULT</B></FONT> <FONT COLOR=#5F9EA0><B>TRUE</B></FONT>,
+  acknowledgmentType
+    <A HREF="#URST-PROTOCOL.AcknowledgmentType" target="files">AcknowledgmentType</A><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>WITH COMPONENTS</B></FONT> {
+                         noAcknowledgment  
+                       })</FONT> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  resultCode                   <A HREF="#URST-PROTOCOL.ResultCode" target="files">ResultCode</A>,
+  resultMessage                <A HREF="../../t124/2007/GCC-PROTOCOL.html#GCC-PROTOCOL.SimpleTextString" target="files">SimpleTextString</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  userData                     <A HREF="#URST-PROTOCOL.UserData" target="files">UserData</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  ...
+}
+
+<A NAME="URST-PROTOCOL.RSConferenceCheckAvailabilityRequest"></A>RSConferenceCheckAvailabilityRequest ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  connectionID         <A HREF="#URST-PROTOCOL.ConnectionID" target="files">ConnectionID</A>,
+  transactionID        <A HREF="#URST-PROTOCOL.TransactionID" target="files">TransactionID</A>,
+  dateIntervals        <FONT COLOR=#B8860B><B>SET</B></FONT> <FONT COLOR=#228B22><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>SIZE</B></FONT> <FONT COLOR=#228B22>(1..<FONT COLOR=#228B22><B>MAX</B></FONT>)</FONT>)</FONT></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="#URST-PROTOCOL.DaysInterval" target="files">DaysInterval</A>,
+  applyingSites        <FONT COLOR=#B8860B><B>SET</B></FONT> <FONT COLOR=#228B22><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>SIZE</B></FONT> <FONT COLOR=#228B22>(2..<FONT COLOR=#228B22><B>MAX</B></FONT>)</FONT>)</FONT></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="#URST-PROTOCOL.ApplyingSite" target="files">ApplyingSite</A>,
+  minimumTransferRate  <FONT COLOR=#5F9EA0><B>INTEGER</B></FONT><FONT COLOR=#228B22>(1..30)</FONT>,<FONT COLOR=#B22222><I> -- N ? atomic channel</I></FONT>
+  userData             <A HREF="#URST-PROTOCOL.UserData" target="files">UserData</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  ...
+}
+
+<A NAME="URST-PROTOCOL.RSConferenceCheckAvailabilityResponse"></A>RSConferenceCheckAvailabilityResponse ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  connectionID   <A HREF="#URST-PROTOCOL.ConnectionID" target="files">ConnectionID</A>,
+  transactionID  <A HREF="#URST-PROTOCOL.TransactionID" target="files">TransactionID</A>,
+  querryResult
+    <FONT COLOR=#B8860B><B>SET</B></FONT> <FONT COLOR=#228B22><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>SIZE</B></FONT> <FONT COLOR=#228B22>(1..<FONT COLOR=#228B22><B>MAX</B></FONT>)</FONT>)</FONT></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT>
+      <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {daysInterval   <A HREF="#URST-PROTOCOL.DaysInterval" target="files">DaysInterval</A>,
+                possibilities
+                  <FONT COLOR=#B8860B><B>SET</B></FONT> <FONT COLOR=#228B22><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>SIZE</B></FONT> <FONT COLOR=#228B22>(1..<FONT COLOR=#228B22><B>MAX</B></FONT>)</FONT>)</FONT></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT>
+                    <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {timeInterval
+                                <FONT COLOR=#B8860B><B>SET</B></FONT> <FONT COLOR=#228B22><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>SIZE</B></FONT> <FONT COLOR=#228B22>(1..<FONT COLOR=#228B22><B>MAX</B></FONT>)</FONT>)</FONT></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="#URST-PROTOCOL.TimeInterval" target="files">TimeInterval</A>,
+                              maximumTransferRate    <FONT COLOR=#5F9EA0><B>INTEGER</B></FONT><FONT COLOR=#228B22>(1..30)</FONT>,<FONT COLOR=#B22222><I> -- N ? atomic channel--</I></FONT>
+                              interfaceRestrictions
+                                <FONT COLOR=#B8860B><B>SET</B></FONT> <FONT COLOR=#228B22><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>SIZE</B></FONT> <FONT COLOR=#228B22>(1..<FONT COLOR=#228B22><B>MAX</B></FONT>)</FONT>)</FONT></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT>
+                                  <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {siteID      <A HREF="#URST-PROTOCOL.GenericID" target="files">GenericID</A>,
+                                            interfaces
+                                              <FONT COLOR=#B8860B><B>CHOICE</B></FONT> {allowedInterfaces
+                                                        <FONT COLOR=#B8860B><B>SET</B></FONT> <FONT COLOR=#228B22><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>SIZE</B></FONT> <FONT COLOR=#228B22>(1..<FONT COLOR=#228B22><B>MAX</B></FONT>)</FONT>)</FONT></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT>
+                                                          <A HREF="#URST-PROTOCOL.GenericID" target="files">GenericID</A>,
+                                                      forbiddenInterfaces
+                                                        <FONT COLOR=#B8860B><B>SET</B></FONT> <FONT COLOR=#228B22><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>SIZE</B></FONT> <FONT COLOR=#228B22>(1..<FONT COLOR=#228B22><B>MAX</B></FONT>)</FONT>)</FONT></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT>
+                                                          <A HREF="#URST-PROTOCOL.GenericID" target="files">GenericID</A>}} <FONT COLOR=#666666><B>OPTIONAL</B></FONT><FONT COLOR=#B22222><I> -- all interfaces are allowed by default</I></FONT>
+                    }} <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  resultCode     <A HREF="#URST-PROTOCOL.ResultCode" target="files">ResultCode</A>,
+  resultMessage  <A HREF="../../t124/2007/GCC-PROTOCOL.html#GCC-PROTOCOL.SimpleTextString" target="files">SimpleTextString</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  userData       <A HREF="#URST-PROTOCOL.UserData" target="files">UserData</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  ...
+}
+
+<A NAME="URST-PROTOCOL.RSSiteRecordRequest"></A>RSSiteRecordRequest ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  connectionID           <A HREF="#URST-PROTOCOL.ConnectionID" target="files">ConnectionID</A>,
+  transactionID          <A HREF="#URST-PROTOCOL.TransactionID" target="files">TransactionID</A>,
+  permanentRecord        <FONT COLOR=#5F9EA0><B>BOOLEAN</B></FONT> <FONT COLOR=#666666><B>DEFAULT</B></FONT> <FONT COLOR=#5F9EA0><B>FALSE</B></FONT>,
+  siteType               <A HREF="#URST-PROTOCOL.SiteType" target="files">SiteType</A>,
+  siteClass              <A HREF="#URST-PROTOCOL.SiteClass" target="files">SiteClass</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  siteOwnerID            <A HREF="#URST-PROTOCOL.GenericID" target="files">GenericID</A> <FONT COLOR=#666666><B>DEFAULT</B></FONT> <A HREF="#URST-PROTOCOL.connectedSubscriber" target="files">connectedSubscriber</A>,
+  siteName               <A HREF="../../t124/2007/GCC-PROTOCOL.html#GCC-PROTOCOL.SimpleTextString" target="files">SimpleTextString</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  geographicInformation
+    <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {country        <A HREF="../../t124/2007/GCC-PROTOCOL.html#GCC-PROTOCOL.SimpleTextString" target="files">SimpleTextString</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+              region         <A HREF="../../t124/2007/GCC-PROTOCOL.html#GCC-PROTOCOL.SimpleTextString" target="files">SimpleTextString</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+              city           <A HREF="../../t124/2007/GCC-PROTOCOL.html#GCC-PROTOCOL.SimpleTextString" target="files">SimpleTextString</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+              postalAddress  <A HREF="../../t124/2007/GCC-PROTOCOL.html#GCC-PROTOCOL.SimpleTextString" target="files">SimpleTextString</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>} <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  networkInterfaces      <FONT COLOR=#B8860B><B>SET</B></FONT> <FONT COLOR=#228B22><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>SIZE</B></FONT> <FONT COLOR=#228B22>(1..<FONT COLOR=#228B22><B>MAX</B></FONT>)</FONT>)</FONT></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="#URST-PROTOCOL.NetworkInterface" target="files">NetworkInterface</A>,
+  equipmentDescription   <A HREF="#URST-PROTOCOL.EquipmentDescription" target="files">EquipmentDescription</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  contactPerson          <A HREF="#URST-PROTOCOL.PersonDescription" target="files">PersonDescription</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  userData               <A HREF="#URST-PROTOCOL.UserData" target="files">UserData</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  ...
+}
+
+<A NAME="URST-PROTOCOL.RSSiteRecordResponse"></A>RSSiteRecordResponse ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  connectionID           <A HREF="#URST-PROTOCOL.ConnectionID" target="files">ConnectionID</A>,
+  transactionID          <A HREF="#URST-PROTOCOL.TransactionID" target="files">TransactionID</A>,
+  permanentRecord        <FONT COLOR=#5F9EA0><B>BOOLEAN</B></FONT> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  siteType               <A HREF="#URST-PROTOCOL.SiteType" target="files">SiteType</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  siteClass              <A HREF="#URST-PROTOCOL.SiteClass" target="files">SiteClass</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  siteOwnerID            <A HREF="#URST-PROTOCOL.GenericID" target="files">GenericID</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  siteName               <A HREF="../../t124/2007/GCC-PROTOCOL.html#GCC-PROTOCOL.SimpleTextString" target="files">SimpleTextString</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  geographicInformation
+    <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {country        <A HREF="../../t124/2007/GCC-PROTOCOL.html#GCC-PROTOCOL.SimpleTextString" target="files">SimpleTextString</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+              region         <A HREF="../../t124/2007/GCC-PROTOCOL.html#GCC-PROTOCOL.SimpleTextString" target="files">SimpleTextString</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+              city           <A HREF="../../t124/2007/GCC-PROTOCOL.html#GCC-PROTOCOL.SimpleTextString" target="files">SimpleTextString</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+              postalAddress  <A HREF="../../t124/2007/GCC-PROTOCOL.html#GCC-PROTOCOL.SimpleTextString" target="files">SimpleTextString</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>} <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  networkInterfaces      <FONT COLOR=#B8860B><B>SET</B></FONT> <FONT COLOR=#228B22><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>SIZE</B></FONT> <FONT COLOR=#228B22>(1..<FONT COLOR=#228B22><B>MAX</B></FONT>)</FONT>)</FONT></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="#URST-PROTOCOL.NetworkInterface" target="files">NetworkInterface</A>,
+  equipmentDescription   <A HREF="#URST-PROTOCOL.EquipmentDescription" target="files">EquipmentDescription</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  contactPerson          <A HREF="#URST-PROTOCOL.PersonDescription" target="files">PersonDescription</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  siteID                 <A HREF="#URST-PROTOCOL.GenericID" target="files">GenericID</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  deletionDate           <A HREF="#URST-PROTOCOL.Day" target="files">Day</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  acknowledgmentType
+    <A HREF="#URST-PROTOCOL.AcknowledgmentType" target="files">AcknowledgmentType</A><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>WITH COMPONENTS</B></FONT> {
+                         simple  
+                       })</FONT> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  resultCode             <A HREF="#URST-PROTOCOL.ResultCode" target="files">ResultCode</A>,
+  resultMessage          <A HREF="../../t124/2007/GCC-PROTOCOL.html#GCC-PROTOCOL.SimpleTextString" target="files">SimpleTextString</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  userData               <A HREF="#URST-PROTOCOL.UserData" target="files">UserData</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  ...
+}
+
+<A NAME="URST-PROTOCOL.RSSiteModifyRequest"></A>RSSiteModifyRequest ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  connectionID           <A HREF="#URST-PROTOCOL.ConnectionID" target="files">ConnectionID</A>,
+  transactionID          <A HREF="#URST-PROTOCOL.TransactionID" target="files">TransactionID</A>,
+  siteID                 <A HREF="#URST-PROTOCOL.GenericID" target="files">GenericID</A>,
+  permanentRecord        <FONT COLOR=#5F9EA0><B>BOOLEAN</B></FONT> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  siteType               <A HREF="#URST-PROTOCOL.SiteType" target="files">SiteType</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  siteClass              <A HREF="#URST-PROTOCOL.SiteClass" target="files">SiteClass</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  siteOwnerID            <A HREF="#URST-PROTOCOL.GenericID" target="files">GenericID</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  siteName               <A HREF="../../t124/2007/GCC-PROTOCOL.html#GCC-PROTOCOL.SimpleTextString" target="files">SimpleTextString</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  geographicInformation
+    <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {country        <A HREF="../../t124/2007/GCC-PROTOCOL.html#GCC-PROTOCOL.SimpleTextString" target="files">SimpleTextString</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+              region         <A HREF="../../t124/2007/GCC-PROTOCOL.html#GCC-PROTOCOL.SimpleTextString" target="files">SimpleTextString</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+              city           <A HREF="../../t124/2007/GCC-PROTOCOL.html#GCC-PROTOCOL.SimpleTextString" target="files">SimpleTextString</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+              postalAddress  <A HREF="../../t124/2007/GCC-PROTOCO COLOR=#B8860B><B>SET</B></FONT> <FONT COLOR=#228B22><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>SIZE</B></FONT> <FONT COLOR=#228B22>(1..<FONT COLOR=#228B22><B>MAX</B></FONT>)</FONT>)</FONT></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="#URST-PROTOCOL.NetworkInterface" target="files">NetworkInterface</A>,
+            partialRefresh
+              <FONT COLOR=#B8860B><B>SET</B></FONT> <FONT COLOR=#228B22><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>SIZE</B></FONT> <FONT COLOR=#228B22>(1..<FONT COLOR=#228B22><B>MAX</B></FONT>)</FONT>)</FONT></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT>
+                <FONT COLOR=#B8860B><B>CHOICE</B></FONT> {deleteInterface  <A HREF="#URST-PROTOCOL.GenericID" target="files">GenericID</A>,
+                        modifyInterface
+                          <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {interfaceID  <A HREF="#URST-PROTOCOL.GenericID" target="files">GenericID</A>,
+                                    interface    <A HREF="#URST-PROTOCOL.NetworkInterface" target="files">NetworkInterface</A>},
+                        addInterface     <A HREF="#URST-PROTOCOL.NetworkInterface" target="files">NetworkInterface</A>}} <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  equipmentDescription   <A HREF="#URST-PROTOCOL.EquipmentDescription" target="files">EquipmentDescription</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  contactPerson          <A HREF="#URST-PROTOCOL.PersonDescription" target="files">PersonDescription</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  userData               <A HREF="#URST-PROTOCOL.UserData" target="files">UserData</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  ...
+}
+
+<A NAME="URST-PROTOCOL.RSSiteModifyResponse"></A>RSSiteModifyResponse ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  connectionID           <A HREF="#URST-PROTOCOL.ConnectionID" target="files">ConnectionID</A>,
+  transactionID          <A HREF="#URST-PROTOCOL.TransactionID" target="files">TransactionID</A>,
+  siteID                 <A HREF="#URST-PROTOCOL.GenericID" target="files">GenericID</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  permanentRecord        <FONT COLOR=#5F9EA0><B>BOOLEAN</B></FONT> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  siteType               <A HREF="#URST-PROTOCOL.SiteType" target="files">SiteType</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  siteClass              <A HREF="#URST-PROTOCOL.SiteClass" target="files">SiteClass</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  siteOwnerID            <A HREF="#URST-PROTOCOL.GenericID" target="files">GenericID</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  siteName               <A HREF="../../t124/2007/GCC-PROTOCOL.html#GCC-PROTOCOL.SimpleTextString" target="files">SimpleTextString</A>,
+  geographicInformation
+    <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {country        <A HREF="../../t124/2007/GCC-PROTOCOL.html#GCC-PROTOCOL.SimpleTextString" target="files">SimpleTextString</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+              region         <A HREF="../../t124/2007/GCC-PROTOCOL.html#GCC-PROTOCOL.SimpleTextString" target="files">SimpleTextString</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+              city           <A HREF="../../t124/2007/GCC-PROTOCOL.html#GCC-PROTOCOL.SimpleTextString" target="files">SimpleTextString</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+              postalAddress  <A HREF="../../t124/2007/GCC-PROTOCOL.html#GCC-PROTOCOL.SimpleTextString" target="files">SimpleTextString</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>} <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  networkInterfaces      <FONT COLOR=#B8860B><B>SET</B></FONT> <FONT COLOR=#228B22><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>SIZE</B></FONT> <FONT COLOR=#228B22>(1..<FONT COLOR=#228B22><B>MAX</B></FONT>)</FONT>)</FONT></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="#URST-PROTOCOL.NetworkInterface" target="files">NetworkInterface</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  equipmentDescription   <A HREF="#URST-PROTOCOL.EquipmentDescription" target="files">EquipmentDescription</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  contactPerson          <A HREF="#URST-PROTOCOL.PersonDescription" target="files">PersonDescription</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  deletionDate           <A HREF="#URST-PROTOCOL.Day" target="files">Day</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  acknowledgmentType
+    <A HREF="#URST-PROTOCOL.AcknowledgmentType" target="files">AcknowledgmentType</A><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>WITH COMPONENTS</B></FONT> {
+                         simple  
+                       })</FONT> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  resultCode             <A HREF="#URST-PROTOCOL.ResultCode" target="files">ResultCode</A>,
+  resultMessage          <A HREF="../../t124/2007/GCC-PROTOCOL.html#GCC-PROTOCOL.SimpleTextString" target="files">SimpleTextString</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  userData               <A HREF="#URST-PROTOCOL.UserData" target="files">UserData</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  ...
+}
+
+<A NAME="URST-PROTOCOL.RSSiteDeleteRequest"></A>RSSiteDeleteRequest ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  connectionID   <A HREF="#URST-PROTOCOL.ConnectionID" target="files">ConnectionID</A>,
+  transactionID  <A HREF="#URST-PROTOCOL.TransactionID" target="files">TransactionID</A>,
+  siteID         <A HREF="#URST-PROTOCOL.GenericID" target="files">GenericID</A>,
+  userData       <A HREF="#URST-PROTOCOL.UserData" target="files">UserData</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  ...
+}
+
+<A NAME="URST-PROTOCOL.RSSiteDeleteResponse"></A>RSSiteDeleteResponse ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  connectionID        <A HREF="#URST-PROTOCOL.ConnectionID" target="files">ConnectionID</A>,
+  transactionID       <A HREF="#URST-PROTOCOL.TransactionID" target="files">TransactionID</A>,
+  siteID              <A HREF="#URST-PROTOCOL.GenericID" target="files">GenericID</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  acknowledgmentType  <A HREF="#URST-PROTOCOL.AcknowledgmentType" target="files">AcknowledgmentType</A><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>WITH COMPONENTS</B></FONT> {
+                                           simple  
+                                         })</FONT> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  resultCode          <A HREF="#URST-PROTOCOL.ResultCode" target="files">ResultCode</A>,
+  resultMessage       <A HREF="../../t124/2007/GCC-PROTOCOL.html#GCC-PROTOCOL.SimpleTextString" target="files">SimpleTextString</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  userData            <A HREF="#URST-PROTOCOL.UserData" target="files">UserData</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  ...
+}
+
+<A NAME="URST-PROTOCOL.RSSiteDirectoryInquireRequest"></A>RSSiteDirectoryInquireRequest ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  connectionID              <A HREF="#URST-PROTOCOL.ConnectionID" target="files">ConnectionID</A>,
+  transactionID             <A HREF="#URST-PROTOCOL.TransactionID" target="files">TransactionID</A>,
+  siteOwnerIDFilter         <FONT COLOR=#B8860B><B>SET</B></FONT> <FONT COLOR=#228B22><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>SIZE</B></FONT> <FONT COLOR=#228B22>(1..<FONT COLOR=#228B22><B>MAX</B></FONT>)</FONT>)</FONT></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="#URST-PROTOCOL.GenericID" target="files">GenericID</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  siteOwnerNameFilter
+    <FONT COLOR=#B8860B><B>SET</B></FONT> <FONT COLOR=#228B22><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>SIZE</B></FONT> <FONT COLOR=#228B22>(1..<FONT COLOR=#228B22><B>MAX</B></FONT>)</FONT>)</FONT></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="#URST-PROTOCOL.SimpleTextStringInterval" target="files">SimpleTextStringInterval</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  siteNameFilter
+    <FONT COLOR=#B8860B><B>SET</B></FONT> <FONT COLOR=#228B22><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>SIZE</B></FONT> <FONT COLOR=#228B22>(1..<FONT COLOR=#228B22><B>MAX</B></FONT>)</FONT>)</FONT></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="#URST-PROTOCOL.SimpleTextStringInterval" target="files">SimpleTextStringInterval</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  geographicLocationFilter
+    <FONT COLOR=#B8860B><B>SET</B></FONT> <FONT COLOR=#228B22><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>SIZE</B></FONT> <FONT COLOR=#228B22>(1..<FONT COLOR=#228B22><B>MAX</B></FONT>)</FONT>)</FONT></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT>
+      <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {country        <A HREF="../../t124/2007/GCC-PROTOCOL.html#GCC-PROTOCOL.SimpleTextString" target="files">SimpleTextString</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+                region         <A HREF="../../t124/2007/GCC-PROTOCOL.html#GCC-PROTOCOL.SimpleTextString" target="files">SimpleTextString</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+                city           <A HREF="../../t124/2007/GCC-PROTOCOL.html#GCC-PROTOCOL.SimpleTextString" target="files">SimpleTextString</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+                postalAddress  <A HREF="../../t124/2007/GCC-PROTOCOL.html#GCC-PROTOCOL.SimpleTextString" target="files">SimpleTextString</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>} <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  userData                  <A HREF="#URST-PROTOCOL.UserData" target="files">UserData</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  ...
+}
+
+<A NAME="URST-PROTOCOL.RSSiteDirectoryInquireResponse"></A>RSSiteDirectoryInquireResponse ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  connectionID   <A HREF="#URST-PROTOCOL.ConnectionID" target="files">ConnectionID</A>,
+  transactionID  <A HREF="#URST-PROTOCOL.TransactionID" target="files">TransactionID</A>,
+  querryResult
+    <FONT COLOR=#B8860B><B>SET</B></FONT> <FONT COLOR=#228B22><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>SIZE</B></FONT> <FONT COLOR=#228B22>(1..<FONT COLOR=#228B22><B>MAX</B></FONT>)</FONT>)</FONT></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT>
+      <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {siteType               <A HREF="#URST-PROTOCOL.SiteType" target="files">SiteType</A>,
+                siteClass              <A HREF="#URST-PROTOCOL.SiteClass" target="files">SiteClass</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+                siteOwnerID            <A HREF="#URST-PROTOCOL.GenericID" target="files">GenericID</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+                siteOwnerName          <A HREF="../../t124/2007/GCC-PROTOCOL.html#GCC-PROTOCOL.SimpleTextString" target="files">SimpleTextString</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+                siteName               <A HREF="../../t124/2007/GCC-PROTOCOL.html#GCC-PROTOCOL.SimpleTextString" target="files">SimpleTextString</A>,
+                geographicInformation
+                  <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {country        <A HREF="../../t124/2007/GCC-PROTOCOL.html#GCC-PROTOCOL.SimpleTextString" target="files">SimpleTextString</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+                            region         <A HREF="../../t124/2007/GCC-PROTOCOL.html#GCC-PROTOCOL.SimpleTextString" target="files">SimpleTextString</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+                            city           <A HREF="../../t124/2007/GCC-PROTOCOL.html#GCC-PROTOCOL.SimpleTextString" target="files">SimpleTextString</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+                            postalAddress  <A HREF="../../t124/2007/GCC-PROTOCOL.html#GCC-PROTOCOL.SimpleTextString" target="files">SimpleTextString</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>} <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+                networkInterfaces      <FONT COLOR=#B8860B><B>SET</B></FONT> <FONT COLOR=#228B22><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>SIZE</B></FONT> <FONT COLOR=#228B22>(1..<FONT COLOR=#228B22><B>MAX</B></FONT>)</FONT>)</FONT></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="#URST-PROTOCOL.NetworkInterface" target="files">NetworkInterface</A>,
+                equipmentDescription   <A HREF="#URST-PROTOCOL.EquipmentDescription" target="files">EquipmentDescription</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+                contactPerson          <A HREF="#URST-PROTOCOL.PersonDescription" target="files">PersonDescription</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+                siteExtraInformation   <A HREF="../../t124/2007/GCC-PROTOCOL.html#GCC-PROTOCOL.TextString" target="files">TextString</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+                deletionDate           <A HREF="#URST-PROTOCOL.Day" target="files">Day</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+                modifyRight            <FONT COLOR=#5F9EA0><B>BOOLEAN</B></FONT> <FONT COLOR=#666666><B>DEFAULT</B></FONT> <FONT COLOR=#5F9EA0><B>TRUE</B></FONT>,
+                ...} <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  resultCode     <A HREF="#URST-PROTOCOL.ResultCode" target="files">ResultCode</A>,
+  resultMessage  <A HREF="../../t124/2007/GCC-PROTOCOL.html#GCC-PROTOCOL.SimpleTextString" target="files">SimpleTextString</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  userData       <A HREF="#URST-PROTOCOL.UserData" target="files">UserData</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  ...
+}
+
+<A NAME="URST-PROTOCOL.RSNonStandardRequest"></A>RSNonStandardRequest ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  connectionID         <A HREF="#URST-PROTOCOL.ConnectionID" target="files">ConnectionID</A>,
+  transactionID        <A HREF="#URST-PROTOCOL.TransactionID" target="files">TransactionID</A>,
+  parentTransactionID  <A HREF="#URST-PROTOCOL.TransactionID" target="files">TransactionID</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  protocolKey          <A HREF="../../t124/2007/GCC-PROTOCOL.html#GCC-PROTOCOL.Key" target="files">Key</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  data                 <FONT COLOR=#5F9EA0><B>OCTET STRING</B></FONT>,
+  ...
+}
+
+<A NAME="URST-PROTOCOL.RSNonStandardResponse"></A>RSNonStandardResponse ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  connectionID        <A HREF="#URST-PROTOCOL.ConnectionID" target="files">ConnectionID</A>,
+  transactionID       <A HREF="#URST-PROTOCOL.TransactionID" target="files">TransactionID</A>,
+  acknowledgmentType  <A HREF="#URST-PROTOCOL.AcknowledgmentType" target="files">AcknowledgmentType</A>,
+  protocolKey         <A HREF="../../t124/2007/GCC-PROTOCOL.html#GCC-PROTOCOL.Key" target="files">Key</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  data                <FONT COLOR=#5F9EA0><B>OCTET STRING</B></FONT>,
+  ...
+}
+
+<A NAME="URST-PROTOCOL.RSNonStandardIndication"></A>RSNonStandardIndication ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  connectionID          <A HREF="#URST-PROTOCOL.ConnectionID" target="files">ConnectionID</A>,
+  relatedTransactionID  <A HREF="#URST-PROTOCOL.TransactionID" target="files">TransactionID</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  protocolKey           <A HREF="../../t124/2007/GCC-PROTOCOL.html#GCC-PROTOCOL.Key" target="files">Key</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  data                  <FONT COLOR=#5F9EA0><B>OCTET STRING</B></FONT>,
+  ...
+}
+
+<A NAME="URST-PROTOCOL.RSTransactionAcknowledgeIndication"></A>RSTransactionAcknowledgeIndication ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  connectionID   <A HREF="#URST-PROTOCOL.ConnectionID" target="files">ConnectionID</A>,
+  transactionID  <A HREF="#URST-PROTOCOL.TransactionID" target="files">TransactionID</A>,
+  ...
+}
+
+<A NAME="URST-PROTOCOL.RSTransactionCancelIndication"></A>RSTransactionCancelIndication ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  connectionID   <A HREF="#URST-PROTOCOL.ConnectionID" target="files">ConnectionID</A>,
+  transactionID  <A HREF="#URST-PROTOCOL.TransactionID" target="files">TransactionID</A>,
+  ...
+}
+
+<A NAME="URST-PROTOCOL.RSTransactionErrorIndication"></A>RSTransactionErrorIndication ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  connectionID   <A HREF="#URST-PROTOCOL.ConnectionID" target="files">ConnectionID</A>,
+  transactionID  <A HREF="#URST-PROTOCOL.TransactionID" target="files">TransactionID</A>,
+  errorCode
+    <FONT COLOR=#B8860B><B>CHOICE</B></FONT> {unrecognizedNonStandardProtocol  <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+            defaultErrorCode                 <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+            nonStandard                      <A HREF="../../t124/2007/GCC-PROTOCOL.html#GCC-PROTOCOL.NonStandardParameter" target="files">NonStandardParameter</A>,
+            ...},
+  ...
+}
+
+<A NAME="URST-PROTOCOL.URSTPDU"></A><FONT COLOR=#B22222><I>--===============
+</I></FONT><FONT COLOR=#B22222><I>-- All URST PDUs
+</I></FONT><FONT COLOR=#B22222><I>--===============
+</I></FONT>URSTPDU ::= <FONT COLOR=#B8860B><B>CHOICE</B></FONT> {
+  rsConnectRequest                       <A HREF="#URST-PROTOCOL.RSConnectRequest" target="files">RSConnectRequest</A>,
+  rsConnectResponse                      <A HREF="#URST-PROTOCOL.RSConnectResponse" target="files">RSConnectResponse</A>,
+  rsDisconnectIndication                 <A HREF="#URST-PROTOCOL.RSDisconnectIndication" target="files">RSDisconnectIndication</A>,
+  rsConferenceReserveRequest             <A HREF="#URST-PROTOCOL.RSConferenceReserveRequest" target="files">RSConferenceReserveRequest</A>,
+  rsConferenceReserveResponse            <A HREF="#URST-PROTOCOL.RSConferenceReserveResponse" target="files">RSConferenceReserveResponse</A>,
+  rsConferenceModifyRequest              <A HREF="#URST-PROTOCOL.RSConferenceModifyRequest" target="files">RSConferenceModifyRequest</A>,
+  rsConferenceModifyResponse             <A HREF="#URST-PROTOCOL.RSConferenceModifyResponse" target="files">RSConferenceModifyResponse</A>,
+  rsConferenceCancelRequest              <A HREF="#URST-PROTOCOL.RSConferenceCancelRequest" target="files">RSConferenceCancelRequest</A>,
+  rsConferenceCancelResponse             <A HREF="#URST-PROTOCOL.RSConferenceCancelResponse" target="files">RSConferenceCancelResponse</A>,
+  rsConferenceListInquireRequest         <A HREF="#URST-PROTOCOL.RSConferenceListInquireRequest" target="files">RSConferenceListInquireRequest</A>,
+  rsConferenceListInquireResponse        <A HREF="#URST-PROTOCOL.RSConferenceListInquireResponse" target="files">RSConferenceListInquireResponse</A>,
+  rsConferenceDetailInquireRequest       <A HREF="#URST-PROTOCOL.RSConferenceDetailInquireRequest" target="files">RSConferenceDetailInquireRequest</A>,
+  rsConferenceDetailInquireResponse      <A HREF="#URST-PROTOCOL.RSConferenceDetailInquireResponse" target="files">RSConferenceDetailInquireResponse</A>,
+  rsConferenceCheckAvailabilityRequest   <A HREF="#URST-PROTOCOL.RSConferenceCheckAvailabilityRequest" target="files">RSConferenceCheckAvailabilityRequest</A>,
+  rsConferenceCheckAvailabilityResponse  <A HREF="#URST-PROTOCOL.RSConferenceCheckAvailabilityResponse" target="files">RSConferenceCheckAvailabilityResponse</A>,
+  rsSiteRecordRequest                    <A HREF="#URST-PROTOCOL.RSSiteRecordRequest" target="files">RSSiteRecordRequest</A>,
+  rsSiteRecordResponse                   <A HREF="#URST-PROTOCOL.RSSiteRecordResponse" target="files">RSSiteRecordResponse</A>,
+  rsSiteModifyRequest                    <A HREF="#URST-PROTOCOL.RSSiteModifyRequest" target="files">RSSiteModifyRequest</A>,
+  rsSiteModifyResponse                   <A HREF="#URST-PROTOCOL.RSSiteModifyResponse" target="files">RSSiteModifyResponse</A>,
+  rsSiteDeleteRequest                    <A HREF="#URST-PROTOCOL.RSSiteDeleteRequest" target="files">RSSiteDeleteRequest</A>,
+  rsSiteDeleteResponse                   <A HREF="#URST-PROTOCOL.RSSiteDeleteResponse" target="files">RSSiteDeleteResponse</A>,
+  rsSiteDisrectoryInquireRequest         <A HREF="#URST-PROTOCOL.RSSiteDirectoryInquireRequest" target="files">RSSiteDirectoryInquireRequest</A>,
+  rsSiteDisrectoryInquireResponse        <A HREF="#URST-PROTOCOL.RSSiteDirectoryInquireResponse" target="files">RSSiteDirectoryInquireResponse</A>,
+  rsNonStandardRequest                   <A HREF="#URST-PROTOCOL.RSNonStandardRequest" target="files">RSNonStandardRequest</A>,
+  rsNonStandardResponse                  <A HREF="#URST-PROTOCOL.RSNonStandardResponse" target="files">RSNonStandardResponse</A>,
+  rsNonStandardIndication                <A HREF="#URST-PROTOCOL.RSNonStandardIndication" target="files">RSNonStandardIndication</A>,
+  rsTransactionAcknowledgeIndication     <A HREF="#URST-PROTOCOL.RSTransactionAcknowledgeIndication" target="files">RSTransactionAcknowledgeIndication</A>,
+  rsTransactionCancelIndication          <A HREF="#URST-PROTOCOL.RSTransactionCancelIndication" target="files">RSTransactionCancelIndication</A>,
+  rsTransactionErrorIndication           <A HREF="#URST-PROTOCOL.RSTransactionErrorIndication" target="files">RSTransactionErrorIndication</A>,
+  ...
+}
+
+<FONT COLOR=#0000FF><B>END</B></FONT>
+</PRE>
+-- Generated by Asnp, the ASN.1 pretty-printer of France Telecom R&amp;D</b>
+</BODY></HTML>

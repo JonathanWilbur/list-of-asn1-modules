@@ -1,0 +1,1880 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.0//EN">
+<HTML>
+<HEAD>
+<META NAME="GENERATOR" CONTENT="Microsoft FrontPage 4.0">
+<TITLE>SI-PROTOCOL (T.126:08/2007.)</TITLE>
+</HEAD>
+<BODY  >
+-- Module SI-PROTOCOL (T.126:08/2007.)<br>
+-- See also <a href="/ITU-T/recommendations/fl.aspx?id=9228" target="_top">ITU-T T.126 (08/2007)</a><br>
+-- See also the <a href="index2.html" target="_top">index</a> of all ASN.1 assignments needed in this document<br><br>
+<PRE>
+<A NAME="SI-PROTOCOL"></A><FONT COLOR=#B22222><I>--  Begin SI Definitions
+</I></FONT>SI-PROTOCOL {itu-t(0) recommendation(0) t(20) t126(126) version(0) 2 
+  asn1Modules(2) sI-PROTOCOL(1)} <FONT COLOR=#0000FF><B>DEFINITIONS</B></FONT> <FONT COLOR=#666666><B>AUTOMATIC TAGS</B></FONT> ::=
+<FONT COLOR=#0000FF><B>BEGIN</B></FONT>
+
+<A NAME="SI-PROTOCOL.ArchiveEntryName"></A><FONT COLOR=#B22222><I>--  NOTE: All abstract types defined shall be exported.
+</I></FONT><FONT COLOR=#B22222><I>--  ArchiveEntryName
+</I></FONT><FONT COLOR=#B22222><I>--  Name used to reference an archive entry.
+</I></FONT>ArchiveEntryName ::= <FONT COLOR=#5F9EA0><B>BMPString</B></FONT><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>SIZE</B></FONT> <FONT COLOR=#228B22>(1..256)</FONT>)</FONT>
+
+<A NAME="SI-PROTOCOL.ArchiveError"></A><FONT COLOR=#B22222><I>--  ArchiveError
+</I></FONT><FONT COLOR=#B22222><I>--  Specifies the cause of an error at a remote terminal during
+</I></FONT><FONT COLOR=#B22222><I>--  a workspace archive operation.
+</I></FONT>ArchiveError ::= <FONT COLOR=#B8860B><B>CHOICE</B></FONT> {
+  entryNotFound             <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  The terminal does not have the entry that matches the
+  </I></FONT><FONT COLOR=#B22222><I>--   archive name being accessed for reading, editing, or
+  </I></FONT><FONT COLOR=#B22222><I>--  deletion.
+  </I></FONT>entryExists               <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  The terminal already has an archive entry that matches
+  </I></FONT><FONT COLOR=#B22222><I>--  the name of the archive entry name being created.
+  </I></FONT>storageExceeded           <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  The terminal does not have sufficient memory to store
+  </I></FONT><FONT COLOR=#B22222><I>--  the requested information.
+  </I></FONT>archiveNoLongerAvailable  <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  The archive indicated is no longer available.
+  </I></FONT>unspecifiedError          <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  A general error that is not previously defined has occurred.
+  </I></FONT>nonStandardError          <A HREF="#SI-PROTOCOL.NonStandardIdentifier" target="files">NonStandardIdentifier</A>,
+  <FONT COLOR=#B22222><I>--  Non-standard error code.
+  </I></FONT>...
+}
+
+<A NAME="SI-PROTOCOL.ArchiveHeader"></A><FONT COLOR=#B22222><I>--  ArchiveHeader
+</I></FONT><FONT COLOR=#B22222><I>--  This type specifies the parameters used to address archives
+</I></FONT><FONT COLOR=#B22222><I>--  stored at remote terminals.
+</I></FONT>ArchiveHeader ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  archiveName              <A HREF="#SI-PROTOCOL.ArchiveName" target="files">ArchiveName</A>,
+  <FONT COLOR=#B22222><I>--  Name of the archive.
+  </I></FONT>archiveCreationTime      <FONT COLOR=#5F9EA0><B>GeneralizedTime</B></FONT>,
+  <FONT COLOR=#B22222><I>--  Time and date of the creation of the archive.
+  </I></FONT>archiveModificationTime  <FONT COLOR=#5F9EA0><B>GeneralizedTime</B></FONT>,
+  <FONT COLOR=#B22222><I>--  Time and date of the most recent modification of the archive.
+  </I></FONT>...
+}
+
+<A NAME="SI-PROTOCOL.ArchiveMode"></A><FONT COLOR=#B22222><I>--  ArchiveMode
+</I></FONT><FONT COLOR=#B22222><I>--  One of the following sets of access modes must be indicated
+</I></FONT><FONT COLOR=#B22222><I>--  when an archive is opened.
+</I></FONT>ArchiveMode ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  create  <FONT COLOR=#5F9EA0><B>BOOLEAN</B></FONT>,
+  <FONT COLOR=#B22222><I>--  TRUE indicates that the archive shall be created.  If an archive with
+  </I></FONT><FONT COLOR=#B22222><I>--  the same name exists, the operation should fail.
+  </I></FONT>read    <FONT COLOR=#5F9EA0><B>BOOLEAN</B></FONT>,
+  <FONT COLOR=#B22222><I>--  TRUE indicates that the archive shall be opened for reading only.
+  </I></FONT>write   <FONT COLOR=#5F9EA0><B>BOOLEAN</B></FONT>,
+  <FONT COLOR=#B22222><I>--  TRUE indicates that the archive shall be opened for writing.
+  </I></FONT>...
+}
+
+<A NAME="SI-PROTOCOL.ArchiveName"></A><FONT COLOR=#B22222><I>--  ArchiveName
+</I></FONT><FONT COLOR=#B22222><I>--  Name used to reference an archive.
+</I></FONT>ArchiveName ::= <FONT COLOR=#5F9EA0><B>BMPString</B></FONT><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>SIZE</B></FONT> <FONT COLOR=#228B22>(1..256)</FONT>)</FONT>
+
+<A NAME="SI-PROTOCOL.ArchiveOpenResult"></A><FONT COLOR=#B22222><I>--  ArchiveOpenResult
+</I></FONT><FONT COLOR=#B22222><I>--  Specifies the result of an archive open request.
+</I></FONT>ArchiveOpenResult ::= <FONT COLOR=#B8860B><B>CHOICE</B></FONT> {
+  archiveOpenSuccessful  <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  The requested archive was successfully opened.
+  </I></FONT>archiveNotFound        <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  An archive to be opened for reading or writing was
+  </I></FONT><FONT COLOR=#B22222><I>--   not found to exist.
+  </I></FONT>archiveTimeIncorrect   <A HREF="#SI-PROTOCOL.ArchiveHeader" target="files">ArchiveHeader</A>,
+  <FONT COLOR=#B22222><I>--  An archive to be opened for reading or writing was found,
+  </I></FONT><FONT COLOR=#B22222><I>--   but with incorrect creation or modification time. The
+  </I></FONT><FONT COLOR=#B22222><I>--  actual header is included in the error response in this case.
+  </I></FONT>archiveExists          <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  An archive to be opened for creation already exists and will
+  </I></FONT><FONT COLOR=#B22222><I>--  not be overwritten.
+  </I></FONT>archiveOpenForWriting  <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  An archive to be opened for writing is already open for writing.
+  </I></FONT>storageExceeded        <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  The terminal does not have sufficient memory to store the
+  </I></FONT><FONT COLOR=#B22222><I>--  requested archive.
+  </I></FONT>unspecifiedError       <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  An unspecified error has occurred preventing the archive
+  </I></FONT><FONT COLOR=#B22222><I>--  from being opened.
+  </I></FONT>nonStandardResult      <A HREF="#SI-PROTOCOL.NonStandardIdentifier" target="files">NonStandardIdentifier</A>,
+  <FONT COLOR=#B22222><I>--  Non-standard result code.
+  </I></FONT>...
+}
+
+<A NAME="SI-PROTOCOL.BitmapAbortReason"></A><FONT COLOR=#B22222><I>--  BitmapAbortReason
+</I></FONT><FONT COLOR=#B22222><I>--  These values represent the possible reason codes
+</I></FONT><FONT COLOR=#B22222><I>--  for the BitmapAbortPDU.
+</I></FONT>BitmapAbortReason ::= <FONT COLOR=#B8860B><B>CHOICE</B></FONT> {
+  unspecified        <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  Bitmap aborted for an unspecified reason.
+  </I></FONT>noResources        <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  Bitmap creation failed due to local resource management
+  </I></FONT><FONT COLOR=#B22222><I>--  problems.
+  </I></FONT>outOfPaper         <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  Bitmap creation failed because the receiving terminal is
+  </I></FONT><FONT COLOR=#B22222><I>--  out of paper.
+  </I></FONT>nonStandardReason  <A HREF="#SI-PROTOCOL.NonStandardParameter" target="files">NonStandardParameter</A>,
+  ...
+}
+
+<A NAME="SI-PROTOCOL.BitmapAttribute"></A><FONT COLOR=#B22222><I>--  BitmapAttribute
+</I></FONT><FONT COLOR=#B22222><I>--  This CHOICE represents the list of possible bitmap attributes.
+</I></FONT>BitmapAttribute ::= <FONT COLOR=#B8860B><B>CHOICE</B></FONT> {
+  viewState             <A HREF="#SI-PROTOCOL.ViewState" target="files">ViewState</A>,
+  <FONT COLOR=#B22222><I>--  Indicates the state.
+  </I></FONT>zOrder                <A HREF="#SI-PROTOCOL.ZOrder" target="files">ZOrder</A>,
+  <FONT COLOR=#B22222><I>--  Used to set the bitmap to the front or back of the display
+  </I></FONT><FONT COLOR=#B22222><I>--   list within an addressable plane.
+  </I></FONT>nonStandardAttribute  <A HREF="#SI-PROTOCOL.NonStandardParameter" target="files">NonStandardParameter</A>,
+  ...,
+  <FONT COLOR=#B22222><I>--  Parameters added during 1st revision
+  </I></FONT>transparencyMask      <A HREF="#SI-PROTOCOL.TransparencyMask" target="files">TransparencyMask</A>
+}
+
+<A NAME="SI-PROTOCOL.BitmapData"></A><FONT COLOR=#B22222><I>--  BitmapData
+</I></FONT><FONT COLOR=#B22222><I>--  All or part of a bitmap bitstream.
+</I></FONT>BitmapData ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  dataCheckpoint  <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> <FONT COLOR=#228B22><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>SIZE</B></FONT> <FONT COLOR=#228B22>(1..100)</FONT>)</FONT></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="#SI-PROTOCOL.TokenID" target="files">TokenID</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  Tokens to uninhibit when the corresponding data is ready
+  </I></FONT><FONT COLOR=#B22222><I>--  for display if checkpointing is enabled for the exchange
+  </I></FONT>padBits         <FONT COLOR=#5F9EA0><B>INTEGER</B></FONT><FONT COLOR=#228B22>(1..256)</FONT> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  Count of bits at the end of the data octets that are not part
+  </I></FONT><FONT COLOR=#B22222><I>--  of the image bitstream and are to be ignored
+  </I></FONT>data            <FONT COLOR=#5F9EA0><B>OCTET STRING</B></FONT><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>SIZE</B></FONT> <FONT COLOR=#228B22>(1..8192)</FONT>)</FONT>,
+  <FONT COLOR=#B22222><I>--  The compression-format-specific bitmap data.
+  </I></FONT>...
+}
+
+<A NAME="SI-PROTOCOL.BitmapDestinationAddress"></A><FONT COLOR=#B22222><I>--  BitmapDestinationAddress
+</I></FONT><FONT COLOR=#B22222><I>--  Destination address for bitmap exchanges.
+</I></FONT>BitmapDestinationAddress ::= <FONT COLOR=#B8860B><B>CHOICE</B></FONT> {
+  hardCopyDevice           <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  softCopyImagePlane       <A HREF="#SI-PROTOCOL.SoftCopyDataPlaneAddress" target="files">SoftCopyDataPlaneAddress</A>,
+  softCopyAnnotationPlane  <A HREF="#SI-PROTOCOL.SoftCopyDataPlaneAddress" target="files">SoftCopyDataPlaneAddress</A>,
+  softCopyPointerPlane     <A HREF="#SI-PROTOCOL.SoftCopyPointerPlaneAddress" target="files">SoftCopyPointerPlaneAddress</A>,
+  ...,
+  <FONT COLOR=#B22222><I>--  Parameters added during 1st revision
+  </I></FONT>nonStandardDestination   <A HREF="#SI-PROTOCOL.NonStandardParameter" target="files">NonStandardParameter</A>
+}
+
+<A NAME="SI-PROTOCOL.BitmapHeaderUncompressed"></A><FONT COLOR=#B22222><I>--  BitmapHeaderUncompressed
+</I></FONT><FONT COLOR=#B22222><I>--  This type specifies the parameters of uncompressed bitmap
+</I></FONT><FONT COLOR=#B22222><I>--  bitstreams.
+</I></FONT>BitmapHeaderUncompressed ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  colorMappingMode
+    <FONT COLOR=#B8860B><B>CHOICE</B></FONT> {directMap
+              <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {colorSpace      <A HREF="#SI-PROTOCOL.ColorSpaceSpecifier" target="files">ColorSpaceSpecifier</A>,
+                        resolutionMode  <A HREF="#SI-PROTOCOL.ColorResolutionModeSpecifier" target="files">ColorResolutionModeSpecifier</A>},
+            paletteMap
+              <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {colorPalette  <A HREF="#SI-PROTOCOL.ColorPalette" target="files">ColorPalette</A>,
+                        bitsPerPixel  <FONT COLOR=#5F9EA0><B>INTEGER</B></FONT><FONT COLOR=#228B22>(1 <FONT COLOR=#228B22><B>|</B></FONT> 4 <FONT COLOR=#228B22><B>|</B></FONT> 8)</FONT>},
+            ...},
+  ...
+}
+
+<A NAME="SI-PROTOCOL.BitmapHeaderT4"></A><FONT COLOR=#B22222><I>--  BitmapHeaderT4
+</I></FONT><FONT COLOR=#B22222><I>--  Bitmap header for T.4 (G3) encoding
+</I></FONT>BitmapHeaderT4 ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  twoDimensionalEncoding  <FONT COLOR=#5F9EA0><B>BOOLEAN</B></FONT>,
+  <FONT COLOR=#B22222><I>--  2-D encoding if TRUE,
+  </I></FONT><FONT COLOR=#B22222><I>--  1-D encoding if FALSE
+  </I></FONT>...
+}
+
+<A NAME="SI-PROTOCOL.BitmapHeaderT6"></A><FONT COLOR=#B22222><I>--  BitmapHeaderT6
+</I></FONT><FONT COLOR=#B22222><I>--  Bitmap header for T.6 (G4) encoding
+</I></FONT>BitmapHeaderT6 ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {...
+}
+
+<A NAME="SI-PROTOCOL.BitmapHeaderT81"></A><FONT COLOR=#B22222><I>--  BitmapHeaderT81
+</I></FONT><FONT COLOR=#B22222><I>--  This type is used to specify the parameters necessary to 
+</I></FONT><FONT COLOR=#B22222><I>--  decode and display a T.81 (JPEG) image that are not specified
+</I></FONT><FONT COLOR=#B22222><I>--  within the T.81 bitstream.
+</I></FONT>BitmapHeaderT81 ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  colorSpace       <A HREF="#SI-PROTOCOL.ColorSpaceSpecifier" target="files">ColorSpaceSpecifier</A>,
+  resolutionMode   <A HREF="#SI-PROTOCOL.ColorResolutionModeSpecifier" target="files">ColorResolutionModeSpecifier</A>,
+  ...,
+  <FONT COLOR=#B22222><I>--  Parameters added during 1st revision
+  </I></FONT>colorPalette     <A HREF="#SI-PROTOCOL.ColorPalette" target="files">ColorPalette</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>
+  <FONT COLOR=#B22222><I>--  Color palette to be optionally used by the receiver to render
+  </I></FONT><FONT COLOR=#B22222><I>--  the associated bitmap if the local display device is
+  </I></FONT><FONT COLOR=#B22222><I>--  palette-mapped. This parameter is provided as a
+  </I></FONT><FONT COLOR=#B22222><I>--  convenience for receiver rendering.</I></FONT>
+}
+
+<A NAME="SI-PROTOCOL.BitmapHeaderT82"></A><FONT COLOR=#B22222><I>--  BitmapHeaderT82
+</I></FONT><FONT COLOR=#B22222><I>--  This type is used to specify the parameters necessary to 
+</I></FONT><FONT COLOR=#B22222><I>--  decode and display a T.82 (JBIG) image that are not specified
+</I></FONT><FONT COLOR=#B22222><I>--  within the T.82 bitstream.
+</I></FONT>BitmapHeaderT82 ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  colorMappingMode
+    <FONT COLOR=#B8860B><B>CHOICE</B></FONT> {directMap   <A HREF="#SI-PROTOCOL.ColorSpaceSpecifier" target="files">ColorSpaceSpecifier</A>,
+            <FONT COLOR=#B22222><I>--  Only greyscale and RGB colorspaces are allowed.
+            </I></FONT>paletteMap
+              <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {bitmapPalette    <A HREF="#SI-PROTOCOL.ColorPalette" target="files">ColorPalette</A>,
+                        progressiveMode
+                          <FONT COLOR=#B8860B><B>CHOICE</B></FONT> {progressivePalettes
+                                    <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> <FONT COLOR=#228B22><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>SIZE</B></FONT> <FONT COLOR=#228B22>(1..8)</FONT>)</FONT></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="#SI-PROTOCOL.ColorIndexTable" target="files">ColorIndexTable</A>,
+                                  selfProgressive      <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+                                  ...} <FONT COLOR=#666666><B>OPTIONAL</B></FONT>}},
+  ...
+}
+
+<A NAME="SI-PROTOCOL.BitmapRegion"></A><FONT COLOR=#B22222><I>--  BitmapRegion
+</I></FONT><FONT COLOR=#B22222><I>--  This type specifies a rectangular subregion within a bitmap.
+</I></FONT>BitmapRegion ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  upperLeft
+    <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {xCoordinate  <FONT COLOR=#5F9EA0><B>INTEGER</B></FONT><FONT COLOR=#228B22>(0..65535)</FONT>,
+              <FONT COLOR=#B22222><I>--  X component of a Cartesian address
+              </I></FONT>yCoordinate  <FONT COLOR=#5F9EA0><B>INTEGER</B></FONT><FONT COLOR=#228B22>(0..65535)</FONT>
+              <FONT COLOR=#B22222><I>--  Y component of a Cartesian address</I></FONT>},
+  lowerRight
+    <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {xCoordinate  <FONT COLOR=#5F9EA0><B>INTEGER</B></FONT><FONT COLOR=#228B22>(0..65535)</FONT>,
+              <FONT COLOR=#B22222><I>--  X component of a Cartesian address
+              </I></FONT>yCoordinate  <FONT COLOR=#5F9EA0><B>INTEGER</B></FONT><FONT COLOR=#228B22>(0..65535)</FONT>
+              <FONT COLOR=#B22222><I>--  Y component of a Cartesian address</I></FONT>}
+}
+
+<A NAME="SI-PROTOCOL.BitmapSize"></A><FONT COLOR=#B22222><I>--  BitmapSize
+</I></FONT><FONT COLOR=#B22222><I>--  The size of a bitmap in pixels.
+</I></FONT>BitmapSize ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  width   <FONT COLOR=#5F9EA0><B>INTEGER</B></FONT><FONT COLOR=#228B22>(1..65536)</FONT>,
+  <FONT COLOR=#B22222><I>--  The number of pixels horizontally
+  </I></FONT>height  <FONT COLOR=#5F9EA0><B>INTEGER</B></FONT><FONT COLOR=#228B22>(1..65536)</FONT>
+  <FONT COLOR=#B22222><I>--  The number of pixels vertically</I></FONT>
+}
+
+<A NAME="SI-PROTOCOL.ButtonEvent"></A><FONT COLOR=#B22222><I>--  ButtonEvent
+</I></FONT><FONT COLOR=#B22222><I>--  Describes pointing device button events.
+</I></FONT>ButtonEvent ::= <FONT COLOR=#B8860B><B>CHOICE</B></FONT> {
+  buttonUp                <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  The button is up.
+  </I></FONT>buttonDown              <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  The button is down.
+  </I></FONT>buttonDoubleClick       <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  A button down event occurred within the double-click
+  </I></FONT><FONT COLOR=#B22222><I>--  time window.
+  </I></FONT>buttonTripleClick       <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  A button down event occurred within the triple-click
+  </I></FONT><FONT COLOR=#B22222><I>--  time window.
+  </I></FONT>buttonQuadClick         <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  A button down event occurred within the quad-click
+  </I></FONT><FONT COLOR=#B22222><I>--  time window.
+  </I></FONT>nonStandardButtonEvent  <A HREF="#SI-PROTOCOL.NonStandardIdentifier" target="files">NonStandardIdentifier</A>,
+  ...
+}
+
+<A NAME="SI-PROTOCOL.ColorAccuracyEnhancementCIELab"></A><FONT COLOR=#B22222><I>--  ColorAccuracyEnhancementCIELab
+</I></FONT>ColorAccuracyEnhancementCIELab ::= <FONT COLOR=#B8860B><B>CHOICE</B></FONT> {
+  predefinedCIELabSpace
+    <FONT COLOR=#B8860B><B>CHOICE</B></FONT> {nonStandardCIELabSpace  <A HREF="#SI-PROTOCOL.NonStandardParameter" target="files">NonStandardParameter</A>,
+            ...},
+  generalCIELabParameters
+    <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {colorTemperature  <FONT COLOR=#5F9EA0><B>INTEGER</B></FONT><FONT COLOR=#228B22>(0..<FONT COLOR=#228B22><B>MAX</B></FONT>)</FONT> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+              <FONT COLOR=#B22222><I>--  Color temperature of the white point assumed by the color
+              </I></FONT><FONT COLOR=#B22222><I>--  space (in degrees Kelvin)
+              </I></FONT>gamut
+                <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {lSpan    <FONT COLOR=#5F9EA0><B>INTEGER</B></FONT><FONT COLOR=#228B22>(-32768..32767)</FONT>,
+                          <FONT COLOR=#B22222><I>--  max L* – min L*
+                          </I></FONT>lOffset  <FONT COLOR=#5F9EA0><B>INTEGER</B></FONT><FONT COLOR=#228B22>(-32768..32767)</FONT>,
+                          <FONT COLOR=#B22222><I>--  offset of the zero point for L
+                          </I></FONT>aSpan    <FONT COLOR=#5F9EA0><B>INTEGER</B></FONT><FONT COLOR=#228B22>(-32768..32767)</FONT>,
+                          <FONT COLOR=#B22222><I>--  max a* – min a*
+                          </I></FONT>aOffset  <FONT COLOR=#5F9EA0><B>INTEGER</B></FONT><FONT COLOR=#228B22>(-32768..32767)</FONT>,
+                          <FONT COLOR=#B22222><I>--  offset of the zero point for a
+                          </I></FONT>bSpan    <FONT COLOR=#5F9EA0><B>INTEGER</B></FONT><FONT COLOR=#228B22>(-32768..32767)</FONT>,
+                          <FONT COLOR=#B22222><I>--  max b* – min b*
+                          </I></FONT>bOffset  <FONT COLOR=#5F9EA0><B>INTEGER</B></FONT><FONT COLOR=#228B22>(-32768..32767)</FONT>
+                          <FONT COLOR=#B22222><I>--  offset of the zero point for b</I></FONT>} <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+              ...},
+  ...
+}
+
+<A NAME="SI-PROTOCOL.ColorAccuracyEnhancementGreyscale"></A><FONT COLOR=#B22222><I>--  ColorAccuracyEnhancementGreyscale
+</I></FONT>ColorAccuracyEnhancementGreyscale ::= <FONT COLOR=#B8860B><B>CHOICE</B></FONT> {
+  predefinedGreyscaleSpace
+    <FONT COLOR=#B8860B><B>CHOICE</B></FONT> {nonStandardGreyscaleSpace  <A HREF="#SI-PROTOCOL.NonStandardParameter" target="files">NonStandardParameter</A>,
+            ...},
+  generalGreyscaleParameters
+    <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {gamma  <FONT COLOR=#5F9EA0><B>REAL</B></FONT><FONT COLOR=#228B22>(0..<FONT COLOR=#228B22><B>MAX</B></FONT>)</FONT> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+              <FONT COLOR=#B22222><I>--  Gamma value of the color space
+              </I></FONT>...},
+  ...
+}
+
+<A NAME="SI-PROTOCOL.ColorAccuracyEnhancementRGB"></A><FONT COLOR=#B22222><I>--  ColorAccuracyEnhancementRGB
+</I></FONT>ColorAccuracyEnhancementRGB ::= <FONT COLOR=#B8860B><B>CHOICE</B></FONT> {
+  predefinedRGBSpace    <FONT COLOR=#B8860B><B>CHOICE</B></FONT> {nonStandardRGBSpace  <A HREF="#SI-PROTOCOL.NonStandardParameter" target="files">NonStandardParameter</A>,
+                                ...},
+  generalRGBParameters
+    <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {gamma             <FONT COLOR=#5F9EA0><B>REAL</B></FONT><FONT COLOR=#228B22>(0..<FONT COLOR=#228B22><B>MAX</B></FONT>)</FONT> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+              <FONT COLOR=#B22222><I>--  Gamma value of the color space
+              </I></FONT>colorTemperature  <FONT COLOR=#5F9EA0><B>INTEGER</B></FONT><FONT COLOR=#228B22>(0..<FONT COLOR=#228B22><B>MAX</B></FONT>)</FONT> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+              <FONT COLOR=#B22222><I>-- Color temperature of the white point assumed by the color
+              </I></FONT><FONT COLOR=#B22222><I>--  space (in degrees Kelvin)
+              </I></FONT>primaries
+                <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {red    <A HREF="#SI-PROTOCOL.ColorCIExyChromaticity" target="files">ColorCIExyChromaticity</A>,
+                          <FONT COLOR=#B22222><I>--  CIE xy chromaticity coordinate of the red  primary
+                          </I></FONT>green  <A HREF="#SI-PROTOCOL.ColorCIExyChromaticity" target="files">ColorCIExyChromaticity</A>,
+                          <FONT COLOR=#B22222><I>--  CIE xy chromaticity coordinate of the green primary
+                          </I></FONT>blue   <A HREF="#SI-PROTOCOL.ColorCIExyChromaticity" target="files">ColorCIExyChromaticity</A>
+                          <FONT COLOR=#B22222><I>--  CIE xy chromaticity coordinate of the blue primary</I></FONT>
+              } <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+              ...},
+  ...
+}
+
+<A NAME="SI-PROTOCOL.ColorAccuracyEnhancementYCbCr"></A><FONT COLOR=#B22222><I>--  ColorAccuracyEnhancementYCbCr
+</I></FONT>ColorAccuracyEnhancementYCbCr ::= <FONT COLOR=#B8860B><B>CHOICE</B></FONT> {
+  predefinedYCbCrSpace
+    <FONT COLOR=#B8860B><B>CHOICE</B></FONT> {cCIR709              <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+            nonStandardRGBSpace  <A HREF="#SI-PROTOCOL.NonStandardParameter" target="files">NonStandardParameter</A>,
+            ...},
+  generalYCbCrParameters
+    <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {gamma             <FONT COLOR=#5F9EA0><B>REAL</B></FONT><FONT COLOR=#228B22>(0..<FONT COLOR=#228B22><B>MAX</B></FONT>)</FONT> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+              <FONT COLOR=#B22222><I>--  Gamma value of the color space
+              </I></FONT>colorTemperature  <FONT COLOR=#5F9EA0><B>INTEGER</B></FONT><FONT COLOR=#228B22>(0..<FONT COLOR=#228B22><B>MAX</B></FONT>)</FONT> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+              <FONT COLOR=#B22222><I>--  Color temperature of the white point  assumed by the color
+              </I></FONT><FONT COLOR=#B22222><I>--   space (in degrees Kelvin)
+              </I></FONT>primaries
+                <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {red    <A HREF="#SI-PROTOCOL.ColorCIExyChromaticity" target="files">ColorCIExyChromaticity</A>,
+                          <FONT COLOR=#B22222><I>-- CIE xy chromaticity coordinate of the red primary
+                          </I></FONT>green  <A HREF="#SI-PROTOCOL.ColorCIExyChromaticity" target="files">ColorCIExyChromaticity</A>,
+                          <FONT COLOR=#B22222><I>--  CIE xy chromaticity coordinate of the green primary
+                          </I></FONT>blue   <A HREF="#SI-PROTOCOL.ColorCIExyChromaticity" target="files">ColorCIExyChromaticity</A>
+                          <FONT COLOR=#B22222><I>--  CIE xy chromaticity coordinate of the blue primary</I></FONT>
+              } <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+              ...},
+  ...
+}
+
+<A NAME="SI-PROTOCOL.ColorCIELab"></A><FONT COLOR=#B22222><I>--  ColorCIELab
+</I></FONT><FONT COLOR=#B22222><I>--  Definition of a CIELab color.
+</I></FONT>ColorCIELab ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  l  <FONT COLOR=#5F9EA0><B>INTEGER</B></FONT><FONT COLOR=#228B22>(0..255)</FONT>,
+  <FONT COLOR=#B22222><I>--  Perceptually normalized luminance component
+  </I></FONT>a  <FONT COLOR=#5F9EA0><B>INTEGER</B></FONT><FONT COLOR=#228B22>(0..255)</FONT>,
+  <FONT COLOR=#B22222><I>--  One of two perceptually normalized chroma components
+  </I></FONT>b  <FONT COLOR=#5F9EA0><B>INTEGER</B></FONT><FONT COLOR=#228B22>(0..255)</FONT>
+  <FONT COLOR=#B22222><I>--  One of two perceptually normalized chroma components</I></FONT>
+}
+
+<A NAME="SI-PROTOCOL.ColorCIExyChromaticity"></A><FONT COLOR=#B22222><I>--  ColorCIExyChromaticity
+</I></FONT><FONT COLOR=#B22222><I>--  Definition of a CIE normalized chromaticity value.
+</I></FONT>ColorCIExyChromaticity ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  x  <FONT COLOR=#5F9EA0><B>REAL</B></FONT><FONT COLOR=#228B22>(0..<A HREF="#SI-PROTOCOL.one" target="files">one</A>)</FONT>,
+  <FONT COLOR=#B22222><I>--  CIE normalized x component
+  </I></FONT>y  <FONT COLOR=#5F9EA0><B>REAL</B></FONT><FONT COLOR=#228B22>(0..<A HREF="#SI-PROTOCOL.one" target="files">one</A>)</FONT>
+  <FONT COLOR=#B22222><I>--  CIE normalized y component</I></FONT>
+}
+
+<A NAME="SI-PROTOCOL.ColorIndexTable"></A><FONT COLOR=#B22222><I>--  ColorIndexTable
+</I></FONT><FONT COLOR=#B22222><I>--  This type is used to specify collections of color 
+</I></FONT><FONT COLOR=#B22222><I>--  values.  All entries are references to absolute 
+</I></FONT><FONT COLOR=#B22222><I>--  color palette data.
+</I></FONT>ColorIndexTable ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> <FONT COLOR=#228B22><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>SIZE</B></FONT> <FONT COLOR=#228B22>(1..256)</FONT>)</FONT></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <FONT COLOR=#5F9EA0><B>INTEGER</B></FONT><FONT COLOR=#228B22>(0..255)</FONT>
+
+<A NAME="SI-PROTOCOL.ColorPalette"></A><FONT COLOR=#B22222><I>--  ColorPalette
+</I></FONT>ColorPalette ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  colorLookUpTable
+    <FONT COLOR=#B8860B><B>CHOICE</B></FONT> {paletteRGB
+              <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {palette      <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> <FONT COLOR=#228B22><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>SIZE</B></FONT> <FONT COLOR=#228B22>(2..256)</FONT>)</FONT></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="#SI-PROTOCOL.ColorRGB" target="files">ColorRGB</A>,
+                        enhancement  <A HREF="#SI-PROTOCOL.ColorAccuracyEnhancementRGB" target="files">ColorAccuracyEnhancementRGB</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+                        ...},
+            paletteCIELab
+              <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {palette      <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> <FONT COLOR=#228B22><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>SIZE</B></FONT> <FONT COLOR=#228B22>(2..256)</FONT>)</FONT></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="#SI-PROTOCOL.ColorCIELab" target="files">ColorCIELab</A>,
+                        enhancement  <A HREF="#SI-PROTOCOL.ColorAccuracyEnhancementCIELab" target="files">ColorAccuracyEnhancementCIELab</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+                        ...},
+            paletteYCbCr
+              <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {palette      <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> <FONT COLOR=#228B22><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>SIZE</B></FONT> <FONT COLOR=#228B22>(2..256)</FONT>)</FONT></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="#SI-PROTOCOL.ColorYCbCr" target="files">ColorYCbCr</A>,
+                        enhancement  <A HREF="#SI-PROTOCOL.ColorAccuracyEnhancementYCbCr" target="files">ColorAccuracyEnhancementYCbCr</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+                        ...},
+            nonStandardPalette  <A HREF="#SI-PROTOCOL.NonStandardParameter" target="files">NonStandardParameter</A>,
+            ...},
+  transparentEntry  <FONT COLOR=#5F9EA0><B>INTEGER</B></FONT><FONT COLOR=#228B22>(0..255)</FONT> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  Index value of transparent color
+  </I></FONT>...
+}
+
+<A NAME="SI-PROTOCOL.ColorResolutionModeSpecifier"></A><FONT COLOR=#B22222><I>--  ColorResolutionModeSpecifier
+</I></FONT>ColorResolutionModeSpecifier ::= <FONT COLOR=#B8860B><B>CHOICE</B></FONT> {
+  resolution4-4-4            <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  Indicates single component 
+  </I></FONT><FONT COLOR=#B22222><I>--  4:4:4
+  </I></FONT>resolution-4-2-2           <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  4:2:2 chrominance sub-sampling
+  </I></FONT>resolution-4-2-0           <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  4:2:0 chrominance sub-sampling
+  </I></FONT>nonStandardResolutionMode  <A HREF="#SI-PROTOCOL.NonStandardIdentifier" target="files">NonStandardIdentifier</A>,
+  ...
+}
+
+<A NAME="SI-PROTOCOL.ColorRGB"></A><FONT COLOR=#B22222><I>--  ColorRGB
+</I></FONT><FONT COLOR=#B22222><I>--  Definition of an RGB color.
+</I></FONT>ColorRGB ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  r  <FONT COLOR=#5F9EA0><B>INTEGER</B></FONT><FONT COLOR=#228B22>(0..255)</FONT>,
+  <FONT COLOR=#B22222><I>--  Red color component
+  </I></FONT>g  <FONT COLOR=#5F9EA0><B>INTEGER</B></FONT><FONT COLOR=#228B22>(0..255)</FONT>,
+  <FONT COLOR=#B22222><I>--  Green color component
+  </I></FONT>b  <FONT COLOR=#5F9EA0><B>INTEGER</B></FONT><FONT COLOR=#228B22>(0..255)</FONT>
+  <FONT COLOR=#B22222><I>--  Blue color component</I></FONT>
+}
+
+<A NAME="SI-PROTOCOL.ColorSpaceSpecifier"></A><FONT COLOR=#B22222><I>--  ColorSpaceSpecifier
+</I></FONT>ColorSpaceSpecifier ::= <FONT COLOR=#B8860B><B>CHOICE</B></FONT> {
+  greyscale
+    <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {accuracyEnhancement  <A HREF="#SI-PROTOCOL.ColorAccuracyEnhancementGreyscale" target="files">ColorAccuracyEnhancementGreyscale</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>
+  },
+  yCbCr
+    <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {accuracyEnhancement  <A HREF="#SI-PROTOCOL.ColorAccuracyEnhancementYCbCr" target="files">ColorAccuracyEnhancementYCbCr</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>
+  },
+  rgb
+    <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {accuracyEnhancement  <A HREF="#SI-PROTOCOL.ColorAccuracyEnhancementRGB" target="files">ColorAccuracyEnhancementRGB</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>
+  },
+  cieLab
+    <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {accuracyEnhancement  <A HREF="#SI-PROTOCOL.ColorAccuracyEnhancementCIELab" target="files">ColorAccuracyEnhancementCIELab</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>
+  },
+  nonStandardColorce component
+  cb  <FONT COLOR=#5F9EA0><B>INTEGER</B></FONT><FONT COLOR=#228B22>(0..255)</FONT>,
+  <FONT COLOR=#B22222><I>--  Normalized blue minus luminance component
+  </I></FONT>cr  <FONT COLOR=#5F9EA0><B>INTEGER</B></FONT><FONT COLOR=#228B22>(0..255)</FONT>
+  <FONT COLOR=#B22222><I>--  Normalized red minus luminance component</I></FONT>
+}
+
+<A NAME="SI-PROTOCOL.ConductorPrivilege"></A><FONT COLOR=#B22222><I>--  ConductorPrivilege
+</I></FONT><FONT COLOR=#B22222><I>--  List of privileges that are awarded by the SICE at the conducting
+</I></FONT><FONT COLOR=#B22222><I>--  node to other SICEs in the session.
+</I></FONT>ConductorPrivilege ::= <FONT COLOR=#B8860B><B>CHOICE</B></FONT> {
+  workspacePrivilege            <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  Privilege to create, edit, or delete workspaces
+  </I></FONT>annotationPrivilege           <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  Privilege to create, edit, or delete annotation bitmaps
+  </I></FONT><FONT COLOR=#B22222><I>--  or drawing elements
+  </I></FONT>imagePrivilege                <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  Privilege to create, edit, or delete image bitmaps
+  </I></FONT>pointingPrivilege             <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  Privilege to create, edit, or delete pointers
+  </I></FONT>remoteKeyEventPrivilege       <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  Privilege to send remote keyboard events
+  </I></FONT>remotePointingEventPrivilege  <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  Privilege to send pointing device events
+  </I></FONT>remotePrintingPrivilege       <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  Privilege to request remote printing
+  </I></FONT>archiveCreateWritePrivilege   <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  Privilege to create or append an archive
+  </I></FONT>nonStandardPrivilege          <A HREF="#SI-PROTOCOL.NonStandardIdentifier" target="files">NonStandardIdentifier</A>,
+  <FONT COLOR=#B22222><I>--  Non-standard privilege that was successfully negotiated.
+  </I></FONT>...
+}
+
+<A NAME="SI-PROTOCOL.DataPlaneID"></A><FONT COLOR=#B22222><I>--  DataPlaneID
+</I></FONT><FONT COLOR=#B22222><I>--  This is the identifier of a data plane within a workspace.
+</I></FONT>DataPlaneID ::= <FONT COLOR=#5F9EA0><B>INTEGER</B></FONT><FONT COLOR=#228B22>(0..255)</FONT>
+
+<A NAME="SI-PROTOCOL.DrawingAttribute"></A><FONT COLOR=#B22222><I>--  DrawingAttribute
+</I></FONT><FONT COLOR=#B22222><I>--  The following drawingAttributes are used to specify visual and
+</I></FONT><FONT COLOR=#B22222><I>--  behavioral properties of a drawing.
+</I></FONT>DrawingAttribute ::= <FONT COLOR=#B8860B><B>CHOICE</B></FONT> {
+  penColor              <A HREF="#SI-PROTOCOL.WorkspaceColor" target="files">WorkspaceColor</A>,
+  <FONT COLOR=#B22222><I>--  Color of drawing pen
+  </I></FONT>fillColor             <A HREF="#SI-PROTOCOL.WorkspaceColor" target="files">WorkspaceColor</A>,
+  <FONT COLOR=#B22222><I>--  Color used to fill a closed region
+  </I></FONT>penThickness          <A HREF="#SI-PROTOCOL.PenThickness" target="files">PenThickness</A>,
+  <FONT COLOR=#B22222><I>--  Width of pen
+  </I></FONT>penNib                <A HREF="#SI-PROTOCOL.PenNib" target="files">PenNib</A>,
+  <FONT COLOR=#B22222><I>--  Shape of pen nib
+  </I></FONT>lineStyle             <A HREF="#SI-PROTOCOL.LineStyle" target="files">LineStyle</A>,
+  <FONT COLOR=#B22222><I>--  Style of line
+  </I></FONT>highlight             <FONT COLOR=#5F9EA0><B>BOOLEAN</B></FONT>,
+  <FONT COLOR=#B22222><I>--  Flag indicating whether the drawing element should be
+  </I></FONT><FONT COLOR=#B22222><I>--  of a solid color or a highlight (semi-transparent)
+  </I></FONT>viewState             <A HREF="#SI-PROTOCOL.ViewState" target="files">ViewState</A>,
+  <FONT COLOR=#B22222><I>--  Indicates the visibility state
+  </I></FONT>zOrder                <A HREF="#SI-PROTOCOL.ZOrder" target="files">ZOrder</A>,
+  <FONT COLOR=#B22222><I>--  Used to set the graphical element to the front or back of the
+  </I></FONT><FONT COLOR=#B22222><I>--  display list within an addressable plane
+  </I></FONT>nonStandardAttribute  <A HREF="#SI-PROTOCOL.NonStandardParameter" target="files">NonStandardParameter</A>,
+  ...
+}
+
+<A NAME="SI-PROTOCOL.DrawingDestinationAddress"></A><FONT COLOR=#B22222><I>--  DrawingDestinationAddress
+</I></FONT><FONT COLOR=#B22222><I>--  A DrawingDestinationAddress specifies the destination of drawing
+</I></FONT><FONT COLOR=#B22222><I>--  elements.
+</I></FONT>DrawingDestinationAddress ::= <FONT COLOR=#B8860B><B>CHOICE</B></FONT> {
+  softCopyAnnotationPlane  <A HREF="#SI-PROTOCOL.SoftCopyDataPlaneAddress" target="files">SoftCopyDataPlaneAddress</A>,
+  ...,
+  <FONT COLOR=#B22222><I>--  Parameters added during 1st revision
+  </I></FONT>nonStandardDestination   <A HREF="#SI-PROTOCOL.NonStandardParameter" target="files">NonStandardParameter</A>
+}
+
+<A NAME="SI-PROTOCOL.DrawingType"></A><FONT COLOR=#B22222><I>--  DrawingType
+</I></FONT><FONT COLOR=#B22222><I>--  A DrawingType specifies the shape of a drawn element.
+</I></FONT>DrawingType ::= <FONT COLOR=#B8860B><B>CHOICE</B></FONT> {
+  point                   <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  Unconnected points
+  </I></FONT>openPolyLine            <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  Points connected with straight lines. The last point is not
+  </I></FONT><FONT COLOR=#B22222><I>--  connected to the first.
+  </I></FONT>closedPolyLine          <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  Points connected with straight lines. 
+  </I></FONT><FONT COLOR=#B22222><I>--  The last point is connected to the first.
+  </I></FONT>rectangle               <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  A rectangle defined by two corners
+  </I></FONT>ellipse                 <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  An ellipse
+  </I></FONT>nonStandardDrawingType  <A HREF="#SI-PROTOCOL.NonStandardIdentifier" target="files">NonStandardIdentifier</A>,
+  <FONT COLOR=#B22222><I>--  Negotiated non-standard type
+  </I></FONT>...
+}
+
+<A NAME="SI-PROTOCOL.DSMCCTap"></A>DSMCCTap ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  use             <FONT COLOR=#5F9EA0><B>INTEGER</B></FONT><FONT COLOR=#228B22>(0..65535)</FONT>,
+  <FONT COLOR=#B22222><I>--  the use for the Tap
+  </I></FONT>id              <FONT COLOR=#5F9EA0><B>INTEGER</B></FONT><FONT COLOR=#228B22>(0..65535)</FONT>,
+  <FONT COLOR=#B22222><I>--  identifier for the Tap
+  </I></FONT>associationTag  <FONT COLOR=#5F9EA0><B>INTEGER</B></FONT><FONT COLOR=#228B22>(0..65535)</FONT>,
+  <FONT COLOR=#B22222><I>--  group identifier for Tap resource descriptors
+  </I></FONT>selector        <FONT COLOR=#5F9EA0><B>OCTET STRING</B></FONT><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>SIZE</B></FONT> <FONT COLOR=#228B22>(1..256)</FONT>)</FONT> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  <FONT COLOR=#B22222><I>--   upper protocol selector info
+  </I></FONT>...
+}
+
+<A NAME="SI-PROTOCOL.EditablePlaneCopyDescriptor"></A><FONT COLOR=#B22222><I>--  EditablePlaneCopyDescriptor
+</I></FONT><FONT COLOR=#B22222><I>--  Paired list of handles for source objects and their copies.
+</I></FONT>EditablePlaneCopyDescriptor ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  objectList
+    <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> <FONT COLOR=#228B22><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>SIZE</B></FONT> <FONT COLOR=#228B22>(1..65536)</FONT>)</FONT></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT>
+      <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {sourceObjectHandle       <A HREF="#SI-PROTOCOL.Handle" target="files">Handle</A>,
+                destinationObjectHandle  <A HREF="#SI-PROTOCOL.Handle" target="files">Handle</A>
+                <FONT COLOR=#B22222><I>--  This handle is used to reference the new copy of the
+                </I></FONT><FONT COLOR=#B22222><I>-- source object in the future.</I></FONT>},
+  destinationOffset  <A HREF="#SI-PROTOCOL.WorkspacePoint" target="files">WorkspacePoint</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  This parameter defines an offset to be added to the
+  </I></FONT><FONT COLOR=#B22222><I>--  coordinates of all of the copied objects. If not present,
+  </I></FONT><FONT COLOR=#B22222><I>--  zero offset is assumed.
+  </I></FONT>planeClearFlag     <FONT COLOR=#5F9EA0><B>BOOLEAN</B></FONT>,
+  <FONT COLOR=#B22222><I>--  When FALSE, the destination objects are appended to
+  </I></FONT><FONT COLOR=#B22222><I>--  the existing set of objects in the destination plane. When
+  </I></FONT><FONT COLOR=#B22222><I>--  TRUE, all existing objects in the destination plane are
+  </I></FONT><FONT COLOR=#B22222><I>--  deleted prior to the copy operation.
+  </I></FONT>...
+}
+
+<A NAME="SI-PROTOCOL.Handle"></A><FONT COLOR=#B22222><I>--  Handle
+</I></FONT><FONT COLOR=#B22222><I>--  Unique identifier that is used to address objects to allow edit
+</I></FONT><FONT COLOR=#B22222><I>--  and/or delete operations. These are obtained from GCC via the
+</I></FONT><FONT COLOR=#B22222><I>--  GCC-Registry-Allocate-Handle request/confirm primitives.
+</I></FONT>Handle ::= <FONT COLOR=#5F9EA0><B>INTEGER</B></FONT><FONT COLOR=#228B22>(0..4294967295)</FONT>
+
+<A NAME="SI-PROTOCOL.KeyCode"></A><FONT COLOR=#B22222><I>--  KeyCode
+</I></FONT><FONT COLOR=#B22222><I>--  Character code that is contained in a RemoteKeyboardEventPDU.
+</I></FONT><FONT COLOR=#B22222><I>--  This is either a two-octet value that uses the UNICODE character
+</I></FONT><FONT COLOR=#B22222><I>--  representation or special key specifier.
+</I></FONT>KeyCode ::= <FONT COLOR=#B8860B><B>CHOICE</B></FONT> {
+  character       <FONT COLOR=#5F9EA0><B>BMPString</B></FONT><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>SIZE</B></FONT> <FONT COLOR=#228B22>(1)</FONT>)</FONT>,
+  <FONT COLOR=#B22222><I>--  UNICODE character
+  </I></FONT>fkey            <FONT COLOR=#5F9EA0><B>INTEGER</B></FONT><FONT COLOR=#228B22>(1..32)</FONT>,
+  <FONT COLOR=#B22222><I>--  Function key
+  </I></FONT><FONT COLOR=#B22222><I>--  Edit and navigation keys
+  </I></FONT>upArrow         <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  downArrow       <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  leftArrow       <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  rightArrow      <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  pageUp          <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  pageDown        <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  home            <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  end             <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  insert          <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  delete          <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  nonStandardKey  <A HREF="#SI-PROTOCOL.NonStandardIdentifier" target="files">NonStandardIdentifier</A>,
+  <FONT COLOR=#B22222><I>--  Non-standard key code
+  </I></FONT>...
+}
+
+<A NAME="SI-PROTOCOL.KeyModifier"></A><FONT COLOR=#B22222><I>--  KeyModifier
+</I></FONT><FONT COLOR=#B22222><I>--  Collection of keyboard modifiers.
+</I></FONT>KeyModifier ::= <FONT COLOR=#B8860B><B>CHOICE</B></FONT> {
+  leftAlt              <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  Indicates the left ALT modifier key is pressed
+  </I></FONT>rightAlt             <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  Indicates the right ALT modifier key is pressed
+  </I></FONT>leftShift            <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  Indicates the left SHIFT modifier key is pressed
+  </I></FONT>rightShift           <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  Indicates the right SHIFT modifier key is pressed
+  </I></FONT>leftControl          <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  Indicates the left CONTROL modifier key is pressed
+  </I></FONT>rightControl         <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  Indicates the right CONTROL modifier key is pressed
+  </I></FONT>leftSpecial          <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  Indicates the left SPECIAL modifier key is pressed
+  </I></FONT>rightSpecial         <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  Indicates the right SPECIAL modifier key is pressed
+  </I></FONT>numberPad            <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  Indicates the associated keystroke is actuated by the
+  </I></FONT><FONT COLOR=#B22222><I>--  numeric keypad
+  </I></FONT>scrollLock           <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  Indicates that the scroll lock is active
+  </I></FONT>nonStandardModifier  <A HREF="#SI-PROTOCOL.NonStandardIdentifier" target="files">NonStandardIdentifier</A>,
+  <FONT COLOR=#B22222><I>--  Non-standard key modifier.
+  </I></FONT>...
+}
+
+<A NAME="SI-PROTOCOL.KeyPressState"></A><FONT COLOR=#B22222><I>--  KeyPressState
+</I></FONT><FONT COLOR=#B22222><I>--  Set of events for a key, used as part of
+</I></FONT><FONT COLOR=#B22222><I>--  a RemoteKeyboardEventPDU
+</I></FONT>KeyPressState ::= <FONT COLOR=#B8860B><B>CHOICE</B></FONT> {
+  none                      <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  <FONT COLOR=#B22222><I>-- No key event is signaled. This is used when only keyboard
+  </I></FONT><FONT COLOR=#B22222><I>--  modifier keys are changing state.
+  </I></FONT>keyPress                  <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  A key press event has occurred. Note that multiple keyPress
+  </I></FONT><FONT COLOR=#B22222><I>--  events may occur as a result of a keyDown event and keyboard
+  </I></FONT><FONT COLOR=#B22222><I>--  auto-repeat.
+  </I></FONT>keyDown                   <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  A key down transition has occurred. Note that this implies a
+  </I></FONT><FONT COLOR=#B22222><I>--  keyUp for an unmatched previously received keyDown.
+  </I></FONT>keyUp                     <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  A key up transition has occurred.
+  </I></FONT>nonStandardKeyPressState  <A HREF="#SI-PROTOCOL.NonStandardIdentifier" target="files">NonStandardIdentifier</A>,
+  <FONT COLOR=#B22222><I>--  Non-standard key press state.
+  </I></FONT>...
+}
+
+<A NAME="SI-PROTOCOL.LineStyle"></A><FONT COLOR=#B22222><I>--  LineStyle
+</I></FONT><FONT COLOR=#B22222><I>--  The LineStyle attribute is used during a line draw procedure. It
+</I></FONT><FONT COLOR=#B22222><I>--  specifies the type of line drawn. 
+</I></FONT>LineStyle ::= <FONT COLOR=#B8860B><B>CHOICE</B></FONT> {
+  solid             <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  All pixels between endpoints are to be drawn.
+  </I></FONT>dashed            <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  A dashed pattern is to be applied.
+  </I></FONT>dotted            <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  A dotted pattern is to be applied.
+  </I></FONT>dash-dot          <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  A dash-dot pattern is to be applied.
+  </I></FONT>dash-dot-dot      <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  A dash-dot-dot pattern is to be applied.
+  </I></FONT>two-tone          <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  Line color is to be applied to 50% of the line width with a
+  </I></FONT><FONT COLOR=#B22222><I>--  complimentary color applied to either side.  The width of
+  </I></FONT><FONT COLOR=#B22222><I>--  either side region is to be 25% of the line width.
+  </I></FONT>nonStandardStyle  <A HREF="#SI-PROTOCOL.NonStandardIdentifier" target="files">NonStandardIdentifier</A>,
+  ...
+}
+
+<A NAME="SI-PROTOCOL.MCSUserID"></A><FONT COLOR=#B22222><I>--  MCSUserID 
+</I></FONT><FONT COLOR=#B22222><I>--  This type is used to specify MCS User IDs.
+</I></FONT>MCSUserID ::= <FONT COLOR=#5F9EA0><B>INTEGER</B></FONT><FONT COLOR=#228B22>(1001..65535)</FONT>
+
+<A NAME="SI-PROTOCOL.H221NonStandardIdentifier"></A><FONT COLOR=#B22222><I>--  H221NonStandardIdentifier 
+</I></FONT><FONT COLOR=#B22222><I>--  Used to specify non-standard objects using H.221 numbering.
+</I></FONT><FONT COLOR=#B22222><I>--  The first four octets shall designate country code and
+</I></FONT><FONT COLOR=#B22222><I>--  manufacturer code, assigned as specified in
+</I></FONT><FONT COLOR=#B22222><I>--  Annex A/H.221, for NS-cap and NS-comm.
+</I></FONT>H221NonStandardIdentifier ::= <FONT COLOR=#5F9EA0><B>OCTET STRING</B></FONT><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>SIZE</B></FONT> <FONT COLOR=#228B22>(4..255)</FONT>)</FONT>
+
+<A NAME="SI-PROTOCOL.NonStandardIdentifier"></A><FONT COLOR=#B22222><I>--  NonStandardIdentifier 
+</I></FONT><FONT COLOR=#B22222><I>--  Unique identifier used to specify non-standard capabilities and
+</I></FONT><FONT COLOR=#B22222><I>--  parameters either as an ASN.1 OBJECT IDENTIFIER or as an H.221
+</I></FONT><FONT COLOR=#B22222><I>--  non-standard object.
+</I></FONT>NonStandardIdentifier ::= <FONT COLOR=#B8860B><B>CHOICE</B></FONT> {
+  object           <FONT COLOR=#5F9EA0><B>OBJECT IDENTIFIER</B></FONT>,
+  h221nonStandard  <A HREF="#SI-PROTOCOL.H221NonStandardIdentifier" target="files">H221NonStandardIdentifier</A>
+}
+
+<A NAME="SI-PROTOCOL.NonStandardParameter"></A><FONT COLOR=#B22222><I>--  NonStandardParameter 
+</I></FONT><FONT COLOR=#B22222><I>--  Used to specify non-standard parameters.  This includes a
+</I></FONT><FONT COLOR=#B22222><I>--  data field which may be used to fill in parameter values
+</I></FONT><FONT COLOR=#B22222><I>--  of the type indicated by the NonStandardIdentifier.
+</I></FONT>NonStandardParameter ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  nonStandardIdentifier  <A HREF="#SI-PROTOCOL.NonStandardIdentifier" target="files">NonStandardIdentifier</A>,
+  data                   <FONT COLOR=#5F9EA0><B>OCTET STRING</B></FONT>
+}
+
+<A NAME="SI-PROTOCOL.one"></A><FONT COLOR=#B22222><I>--  one
+</I></FONT><FONT COLOR=#B22222><I>--  This type provides a real value = 1 for use in this Recommendation.
+</I></FONT>one <FONT COLOR=#5F9EA0><B>REAL</B></FONT> ::=
+  {mantissa 1, base 2, exponent 0}
+
+<A NAME="SI-PROTOCOL.PenNib"></A><FONT COLOR=#B22222><I>--  PenNib
+</I></FONT><FONT COLOR=#B22222><I>--  This type specifies the shape of the nib of the pen that is
+</I></FONT><FONT COLOR=#B22222><I>--  used to draw graphical elements.
+</I></FONT>PenNib ::= <FONT COLOR=#B8860B><B>CHOICE</B></FONT> {
+  circular        <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  A circle is used for the nib shape.
+  </I></FONT>square          <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  A square is used for the nib shape.
+  </I></FONT>nonStandardNib  <A HREF="#SI-PROTOCOL.NonStandardIdentifier" target="files">NonStandardIdentifier</A>,
+  <FONT COLOR=#B22222><I>--  A non-standard pen nib
+  </I></FONT>...
+}
+
+<A NAME="SI-PROTOCOL.PenThickness"></A><FONT COLOR=#B22222><I>--  PenThickness
+</I></FONT><FONT COLOR=#B22222><I>--  This type specifies the thickness of the pen that is used to
+</I></FONT><FONT COLOR=#B22222><I>--  draw graphical elements.
+</I></FONT>PenThickness ::= <FONT COLOR=#5F9EA0><B>INTEGER</B></FONT><FONT COLOR=#228B22>(1..255)</FONT>
+
+<A NAME="SI-PROTOCOL.PermanentPlaneCopyDescriptor"></A><FONT COLOR=#B22222><I>--  PermanentPlaneCopyDescriptor
+</I></FONT><FONT COLOR=#B22222><I>--  Describes source and destination regions within the corresponding
+</I></FONT><FONT COLOR=#B22222><I>--  planes to be copied from and to. This is only to be used when the
+</I></FONT><FONT COLOR=#B22222><I>--  source and destination planes are permanent.
+</I></FONT>PermanentPlaneCopyDescriptor ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  sourceRegion       <A HREF="#SI-PROTOCOL.WorkspaceRegion" target="files">WorkspaceRegion</A>,
+  <FONT COLOR=#B22222><I>--  Source rectangle to be copied. 
+  </I></FONT>destinationRegion  <A HREF="#SI-PROTOCOL.WorkspaceRegion" target="files">WorkspaceRegion</A>,
+  <FONT COLOR=#B22222><I>--  Destination rectangle to be copied. 
+  </I></FONT><FONT COLOR=#B22222><I>--  May be restricted by caps to be the same size as
+  </I></FONT><FONT COLOR=#B22222><I>--  the source region.
+  </I></FONT>...
+}
+
+<A NAME="SI-PROTOCOL.PixelAspectRatio"></A><FONT COLOR=#B22222><I>--  PixelAspectRatio
+</I></FONT><FONT COLOR=#B22222><I>--  This type specifies that horizontal to vertical ratio of
+</I></FONT><FONT COLOR=#B22222><I>--  the size of a pixel.
+</I></FONT>PixelAspectRatio ::= <FONT COLOR=#B8860B><B>CHOICE</B></FONT> {
+  square                  <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  pixel aspect ratio is 1:1
+  </I></FONT>cif                     <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  pixel aspect ratio is 12:11 (hor:ver)
+  </I></FONT>fax1                    <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  385:800 (hor:ver)
+  </I></FONT><FONT COLOR=#B22222><I>--  8 lines/mm horizontally, 
+  </I></FONT><FONT COLOR=#B22222><I>--  3.85 lines/mm vertically
+  </I></FONT>fax2                    <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  770:800 (hor:ver)
+  </I></FONT><FONT COLOR=#B22222><I>--  8 lines/mm horizontally,
+  </I></FONT><FONT COLOR=#B22222><I>--  7.7 lines/mm vertically
+  </I></FONT>general
+    <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT>
+     <FONT COLOR=#B22222><I>--  The following two integers specify a rational number that
+    </I></FONT><FONT COLOR=#B22222><I>--  is equivalent to a pixel’s width divided by a pixel’s height.
+    </I></FONT>{numerator    <FONT COLOR=#5F9EA0><B>INTEGER</B></FONT><FONT COLOR=#228B22>(1..65535)</FONT>,
+     denominator  <FONT COLOR=#5F9EA0><B>INTEGER</B></FONT><FONT COLOR=#228B22>(1..65535)</FONT>},
+  nonStandardAspectRatio  <A HREF="#SI-PROTOCOL.NonStandardIdentifier" target="files">NonStandardIdentifier</A>,
+  ...
+}
+
+<A NAME="SI-PROTOCOL.PlaneAttribute"></A><FONT COLOR=#B22222><I>--  PlaneAttribute
+</I></FONT><FONT COLOR=#B22222><I>--  Plane attributes are editable characteristics of workspace planes.
+</I></FONT>PlaneAttribute ::= <FONT COLOR=#B8860B><B>CHOICE</B></FONT> {
+  protection            <A HREF="#SI-PROTOCOL.PlaneProtection" target="files">PlaneProtection</A>,
+  <FONT COLOR=#B22222><I>--  Access restrictions for a plane
+  </I></FONT>nonStandardAttribute  <A HREF="#SI-PROTOCOL.NonStandardParameter" target="files">NonStandardParameter</A>,
+  <FONT COLOR=#B22222><I>--  Non-standard attribute
+  </I></FONT>...
+}
+
+<A NAME="SI-PROTOCOL.PlaneProtection"></A><FONT COLOR=#B22222><I>--  PlaneProtection
+</I></FONT><FONT COLOR=#B22222><I>--  This enumeration identifies the possible access restrictions
+</I></FONT><FONT COLOR=#B22222><I>--  that can be imposed on a workspace plane.
+</I></FONT>PlaneProtection ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  protected  <FONT COLOR=#5F9EA0><B>BOOLEAN</B></FONT>,
+  <FONT COLOR=#B22222><I>--  Only the SICEs granted access via the
+  </I></FONT><FONT COLOR=#B22222><I>--  protectedPlaneAccessList can submit data to this plane.
+  </I></FONT>...
+}
+
+<A NAME="SI-PROTOCOL.PlaneUsage"></A><FONT COLOR=#B22222><I>--  PlaneUsage
+</I></FONT><FONT COLOR=#B22222><I>--  This type specifies the usage of a single plane in a workspace.
+</I></FONT>PlaneUsage ::= <FONT COLOR=#B8860B><B>CHOICE</B></FONT> {
+  annotation             <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  The plane is designated to contain annotation data.
+  </I></FONT>image                  <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  The plane is designated to contain image data.
+  </I></FONT>nonStandardPlaneUsage  <A HREF="#SI-PROTOCOL.NonStandardIdentifier" target="files">NonStandardIdentifier</A>,
+  <FONT COLOR=#B22222><I>--  The plane is designated to contain non-standard plane data.
+  </I></FONT>...
+}
+
+<A NAME="SI-PROTOCOL.PointList"></A><FONT COLOR=#B22222><I>--  PointList
+</I></FONT><FONT COLOR=#B22222><I>--  A list of points to define a drawing object using one of
+</I></FONT><FONT COLOR=#B22222><I>--  three possible encodings depending on how far any point
+</I></FONT><FONT COLOR=#B22222><I>--  in the list strays from the anchor point.
+</I></FONT>PointList ::= <FONT COLOR=#B8860B><B>CHOICE</B></FONT> {
+  pointsDiff4   <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> <FONT COLOR=#228B22><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>SIZE</B></FONT> <FONT COLOR=#228B22>(0..255)</FONT>)</FONT></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="#SI-PROTOCOL.PointDiff4" target="files">PointDiff4</A>,
+  pointsDiff8   <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> <FONT COLOR=#228B22><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>SIZE</B></FONT> <FONT COLOR=#228B22>(0..255)</FONT>)</FONT></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="#SI-PROTOCOL.PointDiff8" target="files">PointDiff8</A>,
+  pointsDiff16  <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> <FONT COLOR=#228B22><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>SIZE</B></FONT> <FONT COLOR=#228B22>(0..255)</FONT>)</FONT></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="#SI-PROTOCOL.PointDiff16" target="files">PointDiff16</A>
+}
+
+<A NAME="SI-PROTOCOL.PointListEdits"></A><FONT COLOR=#B22222><I>--  PointListEdits
+</I></FONT><FONT COLOR=#B22222><I>--  A list of points to edit a drawing object using one of
+</I></FONT><FONT COLOR=#B22222><I>--  three possible encodings depending on how far any point
+</I></FONT><FONT COLOR=#B22222><I>--  in the list strays from the anchor point.
+</I></FONT>PointListEdits ::=
+  <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> <FONT COLOR=#228B22><B>SIZE</B></FONT> <FONT COLOR=#228B22><FONT COLOR=#228B22>(1..255)</FONT></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT>
+    <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {initialIndex          <FONT COLOR=#5F9EA0><B>INTEGER</B></FONT><FONT COLOR=#228B22>(0..65534)</FONT>,
+              <FONT COLOR=#B22222><I>--  Index of the first (or only) point to edit
+              </I></FONT>initialPointEdit      <A HREF="#SI-PROTOCOL.PointDiff16" target="files">PointDiff16</A>,
+              <FONT COLOR=#B22222><I>--  Position of the point specified relative to the anchor point
+              </I></FONT>subsequentPointEdits  <A HREF="#SI-PROTOCOL.PointList" target="files">PointList</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+              <FONT COLOR=#B22222><I>--  Points specified relative to the previous point in this list
+              </I></FONT><FONT COLOR=#B22222><I>--  (the first one specified relative to the initialPointEdit).
+              </I></FONT><FONT COLOR=#B22222><I>--  When this list is used, successive points are assumed to
+              </I></FONT><FONT COLOR=#B22222><I>--  have indices sequentially following the initialPointIndex.
+              </I></FONT>...}
+
+<A NAME="SI-PROTOCOL.PointDiff4"></A><FONT COLOR=#B22222><I>--  PointDiff4
+</I></FONT><FONT COLOR=#B22222><I>--  A point specified differentially relative to an anchor point
+</I></FONT><FONT COLOR=#B22222><I>--  with a range from –8 to +7.
+</I></FONT>PointDiff4 ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  xCoordinate  <FONT COLOR=#5F9EA0><B>INTEGER</B></FONT><FONT COLOR=#228B22>(-8..7)</FONT>,
+  <FONT COLOR=#B22222><I>--  X component of a Cartesian address
+  </I></FONT>yCoordinate  <FONT COLOR=#5F9EA0><B>INTEGER</B></FONT><FONT COLOR=#228B22>(-8..7)</FONT>
+  <FONT COLOR=#B22222><I>--  Y component of a Cartesian address</I></FONT>
+}
+
+<A NAME="SI-PROTOCOL.PointDiff8"></A><FONT COLOR=#B22222><I>--  PointDiff8
+</I></FONT><FONT COLOR=#B22222><I>--  A point specified differentially relative to an anchor point
+</I></FONT><FONT COLOR=#B22222><I>--  with a range from –128 to +127.
+</I></FONT>PointDiff8 ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  xCoordinate  <FONT COLOR=#5F9EA0><B>INTEGER</B></FONT><FONT COLOR=#228B22>(-128..127)</FONT>,
+  <FONT COLOR=#B22222><I>--  X component of a Cartesian address
+  </I></FONT>yCoordinate  <FONT COLOR=#5F9EA0><B>INTEGER</B></FONT><FONT COLOR=#228B22>(-128..127)</FONT>
+  <FONT COLOR=#B22222><I>--  Y component of a Cartesian address</I></FONT>
+}
+
+<A NAME="SI-PROTOCOL.PointDiff16"></A><FONT COLOR=#B22222><I>--  PointDiff16
+</I></FONT><FONT COLOR=#B22222><I>--  A point specified differentially relative to an anchor point
+</I></FONT><FONT COLOR=#B22222><I>--  with a range from –32768 to +32767.
+</I></FONT>PointDiff16 ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  xCoordinate  <FONT COLOR=#5F9EA0><B>INTEGER</B></FONT><FONT COLOR=#228B22>(-32768..32767)</FONT>,
+  <FONT COLOR=#B22222><I>--  X component of a Cartesian address
+  </I></FONT>yCoordinate  <FONT COLOR=#5F9EA0><B>INTEGER</B></FONT><FONT COLOR=#228B22>(-32768..32767)</FONT>
+  <FONT COLOR=#B22222><I>--  Y component of a Cartesian address</I></FONT>
+}
+
+<A NAME="SI-PROTOCOL.RemoteEventDestinationAddress"></A><FONT COLOR=#B22222><I>--  RemoteEventDestinationAddress
+</I></FONT><FONT COLOR=#B22222><I>--  A RemoteEventDestinationAddress specifies the destination of 
+</I></FONT><FONT COLOR=#B22222><I>--  a remote event.
+</I></FONT>RemoteEventDestinationAddress ::= <FONT COLOR=#B8860B><B>CHOICE</B></FONT> {
+  softCopyWorkspace       <A HREF="#SI-PROTOCOL.Handle" target="files">Handle</A>,
+  ...,
+  <FONT COLOR=#B22222><I>--  Parameters added during 1st revision
+  </I></FONT>nonStandardDestination  <A HREF="#SI-PROTOCOL.NonStandardParameter" target="files">NonStandardParameter</A>
+}
+
+<A NAME="SI-PROTOCOL.RemoteEventPermission"></A><FONT COLOR=#B22222><I>--  RemoteEventPermission
+</I></FONT><FONT COLOR=#B22222><I>--  Choice of remote events that can be issued to a workspace.
+</I></FONT>RemoteEventPermission ::= <FONT COLOR=#B8860B><B>CHOICE</B></FONT> {
+  keyboardEvent        <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  pointingDeviceEvent  <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  nonStandardEvent     <A HREF="#SI-PROTOCOL.NonStandardIdentifier" target="files">NonStandardIdentifier</A>,
+  ...
+}
+
+<A NAME="SI-PROTOCOL.RotationSpecifier"></A><FONT COLOR=#B22222><I>--  RotationSpecifier
+</I></FONT><FONT COLOR=#B22222><I>--  Specifies a rotation angle and an axis of revolution
+</I></FONT>RotationSpecifier ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  rotationAngle  <FONT COLOR=#5F9EA0><B>INTEGER</B></FONT><FONT COLOR=#228B22>(0..21599)</FONT>,
+  <FONT COLOR=#B22222><I>--  0 degrees to 359 degrees 59 minutes in units of minutes
+  </I></FONT><FONT COLOR=#B22222><I>--  of arc.
+  </I></FONT>rotationAxis   <A HREF="#SI-PROTOCOL.PointDiff16" target="files">PointDiff16</A>
+  <FONT COLOR=#B22222><I>--  Workspace location relative to an object’s anchor point.</I></FONT>
+}
+
+<A NAME="SI-PROTOCOL.SoftCopyDataPlaneAddress"></A><FONT COLOR=#B22222><I>--  SoftCopyDataPlaneAddress
+</I></FONT><FONT COLOR=#B22222><I>--  Address of a workspace data plane. 
+</I></FONT>SoftCopyDataPlaneAddress ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  workspaceHandle  <A HREF="#SI-PROTOCOL.Handle" target="files">Handle</A>,
+  plane            <A HREF="#SI-PROTOCOL.DataPlaneID" target="files">DataPlaneID</A>
+}
+
+<A NAME="SI-PROTOCOL.SoftCopyPointerPlaneAddress"></A><FONT COLOR=#B22222><I>--  SoftCopyPointerPlaneAddress
+</I></FONT><FONT COLOR=#B22222><I>--  Address of a workspace pointer plane.
+</I></FONT>SoftCopyPointerPlaneAddress ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {workspaceHandle  <A HREF="#SI-PROTOCOL.Handle" target="files">Handle</A>
+}
+
+<A NAME="SI-PROTOCOL.SourceDisplayIndicator"></A><FONT COLOR=#B22222><I>--  SourceDisplayIndicator
+</I></FONT><FONT COLOR=#B22222><I>--  Indicator of the size and location of a workspace view within
+</I></FONT><FONT COLOR=#B22222><I>--  the display device of the sourcing terminal.
+</I></FONT>SourceDisplayIndicator ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  displayAspectRatio   <FONT COLOR=#5F9EA0><B>REAL</B></FONT><FONT COLOR=#228B22>(0..<FONT COLOR=#228B22><B>MAX</B></FONT>)</FONT>,
+  <FONT COLOR=#B22222><I>--  Aspect ratio of the display; horizontal over vertical size.
+  </I></FONT><FONT COLOR=#B22222><I>--  Positive re2&gt;<I>--  Horizontal offset of upper left corner of the workspace view
+  </I></FONT><FONT COLOR=#B22222><I>--  from the upper left corner of the display normalized to the
+  </I></FONT><FONT COLOR=#B22222><I>--  display width (where the display spans the horizontal
+  </I></FONT><FONT COLOR=#B22222><I>--  range 0.0 to 1.0).
+  </I></FONT>verticalPosition     <FONT COLOR=#5F9EA0><B>REAL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  Vertical offset of upper left corner of the workspace view
+  </I></FONT><FONT COLOR=#B22222><I>--  from the upper left corner of the display normalized to
+  </I></FONT><FONT COLOR=#B22222><I>--  the display height (where the display spans the vertical
+  </I></FONT><FONT COLOR=#B22222><I>--  range 0.0 to 1.0).
+  </I></FONT>...
+}
+
+<A NAME="SI-PROTOCOL.TokenID"></A><FONT COLOR=#B22222><I>--  TokenID
+</I></FONT><FONT COLOR=#B22222><I>--  MCS Token ID.
+</I></FONT>TokenID ::= <FONT COLOR=#5F9EA0><B>INTEGER</B></FONT><FONT COLOR=#228B22>(1..65535)</FONT>
+
+<A NAME="SI-PROTOCOL.TransparencyMask"></A><FONT COLOR=#B22222><I>--  TransparencyMask
+</I></FONT><FONT COLOR=#B22222><I>--  A binary bitmap that indicates which pixels in a bitmap shall be
+</I></FONT><FONT COLOR=#B22222><I>--  treated as transparent.
+</I></FONT>TransparencyMask ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  bitMask
+    <FONT COLOR=#B8860B><B>CHOICE</B></FONT> {uncompressed       <FONT COLOR=#5F9EA0><B>OCTET STRING</B></FONT>,
+            <FONT COLOR=#B22222><I>--  Binary bitmap where a value of 1 indicates that the
+            </I></FONT><FONT COLOR=#B22222><I>--  corresponding pixel in the reference bitmap shall be
+            </I></FONT><FONT COLOR=#B22222><I>--  displayed. A value of 0 indicates that that pixel shall be
+            </I></FONT><FONT COLOR=#B22222><I>--  treated as transparent.
+            </I></FONT>jbigCompressed     <FONT COLOR=#5F9EA0><B>OCTET STRING</B></FONT>,
+            <FONT COLOR=#B22222><I>--  Same as above but additionally compressed using JBIG.
+            </I></FONT>nonStandardFormat  <A HREF="#SI-PROTOCOL.NonStandardParameter" target="files">NonStandardParameter</A>,
+            ...},
+  nonStandardParameters  <FONT COLOR=#B8860B><B>SET</B></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="#SI-PROTOCOL.NonStandardParameter" target="files">NonStandardParameter</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  ...
+}
+
+<A NAME="SI-PROTOCOL.VideoWindowDestinationAddress"></A><FONT COLOR=#B22222><I>--  VideoWindowDestinationAddress
+</I></FONT><FONT COLOR=#B22222><I>--  A VideoWindowDestinationAddress specifies the destination of video windows.
+</I></FONT>VideoWindowDestinationAddress ::= <FONT COLOR=#B8860B><B>CHOICE</B></FONT> {
+  softCopyImagePlane      <A HREF="#SI-PROTOCOL.SoftCopyDataPlaneAddress" target="files">SoftCopyDataPlaneAddress</A>,
+  nonStandardDestination  <A HREF="#SI-PROTOCOL.NonStandardParameter" target="files">NonStandardParameter</A>,
+  ...
+}
+
+<A NAME="SI-PROTOCOL.VideoSourceIdentifier"></A><FONT COLOR=#B22222><I>--  VideoSourceIdentifier
+</I></FONT><FONT COLOR=#B22222><I>--  Used to reference an out-of-band video source.
+</I></FONT>VideoSourceIdentifier ::= <FONT COLOR=#B8860B><B>CHOICE</B></FONT> {
+  default                      <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  h243SourceIdentifier         <FONT COLOR=#5F9EA0><B>OCTET STRING</B></FONT><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>SIZE</B></FONT> <FONT COLOR=#228B22>(2)</FONT>)</FONT>,
+  <FONT COLOR=#B22222><I>--  A two-octet field. The first octet should contain
+  </I></FONT><FONT COLOR=#B22222><I>--  the H.243 MCU ID (M), and the second octet should 
+  </I></FONT><FONT COLOR=#B22222><I>--  contain the H.243 Terminal ID (T).
+  </I></FONT>h245SourceIdentifier         <FONT COLOR=#5F9EA0><B>INTEGER</B></FONT><FONT COLOR=#228B22>(0..65535)</FONT>,
+  dSMCCConnBinder              <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="#SI-PROTOCOL.DSMCCTap" target="files">DSMCCTap</A>,
+  videoIdentifier              <FONT COLOR=#5F9EA0><B>OCTET STRING</B></FONT><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>SIZE</B></FONT> <FONT COLOR=#228B22>(1..256)</FONT>)</FONT>,
+  nonStandardSourceIdentifier  <A HREF="#SI-PROTOCOL.NonStandardParameter" target="files">NonStandardParameter</A>,
+  ...
+}
+
+<A NAME="SI-PROTOCOL.VideoWindowAttribute"></A><FONT COLOR=#B22222><I>--  VideoWindowAttribute
+</I></FONT><FONT COLOR=#B22222><I>--  Attributes of video windows.
+</I></FONT>VideoWindowAttribute ::= <FONT COLOR=#B8860B><B>CHOICE</B></FONT> {
+  transparencyMask      <A HREF="#SI-PROTOCOL.TransparencyMask" target="files">TransparencyMask</A>,
+  <FONT COLOR=#B22222><I>--  Bit mask specifying which pixels should be treated
+  </I></FONT><FONT COLOR=#B22222><I>--  as transparent within the video window.
+  </I></FONT>nonStandardAttribute  <A HREF="#SI-PROTOCOL.NonStandardParameter" target="files">NonStandardParameter</A>,
+  ...
+}
+
+<A NAME="SI-PROTOCOL.VideoWindowCreatePDU"></A><FONT COLOR=#B22222><I>--  VideoWindowCreatePDU
+</I></FONT><FONT COLOR=#B22222><I>--  This PDU allows video windows encapsulating out of band video
+</I></FONT><FONT COLOR=#B22222><I>--  streams to be created.
+</I></FONT>VideoWindowCreatePDU ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  videoWindowHandle            <A HREF="#SI-PROTOCOL.Handle" target="files">Handle</A>,
+  <FONT COLOR=#B22222><I>--  Handle to be used to reference this object in the future
+  </I></FONT>destinationAddress           <A HREF="#SI-PROTOCOL.VideoWindowDestinationAddress" target="files">VideoWindowDestinationAddress</A>,
+  <FONT COLOR=#B22222><I>--  Destination address of the video window
+  </I></FONT>videoSourceIdentifier        <A HREF="#SI-PROTOCOL.VideoSourceIdentifier" target="files">VideoSourceIdentifier</A>,
+  <FONT COLOR=#B22222><I>--   Identifies the video source to be placed in the window
+  </I></FONT>attributes                   <FONT COLOR=#B8860B><B>SET</B></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="#SI-PROTOCOL.VideoWindowAttribute" target="files">VideoWindowAttribute</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  List of editable attributes of the video window
+  </I></FONT>anchorPoint                  <A HREF="#SI-PROTOCOL.WorkspacePoint" target="files">WorkspacePoint</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  <FONT COLOR=#B22222><I>--   Point of origin of the video window with respect to the
+  </I></FONT><FONT COLOR=#B22222><I>--   destination workspace. Only needed for softcopy
+  </I></FONT><FONT COLOR=#B22222><I>--   bitmaps. Default is (0,0).
+  </I></FONT>videoWindowSize              <A HREF="#SI-PROTOCOL.BitmapSize" target="files">BitmapSize</A>,
+  <FONT COLOR=#B22222><I>--  Width and height of the total video window represented
+  </I></FONT><FONT COLOR=#B22222><I>--  in the bitstream.
+  </I></FONT>videoWindowRegionOfInterest  <A HREF="#SI-PROTOCOL.BitmapRegion" target="files">BitmapRegion</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  Region of interest within the video stream to be applied
+  </I></FONT><FONT COLOR=#B22222><I>--  to the workspace Default is full video area.
+  </I></FONT>pixelAspectRatio             <A HREF="#SI-PROTOCOL.PixelAspectRatio" target="files">PixelAspectRatio</A>,
+  <FONT COLOR=#B22222><I>--  Pixel aspect ratio of the video stream
+  </I></FONT>scaling                      <A HREF="#SI-PROTOCOL.PointDiff16" target="files">PointDiff16</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  Offset in workspace coordinates of the lower right hand
+  </I></FONT><FONT COLOR=#B22222><I>--  corner of the video window relative to the anchor point
+  </I></FONT>nonStandardParameters        <FONT COLOR=#B8860B><B>SET</B></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="#SI-PROTOCOL.NonStandardParameter" target="files">NonStandardParameter</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  Allowed only if the corresponding non-standard
+  </I></FONT><FONT COLOR=#B22222><I>--  capabilities are present in the negotiated capability set.
+  </I></FONT>...
+}
+
+<A NAME="SI-PROTOCOL.VideoWindowEditPDU"></A><FONT COLOR=#B22222><I>--  VideoWindowEditPDU
+</I></FONT><FONT COLOR=#B22222><I>--  A VideoWindowEditPDU is used to alter one or more of
+</I></FONT><FONT COLOR=#B22222><I>--  a video window element’s attributes or parameters.
+</I></FONT>VideoWindowEditPDU ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  videoWindowHandle                <A HREF="#SI-PROTOCOL.Handle" target="files">Handle</A>,
+  <FONT COLOR=#B22222><I>--  Identifier of item to be edited
+  </I></FONT>videoSourceIdentifierEdit        <A HREF="#SI-PROTOCOL.VideoSourceIdentifier" target="files">VideoSourceIdentifier</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  Identifies the video source to be placed in the window
+  </I></FONT>attributeEdits                   <FONT COLOR=#B8860B><B>SET</B></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="#SI-PROTOCOL.VideoWindowAttribute" target="files">VideoWindowAttribute</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  List of attribute changes
+  </I></FONT>anchorPointEdit                  <A HREF="#SI-PROTOCOL.WorkspacePoint" target="files">WorkspacePoint</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  Point of origin of the drawing element
+  </I></FONT>videoWindowSize                  <A HREF="#SI-PROTOCOL.BitmapSize" target="files">BitmapSize</A>,
+  <FONT COLOR=#B22222><I>--  Change to the width and height of the total video window
+  </I></FONT><FONT COLOR=#B22222><I>--   represented in the bitstream
+  </I></FONT>videoWindowRegionOfInterestEdit  <A HREF="#SI-PROTOCOL.BitmapRegion" target="files">BitmapRegion</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  Change to the region of interest within the video stream
+  </I></FONT><FONT COLOR=#B22222><I>--  to be applied to the workspace
+  </I></FONT>pixelAspectRatioEdit             <A HREF="#SI-PROTOCOL.PixelAspectRatio" target="files">PixelAspectRatio</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  Change to the pixel aspect ratio of the video stream
+  </I></FONT>scalingEdit                      <A HREF="#SI-PROTOCOL.PointDiff16" target="files">PointDiff16</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  Change to the offset in workspace coordinates of the
+  </I></FONT><FONT COLOR=#B22222><I>--   lower right hand corner of the video window relative to
+  </I></FONT><FONT COLOR=#B22222><I>--  the anchor point
+  </I></FONT>nonStandardParameters            <FONT COLOR=#B8860B><B>SET</B></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="#SI-PROTOCOL.NonStandardParameter" target="files">NonStandardParameter</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  Allowed only if the corresponding non-standard capabilities
+  </I></FONT><FONT COLOR=#B22222><I>--  are present in the negotiated capability set.
+  </I></FONT>...
+}
+
+<A NAME="SI-PROTOCOL.ViewState"></A><FONT COLOR=#B22222><I>--  ViewState
+</I></FONT><FONT COLOR=#B22222><I>--  Controls the visibility state of an object.
+</I></FONT>ViewState ::= <FONT COLOR=#B8860B><B>CHOICE</B></FONT> {
+  unselected            <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  selected              <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  hidden                <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  nonStandardViewState  <A HREF="#SI-PROTOCOL.NonStandardIdentifier" target="files">NonStandardIdentifier</A>,
+  ...
+}
+
+<A NAME="SI-PROTOCOL.WorkspaceAttribute"></A><FONT COLOR=#B22222><I>--  WorkspaceAttribute
+</I></FONT><FONT COLOR=#B22222><I>--  Workspace attributes are editable characteristics of workspace.
+</I></FONT>WorkspaceAttribute ::= <FONT COLOR=#B8860B><B>CHOICE</B></FONT> {
+  backgroundColor       <A HREF="#SI-PROTOCOL.WorkspaceColor" target="files">WorkspaceColor</A>,
+  <FONT COLOR=#B22222><I>--  This specifies the background color of the workspace.
+  </I></FONT>preserve              <FONT COLOR=#5F9EA0><B>BOOLEAN</B></FONT>,
+  <FONT COLOR=#B22222><I>--  If TRUE, the associated workspace resource should not
+  </I></FONT><FONT COLOR=#B22222><I>--  be placed on the viewed workspace queue once it has been
+  </I></FONT><FONT COLOR=#B22222><I>--  automatically removed from the Focus state.
+  </I></FONT>nonStandardAttribute  <A HREF="#SI-PROTOCOL.NonStandardParameter" target="files">NonStandardParameter</A>,
+  ...
+}
+
+<A NAME="SI-PROTOCOL.WorkspaceColor"></A><FONT COLOR=#B22222><I>--  WorkspaceColor
+</I></FONT><FONT COLOR=#B22222><I>--  The following defines a generic type for a color, used where a
+</I></FONT><FONT COLOR=#B22222><I>--  color is required for drawing or workspace backgrounds.
+</I></FONT>WorkspaceColor ::= <FONT COLOR=#B8860B><B>CHOICE</B></FONT> {
+  workspacePaletteIndex  <FONT COLOR=#5F9EA0><B>INTEGER</B></FONT><FONT COLOR=#228B22>(0..255)</FONT>,
+  rgbTrueColor           <A HREF="#SI-PROTOCOL.ColorRGB" target="files">ColorRGB</A>,
+  transparent            <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  ...
+}
+
+<A NAME="SI-PROTOCOL.WorkspaceCoordinate"></A><FONT COLOR=#B22222><I>--  WorkspaceCoordinate
+</I></FONT><FONT COLOR=#B22222><I>--  A WorkspaceCoordinate is the value of a single axis of
+</I></FONT><FONT COLOR=#B22222><I>--  a point in a workspace.
+</I></FONT>WorkspaceCoordinate ::= <FONT COLOR=#5F9EA0><B>INTEGER</B></FONT><FONT COLOR=#228B22>(-21845..43690)</FONT>
+
+<A NAME="SI-PROTOCOL.WorkspaceDeleteReason"></A><FONT COLOR=#B22222><I>--  WorkspaceDeleteReason
+</I></FONT><FONT COLOR=#B22222><I>--  This value represents the reason codes for the 
+</I></FONT><FONT COLOR=#B22222><I>--  WorkspaceDeletePDU.
+</I></FONT>WorkspaceDeleteReason ::= <FONT COLOR=#B8860B><B>CHOICE</B></FONT> {
+  userInitiated        <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  Workspace deletion initiated by user
+  </I></FONT>insufficientStorage  <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  Workspace deleted due to insufficient storage capacity.
+  </I></FONT>nonStandardReason    <A HREF="#SI-PROTOCOL.NonStandardParameter" target="files">NonStandardParameter</A>,
+  ...
+}
+
+<A NAME="SI-PROTOCOL.WorkspaceCreatePDU"></A><FONT COLOR=#B22222><I>--  WorkspaceCreatePDU
+</I></FONT><FONT COLOR=#B22222><I>--  This PDU causes a workspace to be created and its
+</I></FONT><FONT COLOR=#B22222><I>--  attributes to be set.
+</I></FONT>WorkspaceCreatePDU ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  workspaceIdentifier         <A HREF="#SI-PROTOCOL.WorkspaceIdentifier" target="files">WorkspaceIdentifier</A>,
+  <FONT COLOR=#B22222><I>--  Identifier that will be used to reference this workspace
+  </I></FONT><FONT COLOR=#B22222><I>--  in the future
+  </I></FONT>appRosterInstance           <FONT COLOR=#5F9EA0><B>INTEGER</B></FONT><FONT COLOR=#228B22>(0..65535)</FONT>,
+  <FONT COLOR=#B22222><I>--  Indicates which application roster instance (returned
+  </I></FONT><FONT COLOR=#B22222><I>--  in the GCC-Application-Roster-Report indication) was
+  </I></FONT><FONT COLOR=#B22222><I>--  valid when this PDU was issued. This is used to eliminate
+  </I></FONT><FONT COLOR=#B22222><I>--  race conditions that can occur when terminals enter a
+  </I></FONT><FONT COLOR=#B22222><I>--  session while a workspace is being created.
+  </I></FONT>synchronized                <FONT COLOR=#5F9EA0><B>BOOLEAN</B></FONT>,
+  <FONT COLOR=#B22222><I>--  TRUE specifies that the workspace contents stacking
+  </I></FONT><FONT COLOR=#B22222><I>--  order must be consistent everywhere.
+  </I></FONT><FONT COLOR=#B22222><I>--  In many cases, this implies the use of
+  </I></FONT><FONT COLOR=#B22222><I>--  MCS-UNIFORM-SEND-DATA for SIPDU submission.
+  </I></FONT><FONT COLOR=#B22222><I>--  FALSE specifies that the workspace contents do not have
+  </I></FONT><FONT COLOR=#B22222><I>--  to be consistent in stacking order; therefore the use of
+  </I></FONT><FONT COLOR=#B22222><I>--  MCS-SEND-DATA is acceptable for all content submitting
+  </I></FONT><FONT COLOR=#B22222><I>--  transactions.
+  </I></FONT>acceptKeyboardEvents        <FONT COLOR=#5F9EA0><B>BOOLEAN</B></FONT>,
+  <FONT COLOR=#B22222><I>--  If TRUE this workspace can accept remote
+  </I></FONT><FONT COLOR=#B22222><I>--  keyboard events.
+  </I></FONT>acceptPointingDeviceEvents  <FONT COLOR=#5F9EA0><B>BOOLEAN</B></FONT>,
+  <FONT COLOR=#B22222><I>--  If TRUE this workspace can accept remote pointer device events.
+  </I></FONT>protectedPlaneAccessList    <FONT COLOR=#B8860B><B>SET</B></FONT> <FONT COLOR=#228B22><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>SIZE</B></FONT> <FONT COLOR=#228B22>(1..65536)</FONT>)</FONT></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="#SI-PROTOCOL.MCSUserID" target="files">MCSUserID</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  The ability to modify any protected plane in this workspace is
+  </I></FONT><FONT COLOR=#B22222><I>--  restricted only to SICEs on this list. The creator of the workspace
+  </I></FONT><FONT COLOR=#B22222><I>--  is NOT automatically granted access to these planes unless
+  </I></FONT><FONT COLOR=#B22222><I>--  explicitly on this list.
+  </I></FONT>workspaceSize               <A HREF="#SI-PROTOCOL.WorkspaceSize" target="files">WorkspaceSize</A>,
+  <FONT COLOR=#B22222><I>--  This value specifies the width and height of the new
+  </I></FONT><FONT COLOR=#B22222><I>--  workspace in pixels.
+  </I></FONT>workspaceAttributes         <FONT COLOR=#B8860B><B>SET</B></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="#SI-PROTOCOL.WorkspaceAttribute" target="files">WorkspaceAttribute</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  Editable attributes of the workspace
+  </I></FONT>planeParameters
+    <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> <FONT COLOR=#228B22><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>SIZE</B></FONT> <FONT COLOR=#228B22>(1..256)</FONT>)</FONT></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT>
+      <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT>
+       <FONT COLOR=#B22222><I>--  This sequence contains plane parameters.
+      </I></FONT><FONT COLOR=#B22222><I>--  Its length is the number
+      </I></FONT><FONT COLOR=#B22222><I>--  of planes in the workspace.
+      </I></FONT>{editable         <FONT COLOR=#5F9EA0><B>BOOLEAN</B></FONT>,
+       <FONT COLOR=#B22222><I>--  This item specifies whether objects created on this plane are
+       </I></FONT><FONT COLOR=#B22222><I>--  editable.
+       </I></FONT><FONT COLOR=#B22222><I>--  If not editable, each plane is treated as a bit-map image.
+       </I></FONT>usage            <FONT COLOR=#B8860B><B>SET</B></FONT> <FONT COLOR=#228B22><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>SIZE</B></FONT> <FONT COLOR=#228B22>(1..<FONT COLOR=#228B22><B>MAX</B></FONT>)</FONT>)</FONT></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="#SI-PROTOCOL.PlaneUsage" target="files">PlaneUsage</A>,
+       <FONT COLOR=#B22222><I>--  This item specifies restrictions on the usage of this plane
+       </I></FONT><FONT COLOR=#B22222><I>--  (image data or annotation data). At least one use shall be
+       </I></FONT><FONT COLOR=#B22222><I>--  included. A particular usage designator shall be listed no
+       </I></FONT><FONT COLOR=#B22222><I>--  more than once.
+       </I></FONT>planeAttributes  <FONT COLOR=#B8860B><B>SET</B></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="#SI-PROTOCOL.PlaneAttribute" target="files">PlaneAttribute</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+       <FONT COLOR=#B22222><I>--  List of attributes
+       </I></FONT><FONT COLOR=#B22222><I>--  A particular attribute shall be listed no more than once.
+       </I></FONT>...},
+  viewParameters
+    <FONT COLOR=#B8860B><B>SET</B></FONT> <FONT COLOR=#228B22><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>SIZE</B></FONT> <FONT COLOR=#228B22>(1..256)</FONT>)</FONT></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT>
+      <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT>
+       <FONT COLOR=#B22222><I>--  Each entry in this list (if any) defines a view to be created in
+      </I></FONT><FONT COLOR=#B22222><I>--  association with this workspace.
+      </I></FONT>{viewHandle      <A HREF="#SI-PROTOCOL.Handle" target="files">Handle</A>,
+       <FONT COLOR=#B22222><I>--  Identifier of the view to be created
+       </I></FONT>viewAttributes  <FONT COLOR=#B8860B><B>SET</B></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="#SI-PROTOCOL.WorkspaceViewAttribute" target="files">WorkspaceViewAttribute</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+       <FONT COLOR=#B22222><I>--  Editable attribute of the view
+       </I></FONT>...} <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  nonStandardParameters       <FONT COLOR=#B8860B><B>SET</B></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="#SI-PROTOCOL.NonStandardParameter" target="files">NonStandardParameter</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  Allowed only if the corresponding non-standard capabilities
+  </I></FONT><FONT COLOR=#B22222><I>--  are present in the negotiated capability set
+  </I></FONT>...,
+  refresh                     <FONT COLOR=#5F9EA0><B>BOOLEAN</B></FONT> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>
+  <FONT COLOR=#B22222><I>--  When set to TRUE, the workspace create is being used to
+  </I></FONT><FONT COLOR=#B22222><I>--  refresh a workspace.
+  </I></FONT><FONT COLOR=#B22222><I>--  FALSE or not present indicates that the workspace create
+  </I></FONT><FONT COLOR=#B22222><I>--  represents new session data.</I></FONT>
+}
+
+<A NAME="SI-PROTOCOL.WorkspaceIdentifier"></A><FONT COLOR=#B22222><I>--  WorkspaceIdentifier
+</I></FONT>WorkspaceIdentifier ::= <FONT COLOR=#B8860B><B>CHOICE</B></FONT> {
+  activeWorkspace   <A HREF="#SI-PROTOCOL.Handle" target="files">Handle</A>,
+  <FONT COLOR=#B22222><I>--  Handle identifying the active workspace
+  </I></FONT>archiveWorkspace
+    <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {archiveHandle     <A HREF="#SI-PROTOCOL.Handle" target="files">Handle</A>,
+              <FONT COLOR=#B22222><I>--  Handle identifying the archive in which the archived
+              </I></FONT><FONT COLOR=#B22222><I>--  workspace is contained
+              </I></FONT>entryName         <A HREF="#SI-PROTOCOL.ArchiveEntryName" target="files">ArchiveEntryName</A>,
+              <FONT COLOR=#B22222><I>--  Name of the archived workspace
+              </I></FONT>modificationTime  <FONT COLOR=#5F9EA0><B>GeneralizedTime</B></FONT> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>
+              <FONT COLOR=#B22222><I>--  If the workspace identifier is being used for an operation
+              </I></FONT><FONT COLOR=#B22222><I>--  in which the workspace is to be modified, this parameter
+              </I></FONT><FONT COLOR=#B22222><I>--  shall indicate the time of modification.
+              </I></FONT><FONT COLOR=#B22222><I>--  In this case, the archive header is modified to reflect the
+              </I></FONT><FONT COLOR=#B22222><I>--  most recent modification time. Otherwise, this parameter
+              </I></FONT><FONT COLOR=#B22222><I>--  shall not be included.</I></FONT>},
+  ...
+}
+
+<A NAME="SI-PROTOCOL.WorkspacePoint"></A><FONT COLOR=#B22222><I>--  WorkspacePoint
+</I></FONT><FONT COLOR=#B22222><I>--  A WorkspacePoint is a two-dimensional address of a location in a 
+</I></FONT><FONT COLOR=#B22222><I>--  workspace plane including points in the invisible border areas.
+</I></FONT>WorkspacePoint ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  xCoordinate  <A HREF="#SI-PROTOCOL.WorkspaceCoordinate" target="files">WorkspaceCoordinate</A>,
+  <FONT COLOR=#B22222><I>--  X component of a Cartesian address
+  </I></FONT>yCoordinate  <A HREF="#SI-PROTOCOL.WorkspaceCoordinate" target="files">WorkspaceCoordinate</A>
+  <FONT COLOR=#B22222><I>--  Y component of a Cartesian address</I></FONT>
+}
+
+<A NAME="SI-PROTOCOL.WorkspaceRegion"></A><FONT COLOR=#B22222><I>--  WorkspaceRegion
+</I></FONT><FONT COLOR=#B22222><I>--  This type can be used to describe both the size and 
+</I></FONT><FONT COLOR=#B22222><I>--  position of a rectangular region within a workspace.
+</I></FONT>WorkspaceRegion ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  upperLeft   <A HREF="#SI-PROTOCOL.WorkspacePoint" target="files">WorkspacePoint</A>,
+  lowerRight  <A HREF="#SI-PROTOCOL.WorkspacePoint" target="files">WorkspacePoint</A>
+}
+
+<A NAME="SI-PROTOCOL.WorkspaceSize"></A><FONT COLOR=#B22222><I>--  WorkspaceSize
+</I></FONT><FONT COLOR=#B22222><I>--  The size of a workspace in pixels.
+</I></FONT>WorkspaceSize ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  width   <FONT COLOR=#5F9EA0><B>INTEGER</B></FONT><FONT COLOR=#228B22>(1..21845)</FONT>,
+  <FONT COLOR=#B22222><I>--  The number of pixels horizontally
+  </I></FONT>height  <FONT COLOR=#5F9EA0><B>INTEGER</B></FONT><FONT COLOR=#228B22>(1..21845)</FONT>
+  <FONT COLOR=#B22222><I>--  The number of pixels vertically</I></FONT>
+}
+
+<A NAME="SI-PROTOCOL.WorkspaceViewAttribute"></A><FONT COLOR=#B22222><I>--  WorkspaceViewAttribute
+</I></FONT><FONT COLOR=#B22222><I>--  View attributes are editable characteristics of workspace views.
+</I></FONT>WorkspaceViewAttribute ::= <FONT COLOR=#B8860B><B>CHOICE</B></FONT> {
+  viewRegion
+    <FONT COLOR=#B8860B><B>CHOICE</B></FONT> {fullWorkspace     <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+            <FONT COLOR=#B22222><I>--  View the entire workspace
+            </I></FONT>partialWorkspace  <A HREF="#SI-PROTOCOL.WorkspaceRegion" target="files">WorkspaceRegion</A>
+            <FONT COLOR=#B22222><I>--  Rectangle defining the region of the workspace to view.
+            </I></FONT><FONT COLOR=#B22222><I>--  The view shall not extend beyond the boundaries of
+            </I></FONT><FONT COLOR=#B22222><I>--  the workspace.</I></FONT>},
+  viewState               <A HREF="#SI-PROTOCOL.WorkspaceViewState" target="files">WorkspaceViewState</A>,
+  <FONT COLOR=#B22222><I>--  Visibility state of the view
+  </I></FONT>updatesEnabled          <FONT COLOR=#5F9EA0><B>BOOLEAN</B></FONT>,
+  <FONT COLOR=#B22222><I>--  If this attribute is set to FALSE (the default is TRUE), it
+  </I></FONT><FONT COLOR=#B22222><I>--  is an indication that subsequent updates to the workspace
+  </I></FONT><FONT COLOR=#B22222><I>--  corresponding to this view not be shown until this attribute
+  </I></FONT><FONT COLOR=#B22222><I>--  is set to TRUE.
+  </I></FONT>sourceDisplayIndicator  <A HREF="#SI-PROTOCOL.SourceDisplayIndicator" target="files">SourceDisplayIndicator</A>,
+  <FONT COLOR=#B22222><I>--  Indicates the characteristics of the view within the source
+  </I></FONT><FONT COLOR=#B22222><I>--  display device
+  </I></FONT>nonStandardAttribute    <A HREF="#SI-PROTOCOL.NonStandardParameter" target="files">NonStandardParameter</A>,
+  ...
+}
+
+<A NAME="SI-PROTOCOL.WorkspaceViewState"></A><FONT COLOR=#B22222><I>--  WorkspaceViewState
+</I></FONT><FONT COLOR=#B22222><I>--  A view’s state indicates how the local terminal should
+</I></FONT><FONT COLOR=#B22222><I>--  display the view.
+</I></FONT>WorkspaceViewState ::= <FONT COLOR=#B8860B><B>CHOICE</B></FONT> {
+  hidden            <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  This workspace should not be shown to the user.
+  </I></FONT>background        <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  The display of this workspace is optional.
+  </I></FONT>foreground        <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  The display of this workspace is desirable.
+  </I></FONT>focus             <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  The display of this workspace is mandatory. Only one
+  </I></FONT><FONT COLOR=#B22222><I>--  workspace may be set to this state.
+  </I></FONT>nonStandardState  <A HREF="#SI-PROTOCOL.NonStandardIdentifier" target="files">NonStandardIdentifier</A>,
+  ...
+}
+
+<A NAME="SI-PROTOCOL.ZOrder"></A><FONT COLOR=#B22222><I>--  ZOrder
+</I></FONT><FONT COLOR=#B22222><I>--  This enumerated type is used to specify a transition to front
+</I></FONT><FONT COLOR=#B22222><I>--  or back of an object within an addressable plane.
+</I></FONT>ZOrder ::= <FONT COLOR=#5F9EA0><B>ENUMERATED</B></FONT> {
+  front(0),
+  <FONT COLOR=#B22222><I>--  Move object to the front of the plane display list
+  </I></FONT>back(1),
+  <FONT COLOR=#B22222><I>--  Move object to the back of the plane display list
+  </I></FONT>...
+  }
+
+<A NAME="SI-PROTOCOL.ArchiveAcknowledgePDU"></A><FONT COLOR=#B22222><I>--  Begin SIPDU Definitions
+</I></FONT><FONT COLOR=#B22222><I>--  ArchiveAcknowledgePDU
+</I></FONT><FONT COLOR=#B22222><I>--  The ArchiveAcknowledgePDU is used to acknowledge that an archive
+</I></FONT><FONT COLOR=#B22222><I>--  has been successfully opened.
+</I></FONT>ArchiveAcknowledgePDU ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  archiveHandle          <A HREF="#SI-PROTOCOL.Handle" target="files">Handle</A>,
+  <FONT COLOR=#B22222><I>--  Unique handle that references the archive
+  </I></FONT>result                 <A HREF="#SI-PROTOCOL.ArchiveOpenResult" target="files">ArchiveOpenResult</A>,
+  <FONT COLOR=#B22222><I>--  Indicates whether or not the archive was opened successfully
+  </I></FONT>nonStandardParameters  <FONT COLOR=#B8860B><B>SET</B></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="#SI-PROTOCOL.NonStandardParameter" target="files">NonStandardParameter</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  Allowed only if the corresponding non-standard capabilities
+  </I></FONT><FONT COLOR=#B22222><I>--  are present in the negotiated capability set.
+  </I></FONT>...
+}
+
+<A NAME="SI-PROTOCOL.ArchiveClosePDU"></A><FONT COLOR=#B22222><I>--  ArchiveClosePDU
+</I></FONT><FONT COLOR=#B22222><I>--  The ArchiveClosePDU is used to close an archive that was 
+</I></FONT><FONT COLOR=#B22222><I>--  previously opened during an SI session.
+</I></FONT>ArchiveClosePDU ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  archiveHandle          <A HREF="#SI-PROTOCOL.Handle" target="files">Handle</A>,
+  <FONT COLOR=#B22222><I>--  Unique handle that references the archive
+  </I></FONT>nonStandardParameters  <FONT COLOR=#B8860B><B>SET</B></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="#SI-PROTOCOL.NonStandardParameter" target="files">NonStandardParameter</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  Allowed only if the corresponding non-standard capabilities
+  </I></FONT><FONT COLOR=#B22222><I>--  are present in the negotiated capability set.
+  </I></FONT>...
+}
+
+<A NAME="SI-PROTOCOL.ArchiveErrorPDU"></A><FONT COLOR=#B22222><I>--  ArchiveErrorPDU
+</I></FONT><FONT COLOR=#B22222><I>--  The ArchiveErrorPDU is used by a terminal receiving an 
+</I></FONT><FONT COLOR=#B22222><I>--  archive PDU to signal error conditions to the sender.
+</I></FONT>ArchiveErrorPDU ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  archiveHandle          <A HREF="#SI-PROTOCOL.Handle" target="files">Handle</A>,
+  <FONT COLOR=#B22222><I>--  Unique handle that references the archive
+  </I></FONT>entryName              <A HREF="#SI-PROTOCOL.ArchiveEntryName" target="files">ArchiveEntryName</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  Specifies the archive entry associated with the error if
+  </I></FONT><FONT COLOR=#B22222><I>--  applicable
+  </I></FONT>errorCode              <A HREF="#SI-PROTOCOL.ArchiveError" target="files">ArchiveError</A>,
+  <FONT COLOR=#B22222><I>--  Specifies the cause of the error at the remote terminal
+  </I></FONT>nonStandardParameters  <FONT COLOR=#B8860B><B>SET</B></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="#SI-PROTOCOL.NonStandardParameter" target="files">NonStandardParameter</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  Allowed only if the corresponding non-standard capabilities
+  </I></FONT><FONT COLOR=#B22222><I>--  are present in the negotiated capability set.
+  </I></FONT>...
+}
+
+<A NAME="SI-PROTOCOL.ArchiveOpenPDU"></A><FONT COLOR=#B22222><I>--  ArchiveOpenPDU
+</I></FONT><FONT COLOR=#B22222><I>--  The ArchiveOpenPDU is used to open an archive at a 
+</I></FONT><FONT COLOR=#B22222><I>--  remote terminal that supports this capability.
+</I></FONT>ArchiveOpenPDU ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  archiveHandle      header                 <A HREF="#SI-PROTOCOL.ArchiveHeader" target="files">ArchiveHeader</A>,
+  <FONT COLOR=#B22222><I>--  Specifies information used to identify the archive. If the archive
+  </I></FONT><FONT COLOR=#B22222><I>--  is being created, this is the information that is used to identify
+  </I></FONT><FONT COLOR=#B22222><I>--  the archive in the future.
+  </I></FONT>maxEntries             <FONT COLOR=#5F9EA0><B>INTEGER</B></FONT><FONT COLOR=#228B22>(1..65535)</FONT> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  This parameter allows remote terminals to estimate the local
+  </I></FONT><FONT COLOR=#B22222><I>--  resource usage for the specified archive so they can signal an
+  </I></FONT><FONT COLOR=#B22222><I>--  error early in the archiving process. It is only to be specified if 
+  </I></FONT><FONT COLOR=#B22222><I>--  the archive open mode is set to &quot;create&quot;.
+  </I></FONT>nonStandardParameters  <FONT COLOR=#B8860B><B>SET</B></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="#SI-PROTOCOL.NonStandardParameter" target="files">NonStandardParameter</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  Allowed only if the corresponding non-standard capabilities are
+  </I></FONT><FONT COLOR=#B22222><I>--  present in the negotiated capability set.
+  </I></FONT>...
+}
+
+<A NAME="SI-PROTOCOL.BitmapAbortPDU"></A><FONT COLOR=#B22222><I>--  BitmapAbortPDU
+</I></FONT><FONT COLOR=#B22222><I>--  This PDU is used by both the transmitting SICE to signal that a 
+</I></FONT><FONT COLOR=#B22222><I>--  bitmap exchange is being aborted and by an SICE requesting that
+</I></FONT><FONT COLOR=#B22222><I>--  a bitmap exchange in progress be aborted.
+</I></FONT>BitmapAbortPDU ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  bitmapHandle           <A HREF="#SI-PROTOCOL.Handle" target="files">Handle</A>,
+  <FONT COLOR=#B22222><I>--  Handle referring to the bitmap being created
+  </I></FONT>userID                 <A HREF="#SI-PROTOCOL.MCSUserID" target="files">MCSUserID</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  Optionally provided by the transmitter if identification of
+  </I></FONT><FONT COLOR=#B22222><I>--  the source of the abort is desired
+  </I></FONT>reason                 <A HREF="#SI-PROTOCOL.BitmapAbortReason" target="files">BitmapAbortReason</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  message                <FONT COLOR=#5F9EA0><B>BMPString</B></FONT><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>SIZE</B></FONT> <FONT COLOR=#228B22>(1..256)</FONT>)</FONT> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  nonStandardParameters  <FONT COLOR=#B8860B><B>SET</B></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="#SI-PROTOCOL.NonStandardParameter" target="files">NonStandardParameter</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  Allowed only if the corresponding non-standard capabilities
+  </I></FONT><FONT COLOR=#B22222><I>--  are present in the negotiated capability set.
+  </I></FONT>...
+}
+
+<A NAME="SI-PROTOCOL.BitmapCheckpointPDU"></A><FONT COLOR=#B22222><I>--  BitmapCheckpointPDU
+</I></FONT><FONT COLOR=#B22222><I>--  This PDU is used by a terminal that is transmitting a bitmap
+</I></FONT><FONT COLOR=#B22222><I>--  when it wants to notify receiving terminals that they should
+</I></FONT><FONT COLOR=#B22222><I>--  display previously received data.
+</I></FONT>BitmapCheckpointPDU ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  bitmapHandle           <A HREF="#SI-PROTOCOL.Handle" target="files">Handle</A>,
+  <FONT COLOR=#B22222><I>--  Handle used to reference this bitmap
+  </I></FONT>passedCheckpoints      <FONT COLOR=#B8860B><B>SET</B></FONT> <FONT COLOR=#228B22><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>SIZE</B></FONT> <FONT COLOR=#228B22>(1..100)</FONT>)</FONT></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="#SI-PROTOCOL.TokenID" target="files">TokenID</A>,
+  <FONT COLOR=#B22222><I>--  List of checkpoints that have been uninhibited by all nodes
+  </I></FONT>percentComplete        <FONT COLOR=#5F9EA0><B>INTEGER</B></FONT><FONT COLOR=#228B22>(1..100)</FONT>,
+  <FONT COLOR=#B22222><I>--  Cumulative portion of the bitmap completed as a result of
+  </I></FONT><FONT COLOR=#B22222><I>--  all passed checkpoints so far
+  </I></FONT>nonStandardParameters  <FONT COLOR=#B8860B><B>SET</B></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="#SI-PROTOCOL.NonStandardParameter" target="files">NonStandardParameter</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  Allowed only if the corresponding non-standard capabilities
+  </I></FONT><FONT COLOR=#B22222><I>--  are present in the negotiated capability set.
+  </I></FONT>...
+}
+
+<A NAME="SI-PROTOCOL.BitmapCreatePDU"></A><FONT COLOR=#B22222><I>--  BitmapCreatePDU
+</I></FONT><FONT COLOR=#B22222><I>--  This PDU is used to initiate a bitmap transmission.
+</I></FONT>BitmapCreatePDU ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  bitmapHandle            <A HREF="#SI-PROTOCOL.Handle" target="files">Handle</A>,
+  <FONT COLOR=#B22222><I>--  Handle to be used to reference this object in the future
+  </I></FONT>destinationAddress      <A HREF="#SI-PROTOCOL.BitmapDestinationAddress" target="files">BitmapDestinationAddress</A>,
+  <FONT COLOR=#B22222><I>--  Destination address of the bitmap
+  </I></FONT>attributes              <FONT COLOR=#B8860B><B>SET</B></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="#SI-PROTOCOL.BitmapAttribute" target="files">BitmapAttribute</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  List of editable attributes of the bitmap
+  </I></FONT>anchorPoint             <A HREF="#SI-PROTOCOL.WorkspacePoint" target="files">WorkspacePoint</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  Point of origin of the bitmap with respect to the
+  </I></FONT><FONT COLOR=#B22222><I>--  destination workspace. Only needed for softcopy bitmaps.
+  </I></FONT><FONT COLOR=#B22222><I>--  Default is (0,0).
+  </I></FONT>bitmapSize              <A HREF="#SI-PROTOCOL.BitmapSize" target="files">BitmapSize</A>,
+  <FONT COLOR=#B22222><I>--  Width and height of the total bitmap represented in the
+  </I></FONT><FONT COLOR=#B22222><I>--  bitstream. For a multi-component bitmap, this is the
+  </I></FONT><FONT COLOR=#B22222><I>--  size of the largest component.
+  </I></FONT>bitmapRegionOfInterest  <A HREF="#SI-PROTOCOL.BitmapRegion" target="files">BitmapRegion</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  Region of interest within the bitmap to be applied to the
+  </I></FONT><FONT COLOR=#B22222><I>--  workspace
+  </I></FONT><FONT COLOR=#B22222><I>--  Default is full bitmap.
+  </I></FONT>pixelAspectRatio        <A HREF="#SI-PROTOCOL.PixelAspectRatio" target="files">PixelAspectRatio</A>,
+  <FONT COLOR=#B22222><I>--  Pixel aspect ratio of the bitmap
+  </I></FONT>scaling                 <A HREF="#SI-PROTOCOL.PointDiff16" target="files">PointDiff16</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  Offset in workspace coordinates of the lower right hand
+  </I></FONT><FONT COLOR=#B22222><I>--  corner of the bitmap relative to the anchor point.
+  </I></FONT><FONT COLOR=#B22222><I>--  Default is no scaling.
+  </I></FONT><FONT COLOR=#B22222><I>--  Only needed for softcopy bitmaps.
+  </I></FONT>checkpoints             <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> <FONT COLOR=#228B22><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>SIZE</B></FONT> <FONT COLOR=#228B22>(1..100)</FONT>)</FONT></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="#SI-PROTOCOL.TokenID" target="files">TokenID</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  Tokens to be used for checkpointing the bitmap create
+  </I></FONT><FONT COLOR=#B22222><I>--   exchange
+  </I></FONT>bitmapFormatHeader
+    <FONT COLOR=#B8860B><B>CHOICE</B></FONT>
+     <FONT COLOR=#B22222><I>--  The following headers provide image bitstream parameters
+    </I></FONT><FONT COLOR=#B22222><I>--  that are outside the scope of the corresponding coding
+    </I></FONT><FONT COLOR=#B22222><I>--  standard but are necessary for image decompression. 
+    </I></FONT><FONT COLOR=#B22222><I>--  NOTE: Some bitmap formats are disallowed depending
+    </I></FONT><FONT COLOR=#B22222><I>--  on the value of the destinationAddress parameter.
+    </I></FONT>{bitmapHeaderUncompressed  <A HREF="#SI-PROTOCOL.BitmapHeaderUncompressed" target="files">BitmapHeaderUncompressed</A>,
+     <FONT COLOR=#B22222><I>--  Parameters for the uncompressed pixel representation
+     </I></FONT>bitmapHeaderT4            <A HREF="#SI-PROTOCOL.BitmapHeaderT4" target="files">BitmapHeaderT4</A>,
+     <FONT COLOR=#B22222><I>--  Parameters for T4 (G3) encoded bitstreams outside
+     </I></FONT><FONT COLOR=#B22222><I>--  the T.4 standard’s scope
+     </I></FONT>bitmapHeaderT6            <A HREF="#SI-PROTOCOL.BitmapHeaderT6" target="files">BitmapHeaderT6</A>,
+     <FONT COLOR=#B22222><I>--  Parameters for T6 (G4) encoded bitstreams outside
+     </I></FONT><FONT COLOR=#B22222><I>--  the T.6 standard’s scope
+     </I></FONT>bitmapHeaderT81           <A HREF="#SI-PROTOCOL.BitmapHeaderT81" target="files">BitmapHeaderT81</A>,
+     <FONT COLOR=#B22222><I>--  Parameters for T.81 (JPEG) encoded bitstreams 
+     </I></FONT><FONT COLOR=#B22222><I>--  outside the T.81 standard’s scope
+     </I></FONT>bitmapHeaderT82           <A HREF="#SI-PROTOCOL.BitmapHeaderT82" target="files">BitmapHeaderT82</A>,
+     <FONT COLOR=#B22222><I>--  Parameters for T.82 (JBIG) encoded bitstreams 
+     </I></FONT><FONT COLOR=#B22222><I>--  outside the T.82 standard’s scope
+     </I></FONT>bitmapHeaderNonStandard   <A HREF="#SI-PROTOCOL.NonStandardParameter" target="files">NonStandardParameter</A>,
+     ...},
+  bitmapData              <A HREF="#SI-PROTOCOL.BitmapData" target="files">BitmapData</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  Compression format specific bitmap data padded to
+  </I></FONT><FONT COLOR=#B22222><I>--   be byte-aligned.
+  </I></FONT>moreToFollow            <FONT COLOR=#5F9EA0><B>BOOLEAN</B></FONT>,
+  <FONT COLOR=#B22222><I>--  Indicates whether or not this is the last block of data for
+  </I></FONT><FONT COLOR=#B22222><I>--  the bitmap
+  </I></FONT>nonStandardParameters   <FONT COLOR=#B8860B><B>SET</B></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="#SI-PROTOCOL.NonStandardParameter" target="files">NonStandardParameter</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  Allowed only if the corresponding non-standard capabilities
+  </I></FONT><FONT COLOR=#B22222><I>--  are present in the negotiated capability set.
+  </I></FONT>...
+}
+
+<A NAME="SI-PROTOCOL.BitmapCreateContinuePDU"></A><FONT COLOR=#B22222><I>--  BitmapCreateContinuePDU
+</I></FONT><FONT COLOR=#B22222><I>--  This PDU is used by the transmitting SICE to continue
+</I></FONT><FONT COLOR=#B22222><I>--  a bitmap transmission begun by a BitmapCreatePDU
+</I></FONT>BitmapCreateContinuePDU ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  bitmapHandle           <A HREF="#SI-PROTOCOL.Handle" target="files">Handle</A>,
+  <FONT COLOR=#B22222><I>--  Handle referring to the bitmap being created
+  </I></FONT>bitmapData             <A HREF="#SI-PROTOCOL.BitmapData" target="files">BitmapData</A>,
+  <FONT COLOR=#B22222><I>--  Bitmap data
+  </I></FONT>moreToFollow           <FONT COLOR=#5F9EA0><B>BOOLEAN</B></FONT>,
+  <FONT COLOR=#B22222><I>--  Indicates whether or not this is the last block of data for
+  </I></FONT><FONT COLOR=#B22222><I>--  the bitmap
+  </I></FONT>nonStandardParameters  <FONT COLOR=#B8860B><B>SET</B></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="#SI-PROTOCOL.NonStandardParameter" target="files">NonStandardParameter</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  Allowed only if the corresponding non-standard capabilities
+  </I></FONT><FONT COLOR=#B22222><I>--  are present in the negotiated capability set.
+  </I></FONT>...
+}
+
+<A NAME="SI-PROTOCOL.BitmapDeletePDU"></A><FONT COLOR=#B22222><I>--  BitmapDeletePDU
+</I></FONT><FONT COLOR=#B22222><I>--  This PDU is used to delete bitmaps.
+</I></FONT>BitmapDeletePDU ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  bitmapHandle           <A HREF="#SI-PROTOCOL.Handle" target="files">Handle</A>,
+  <FONT COLOR=#B22222><I>--  Handle used to reference this bitmap
+  </I></FONT>nonStandardParameters  <FONT COLOR=#B8860B><B>SET</B></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="#SI-PROTOCOL.NonStandardParameter" target="files">NonStandardParameter</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  Allowed only if the corresponding non-standard capabilities
+  </I></FONT><FONT COLOR=#B22222><I>--  are present in the negotiated capability set.
+  </I></FONT>...
+}
+
+<A NAME="SI-PROTOCOL.BitmapEditPDU"></A><FONT COLOR=#B22222><I>--  BitmapEditPDU
+</I></FONT><FONT COLOR=#B22222><I>--  This PDU is used to change bitmap attributes.
+</I></FONT>BitmapEditPDU ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  bitmapHandle                <A HREF="#SI-PROTOCOL.Handle" target="files">Handle</A>,
+  <FONT COLOR=#B22222><I>--  Handle used to reference this bitmap
+  </I></FONT>attributeEdits              <FONT COLOR=#B8860B><B>SET</B></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="#SI-PROTOCOL.BitmapAttribute" target="files">BitmapAttribute</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  List of attributes to be edited
+  </I></FONT>anchorPointEdit             <A HREF="#SI-PROTOCOL.WorkspacePoint" target="files">WorkspacePoint</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  Point of origin of the bitmap with respect to the destination
+  </I></FONT><FONT COLOR=#B22222><I>--  workspace
+  </I></FONT>bitmapRegionOfInterestEdit  <A HREF="#SI-PROTOCOL.BitmapRegion" target="files">BitmapRegion</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  Region of interest within the bitmap to be applied to the
+  </I></FONT><FONT COLOR=#B22222><I>--  workspace
+  </I></FONT>scalingEdit                 <A HREF="#SI-PROTOCOL.PointDiff16" target="files">PointDiff16</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  Offset in workspace coordinates of the lower right hand
+  </I></FONT><FONT COLOR=#B22222><I>--  corner of the bitmap relative to the anchor point
+  </I></FONT>nonStandardParameters       <FONT COLOR=#B8860B><B>SET</B></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="#SI-PROTOCOL.NonStandardParameter" target="files">NonStandardParameter</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  Allowed only if the corresponding non-standard capabilities
+  </I></FONT><FONT COLOR=#B22222><I>--  are present in the negotiated capability set.
+  </I></FONT>...
+}
+
+<A NAME="SI-PROTOCOL.ConductorPrivilegeGrantPDU"></A><FONT COLOR=#B22222><I>--  ConductorPrivilegeGrantPDU
+</I></FONT><FONT COLOR=#B22222><I>--  This PDU is used by the conductor to grant or revoke privileges
+</I></FONT><FONT COLOR=#B22222><I>--  when the session is in conducted mode.
+</I></FONT>ConductorPrivilegeGrantPDU ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  destinationUserID      <A HREF="#SI-PROTOCOL.MCSUserID" target="files">MCSUserID</A>,
+  <FONT COLOR=#B22222><I>--  MCS User ID of the destination node
+  </I></FONT>privilegeList          <FONT COLOR=#B8860B><B>SET</B></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="#SI-PROTOCOL.ConductorPrivilege" target="files">ConductorPrivilege</A>,
+  <FONT COLOR=#B22222><I>--  A particular privilege shall appear in this list no more
+  </I></FONT><FONT COLOR=#B22222><I>--  than once.
+  </I></FONT>nonStandardParameters  <FONT COLOR=#B8860B><B>SET</B></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="#SI-PROTOCOL.NonStandardParameter" target="files">NonStandardParameter</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  Allowed only if the corresponding non-standard capabilities
+  </I></FONT><FONT COLOR=#B22222><I>--  are present in the negotiated capability set.
+  </I></FONT>...
+}
+
+<A NAME="SI-PROTOCOL.ConductorPrivilegeRequestPDU"></A><FONT COLOR=#B22222><I>--  ConductorPrivilegeRequestPDU
+</I></FONT><FONT COLOR=#B22222><I>--  This PDU is used to request privileges from the conductor
+</I></FONT><FONT COLOR=#B22222><I>--  when the session is in conducted mode.
+</I></FONT>ConductorPrivilegeRequestPDU ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  privilegeList          <FONT COLOR=#B8860B><B>SET</B></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="#SI-PROTOCOL.ConductorPrivilege" target="files">ConductorPrivilege</A>,
+  <FONT COLOR=#B22222><I>--  A particular privilege shall appear in this list no more
+  </I></FONT><FONT COLOR=#B22222><I>--  than once.
+  </I></FONT>nonStandardParameters  <FONT COLOR=#B8860B><B>SET</B></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="#SI-PROTOCOL.NonStandardParameter" target="files">NonStandardParameter</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  Allowed only if the corresponding non-standard capabilities
+  </I></FONT><FONT COLOR=#B22222><I>--  are present in the negotiated capability set.
+  </I></FONT>...
+}
+
+<A NAME="SI-PROTOCOL.DrawingCreatePDU"></A><FONT COLOR=#B22222><I>--  DrawingCreatePDU
+</I></FONT><FONT COLOR=#B22222><I>--  A drawingCreate PDU is used to deposit one or more 
+</I></FONT><FONT COLOR=#B22222><I>--  drawing elements to a workspace plane.
+</I></FONT>DrawingCreatePDU ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  drawingHandle          <A HREF="#SI-PROTOCOL.Handle" target="files">Handle</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  Handle to be used to reference this drawing object in
+  </I></FONT><FONT COLOR=#B22222><I>--  future exchanges. Note that editing and deleting objects is 
+  </I></FONT><FONT COLOR=#B22222><I>--  only valid if the target plane is of type &quot;editable&quot;.
+  </I></FONT>destinationAddress     <A HREF="#SI-PROTOCOL.DrawingDestinationAddress" target="files">DrawingDestinationAddress</A>,
+  <FONT COLOR=#B22222><I>--  Destination of drawing
+  </I></FONT>drawingType            <A HREF="#SI-PROTOCOL.DrawingType" target="files">DrawingType</A>,
+  <FONT COLOR=#B22222><I>--  Which basic drawing shape this element represents
+  </I></FONT>attributes             <FONT COLOR=#B8860B><B>SET</B></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="#SI-PROTOCOL.DrawingAttribute" target="files">DrawingAttribute</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  Attributes of the drawing object.
+  </I></FONT><FONT COLOR=#B22222><I>--  NOTE: All attributes have default values that are assumed
+  </I></FONT><FONT COLOR=#B22222><I>--  if the attribute is not specified.
+  </I></FONT>anchorPoint            <A HREF="#SI-PROTOCOL.WorkspacePoint" target="files">WorkspacePoint</A>,
+  <FONT COLOR=#B22222><I>--  Point of origin of the drawing element.
+  </I></FONT><FONT COLOR=#B22222><I>--  This forms the first of the control points and is the point
+  </I></FONT><FONT COLOR=#B22222><I>--  from which all other control points are defined relative to.
+  </I></FONT>rotation               <A HREF="#SI-PROTOCOL.RotationSpecifier" target="files">RotationSpecifier</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  Specifies a rotation angle and point of revolution for
+  </I></FONT><FONT COLOR=#B22222><I>--  the drawing element
+  </I></FONT>sampleRate             <FONT COLOR=#5F9EA0><B>INTEGER</B></FONT><FONT COLOR=#228B22>(1..255)</FONT> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  For applicable types, this indicates the rate at which
+  </I></FONT><FONT COLOR=#B22222><I>--  points were acquired by the transmitting terminal
+  </I></FONT><FONT COLOR=#B22222><I>--  (in samples per second) so they can be replayed at
+  </I></FONT><FONT COLOR=#B22222><I>--  a similar rate if desired
+  </I></FONT>pointList              <A HREF="#SI-PROTOCOL.PointList" target="files">PointList</A>,
+  <FONT COLOR=#B22222><I>--  List of control points that define the drawing shape.
+  </I></FONT><FONT COLOR=#B22222><I>--  The interpretation of the control point list is dependent on
+  </I></FONT><FONT COLOR=#B22222><I>--  the value of the &quot;type&quot; parameter.
+  </I></FONT><FONT COLOR=#B22222><I>--  Note that the control points in the list are differentially
+  </I></FONT><FONT COLOR=#B22222><I>--  encoded from the previous.
+  </I></FONT>nonStandardParameters  <FONT COLOR=#B8860B><B>SET</B></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="#SI-PROTOCOL.NonStandardParameter" target="files">NonStandardParameter</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  Allowed only if the corresponding non-standard capabilities
+  </I></FONT><FONT COLOR=#B22222><I>--  are present in the negotiated capability set.
+  </I></FONT>...
+}
+
+<A NAME="SI-PROTOCOL.DrawingDeletePDU"></A><FONT COLOR=#B22222><I>--  DrawingDeletePDU
+</I></FONT><FONT COLOR=#B22222><I>--  A DrawingDeletePDU is used to delete one 
+</I></FONT><FONT COLOR=#B22222><I>--  graphical element from a workspace plane.
+</I></FONT>DrawingDeletePDU ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  drawingHandle          <A HREF="#SI-PROTOCOL.Handle" target="files">Handle</A>,
+  <FONT COLOR=#B22222><I>--  Drawing object to delete
+  </I></FONT>nonStandardParameters  <FONT COLOR=#B8860B><B>SET</B></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="#SI-PROTOCOL.NonStandardParameter" target="files">NonStandardParameter</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  Allowed only if the corresponding non-standard capabilities
+  </I></FONT><FONT COLOR=#B22222><I>--  are present in the negotiated capability set.
+  </I></FONT>...
+}
+
+<A NAME="SI-PROTOCOL.DrawingEditPDU"></A><FONT COLOR=#B22222><I>--  DrawingEditPDU
+</I></FONT><FONT COLOR=#B22222><I>--  A DrawingEditPDU is used to alter one or more of 
+</I></FONT><FONT COLOR=#B22222><I>--  a drawing element’s attributes or parameters.
+</I></FONT>DrawingEditPDU ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  drawingHandle          <A HREF="#SI-PROTOCOL.Handle" target="files">Handle</A>,
+  <FONT COLOR=#B22222><I>--  Identifier of item to be edited
+  </I></FONT>attributeEdits         <FONT COLOR=#B8860B><B>SET</B></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="#SI-PROTOCOL.DrawingAttribute" target="files">DrawingAttribute</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  List of attribute changes
+  </I></FONT>anchorPointEdit        <A HREF="#SI-PROTOCOL.WorkspacePoint" target="files">WorkspacePoint</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  Point of origin of the drawing element
+  </I></FONT>rotationEdit           <A HREF="#SI-PROTOCOL.RotationSpecifier" target="files">RotationSpecifier</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  Specifies a rotation angle and point of revolution for the
+  </I></FONT><FONT COLOR=#B22222><I>--  drawing element
+  </I></FONT>pointListEdits         <A HREF="#SI-PROTOCOL.PointListEdits" target="files">PointListEdits</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  List of control point changes.
+  </I></FONT><FONT COLOR=#B22222><I>--  Note that the index refers to
+  </I></FONT><FONT COLOR=#B22222><I>--  the point list not including the anchor point.
+  </I></FONT>nonStandardParameters  <FONT COLOR=#B8860B><B>SET</B></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="#SI-PROTOCOL.NonStandardParameter" target="files">NonStandardParameter</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  Allowed only if the corresponding non-standard capabilities
+  </I></FONT><FONT COLOR=#B22222><I>--  are present in the negotiated capability set.
+  </I></FONT>...
+}
+
+<A NAME="SI-PROTOCOL.FontPDU"></A><FONT COLOR=#B22222><I>--  FontPDU
+</I></FONT>FontPDU ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  nonStandardParameters  <FONT COLOR=#B8860B><B>SET</B></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="#SI-PROTOCOL.NonStandardParameter" target="files">NonStandardParameter</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  Allowed only if the corresponding non-standard
+  </I></FONT><FONT COLOR=#B22222><I>--  capabilities are present in the negotiated capability set.
+  </I></FONT>...
+}
+
+<A NAME="SI-PROTOCOL.RemoteEventPermissionGrantPDU"></A><FONT COLOR=#B22222><I>--  RemoteEventPermissionGrantPDU
+</I></FONT><FONT COLOR=#B22222><I>--  This PDU is used to grant permission to issue remote
+</I></FONT><FONT COLOR=#B22222><I>--  events.
+</I></FONT>RemoteEventPermissionGrantPDU ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  destinationAddress         <A HREF="#SI-PROTOCOL.RemoteEventDestinationAddress" target="files">RemoteEventDestinationAddress</A>,
+  <FONT COLOR=#B22222><I>--  Address to which remote event permission is being granted
+  </I></FONT>destinationUserID          <A HREF="#SI-PROTOCOL.MCSUserID" target="files">MCSUserID</A>,
+  <FONT COLOR=#B22222><I>--  MCS User ID of the destination node
+  </I></FONT>remoteEventPermissionList  <FONT COLOR=#B8860B><B>SET</B></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="#SI-PROTOCOL.RemoteEventPermission" target="files">RemoteEventPermission</A>,
+  <FONT COLOR=#B22222><I>--  A particular permission shall not be included in this list more
+  </I></FONT><FONT COLOR=#B22222><I>--  than once.
+  </I></FONT>nonStandardParameters      <FONT COLOR=#B8860B><B>SET</B></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="#SI-PROTOCOL.NonStandardParameter" target="files">NonStandardParameter</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  Allowed only if the corresponding non-standard capabilities are
+  </I></FONT><FONT COLOR=#B22222><I>--  present in the negotiated capability set.
+  </I></FONT>...
+}
+
+<A NAME="SI-PROTOCOL.RemoteEventPermissionRequestPDU"></A><FONT COLOR=#B22222><I>--  RemoteEventPermissionRequestPDU
+</I></FONT><FONT COLOR=#B22222><I>--  This PDU is used to request permission to issue remote
+</I></FONT><FONT COLOR=#B22222><I>--  events from the workspace creator.
+</I></FONT>RemoteEventPermissionRequestPDU ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  destinationAddress         <A HREF="#SI-PROTOCOL.RemoteEventDestinationAddress" target="files">RemoteEventDestinationAddress</A>,
+  <FONT COLOR=#B22222><I>--  Address to which remote event permission is being requested
+  </I></FONT>remoteEventPermissionList  <FONT COLOR=#B8860B><B>SET</B></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="#SI-PROTOCOL.RemoteEventPermission" target="files">RemoteEventPermission</A>,
+  <FONT COLOR=#B22222><I>--  A particular permission shall not be included in this list more
+  </I></FONT><FONT COLOR=#B22222><I>--  than once.
+  </I></FONT>nonStandardParameters      <FONT COLOR=#B8860B><B>SET</B></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="#SI-PROTOCOL.NonStandardParameter" target="files">NonStandardParameter</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  Allowed only if the corresponding non-standard capabilities
+  </I></FONT><FONT COLOR=#B22222><I>--  are present in the negotiated capability set.
+  </I></FONT>...
+}
+
+<A NAME="SI-PROTOCOL.RemoteKeyboardEventPDU"></A><FONT COLOR=#B22222><I>--  RemoteKeyboardEventPDU
+</I></FONT><FONT COLOR=#B22222><I>--  This PDU signals keyboard event.
+</I></FONT>RemoteKeyboardEventPDU ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  destinationAddress     <A HREF="#SI-PROTOCOL.RemoteEventDestinationAddress" target="files">RemoteEventDestinationAddress</A>,
+  <FONT COLOR=#B22222><I>--  Destination address of remote event
+  </I></FONT>keyModifierStates      <FONT COLOR=#B8860B><B>SET</B></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="#SI-PROTOCOL.KeyModifier" target="files">KeyModifier</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  Set of key modifiers. Only modifiers in this list
+  </I></FONT><FONT COLOR=#B22222><I>--  are assumed to be active.
+  </I></FONT><FONT COLOR=#B22222><I>--  A particular key modifier shall not be included
+  </I></FONT><FONT COLOR=#B22222><I>--  in this set more than once.
+  </I></FONT>keyPressState          <A HREF="#SI-PROTOCOL.KeyPressState" target="files">KeyPressState</A>,
+  <FONT COLOR=#B22222><I>--  This item specifies keyboard event that is being signaled
+  </I></FONT>keyCode                <A HREF="#SI-PROTOCOL.KeyCode" target="files">KeyCode</A>,
+  <FONT COLOR=#B22222><I>--  Character corresponding to the pressed key or function key
+  </I></FONT>nonStandardParameters  <FONT COLOR=#B8860B><B>SET</B></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="#SI-PROTOCOL.NonStandardParameter" target="files">NonStandardParameter</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  Allowed only if the corresponding non-standard capabilities
+  </I></FONT><FONT COLOR=#B22222><I>--  are present in the negotiated capability set.
+  </I></FONT>...
+}
+
+<A NAME="SI-PROTOCOL.RemotePointingDeviceEventPDU"></A><FONT COLOR=#B22222><I>--  RemotePointingDeviceEventPDU
+</I></FONT><FONT COLOR=#B22222><I>--  This PDU is used to signal pointing device events.
+</I></FONT>RemotePointingDeviceEventPDU ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  destinationAddress     <A HREF="#SI-PROTOCOL.RemoteEventDestinationAddress" target="files">RemoteEventDestinationAddress</A>,
+  <FONT COLOR=#B22222><I>--  Destination address of remote event
+  </I></FONT>leftButtonState        <A HREF="#SI-PROTOCOL.ButtonEvent" target="files">ButtonEvent</A>,
+  <FONT COLOR=#B22222><I>--  This specifies the left button state.
+  </I></FONT>middleButtonState      <A HREF="#SI-PROTOCOL.ButtonEvent" target="files">ButtonEvent</A>,
+  <FONT COLOR=#B22222><I>--  This specifies the middle button state.
+  </I></FONT>rightButtonState       <A HREF="#SI-PROTOCOL.ButtonEvent" target="files">ButtonEvent</A>,
+  <FONT COLOR=#B22222><I>--  This specifies the right button state.
+  </I></FONT>initialPoint           <A HREF="#SI-PROTOCOL.WorkspacePoint" target="files">WorkspacePoint</A>,
+  <FONT COLOR=#B22222><I>--  This specifies the initial pointing device position.
+  </I></FONT>sampleRate             <FONT COLOR=#5F9EA0><B>INTEGER</B></FONT><FONT COLOR=#228B22>(1..255)</FONT> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  This parameter indicates the rate at which points were
+  </I></FONT><FONT COLOR=#B22222><I>--  acquired by the transmitting terminal (in samples per second)
+  </I></FONT><FONT COLOR=#B22222><I>--  so they can be replayed at a similar rate if desired.
+  </I></FONT>pointList              <A HREF="#SI-PROTOCOL.PointList" target="files">PointList</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  Additional coordinates that are each differentially encoded
+  </I></FONT><FONT COLOR=#B22222><I>--  with respect to the initialPoint parameter
+  </I></FONT>nonStandardParameters  <FONT COLOR=#B8860B><B>SET</B></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="#SI-PROTOCOL.NonStandardParameter" target="files">NonStandardParameter</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  Allowed only if the corresponding non-standard capabilities
+  </I></FONT><FONT COLOR=#B22222><I>--  are present in the negotiated capability set.
+  </I></FONT>...
+}
+
+<A NAME="SI-PROTOCOL.RemotePrintPDU"></A><FONT COLOR=#B22222><I>--  RemotePrintPDU
+</I></FONT><FONT COLOR=#B22222><I>--  This PDU is used to instruct a remote terminal to print
+</I></FONT><FONT COLOR=#B22222><I>--  the specified workspace.
+</I></FONT>RemotePrintPDU ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  destinationAddress     <A HREF="#SI-PROTOCOL.RemoteEventDestinationAddress" target="files">RemoteEventDestinationAddress</A>,
+  <FONT COLOR=#B22222><I>--  Destination address of remote event
+  </I></FONT>numberOfCopies         <FONT COLOR=#5F9EA0><B>INTEGER</B></FONT><FONT COLOR=#228B22>(1..65536)</FONT> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  Number of copies to be printed
+  </I></FONT>portrait               <FONT COLOR=#5F9EA0><B>BOOLEA/FONT&gt;,
+  <FONT COLOR=#B22222><I>--  Optionally defines rectangular region of interest
+  </I></FONT><FONT COLOR=#B22222><I>--  within the workspace to be printed.
+  </I></FONT><FONT COLOR=#B22222><I>--  If not present, it is implied that
+  </I></FONT><FONT COLOR=#B22222><I>--  the entire workspace is to be printed.
+  </I></FONT>nonStandardParameters  <FONT COLOR=#B8860B><B>SET</B></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="#SI-PROTOCOL.NonStandardParameter" target="files">NonStandardParameter</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  Allowed only if the corresponding non-standard capabilities
+  </I></FONT><FONT COLOR=#B22222><I>--  are present in the negotiated capability set.
+  </I></FONT>...
+}
+
+<A NAME="SI-PROTOCOL.SINonStandardPDU"></A><FONT COLOR=#B22222><I>--  SINonStandardPDU
+</I></FONT><FONT COLOR=#B22222><I>--  This PDU allows any non-standard information to be transmitted.
+</I></FONT>SINonStandardPDU ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  nonStandardTransaction  <A HREF="#SI-PROTOCOL.NonStandardParameter" target="files">NonStandardParameter</A>,
+  ...
+}
+
+<A NAME="SI-PROTOCOL.SIPDU"></A><FONT COLOR=#B22222><I>--  SIPDU 
+</I></FONT><FONT COLOR=#B22222><I>--  The set of all SIPDUs.
+</I></FONT>SIPDU ::= <FONT COLOR=#B8860B><B>CHOICE</B></FONT> {
+  archiveAcknowledgePDU            <A HREF="#SI-PROTOCOL.ArchiveAcknowledgePDU" target="files">ArchiveAcknowledgePDU</A>,
+  archiveClosePDU                  <A HREF="#SI-PROTOCOL.ArchiveClosePDU" target="files">ArchiveClosePDU</A>,
+  archiveErrorPDU                  <A HREF="#SI-PROTOCOL.ArchiveErrorPDU" target="files">ArchiveErrorPDU</A>,
+  archiveOpenPDU                   <A HREF="#SI-PROTOCOL.ArchiveOpenPDU" target="files">ArchiveOpenPDU</A>,
+  bitmapAbortPDU                   <A HREF="#SI-PROTOCOL.BitmapAbortPDU" target="files">BitmapAbortPDU</A>,
+  bitmapCheckpointPDU              <A HREF="#SI-PROTOCOL.BitmapCheckpointPDU" target="files">BitmapCheckpointPDU</A>,
+  bitmapCreatePDU                  <A HREF="#SI-PROTOCOL.BitmapCreatePDU" target="files">BitmapCreatePDU</A>,
+  bitmapCreateContinuePDU          <A HREF="#SI-PROTOCOL.BitmapCreateContinuePDU" target="files">BitmapCreateContinuePDU</A>,
+  bitmapDeletePDU                  <A HREF="#SI-PROTOCOL.BitmapDeletePDU" target="files">BitmapDeletePDU</A>,
+  bitmapEditPDU                    <A HREF="#SI-PROTOCOL.BitmapEditPDU" target="files">BitmapEditPDU</A>,
+  conductorPrivilegeGrantPDU       <A HREF="#SI-PROTOCOL.ConductorPrivilegeGrantPDU" target="files">ConductorPrivilegeGrantPDU</A>,
+  conductorPrivilegeRequestPDU     <A HREF="#SI-PROTOCOL.ConductorPrivilegeRequestPDU" target="files">ConductorPrivilegeRequestPDU</A>,
+  drawingCreatePDU                 <A HREF="#SI-PROTOCOL.DrawingCreatePDU" target="files">DrawingCreatePDU</A>,
+  drawingDeletePDU                 <A HREF="#SI-PROTOCOL.DrawingDeletePDU" target="files">DrawingDeletePDU</A>,
+  drawingEditPDU                   <A HREF="#SI-PROTOCOL.DrawingEditPDU" target="files">DrawingEditPDU</A>,
+  remoteEventPermissionGrantPDU    <A HREF="#SI-PROTOCOL.RemoteEventPermissionGrantPDU" target="files">RemoteEventPermissionGrantPDU</A>,
+  remoteEventPermissionRequestPDU  <A HREF="#SI-PROTOCOL.RemoteEventPermissionRequestPDU" target="files">RemoteEventPermissionRequestPDU</A>,
+  remoteKeyboardEventPDU           <A HREF="#SI-PROTOCOL.RemoteKeyboardEventPDU" target="files">RemoteKeyboardEventPDU</A>,
+  remotePointingDeviceEventPDU     <A HREF="#SI-PROTOCOL.RemotePointingDeviceEventPDU" target="files">RemotePointingDeviceEventPDU</A>,
+  remotePrintPDU                   <A HREF="#SI-PROTOCOL.RemotePrintPDU" target="files">RemotePrintPDU</A>,
+  siNonStandardPDU                 <A HREF="#SI-PROTOCOL.SINonStandardPDU" target="files">SINonStandardPDU</A>,
+  workspaceCreatePDU               <A HREF="#SI-PROTOCOL.WorkspaceCreatePDU" target="files">WorkspaceCreatePDU</A>,
+  workspaceCreateAcknowledgePDU    <A HREF="#SI-PROTOCOL.WorkspaceCreateAcknowledgePDU" target="files">WorkspaceCreateAcknowledgePDU</A>,
+  workspaceDeletePDU               <A HREF="#SI-PROTOCOL.WorkspaceDeletePDU" target="files">WorkspaceDeletePDU</A>,
+  workspaceEditPDU                 <A HREF="#SI-PROTOCOL.WorkspaceEditPDU" target="files">WorkspaceEditPDU</A>,
+  workspacePlaneCopyPDU            <A HREF="#SI-PROTOCOL.WorkspacePlaneCopyPDU" target="files">WorkspacePlaneCopyPDU</A>,
+  workspaceReadyPDU                <A HREF="#SI-PROTOCOL.WorkspaceReadyPDU" target="files">WorkspaceReadyPDU</A>,
+  workspaceRefreshStatusPDU        <A HREF="#SI-PROTOCOL.WorkspaceRefreshStatusPDU" target="files">WorkspaceRefreshStatusPDU</A>,
+  ...,
+  <FONT COLOR=#B22222><I>--  PDUs Added During 1st Revision
+  </I></FONT>fontPDU                          <A HREF="#SI-PROTOCOL.FontPDU" target="files">FontPDU</A>,
+  textCreatePDU                    <A HREF="#SI-PROTOCOL.TextCreatePDU" target="files">TextCreatePDU</A>,
+  textDeletePDU                    <A HREF="#SI-PROTOCOL.TextDeletePDU" target="files">TextDeletePDU</A>,
+  textEditPDU                      <A HREF="#SI-PROTOCOL.TextEditPDU" target="files">TextEditPDU</A>,
+  videoWindowCreatePDU             <A HREF="#SI-PROTOCOL.VideoWindowCreatePDU" target="files">VideoWindowCreatePDU</A>,
+  videoWindowDeletePDU             <A HREF="#SI-PROTOCOL.VideoWindowDeletePDU" target="files">VideoWindowDeletePDU</A>,
+  videoWindowEditPDU               <A HREF="#SI-PROTOCOL.VideoWindowEditPDU" target="files">VideoWindowEditPDU</A>
+}
+
+<A NAME="SI-PROTOCOL.TextCreatePDU"></A><FONT COLOR=#B22222><I>--  TextCreatePDU 
+</I></FONT>TextCreatePDU ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  nonStandardParameters  <FONT COLOR=#B8860B><B>SET</B></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="#SI-PROTOCOL.NonStandardParameter" target="files">NonStandardParameter</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  Allowed only if the corresponding non-standard capabilities
+  </I></FONT><FONT COLOR=#B22222><I>--  are present in the negotiated capability set.
+  </I></FONT>...
+}
+
+<A NAME="SI-PROTOCOL.TextDeletePDU"></A><FONT COLOR=#B22222><I>--  TextDeletePDU
+</I></FONT>TextDeletePDU ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  nonStandardParameters  <FONT COLOR=#B8860B><B>SET</B></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="#SI-PROTOCOL.NonStandardParameter" target="files">NonStandardParameter</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  Allowed only if the corresponding non-standard capabilities
+  </I></FONT><FONT COLOR=#B22222><I>--  are present in the negotiated capability set.
+  </I></FONT>...
+}
+
+<A NAME="SI-PROTOCOL.TextEditPDU"></A><FONT COLOR=#B22222><I>--  TextEditPDU
+</I></FONT>TextEditPDU ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  nonStandardParameters  <FONT COLOR=#B8860B><B>SET</B></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="#SI-PROTOCOL.NonStandardParameter" target="files">NonStandardParameter</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  Allowed only if the corresponding non-standard capabilities
+  </I></FONT><FONT COLOR=#B22222><I>--  are present in the negotiated capability set.
+  </I></FONT>...
+}
+
+<A NAME="SI-PROTOCOL.VideoWindowDeletePDU"></A><FONT COLOR=#B22222><I>--  VideoWindowDeletePDU
+</I></FONT><FONT COLOR=#B22222><I>--  This PDU deletes video windows.
+</I></FONT>VideoWindowDeletePDU ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  videoWindowHandle      <A HREF="#SI-PROTOCOL.Handle" target="files">Handle</A>,
+  <FONT COLOR=#B22222><I>--  Handle referencing the video window
+  </I></FONT><FONT COLOR=#B22222><I>--  to be deleted.
+  </I></FONT>nonStandardParameters  <FONT COLOR=#B8860B><B>SET</B></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="#SI-PROTOCOL.NonStandardParameter" target="files">NonStandardParameter</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  Allowed only if the corresponding non-standard capabilities
+  </I></FONT><FONT COLOR=#B22222><I>--  are present in the negotiated capability set.
+  </I></FONT>...
+}
+
+<A NAME="SI-PROTOCOL.WorkspaceCreateAcknowledgePDU"></A><FONT COLOR=#B22222><I>--  WorkspaceCreateAcknowledgePDU
+</I></FONT><FONT COLOR=#B22222><I>--  This PDU acknowledges the reception of a WorkspaceCreatePDU in 
+</I></FONT><FONT COLOR=#B22222><I>--  the case of unsynchronized workspace.
+</I></FONT>WorkspaceCreateAcknowledgePDU ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  workspaceIdentifier    <A HREF="#SI-PROTOCOL.WorkspaceIdentifier" target="files">WorkspaceIdentifier</A>,
+  <FONT COLOR=#B22222><I>--  Workspace being acknowledged.
+  </I></FONT>nonStandardParameters  <FONT COLOR=#B8860B><B>SET</B></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="#SI-PROTOCOL.NonStandardParameter" target="files">NonStandardParameter</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  Allowed only if the corresponding non-standard capabilities
+  </I></FONT><FONT COLOR=#B22222><I>--  are present in the negotiated capability set.
+  </I></FONT>...
+}
+
+<A NAME="SI-PROTOCOL.WorkspaceDeletePDU"></A><FONT COLOR=#B22222><I>--  WorkspaceDeletePDU
+</I></FONT><FONT COLOR=#B22222><I>--  This PDU causes a workspace to be destroyed.
+</I></FONT>WorkspaceDeletePDU ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  workspaceIdentifier    <A HREF="#SI-PROTOCOL.WorkspaceIdentifier" target="files">WorkspaceIdentifier</A>,
+  <FONT COLOR=#B22222><I>--  Workspace to be deleted
+  </I></FONT>reason                 <A HREF="#SI-PROTOCOL.WorkspaceDeleteReason" target="files">WorkspaceDeleteReason</A>,
+  <FONT COLOR=#B22222><I>--  Reason for deletion of the workspace
+  </I></FONT>nonStandardParameters  <FONT COLOR=#B8860B><B>SET</B></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="#SI-PROTOCOL.NonStandardParameter" target="files">NonStandardParameter</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  Allowed only if the corresponding non-standard capabilities
+  </I></FONT><FONT COLOR=#B22222><I>--  are present in the negotiated capability set.
+  </I></FONT>...
+}
+
+<A NAME="SI-PROTOCOL.WorkspaceEditPDU"></A><FONT COLOR=#B22222><I>--  WorkspaceEditPDU
+</I></FONT><FONT COLOR=#B22222><I>--  This PDU allows workspace attributes to be edited.
+</I></FONT>WorkspaceEditPDU ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  workspaceIdentifier    <A HREF="#SI-PROTOCOL.WorkspaceIdentifier" target="files">WorkspaceIdentifier</A>,
+  <FONT COLOR=#B22222><I>--  Workspace to be edited
+  </I></FONT>attributeEdits         <FONT COLOR=#B8860B><B>SET</B></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="#SI-PROTOCOL.WorkspaceAttribute" target="files">WorkspaceAttribute</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  List of attribute changes
+  </I></FONT>planeEdits
+    <FONT COLOR=#B8860B><B>SET</B></FONT> <FONT COLOR=#228B22><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>SIZE</B></FONT> <FONT COLOR=#228B22>(1..256)</FONT>)</FONT></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT>
+      <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {plane            <A HREF="#SI-PROTOCOL.DataPlaneID" target="files">DataPlaneID</A>,
+                <FONT COLOR=#B22222><I>--  Plane whose attributes are to be edited
+                </I></FONT>planeAttributes  <FONT COLOR=#B8860B><B>SET</B></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="#SI-PROTOCOL.PlaneAttribute" target="files">PlaneAttribute</A>,
+                <FONT COLOR=#B22222><I>--  List of attributes to change
+                </I></FONT>...} <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  viewEdits
+    <FONT COLOR=#B8860B><B>SET</B></FONT> <FONT COLOR=#228B22><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>SIZE</B></FONT> <FONT COLOR=#228B22>(1..256)</FONT>)</FONT></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT>
+      <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {viewHandle  <A HREF="#SI-PROTOCOL.Handle" target="files">Handle</A>,
+                <FONT COLOR=#B22222><I>--  Identifier of the view to be edited
+                </I></FONT>action
+                  <FONT COLOR=#B8860B><B>CHOICE</B></FONT> {createNewView      <FONT COLOR=#B8860B><B>SET</B></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="#SI-PROTOCOL.WorkspaceViewAttribute" target="files">WorkspaceViewAttribute</A>,
+                          <FONT COLOR=#B22222><I>--  Editable attributes of the view
+                          </I></FONT>editView           <FONT COLOR=#B8860B><B>SET</B></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="#SI-PROTOCOL.WorkspaceViewAttribute" target="files">WorkspaceViewAttribute</A>,
+                          <FONT COLOR=#B22222><I>--  List of attributes to change
+                          </I></FONT>deleteView         <FONT COLOR=#5F9EA0><B>NULL</B></FONT>,
+                          nonStandardAction  <A HREF="#SI-PROTOCOL.NonStandardParameter" target="files">NonStandardParameter</A>,
+                          ...},
+                ...} <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  nonStandardParameters  <FONT COLOR=#B8860B><B>SET</B></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="#SI-PROTOCOL.NonStandardParameter" target="files">NonStandardParameter</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  Allowed only if the corresponding non-standard
+  </I></FONT><FONT COLOR=#B22222><I>--  capabilities are present in the negotiated capability set.
+  </I></FONT>...
+}
+
+<A NAME="SI-PROTOCOL.WorkspacePlaneCopyPDU"></A><FONT COLOR=#B22222><I>--  WorkspacePlaneCopyPDU
+</I></FONT><FONT COLOR=#B22222><I>--  This PDU causes a portion of a plane to be copied
+</I></FONT><FONT COLOR=#B22222><I>--  to another plane (either intra- or inter-workspace).
+</I></FONT><FONT COLOR=#B22222><I>--   The source and destinations must either both be
+</I></FONT><FONT COLOR=#B22222><I>--  permanent or both be editable, and they must have the same
+</I></FONT><FONT COLOR=#B22222><I>--  usage designator; otherwise copy for that plane will
+</I></FONT><FONT COLOR=#B22222><I>--  not take place.
+</I></FONT><FONT COLOR=#B22222><I>--  If the planes are editable, objects with any of their control
+</I></FONT><FONT COLOR=#B22222><I>--  points falling totally within the source rectangle are copied.
+</I></FONT><FONT COLOR=#B22222><I>--  If the Scaling capability has been negotiated in the case of a
+</I></FONT><FONT COLOR=#B22222><I>--  softcopy workspace then it is not necessary for the source and
+</I></FONT><FONT COLOR=#B22222><I>--  destination rectangles to be the same size.
+</I></FONT>WorkspacePlaneCopyPDU ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  sourceWorkspaceIdentifier       <A HREF="#SI-PROTOCOL.WorkspaceIdentifier" target="files">WorkspaceIdentifier</A>,
+  <FONT COLOR=#B22222><I>--  Workspace to be copied
+  </I></FONT>sourcePlane                     <A HREF="#SI-PROTOCOL.DataPlaneID" target="files">DataPlaneID</A>,
+  <FONT COLOR=#B22222><I>--  Source plane identifier
+  </I></FONT>destinationWorkspaceIdentifier  <A HREF="#SI-PROTOCOL.WorkspaceIdentifier" target="files">WorkspaceIdentifier</A>,
+  <FONT COLOR=#B22222><I>--  Destination workspace identifier.
+  </I></FONT><FONT COLOR=#B22222><I>--  May be the same as the source workspace
+  </I></FONT>destinationPlane                <A HREF="#SI-PROTOCOL.DataPlaneID" target="files">DataPlaneID</A>,
+  <FONT COLOR=#B22222><I>--  Destination plane identifier.
+  </I></FONT><FONT COLOR=#B22222><I>--  May be the same as the source plane
+  </I></FONT>copyDescriptor
+    <FONT COLOR=#B8860B><B>CHOICE</B></FONT> {permanentPlaneCopyDescriptor  <A HREF="#SI-PROTOCOL.PermanentPlaneCopyDescriptor" target="files">PermanentPlaneCopyDescriptor</A>,
+            editablePlaneCopyDescriptor   <A HREF="#SI-PROTOCOL.EditablePlaneCopyDescriptor" target="files">EditablePlaneCopyDescriptor</A>,
+            ...},
+  nonStandardParameters           <FONT COLOR=#B8860B><B>SET</B></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="#SI-PROTOCOL.NonStandardParameter" target="files">NonStandardParameter</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  Allowed only if the corresponding non-standard capabilities
+  </I></FONT><FONT COLOR=#B22222><I>--  are present in the negotiated capability set.
+  </I></FONT>...
+}
+
+<A NAME="SI-PROTOCOL.WorkspaceReadyPDU"></A><FONT COLOR=#B22222><I>-- WorkspaceReadyPDU
+</I></FONT><FONT COLOR=#B22222><I>--  This PDU signals that a workspace create is complete (for 
+</I></FONT><FONT COLOR=#B22222><I>--  unsynchronized workspaces).
+</I></FONT>WorkspaceReadyPDU ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  workspaceIdentifier    <A HREF="#SI-PROTOCOL.WorkspaceIdentifier" target="files">WorkspaceIdentifier</A>,
+  <FONT COLOR=#B22222><I>--  Workspace being enabled
+  </I></FONT>nonStandardParameters  <FONT COLOR=#B8860B><B>SET</B></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="#SI-PROTOCOL.NonStandardParameter" target="files">NonStandardParameter</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  Allowed only if the corresponding non-standard capabilities
+  </I></FONT><FONT COLOR=#B22222><I>--  are present in the negotiated capability set.
+  </I></FONT>...
+}
+
+<A NAME="SI-PROTOCOL.WorkspaceRefreshStatusPDU"></A><FONT COLOR=#B22222><I>--  WorkspaceRefreshStatusPDU
+</I></FONT><FONT COLOR=#B22222><I>--  This PDU is used by an SICE to announce or remit its status as 
+</I></FONT><FONT COLOR=#B22222><I>--  the session refresh SICE for SICEs that join late.
+</I></FONT>WorkspaceRefreshStatusPDU ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  refreshStatus          <FONT COLOR=#5F9EA0><B>BOOLEAN</B></FONT>,
+  <FONT COLOR=#B22222><I>--  TRUE indicates that the SICE sourcing this PDU is
+  </I></FONT><FONT COLOR=#B22222><I>--  functioning as the session-wide refresher.
+  </I></FONT><FONT COLOR=#B22222><I>--  FALSE indicates that the SICE sourcing this PDU has
+  </I></FONT><FONT COLOR=#B22222><I>--  ceased to function as the session-wide refresher.
+  </I></FONT>nonStandardParameters  <FONT COLOR=#B8860B><B>SET</B></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="#SI-PROTOCOL.NonStandardParameter" target="files">NonStandardParameter</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  <FONT COLOR=#B22222><I>--  Allowed only if the corresponding non-standard capabilities
+  </I></FONT><FONT COLOR=#B22222><I>--  are present in the negotiated capability set.
+  </I></FONT>...
+}
+
+<FONT COLOR=#B22222><I>--  End SI Definitions
+</I></FONT><FONT COLOR=#0000FF><B>END</B></FONT>
+</PRE>
+-- Generated by Asnp, the ASN.1 pretty-printer of France Telecom R&amp;D</b>
+</BODY></HTML>

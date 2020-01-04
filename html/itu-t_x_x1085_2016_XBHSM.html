@@ -1,0 +1,42 @@
+<html><head><title>XBHSM.asn (ITU-T X.1085 (10/2016))</title></head><body><pre><i>-- ASN module extracted from <a href="/ITU-T/recommendations/rec.aspx?id=13060" target="_top">ITU-T X.1085 (10/2016)</a></i><br><br>XBHSM {iso(1) standard(0) bhsm(17922) modules(0) version1(1)}
+DEFINITIONS AUTOMATIC TAGS ::=
+BEGIN
+IMPORTS authenticationFramework
+	FROM UsefulDefinitions {joint-iso-itu-t ds(5) module(1) 
+		usefulDefinitions(0) 7}
+	ALGORITHM, AlgorithmIdentifier{}
+	FROM AuthenticationFramework authenticationFramework;
+
+	DataSetForEncryptedPSID ::= SEQUENCE {
+		version 	INTEGER DEFAULT 0,
+		psidEncAlg  	PSIDEncryptionAlgorithm,
+		encryptedPsid 	EncryptedPsid 
+		}
+	
+	PSIDEncryptionAlgorithm ::= AlgorithmIdentifier
+		{{SupportedEncryptionAlgorithms}}
+
+	SupportedEncryptionAlgorithms	ALGORITHM ::= {...}
+	EncryptedPsid ::= OCTET STRING 
+	PSID ::= SEQUENCE {
+		hashAlg		HashAlgorithm,
+		hashContent 	HashContent
+      		}
+	
+	HashAlgorithm ::= AlgorithmIdentifier{{SupportedHashAlgorithms}}
+	SupportedHashAlgorithms	ALGORITHM ::= {...}
+
+	HashContent ::= SEQUENCE {
+		bR		PrintableString,
+		randomNum	BIT STRING
+		}
+
+	bhsmpsid  OBJECT IDENTIFIER ::= 
+		{iso(1) standard(0) bhsm(17922) contentType(2) bhsmps(1)}
+	BHSM-PSID ::= TYPE-IDENTIFIER
+	bioRef  BHSM-PSID ::= 
+		{BIT STRING IDENTIFIED BY {bhsmpsid 3}}
+	InstanceOfBHSM-PID ::= INSTANCE OF BHSM-PSID({SupportedBHSM-PSID})
+	SupportedBHSM-PSID BHSM-PSID ::= {bioRef,...}
+END
+</pre></body></html>

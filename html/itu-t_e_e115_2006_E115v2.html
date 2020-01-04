@@ -1,0 +1,279 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 3.0//EN">
+<HTML>
+<HEAD>
+<META NAME="GENERATOR" CONTENT="Microsoft FrontPage 4.0">
+<TITLE>E115v2 (E.115:2005)</TITLE>
+</HEAD>
+<BODY  >
+-- Module E115v2 (E.115:2005)<br>
+-- See also <a href="/ITU-T/recommendations/fl.aspx?id=8633" target="_top">ITU-T E.115 (02/2006)</a><br>
+-- See also the <a href="index2.html" target="_top">index</a> of all ASN.1 assignments needed in this document<br><br>
+<PRE>
+<A NAME="E115v2"></A>E115v2 {itu-t recommendation(0) e(5) 115 2} <FONT COLOR=#0000FF><B>DEFINITIONS</B></FONT><FONT COLOR=#B22222><I> </I><b>XER INSTRUCTIONS</b></FONT><b>
+</b>::=
+<FONT COLOR=#0000FF><B>BEGIN</B></FONT>
+<A NAME="E115v2.E115String"></A>E115String ::=
+  <FONT COLOR=#5F9EA0><B>UTF8String</B></FONT>
+    <FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>FROM</B></FONT> <FONT COLOR=#228B22>({0,
+            0,
+            0,
+            32}..{0, 0, 0, 122} <FONT COLOR=#228B22><B>|</B></FONT> {0, 0, 0, 160}..{0, 0, 215, 255} <FONT COLOR=#228B22><B>|</B></FONT>
+           {0, 0, 224, 0}..{0, 0, 255, 253})</FONT>)</FONT>
+
+<A NAME="E115v2.E115StringUb256"></A>E115StringUb256 ::= <A HREF="#E115v2.E115String" target="files">E115String</A><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>SIZE</B></FONT> <FONT COLOR=#228B22>(1..256)</FONT>)</FONT>
+
+<A NAME="E115v2.E115NumericString"></A>E115NumericString ::=<FONT COLOR=#B22222><I> </I><b>[NAME AS &quot;NumericString&quot;]</b><I> </I></FONT>
+   <FONT COLOR=#5F9EA0><B>UTF8String</B></FONT><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>FROM</B></FONT> <FONT COLOR=#228B22>({0,
+                     0,
+                     0,
+                     48}..{0, 0, 0, 57})</FONT>)</FONT>
+
+<A NAME="E115v2.SimpleAttribute"></A>SimpleAttribute ::= <FONT COLOR=#5F9EA0><B>BOOLEAN</B></FONT><FONT COLOR=#228B22>(<FONT COLOR=#5F9EA0><B>TRUE</B></FONT>)</FONT>
+
+<A NAME="E115v2.CharacterSetType"></A>CharacterSetType ::= <FONT COLOR=#5F9EA0><B>ENUMERATED</B></FONT> {basic(0), latin1(1)}
+
+<A NAME="E115v2.GeographicalType"></A>GeographicalType ::= <FONT COLOR=#5F9EA0><B>ENUMERATED</B></FONT> {dms(0), dd(1), dec(2)}
+
+<A NAME="E115v2.CoordinateTypeDescription"></A>CoordinateTypeDescription ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  geodeticDatum  <FONT COLOR=#666666><B><FONT COLOR=#B22222>[ATTRIBUTE][TAG: 0] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><A HREF="#E115v2.E115StringUb256" target="files">E115StringUb256</A>,
+  geographical   <FONT COLOR=#666666><B><FONT COLOR=#B22222>[ATTRIBUTE][TAG: 2] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><A HREF="#E115v2.GeographicalType" target="files">GeographicalType</A> </font></font><FONT COLOR=#666666><B>DEFAULT</B> </font><FONT COLOR=#666666>Dec
+}
+
+<A NAME="E115v2.Coordinate"></A>Coordinate ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  latitude   <FONT COLOR=#666666><B><FONT COLOR=#B22222>[TAG: 0] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><A HREF="#E115v2.E115String" target="files">E115String</A>,
+  longitude  <FONT COLOR=#666666><B><FONT COLOR=#B22222>[TAG: 1] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><A HREF="#E115v2.E115String" target="files">E115String</A>
+}
+
+<A NAME="E115v2.CommAddressService"></A>CommAddressService ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  fax    <FONT COLOR=#666666><B><FONT COLOR=#B22222>[ATTRIBUTE][TAG: 0] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><A HREF="#E115v2.SimpleAttribute" target="files">SimpleAttribute</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  pbx    <FONT COLOR=#666666><B><FONT COLOR=#B22222>[ATTRIBUTE][TAG: 1] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><A HREF="#E115v2.SimpleAttribute" target="files">SimpleAttribute</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  txt    <FONT COLOR=#666666><B><FONT COLOR=#B22222>[ATTRIBUTE][TAG: 2] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><A HREF="#E115v2.SimpleAttribute" target="files">SimpleAttribute</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  pub    <FONT COLOR=#666666><B><FONT COLOR=#B22222>[ATTRIBUTE][TAG: 3] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><A HREF="#E115v2.SimpleAttribute" target="files">SimpleAttribute</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  vid    <FONT COLOR=#666666><B><FONT COLOR=#B22222>[ATTRIBUTE][TAG: 4] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><A HREF="#E115v2.SimpleAttribute" target="files">SimpleAttribute</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  pag    <FONT COLOR=#666666><B><FONT COLOR=#B22222>[ATTRIBUTE][TAG: 5] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><A HREF="#E115v2.SimpleAttribute" target="files">SimpleAttribute</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  voice  <FONT COLOR=#666666><B><FONT COLOR=#B22222>[ATTRIBUTE][TAG: 6] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><A HREF="#E115v2.SimpleAttribute" target="files">SimpleAttribute</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  data   <FONT COLOR=#666666><B><FONT COLOR=#B22222>[ATTRIBUTE][TAG: 7] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><A HREF="#E115v2.SimpleAttribute" target="files">SimpleAttribute</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  http   <FONT COLOR=#666666><B><FONT COLOR=#B22222>[ATTRIBUTE][TAG: 8] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><A HREF="#E115v2.SimpleAttribute" target="files">SimpleAttribute</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  ftp    <FONT COLOR=#666666><B><FONT COLOR=#B22222>[ATTRIBUTE][TAG: 9] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><A HREF="#E115v2.SimpleAttribute" target="files">SimpleAttribute</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  eml    <FONT COLOR=#666666><B><FONT COLOR=#B22222>[ATTRIBUTE][TAG: 10] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><A HREF="#E115v2.SimpleAttribute" target="files">SimpleAttribute</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  sms    <FONT COLOR=#666666><B><FONT COLOR=#B22222>[ATTRIBUTE][TAG: 11] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><A HREF="#E115v2.SimpleAttribute" target="files">SimpleAttribute</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  mms    <FONT COLOR=#666666><B><FONT COLOR=#B22222>[ATTRIBUTE][TAG: 12] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><A HREF="#E115v2.SimpleAttribute" target="files">SimpleAttribute</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  emg    <FONT COLOR=#666666><B><FONT COLOR=#B22222>[ATTRIBUTE][TAG: 13] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><A HREF="#E115v2.SimpleAttribute" target="files">SimpleAttribute</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>
+}
+
+<A NAME="E115v2.InquiryCommAddressChar"></A>InquiryCommAddressChar ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  ftn    <FONT COLOR=#666666><B><FONT COLOR=#B22222>[ATTRIBUTE][TAG: 0] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><A HREF="#E115v2.SimpleAttribute" target="files">SimpleAttribute</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  mob    <FONT COLOR=#666666><B><FONT COLOR=#B22222>[ATTRIBUTE][TAG: 1] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><A HREF="#E115v2.SimpleAttribute" target="files">SimpleAttribute</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  fixed  <FONT COLOR=#666666><B><FONT COLOR=#B22222>[ATTRIBUTE][TAG: 2] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><A HREF="#E115v2.SimpleAttribute" target="files">SimpleAttribute</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>
+}
+
+<A NAME="E115v2.ReplyCommAddressChar"></A>ReplyCommAddressChar ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  ftn    <FONT COLOR=#666666><B><FONT COLOR=#B22222>[ATTRIBUTE][TAG: 0] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><A HREF="#E115v2.SimpleAttribute" target="files">SimpleAttribute</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  mob    <FONT COLOR=#666666><B><FONT COLOR=#B22222>[ATTRIBUTE][TAG: 1] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><A HREF="#E115v2.SimpleAttribute" target="files">SimpleAttribute</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  fixed  <FONT COLOR=#666666><B><FONT COLOR=#B22222>[ATTRIBUTE][TAG: 2] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><A HREF="#E115v2.SimpleAttribute" target="files">SimpleAttribute</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  prn    <FONT COLOR=#666666><B><FONT COLOR=#B22222>[ATTRIBUTE][TAG: 3] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><A HREF="#E115v2.SimpleAttribute" target="files">SimpleAttribute</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  npn    <FONT COLOR=#666666><B><FONT COLOR=#B22222>[ATTRIBUTE][TAG: 4] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><A HREF="#E115v2.SimpleAttribute" target="files">SimpleAttribute</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  upn    <FONT COLOR=#666666><B><FONT COLOR=#B22222>[ATTRIBUTE][TAG: 5] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><A HREF="#E115v2.SimpleAttribute" target="files">SimpleAttribute</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  old    <FONT COLOR=#666666><B><FONT COLOR=#B22222>[ATTRIBUTE][TAG: 6] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><A HREF="#E115v2.SimpleAttribute" target="files">SimpleAttribute</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  adv    <FONT COLOR=#666666><B><FONT COLOR=#B22222>[ATTRIBUTE][TAG: 7] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><A HREF="#E115v2.SimpleAttribute" target="files">SimpleAttribute</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  nmk    <FONT COLOR=#666666><B><FONT COLOR=#B22222>[ATTRIBUTE][TAG: 8] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><A HREF="#E115v2.SimpleAttribute" target="files">SimpleAttribute</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>
+}
+
+<A NAME="E115v2.Category"></A>Category ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  business     <FONT COLOR=#666666><B><FONT COLOR=#B22222>[ATTRIBUTE][TAG: 0] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><A HREF="#E115v2.SimpleAttribute" target="files">SimpleAttribute</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  residential  <FONT COLOR=#666666><B><FONT COLOR=#B22222>[ATTRIBUTE][TAG: 1] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><A HREF="#E115v2.SimpleAttribute" target="files">SimpleAttribute</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  government   <FONT COLOR=#666666><B><FONT COLOR=#B22222>[ATTRIBUTE][TAG: 2] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><A HREF="#E115v2.SimpleAttribute" target="files">SimpleAttribute</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>
+}
+
+<A NAME="E115v2.E115Message"></A>E115Message ::= <FONT COLOR=#B8860B><B>CHOICE</B></FONT> {<FONT COLOR=#B22222><I> </I></FONT>directoryMessage  <B><FONT COLOR=#B22222>[TAG: </FONT></B></font></font></font></font></font></font></font></font></font></font></font></font></font></font></font></font></font></font></font></font></font></font></font></font></font></font></font></font></font></font></font></font><B><font color="#B22222">0]</font></B><FONT COLOR=#666666><B> </B> <A HREF="#E115v2.DirectoryMessage" target="files">DirectoryMessage</A>
+}
+
+<A NAME="E115v2.DirectoryMessage"></A>DirectoryMessage ::= <FONT COLOR=#B8860B><B>CHOICE</B></FONT> {<FONT COLOR=#B22222><I> </I></FONT>
+  inquiry  <B><FONT COLOR=#B22222>[TAG: </FONT></font><font color="#B22222">0</font><FONT COLOR=#666666><FONT COLOR=#B22222>]</FONT> </font></B><FONT COLOR=#666666> <A HREF="#E115v2.Inquiry" target="files">Inquiry</A>,
+  reply    <FONT COLOR=#666666><B><FONT COLOR=#B22222>[TAG: 1] </B></FONT> <A HREF="#E115v2.Reply" target="files">Reply</A>
+}
+
+<A NAME="E115v2.Inquiry"></A>Inquiry ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {inquiryHeader  <A HREF="#E115v2.InquiryHeader" target="files">InquiryHeader</A>,
+                      inquiryData    <A HREF="#E115v2.InquiryData" target="files">InquiryData</A>
+}
+
+<A NAME="E115v2.InquiryHeader"></A>InquiryHeader ::=<FONT COLOR=#B22222><I> </I></FONT></font></font><font color="#B22222"><b>[ TAG: APPLICATION </b></font><b><font color="#B22222">0]</font><FONT COLOR=#666666> <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </font></b><FONT COLOR=#666666><FONT COLOR=#B8860B><B>SET</B></FONT> {
+  <FONT COLOR=#B22222><I>--  [TAG: 0]  This tag is obsolete for v2 - not to be reused
+  </I></FONT><FONT COLOR=#B22222><I>--  [TAG: 1]  This tag is obsolete for v2 - not to be reused
+  </I></FONT>originatingTerminalCode
+    <FONT COLOR=#666666><B><FONT COLOR=#B22222>[ATTRIBUTE][TAG: 2] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><A HREF="#E115v2.E115String" target="files">E115String</A><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>SIZE</B></FONT> <FONT COLOR=#228B22>(8)</FONT>)</FONT>,
+  dateAndTime
+    <FONT COLOR=#666666><B><FONT COLOR=#B22222>[ATTRIBUTE][TAG: 3] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><A HREF="#E115v2.E115NumericString" target="files">E115NumericString</A><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>SIZE</B></FONT> <FONT COLOR=#228B22>(12)</FONT>)</FONT> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  messageNumber
+    <FONT COLOR=#666666><B><FONT COLOR=#B22222>[ATTRIBUTE][TAG: 4] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><A HREF="#E115v2.E115String" target="files">E115String</A><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>SIZE</B></FONT> <FONT COLOR=#228B22>(4)</FONT>)</FONT> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  countryName
+    <FONT COLOR=#666666><B><FONT COLOR=#B22222>[ATTRIBUTE][TAG: 5] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><A HREF="#E115v2.E115String" target="files">E115String</A><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>SIZE</B></FONT> <FONT COLOR=#228B22>(2)</FONT>)</FONT>,
+  providerCode
+    <FONT COLOR=#666666><B><FONT COLOR=#B22222>[ATTRIBUTE][TAG: 6] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><A HREF="#E115v2.E115String" target="files">E115String</A><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>SIZE</B></FONT> <FONT COLOR=#228B22>(3)</FONT>)</FONT> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  inquiryCharacterSet
+    <FONT COLOR=#666666><B><FONT COLOR=#B22222>[ATTRIBUTE][TAG: 7] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><A HREF="#E115v2.CharacterSetType" target="files">CharacterSetType</A> <FONT COLOR=#666666><B>DEFAULT</B></FONT> basic,
+  replyCharacterSet
+    <FONT COLOR=#666666><B><FONT COLOR=#B22222>[ATTRIBUTE][TAG: 8] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><A HREF="#E115v2.CharacterSetType" target="files">CharacterSetType</A> <FONT COLOR=#666666><B>DEFAULT</B></FONT> latin1,
+  requestedReplyType
+    <FONT COLOR=#666666><B><FONT COLOR=#B22222>[ATTRIBUTE][TAG: 9] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><FONT COLOR=#5F9EA0><B>ENUMERATED</B></FONT> {subscriberList(0),
+                                                    provinceList(1),
+                                                    localityList(2),
+                                                    streetList(3),
+                                                    businessCategoryList(4)}
+      <FONT COLOR=#666666><B>DEFAULT</B></FONT> subscriberList,
+  acceptedReplyTypes
+    <FONT COLOR=#666666><B><FONT COLOR=#B22222>[TAG: 10] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {provinceList
+                                           <FONT COLOR=#666666><B><FONT COLOR=#B22222>[ATTRIBUTE][TAG: 0] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><A HREF="#E115v2.SimpleAttribute" target="files">SimpleAttribute</A>
+                                             <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+                                         localityList
+                                           <FONT COLOR=#666666><B><FONT COLOR=#B22222>[ATTRIBUTE][TAG: 1] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><A HREF="#E115v2.SimpleAttribute" target="files">SimpleAttribute</A>
+                                             <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+                                         streetList
+                                           <FONT COLOR=#666666><B><FONT COLOR=#B22222>[ATTRIBUTE][TAG: 2] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><A HREF="#E115v2.SimpleAttribute" target="files">SimpleAttribute</A>
+                                             <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+                                         businessCategoryList
+                                           <FONT COLOR=#666666><B><FONT COLOR=#B22222>[ATTRIBUTE][TAG: 3] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><A HREF="#E115v2.SimpleAttribute" target="files">SimpleAttribute</A>
+                                             <FONT COLOR=#666666><B>OPTIONAL</B></FONT>},
+  inquiryCoordinateType
+    <FONT COLOR=#666666><B><FONT COLOR=#B22222>[TAG: 11] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {<FONT COLOR=#228B22><B>COMPONENTS OF</B></FONT>
+                                           <A HREF="#E115v2.CoordinateTypeDescription" target="files">CoordinateTypeDescription</A>} <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  replyCoordinateType
+    <FONT COLOR=#666666><B><FONT COLOR=#B22222>[TAG: 12] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {<FONT COLOR=#228B22><B>COMPONENTS OF</B></FONT>
+                                           <A HREF="#E115v2.CoordinateTypeDescription" target="files">CoordinateTypeDescription</A>} <FONT COLOR=#666666><B>OPTIONAL</B></FONT>
+}
+
+<A NAME="E115v2.InquiryData"></A>InquiryData ::=<FONT COLOR=#B22222><I> </I></FONT></font></font></font></font></font></font></font></font></font></font></font></font></font></font></font></font><font color="#B22222"><b>[ TAG: APPLICATION </b></font><b><font color="#B22222">1]</font><FONT COLOR=#666666> <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </font></b><FONT COLOR=#666666><FONT COLOR=#B8860B><B>SET</B></FONT> {
+  locality                 <FONT COLOR=#666666><B><FONT COLOR=#B22222>[TAG: 0] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><A HREF="#E115v2.E115StringUb256" target="files">E115StringUb256</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  subscriberName           <FONT COLOR=#666666><B><FONT COLOR=#B22222>[TAG: 1] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><A HREF="#E115v2.E115StringUb256" target="files">E115StringUb256</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  streetName               <FONT COLOR=#666666><B><FONT COLOR=#B22222>[TAG: 2] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><A HREF="#E115v2.E115StringUb256" target="files">E115StringUb256</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  houseNumber              <FONT COLOR=#666666><B><FONT COLOR=#B22222>[TAG: 3] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><A HREF="#E115v2.E115StringUb256" target="files">E115StringUb256</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  forename                 <FONT COLOR=#666666><B><FONT COLOR=#B22222>[TAG: 4] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><A HREF="#E115v2.E115StringUb256" target="files">E115StringUb256</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  headingInTheGuide        <FONT COLOR=#666666><B><FONT COLOR=#B22222>[TAG: 5] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><A HREF="#E115v2.E115StringUb256" target="files">E115StringUb256</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  professionCode           <FONT COLOR=#666666><B><FONT COLOR=#B22222>[TAG: 6] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><A HREF="#E115v2.E115StringUb256" target="files">E115StringUb256</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  <FONT COLOR=#B22222><I>--                         [TAG: 7]  This tag is obsolete for v2 - not to be reused
+  </I></FONT>countyStateOrProvince    <FONT COLOR=#666666><B><FONT COLOR=#B22222>[TAG: 8] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><A HREF="#E115v2.E115StringUb256" target="files">E115StringUb256</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  <FONT COLOR=#B22222><I>--                         [TAG: 9]  This tag is obsolete for v2 - not to be reused
+  </I></FONT>category
+    <FONT COLOR=#666666><B><FONT COLOR=#B22222>[TAG: 10] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {<FONT COLOR=#228B22><B>COMPONENTS OF</B></FONT> <A HREF="#E115v2.Category" target="files">Category</A>} <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  sequenceNumber
+    <FONT COLOR=#666666><B><FONT COLOR=#B22222>[ATTRIBUTE][TAG: 11] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><A HREF="#E115v2.E115NumericString" target="files">E115NumericString</A><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>SIZE</B></FONT> <FONT COLOR=#228B22>(1..2)</FONT>)</FONT>
+      <FONT COLOR=#666666><B>DEFAULT</B></FONT> &quot;0&quot;,
+  postalCode               <FONT COLOR=#666666><B><FONT COLOR=#B22222>[TAG: 12] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><A HREF="#E115v2.E115StringUb256" target="files">E115StringUb256</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  nationalDestinationCode
+    <FONT COLOR=#666666><B><FONT COLOR=#B22222>[TAG: 13] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><A HREF="#E115v2.E115NumericString" target="files">E115NumericString</A><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>SIZE</B></FONT> <FONT COLOR=#228B22>(1..14)</FONT>)</FONT> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  commAddress              <FONT COLOR=#666666><B><FONT COLOR=#B22222>[TAG: 14] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><A HREF="#E115v2.E115StringUb256" target="files">E115StringUb256</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  commAddressTypes
+    <FONT COLOR=#666666><B><FONT COLOR=#B22222>[TAG: 15] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {e164
+                                           <FONT COLOR=#666666><B><FONT COLOR=#B22222>[ATTRIBUTE][TAG: 0] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><A HREF="#E115v2.SimpleAttribute" target="files">SimpleAttribute</A>
+                                             <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+                                         rfc822
+                                           <FONT COLOR=#666666><B><FONT COLOR=#B22222>[ATTRIBUTE][TAG: 1] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><A HREF="#E115v2.SimpleAttribute" target="files">SimpleAttribute</A>
+                                             <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+                                         rfc1738
+                                           <FONT COLOR=#666666><B><FONT COLOR=#B22222>[ATTRIBUTE][TAG: 2] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><A HREF="#E115v2.SimpleAttribute" target="files">SimpleAttribute</A>
+                                             <FONT COLOR=#666666><B>OPTIONAL</B></FONT>} <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  additionalName           <FONT COLOR=#666666><B><FONT COLOR=#B22222>[TAG: 16] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><A HREF="#E115v2.E115StringUb256" target="files">E115StringUb256</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  commAddressService
+    <FONT COLOR=#666666><B><FONT COLOR=#B22222>[TAG: 17] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {<FONT COLOR=#228B22><B>COMPONENTS OF</B></FONT> <A HREF="#E115v2.CommAddressService" target="files">CommAddressService</A>
+  } <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  commAddressChar
+    <FONT COLOR=#666666><B><FONT COLOR=#B22222>[TAG: 18] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {<FONT COLOR=#228B22><B>COMPONENTS OF</B></FONT> <A HREF="#E115v2.InquiryCommAddressChar" target="files">InquiryCommAddressChar</A>
+  } <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  geoExpansion
+    <FONT COLOR=#666666><B><FONT COLOR=#B22222>[ATTRIBUTE][TAG: 19] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><A HREF="#E115v2.E115NumericString" target="files">E115NumericString</A><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>SIZE</B></FONT> <FONT COLOR=#228B22>(1..3)</FONT>)</FONT>
+      <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  searchCoordinate
+    <FONT COLOR=#666666><B><FONT COLOR=#B22222>[TAG: 20] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {<FONT COLOR=#228B22><B>COMPONENTS OF</B></FONT> <A HREF="#E115v2.Coordinate" target="files">Coordinate</A>} <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  searchRadius
+    <FONT COLOR=#666666><B><FONT COLOR=#B22222>[TAG: 21] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><FONT COLOR=#5F9EA0><B>NumericString</B></FONT><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>SIZE</B></FONT> <FONT COLOR=#228B22>(1..9)</FONT>)</FONT> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  matchingRule
+    <FONT COLOR=#666666><B><FONT COLOR=#B22222>[TAG: 22] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {wordRotation
+                                           <FONT COLOR=#666666><B><FONT COLOR=#B22222>[ATTRIBUTE][TAG: 0] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><FONT COLOR=#5F9EA0><B>BOOLEAN</B></FONT>
+                                             <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+                                         phonetic
+                                           <FONT COLOR=#666666><B><FONT COLOR=#B22222>[ATTRIBUTE][TAG: 1] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><FONT COLOR=#5F9EA0><B>BOOLEAN</B></FONT>
+                                             <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+                                         alias
+                                           <FONT COLOR=#666666><B><FONT COLOR=#B22222>[ATTRIBUTE][TAG: 2] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><FONT COLOR=#5F9EA0><B>BOOLEAN</B></FONT>
+                                             <FONT COLOR=#666666><B>OPTIONAL</B></FONT>} <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  maxSelectionLevel
+    <FONT COLOR=#666666><B><FONT COLOR=#B22222>[ATTRIBUTE][TAG: 23] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><A HREF="#E115v2.E115NumericString" target="files">E115NumericString</A><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>SIZE</B></FONT> <FONT COLOR=#228B22>(1..3)</FONT>)</FONT>
+      <FONT COLOR=#666666><B>DEFAULT</B></FONT> &quot;99&quot;
+}
+
+<A NAME="E115v2.Reply"></A>Reply ::= <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {
+  replyHeader  <A HREF="#E115v2.ReplyHeader" target="files">ReplyHeader</A>,
+  selections   <FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> <FONT COLOR=#228B22><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>SIZE</B></FONT> <FONT COLOR=#228B22>(1..<FONT COLOR=#228B22><B>MAX</B></FONT>)</FONT>)</FONT></FONT> <FONT COLOR=#B8860B><B>OF</B></FONT> <A HREF="#E115v2.Selection" target="files">Selection</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>
+}
+
+<A NAME="E115v2.ReplyHeader"></A>ReplyHeader ::=<FONT COLOR=#B22222><I> </I></FONT></font></font></font></font></font></font></font></font></font></font></font></font></font></font></font></font></font></font></font></font></font></font></font></font></font></font></font></font></font><font color="#B22222"><b>[TAG: </b></font><b><font color="#B22222">APPLICATION 3]</font><FONT COLOR=#666666> <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </font></b><FONT COLOR=#666666><FONT COLOR=#B8860B><B>SET</B></FONT> {
+  <FONT COLOR=#B22222><I>--                         [TAG: 0]  This tag is obsolete for v2 - not to be reused
+  </I></FONT><FONT COLOR=#B22222><I>--                         [TAG: 1]  This tag is obsolete for v2 - not to be reused 
+  </I></FONT>originatingTerminalCode
+    <FONT COLOR=#666666><B><FONT COLOR=#B22222>[ATTRIBUTE][TAG: 2] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><A HREF="#E115v2.E115String" target="files">E115String</A><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>SIZE</B></FONT> <FONT COLOR=#228B22>(8)</FONT>)</FONT>,
+  dateAndTime
+    <FONT COLOR=#666666><B><FONT COLOR=#B22222>[ATTRIBUTE][TAG: 3] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><A HREF="#E115v2.E115NumericString" target="files">E115NumericString</A><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>SIZE</B></FONT> <FONT COLOR=#228B22>(12)</FONT>)</FONT> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  messageNumber
+    <FONT COLOR=#666666><B><FONT COLOR=#B22222>[ATTRIBUTE][TAG: 4] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><A HREF="#E115v2.E115String" target="files">E115String</A><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>SIZE</B></FONT> <FONT COLOR=#228B22>(4)</FONT>)</FONT> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  messageCode
+    <FONT COLOR=#666666><B><FONT COLOR=#B22222>[ATTRIBUTE][TAG: 5] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><A HREF="#E115v2.E115String" target="files">E115String</A><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>SIZE</B></FONT> <FONT COLOR=#228B22>(2)</FONT>)</FONT>,
+  message                  <FONT COLOR=#666666><B><FONT COLOR=#B22222>[TAG: 6] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><A HREF="#E115v2.E115StringUb256" target="files">E115StringUb256</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  dbSelectionCount
+    <FONT COLOR=#666666><B><FONT COLOR=#B22222>[ATTRIBUTE][TAG: 7] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><A HREF="#E115v2.E115String" target="files">E115String</A><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>SIZE</B></FONT> <FONT COLOR=#228B22>(1..10)</FONT>)</FONT> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  replyCharacterSet
+    <FONT COLOR=#666666><B><FONT COLOR=#B22222>[ATTRIBUTE][TAG: 8] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><A HREF="#E115v2.CharacterSetType" target="files">CharacterSetType</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  replyCoordinateType
+    <FONT COLOR=#666666><B><FONT COLOR=#B22222>[TAG: 9] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {<FONT COLOR=#228B22><B>COMPONENTS OF</B></FONT> <A HREF="#E115v2.CoordinateTypeDescription" target="files">CoordinateTypeDescription</A>
+  } <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  searchCenter
+    <FONT COLOR=#666666><B><FONT COLOR=#B22222>[TAG: 10] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {<FONT COLOR=#228B22><B>COMPONENTS OF</B></FONT> <A HREF="#E115v2.Coordinate" target="files">Coordinate</A>} <FONT COLOR=#666666><B>OPTIONAL</B></FONT>
+}
+
+<A NAME="E115v2.Selection"></A>Selection ::= <FONT COLOR=#B8860B><B>SET</B></FONT> {
+  nationalDestinationCode
+    <FONT COLOR=#666666><B><FONT COLOR=#B22222>[TAG: 0] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><A HREF="#E115v2.E115NumericString" target="files">E115NumericString</A><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>SIZE</B></FONT> <FONT COLOR=#228B22>(1..14)</FONT>)</FONT> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  commAddress              <FONT COLOR=#666666><B><FONT COLOR=#B22222>[TAG: 1] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><A HREF="#E115v2.E115StringUb256" target="files">E115StringUb256</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  locality                 <FONT COLOR=#666666><B><FONT COLOR=#B22222>[TAG: 2] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><A HREF="#E115v2.E115StringUb256" target="files">E115StringUb256</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  subscriberName           <FONT COLOR=#666666><B><FONT COLOR=#B22222>[TAG: 3] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><A HREF="#E115v2.E115StringUb256" target="files">E115StringUb256</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  forename                 <FONT COLOR=#666666><B><FONT COLOR=#B22222>[TAG: 4] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><A HREF="#E115v2.E115StringUb256" target="files">E115StringUb256</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  streetName               <FONT COLOR=#666666><B><FONT COLOR=#B22222>[TAG: 5] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><A HREF="#E115v2.E115StringUb256" target="files">E115StringUb256</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  houseNumber              <FONT COLOR=#666666><B><FONT COLOR=#B22222>[TAG: 6] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><A HREF="#E115v2.E115StringUb256" target="files">E115StringUb256</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  supplementaryData        <FONT COLOR=#666666><B><FONT COLOR=#B22222>[TAG: 7] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><A HREF="#E115v2.E115StringUb256" target="files">E115StringUb256</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  subscriberMessage        <FONT COLOR=#666666><B><FONT COLOR=#B22222>[TAG: 8] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><A HREF="#E115v2.E115StringUb256" target="files">E115StringUb256</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  headingInTheGuide        <FONT COLOR=#666666><B><FONT COLOR=#B22222>[TAG: 9] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><A HREF="#E115v2.E115StringUb256" target="files">E115StringUb256</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  professionCode           <FONT COLOR=#666666><B><FONT COLOR=#B22222>[TAG: 10] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><A HREF="#E115v2.E115StringUb256" target="files">E115StringUb256</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  <FONT COLOR=#B22222><I>--                         [TAG: 11] This tag is obsolete for v2 - not to be reused
+  </I></FONT>countyStateOrProvince    <FONT COLOR=#666666><B><FONT COLOR=#B22222>[TAG: 12] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><A HREF="#E115v2.E115StringUb256" target="files">E115StringUb256</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  <FONT COLOR=#B22222><I>--                         [TAG: 13] This tag is obsolete for v2 - not to be reused
+  </I></FONT>subscriberDescription    <FONT COLOR=#666666><B><FONT COLOR=#B22222>[TAG: 14] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><A HREF="#E115v2.E115StringUb256" target="files">E115StringUb256</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  category
+    <FONT COLOR=#666666><B><FONT COLOR=#B22222>[TAG: 15] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {<FONT COLOR=#228B22><B>COMPONENTS OF</B></FONT> <A HREF="#E115v2.Category" target="files">Category</A>} <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  countryCode
+    <FONT COLOR=#666666><B><FONT COLOR=#B22222>[TAG: 16] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><A HREF="#E115v2.E115NumericString" target="files">E115NumericString</A><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>SIZE</B></FONT> <FONT COLOR=#228B22>(1..3)</FONT>)</FONT>,
+  postalCode               <FONT COLOR=#666666><B><FONT COLOR=#B22222>[TAG: 17] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><A HREF="#E115v2.E115StringUb256" target="files">E115StringUb256</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  commAddressType
+    <FONT COLOR=#666666><B><FONT COLOR=#B22222>[ATTRIBUTE][TAG: 18] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><FONT COLOR=#5F9EA0><B>ENUMERATED</B></FONT> {e164(0), rfc822(1),
+                                                     rfc1738(2)} <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  commAddressService
+    <FONT COLOR=#666666><B><FONT COLOR=#B22222>[TAG: 19] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {<FONT COLOR=#228B22><B>COMPONENTS OF</B></FONT> <A HREF="#E115v2.CommAddressService" target="files">CommAddressService</A>
+  } <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  commAddressChar
+    <FONT COLOR=#666666><B><FONT COLOR=#B22222>[TAG: 20] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {<FONT COLOR=#228B22><B>COMPONENTS OF</B></FONT> <A HREF="#E115v2.ReplyCommAddressChar" target="files">ReplyCommAddressChar</A>
+  } <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  distance                 <FONT COLOR=#666666><B><FONT COLOR=#B22222>[TAG: 21] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><A HREF="#E115v2.E115StringUb256" target="files">E115StringUb256</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  additionalName           <FONT COLOR=#666666><B><FONT COLOR=#B22222>[TAG: 22] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><A HREF="#E115v2.E115StringUb256" target="files">E115StringUb256</A> <FONT COLOR=#666666><B>OPTIONAL</B></FONT>,
+  selectionCoordinate
+    <FONT COLOR=#666666><B><FONT COLOR=#B22222>[TAG: 23] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><FONT COLOR=#B8860B><B>SEQUENCE</B></FONT> {<FONT COLOR=#228B22><B>COMPONENTS OF</B></FONT> <A HREF="#E115v2.Coordinate" target="files">Coordinate</A>},
+  selectionLevel
+    <FONT COLOR=#666666><B><FONT COLOR=#B22222>[ATTRIBUTE][TAG: 24] <FONT COLOR=#666666><B>IMPLICIT</B></FONT> </B></FONT><A HREF="#E115v2.E115NumericString" target="files">E115NumericString</A><FONT COLOR=#228B22>(<FONT COLOR=#228B22><B>SIZE</B></FONT> <FONT COLOR=#228B22>(1..3)</FONT>)</FONT>
+      <FONT COLOR=#666666><B>DEFAULT</B></FONT> &quot;0&quot;
+}
+
+<FONT COLOR=#B22222><b>ENCODING-CONTROL XER
+  GLOBAL-DEFAULTS MODIFIED-ENCODINGS
+  TEXT CharacterSetType:ALL, GeographicalType:ALL,
+    InquiryHeader.requestedReplyType:ALL, Selection.commAddressType:ALL 
+</b></FONT><FONT COLOR=#0000FF><B>END</B></FONT>
+</PRE>
+-- Generated by Asnp, the ASN.1 pretty-printer of France Telecom R&amp;D</font>
+</BODY></HTML>
