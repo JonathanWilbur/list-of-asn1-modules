@@ -345,4 +345,3 @@ id-renameResult      OBJECT IDENTIFIER ::= { id-x1080-0-Cont renameResult(14) }
 id-at-accessService OBJECT IDENTIFIER ::= { id-x1080-0-attr 1 }
 
 END
-

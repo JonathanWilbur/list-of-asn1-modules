@@ -37,30 +37,30 @@ IMPORTS
 
 -- attribute data types 
 Attribute ::= SEQUENCE {
-  type               ATTRIBUTE.&amp;id({SupportedAttributes}),
+  type               ATTRIBUTE.&id({SupportedAttributes}),
   values
-    SET SIZE (0..MAX) OF ATTRIBUTE.&amp;Type({SupportedAttributes}{@type}),
+    SET SIZE (0..MAX) OF ATTRIBUTE.&Type({SupportedAttributes}{@type}),
   valuesWithContext
     SET SIZE (1..MAX) OF
-      SEQUENCE {value        ATTRIBUTE.&amp;Type({SupportedAttributes}{@type}),
+      SEQUENCE {value        ATTRIBUTE.&Type({SupportedAttributes}{@type}),
                 contextList  SET SIZE (1..MAX) OF Context} OPTIONAL
 }
 
-AttributeType ::= ATTRIBUTE.&amp;id
+AttributeType ::= ATTRIBUTE.&id
 
-AttributeValue ::= ATTRIBUTE.&amp;Type
+AttributeValue ::= ATTRIBUTE.&Type
 
 Context ::= SEQUENCE {
-  contextType    CONTEXT.&amp;id({SupportedContexts}),
+  contextType    CONTEXT.&id({SupportedContexts}),
   contextValues
-    SET SIZE (1..MAX) OF CONTEXT.&amp;Type({SupportedContexts}{@contextType}),
+    SET SIZE (1..MAX) OF CONTEXT.&Type({SupportedContexts}{@contextType}),
   fallback       BOOLEAN DEFAULT FALSE
 }
 
 AttributeValueAssertion ::= SEQUENCE {
-  type              ATTRIBUTE.&amp;id({SupportedAttributes}),
+  type              ATTRIBUTE.&id({SupportedAttributes}),
   assertion
-    ATTRIBUTE.&amp;equality-match.&amp;AssertionType
+    ATTRIBUTE.&equality-match.&AssertionType
       ({SupportedAttributes}{@type}),
   assertedContexts
     CHOICE {allContexts       [0]  NULL,
@@ -69,14 +69,14 @@ AttributeValueAssertion ::= SEQUENCE {
 }
 
 ContextAssertion ::= SEQUENCE {
-  contextType    CONTEXT.&amp;id({SupportedContexts}),
+  contextType    CONTEXT.&id({SupportedContexts}),
   contextValues
     SET SIZE (1..MAX) OF
-      CONTEXT.&amp;Assertion({SupportedContexts}{@contextType})
+      CONTEXT.&Assertion({SupportedContexts}{@contextType})
 }
 
 AttributeTypeAssertion ::= SEQUENCE {
-  type              ATTRIBUTE.&amp;id({SupportedAttributes}),
+  type              ATTRIBUTE.&id({SupportedAttributes}),
   assertedContexts  SEQUENCE SIZE (1..MAX) OF ContextAssertion OPTIONAL
 }
 
@@ -105,13 +105,13 @@ RelativeDistinguishedName ::=
   SET SIZE (1..MAX) OF AttributeTypeAndDistinguishedValue
 
 AttributeTypeAndDistinguishedValue ::= SEQUENCE {
-  type                  ATTRIBUTE.&amp;id({SupportedAttributes}),
-  value                 ATTRIBUTE.&amp;Type({SupportedAttributes}{@type}),
+  type                  ATTRIBUTE.&id({SupportedAttributes}),
+  value                 ATTRIBUTE.&Type({SupportedAttributes}{@type}),
   primaryDistinguished  BOOLEAN DEFAULT TRUE,
   valuesWithContext
     SET SIZE (1..MAX) OF
       SEQUENCE {distingAttrValue
-                  [0]  ATTRIBUTE.&amp;Type({SupportedAttributes}{@type})
+                  [0]  ATTRIBUTE.&Type({SupportedAttributes}{@type})
                     OPTIONAL,
                 contextList       SET SIZE (1..MAX) OF Context} OPTIONAL
 }
@@ -138,7 +138,7 @@ ChopSpecification ::= SEQUENCE {
 BaseDistance ::= INTEGER(0..MAX)
 
 Refinement ::= CHOICE {
-  item  [0]  OBJECT-CLASS.&amp;id,
+  item  [0]  OBJECT-CLASS.&id,
   and   [1]  SET OF Refinement,
   or    [2]  SET OF Refinement,
   not   [3]  Refinement
@@ -146,18 +146,18 @@ Refinement ::= CHOICE {
 
 -- OBJECT-CLASS information object class specification 
 OBJECT-CLASS ::= CLASS {
-  &amp;Superclasses         OBJECT-CLASS OPTIONAL,
-  &amp;kind                 ObjectClassKind DEFAULT structural,
-  &amp;MandatoryAttributes  ATTRIBUTE OPTIONAL,
-  &amp;OptionalAttributes   ATTRIBUTE OPTIONAL,
-  &amp;id                   OBJECT IDENTIFIER UNIQUE
+  &Superclasses         OBJECT-CLASS OPTIONAL,
+  &kind                 ObjectClassKind DEFAULT structural,
+  &MandatoryAttributes  ATTRIBUTE OPTIONAL,
+  &OptionalAttributes   ATTRIBUTE OPTIONAL,
+  &id                   OBJECT IDENTIFIER UNIQUE
 }
 WITH SYNTAX {
-  [SUBCLASS OF &amp;Superclasses]
-  [KIND &amp;kind]
-  [MUST CONTAIN &amp;MandatoryAttributes]
-  [MAY CONTAIN &amp;OptionalAttributes]
-  ID &amp;id
+  [SUBCLASS OF &Superclasses]
+  [KIND &kind]
+  [MUST CONTAIN &MandatoryAttributes]
+  [MAY CONTAIN &OptionalAttributes]
+  ID &id
 }
 
 ObjectClassKind ::= ENUMERATED {abstract(0), structural(1), auxiliary(2)}
@@ -185,29 +185,29 @@ child OBJECT-CLASS ::= {KIND  auxiliary
 
 -- ATTRIBUTE information object class specification 
 ATTRIBUTE ::= CLASS {
-  &amp;derivation            ATTRIBUTE OPTIONAL,
-  &amp;Type                  OPTIONAL, -- either &amp;Type or &amp;derivation required 
-  &amp;equality-match        MATCHING-RULE OPTIONAL,
-  &amp;ordering-match        MATCHING-RULE OPTIONAL,
-  &amp;substrings-match      MATCHING-RULE OPTIONAL,
-  &amp;single-valued         BOOLEAN DEFAULT FALSE,
-  &amp;collective            BOOLEAN DEFAULT FALSE,
+  &derivation            ATTRIBUTE OPTIONAL,
+  &Type                  OPTIONAL, -- either &Type or &derivation required 
+  &equality-match        MATCHING-RULE OPTIONAL,
+  &ordering-match        MATCHING-RULE OPTIONAL,
+  &substrings-match      MATCHING-RULE OPTIONAL,
+  &single-valued         BOOLEAN DEFAULT FALSE,
+  &collective            BOOLEAN DEFAULT FALSE,
   -- operational extensions 
-  &amp;no-user-modification  BOOLEAN DEFAULT FALSE,
-  &amp;usage                 AttributeUsage DEFAULT userApplications,
-  &amp;id                    OBJECT IDENTIFIER UNIQUE
+  &no-user-modification  BOOLEAN DEFAULT FALSE,
+  &usage                 AttributeUsage DEFAULT userApplications,
+  &id                    OBJECT IDENTIFIER UNIQUE
 }
 WITH SYNTAX {
-  [SUBTYPE OF &amp;derivation]
-  [WITH SYNTAX &amp;Type]
-  [EQUALITY MATCHING RULE &amp;equality-match]
-  [ORDERING MATCHING RULE &amp;ordering-match]
-  [SUBSTRINGS MATCHING RULE &amp;substrings-match]
-  [SINGLE VALUE &amp;single-valued]
-  [COLLECTIVE &amp;collective]
-  [NO USER MODIFICATION &amp;no-user-modification]
-  [USAGE &amp;usage]
-  ID &amp;id
+  [SUBTYPE OF &derivation]
+  [WITH SYNTAX &Type]
+  [EQUALITY MATCHING RULE &equality-match]
+  [ORDERING MATCHING RULE &ordering-match]
+  [SUBSTRINGS MATCHING RULE &substrings-match]
+  [SINGLE VALUE &single-valued]
+  [COLLECTIVE &collective]
+  [NO USER MODIFICATION &no-user-modification]
+  [USAGE &usage]
+  ID &id
 }
 
 AttributeUsage ::= ENUMERATED {
@@ -230,16 +230,16 @@ aliasedEntryName ATTRIBUTE ::= {
 
 -- MATCHING-RULE information object class specification 
 MATCHING-RULE ::= CLASS {
-  &amp;ParentMatchingRules   MATCHING-RULE.&amp;id OPTIONAL,
-  &amp;AssertionType         OPTIONAL,
-  &amp;uniqueMatchIndicator  ATTRIBUTE.&amp;id OPTIONAL,
-  &amp;id                    OBJECT IDENTIFIER UNIQUE
+  &ParentMatchingRules   MATCHING-RULE.&id OPTIONAL,
+  &AssertionType         OPTIONAL,
+  &uniqueMatchIndicator  ATTRIBUTE.&id OPTIONAL,
+  &id                    OBJECT IDENTIFIER UNIQUE
 }
 WITH SYNTAX {
-  [PARENT &amp;ParentMatchingRules]
-  [SYNTAX &amp;AssertionType]
-  [UNIQUE-MATCH-INDICATOR &amp;uniqueMatchIndicator]
-  ID &amp;id
+  [PARENT &ParentMatchingRules]
+  [SYNTAX &AssertionType]
+  [UNIQUE-MATCH-INDICATOR &uniqueMatchIndicator]
+  ID &id
 }
 
 -- matching rules 
@@ -255,58 +255,58 @@ distinguishedNameMatch MATCHING-RULE ::= {
 
 MAPPING-BASED-MATCHING{SelectedBy, BOOLEAN:combinable, MappingResult,
                        OBJECT IDENTIFIER:matchingRule} ::= CLASS {
-  &amp;selectBy          SelectedBy OPTIONAL,
-  &amp;ApplicableTo      ATTRIBUTE,
-  &amp;subtypesIncluded  BOOLEAN DEFAULT TRUE,
-  &amp;combinable        BOOLEAN(combinable),
-  &amp;mappingResults    MappingResult OPTIONAL,
-  &amp;userControl       BOOLEAN DEFAULT FALSE,
-  &amp;exclusive         BOOLEAN DEFAULT TRUE,
-  &amp;matching-rule     MATCHING-RULE.&amp;id(matchingRule),
-  &amp;id                OBJECT IDENTIFIER UNIQUE
+  &selectBy          SelectedBy OPTIONAL,
+  &ApplicableTo      ATTRIBUTE,
+  &subtypesIncluded  BOOLEAN DEFAULT TRUE,
+  &combinable        BOOLEAN(combinable),
+  &mappingResults    MappingResult OPTIONAL,
+  &userControl       BOOLEAN DEFAULT FALSE,
+  &exclusive         BOOLEAN DEFAULT TRUE,
+  &matching-rule     MATCHING-RULE.&id(matchingRule),
+  &id                OBJECT IDENTIFIER UNIQUE
 }
 WITH SYNTAX {
-  [SELECT BY &amp;selectBy]
-  APPLICABLE TO &amp;ApplicableTo
-  [SUBTYPES INCLUDED &amp;subtypesIncluded]
-  COMBINABLE &amp;combinable
-  [MAPPING RESULTS &amp;mappingResults]
-  [USER CONTROL &amp;userControl]
-  [EXCLUSIVE &amp;exclusive]
-  MATCHING RULE &amp;matching-rule
-  ID &amp;id
+  [SELECT BY &selectBy]
+  APPLICABLE TO &ApplicableTo
+  [SUBTYPES INCLUDED &subtypesIncluded]
+  COMBINABLE &combinable
+  [MAPPING RESULTS &mappingResults]
+  [USER CONTROL &userControl]
+  [EXCLUSIVE &exclusive]
+  MATCHING RULE &matching-rule
+  ID &id
 }
 
 -- NAME-FORM information object class specification 
 NAME-FORM ::= CLASS {
-  &amp;namedObjectClass     OBJECT-CLASS,
-  &amp;MandatoryAttributes  ATTRIBUTE,
-  &amp;OptionalAttributes   ATTRIBUTE OPTIONAL,
-  &amp;id                   OBJECT IDENTIFIER UNIQUE
+  &namedObjectClass     OBJECT-CLASS,
+  &MandatoryAttributes  ATTRIBUTE,
+  &OptionalAttributes   ATTRIBUTE OPTIONAL,
+  &id                   OBJECT IDENTIFIER UNIQUE
 }
 WITH SYNTAX {
-  NAMES &amp;namedObjectClass
-  WITH ATTRIBUTES &amp;MandatoryAttributes
-  [AND OPTIONALLY &amp;OptionalAttributes]
-  ID &amp;id
+  NAMES &namedObjectClass
+  WITH ATTRIBUTES &MandatoryAttributes
+  [AND OPTIONALLY &OptionalAttributes]
+  ID &id
 }
 
 -- STRUCTURE-RULE class and DIT structure rule data types 
 STRUCTURE-RULE ::= CLASS {
-  &amp;nameForm                NAME-FORM,
-  &amp;SuperiorStructureRules  STRUCTURE-RULE OPTIONAL,
-  &amp;id                      RuleIdentifier
+  &nameForm                NAME-FORM,
+  &SuperiorStructureRules  STRUCTURE-RULE OPTIONAL,
+  &id                      RuleIdentifier
 }
 WITH SYNTAX {
-  NAME FORM &amp;nameForm
-  [SUPERIOR RULES &amp;SuperiorStructureRules]
-  ID &amp;id
+  NAME FORM &nameForm
+  [SUPERIOR RULES &SuperiorStructureRules]
+  ID &id
 }
 
 DITStructureRule ::= SEQUENCE {
   ruleIdentifier          RuleIdentifier,
   -- must be unique within the scope of the subschema
-  nameForm                NAME-FORM.&amp;id,
+  nameForm                NAME-FORM.&id,
   superiorStructureRules  SET SIZE (1..MAX) OF RuleIdentifier OPTIONAL
 }
 
@@ -314,52 +314,52 @@ RuleIdentifier ::= INTEGER
 
 -- CONTENT-RULE class and DIT content rule data types 
 CONTENT-RULE ::= CLASS {
-  &amp;structuralClass  OBJECT-CLASS.&amp;id UNIQUE,
-  &amp;Auxiliaries      OBJECT-CLASS OPTIONAL,
-  &amp;Mandatory        ATTRIBUTE OPTIONAL,
-  &amp;Optional         ATTRIBUTE OPTIONAL,
-  &amp;Precluded        ATTRIBUTE OPTIONAL
+  &structuralClass  OBJECT-CLASS.&id UNIQUE,
+  &Auxiliaries      OBJECT-CLASS OPTIONAL,
+  &Mandatory        ATTRIBUTE OPTIONAL,
+  &Optional         ATTRIBUTE OPTIONAL,
+  &Precluded        ATTRIBUTE OPTIONAL
 }
 WITH SYNTAX {
-  STRUCTURAL OBJECT-CLASS &amp;structuralClass
-  [AUXILIARY OBJECT-CLASSES &amp;Auxiliaries]
-  [MUST CONTAIN &amp;Mandatory]
-  [MAY CONTAIN &amp;Optional]
-  [MUST-NOT CONTAIN &amp;Precluded]
+  STRUCTURAL OBJECT-CLASS &structuralClass
+  [AUXILIARY OBJECT-CLASSES &Auxiliaries]
+  [MUST CONTAIN &Mandatory]
+  [MAY CONTAIN &Optional]
+  [MUST-NOT CONTAIN &Precluded]
 }
 
 DITContentRule ::= SEQUENCE {
-  structuralObjectClass  OBJECT-CLASS.&amp;id,
-  auxiliaries            SET SIZE (1..MAX) OF OBJECT-CLASS.&amp;id OPTIONAL,
-  mandatory              [1]  SET SIZE (1..MAX) OF ATTRIBUTE.&amp;id OPTIONAL,
-  optional               [2]  SET SIZE (1..MAX) OF ATTRIBUTE.&amp;id OPTIONAL,
-  precluded              [3]  SET SIZE (1..MAX) OF ATTRIBUTE.&amp;id OPTIONAL
+  structuralObjectClass  OBJECT-CLASS.&id,
+  auxiliaries            SET SIZE (1..MAX) OF OBJECT-CLASS.&id OPTIONAL,
+  mandatory              [1]  SET SIZE (1..MAX) OF ATTRIBUTE.&id OPTIONAL,
+  optional               [2]  SET SIZE (1..MAX) OF ATTRIBUTE.&id OPTIONAL,
+  precluded              [3]  SET SIZE (1..MAX) OF ATTRIBUTE.&id OPTIONAL
 }
 
 CONTEXT ::= CLASS {
-  &amp;Type       ,
-  &amp;Assertion  OPTIONAL,
-  &amp;id         OBJECT IDENTIFIER UNIQUE
-}WITH SYNTAX {WITH SYNTAX &amp;Type
-              [ASSERTED AS &amp;Assertion]
-              ID &amp;id
+  &Type       ,
+  &Assertion  OPTIONAL,
+  &id         OBJECT IDENTIFIER UNIQUE
+}WITH SYNTAX {WITH SYNTAX &Type
+              [ASSERTED AS &Assertion]
+              ID &id
 }
 
 DITContextUse ::= SEQUENCE {
-  attributeType      ATTRIBUTE.&amp;id,
-  mandatoryContexts  [1]  SET SIZE (1..MAX) OF CONTEXT.&amp;id OPTIONAL,
-  optionalContexts   [2]  SET SIZE (1..MAX) OF CONTEXT.&amp;id OPTIONAL
+  attributeType      ATTRIBUTE.&id,
+  mandatoryContexts  [1]  SET SIZE (1..MAX) OF CONTEXT.&id OPTIONAL,
+  optionalContexts   [2]  SET SIZE (1..MAX) OF CONTEXT.&id OPTIONAL
 }
 
 DIT-CONTEXT-USE-RULE ::= CLASS {
-  &amp;attributeType  ATTRIBUTE.&amp;id UNIQUE,
-  &amp;Mandatory      CONTEXT OPTIONAL,
-  &amp;Optional       CONTEXT OPTIONAL
+  &attributeType  ATTRIBUTE.&id UNIQUE,
+  &Mandatory      CONTEXT OPTIONAL,
+  &Optional       CONTEXT OPTIONAL
 }
 WITH SYNTAX {
-  ATTRIBUTE TYPE &amp;attributeType
-  [MANDATORY CONTEXTS &amp;Mandatory]
-  [OPTIONAL CONTEXTS &amp;Optional]
+  ATTRIBUTE TYPE &attributeType
+  [MANDATORY CONTEXTS &Mandatory]
+  [OPTIONAL CONTEXTS &Optional]
 }
 
 -- system schema information objects 
@@ -502,7 +502,7 @@ hasSubordinates ATTRIBUTE ::= {
 }
 
 administrativeRole ATTRIBUTE ::= {
-  WITH SYNTAX             OBJECT-CLASS.&amp;id
+  WITH SYNTAX             OBJECT-CLASS.&id
   EQUALITY MATCHING RULE  objectIdentifierMatch
   USAGE                   directoryOperation
   ID                      id-oa-administrativeRole
@@ -598,17 +598,17 @@ AllowedSubset ::= BIT STRING {baseObject(0), oneLevel(1), wholeSubtree(2)}
 ImposedSubset ::= ENUMERATED {baseObject(0), oneLevel(1), wholeSubtree(2)}
 
 RequestAttribute ::= SEQUENCE {
-  attributeType       ATTRIBUTE.&amp;id({SupportedAttributes}),
+  attributeType       ATTRIBUTE.&id({SupportedAttributes}),
   includeSubtypes     [0]  BOOLEAN DEFAULT FALSE,
   selectedValues
     [1]  SEQUENCE SIZE (0..MAX) OF
-           ATTRIBUTE.&amp;Type({SupportedAttributes}{@attributeType}) OPTIONAL,
+           ATTRIBUTE.&Type({SupportedAttributes}{@attributeType}) OPTIONAL,
   defaultValues
     [2]  SEQUENCE SIZE (0..MAX) OF
-           SEQUENCE {entryType  OBJECT-CLASS.&amp;id OPTIONAL,
+           SEQUENCE {entryType  OBJECT-CLASS.&id OPTIONAL,
                      values
                        SEQUENCE OF
-                         ATTRIBUTE.&amp;Type
+                         ATTRIBUTE.&Type
                            ({SupportedAttributes}{@attributeType})} OPTIONAL,
   contexts            [3]  SEQUENCE SIZE (0..MAX) OF ContextProfile OPTIONAL,
   contextCombination  [4]  ContextCombination DEFAULT and:{},
@@ -616,14 +616,14 @@ RequestAttribute ::= SEQUENCE {
 }
 
 ContextProfile ::= SEQUENCE {
-  contextType   CONTEXT.&amp;id({SupportedContexts}),
+  contextType   CONTEXT.&id({SupportedContexts}),
   contextValue
     SEQUENCE SIZE (1..MAX) OF
-      CONTEXT.&amp;Assertion({SupportedContexts}{@contextType}) OPTIONAL
+      CONTEXT.&Assertion({SupportedContexts}{@contextType}) OPTIONAL
 }
 
 ContextCombination ::= CHOICE {
-  context  [0]  CONTEXT.&amp;id,
+  context  [0]  CONTEXT.&id,
   and      [1]  SEQUENCE OF ContextCombination,
   or       [2]  SEQUENCE OF ContextCombination,
   not      [3]  ContextCombination
@@ -631,9 +631,9 @@ ContextCombination ::= CHOICE {
 
 MatchingUse ::= SEQUENCE {
   restrictionType
-    MATCHING-RESTRICTION.&amp;id({SupportedMatchingRestrictions}),
+    MATCHING-RESTRICTION.&id({SupportedMatchingRestrictions}),
   restrictionValue
-    MATCHING-RESTRICTION.&amp;Restriction
+    MATCHING-RESTRICTION.&Restriction
       ({SupportedMatchingRestrictions}{@restrictionType})
 }
 
@@ -651,18 +651,18 @@ AttributeCombination ::= CHOICE {
 }
 
 ResultAttribute ::= SEQUENCE {
-  attributeType  ATTRIBUTE.&amp;id({SupportedAttributes}),
+  attributeType  ATTRIBUTE.&id({SupportedAttributes}),
   outputValues
     CHOICE {selectedValues
               SEQUENCE SIZE (1..MAX) OF
-                ATTRIBUTE.&amp;Type({SupportedAttributes}{@attributeType}),
+                ATTRIBUTE.&Type({SupportedAttributes}{@attributeType}),
             matchedValuesOnly  NULL} OPTIONAL,
   contexts       [0]  SEQUENCE SIZE (1..MAX) OF ContextProfile OPTIONAL
 }
 
 OutputValues ::= CHOICE {
   selectedValues
-    SEQUENCE SIZE (1..MAX) OF ATTRIBUTE.&amp;Type({SupportedAttributes}),
+    SEQUENCE SIZE (1..MAX) OF ATTRIBUTE.&Type({SupportedAttributes}),
   matchedValuesOnly  NULL
 }
 
@@ -700,88 +700,88 @@ Mapping ::= SEQUENCE {
 
 MRSubstitution ::= SEQUENCE {
   attribute        AttributeType,
-  oldMatchingRule  [0]  MATCHING-RULE.&amp;id OPTIONAL,
-  newMatchingRule  [1]  MATCHING-RULE.&amp;id OPTIONAL
+  oldMatchingRule  [0]  MATCHING-RULE.&id OPTIONAL,
+  newMatchingRule  [1]  MATCHING-RULE.&id OPTIONAL
 }
 
 SEARCH-RULE ::= CLASS {
-  &amp;dmdId                 OBJECT IDENTIFIER,
-  &amp;serviceType           OBJECT IDENTIFIER OPTIONAL,
-  &amp;userClass             INTEGER OPTIONAL,
-  &amp;InputAttributeTypes   REQUEST-ATTRIBUTE OPTIONAL,
-  &amp;combination           AttributeCombination OPTIONAL,
-  &amp;OutputAttributeTypes  RESULT-ATTRIBUTE OPTIONAL,
-  &amp;defaultControls       ControlOptions OPTIONAL,
-  &amp;mandatoryControls     ControlOptions OPTIONAL,
-  &amp;searchRuleControls    ControlOptions OPTIONAL,
-  &amp;familyGrouping        FamilyGrouping OPTIONAL,
-  &amp;familyReturn          FamilyReturn OPTIONAL,
-  &amp;additionalControl     AttributeType OPTIONAL,
-  &amp;relaxation            RelaxationPolicy OPTIONAL,
-  &amp;entryLimit            EntryLimit OPTIONAL,
-  &amp;allowedSubset         AllowedSubset DEFAULT '111'B,
-  &amp;imposedSubset         ImposedSubset OPTIONAL,
-  &amp;id                    INTEGER UNIQUE
+  &dmdId                 OBJECT IDENTIFIER,
+  &serviceType           OBJECT IDENTIFIER OPTIONAL,
+  &userClass             INTEGER OPTIONAL,
+  &InputAttributeTypes   REQUEST-ATTRIBUTE OPTIONAL,
+  &combination           AttributeCombination OPTIONAL,
+  &OutputAttributeTypes  RESULT-ATTRIBUTE OPTIONAL,
+  &defaultControls       ControlOptions OPTIONAL,
+  &mandatoryControls     ControlOptions OPTIONAL,
+  &searchRuleControls    ControlOptions OPTIONAL,
+  &familyGrouping        FamilyGrouping OPTIONAL,
+  &familyReturn          FamilyReturn OPTIONAL,
+  &additionalControl     AttributeType OPTIONAL,
+  &relaxation            RelaxationPolicy OPTIONAL,
+  &entryLimit            EntryLimit OPTIONAL,
+  &allowedSubset         AllowedSubset DEFAULT '111'B,
+  &imposedSubset         ImposedSubset OPTIONAL,
+  &id                    INTEGER UNIQUE
 }
 WITH SYNTAX {
-  DMD ID &amp;dmdId
-  [SERVICE-TYPE &amp;serviceType]
-  [USER-CLASS &amp;userClass]
-  [INPUT ATTRIBUTES &amp;InputAttributeTypes]
-  [COMBINATION &amp;combination]
-  [OUTPUT ATTRIBUTES &amp;OutputAttributeTypes]
-  [DEFAULT CONTROL &amp;defaultControls]
-  [MANDATORY CONTROL &amp;mandatoryControls]
-  [SEARCH-RULE CONTROL &amp;searchRuleControls]
-  [FAMILY-GROUPING &amp;familyGrouping]
-  [FAMILY-RETURN &amp;familyReturn]
-  [ADDITIONAL CONTROL &amp;additionalControl]
-  [RELAXATION &amp;relaxation]
-  [ALLOWED SUBSET &amp;allowedSubset]
-  [IMPOSED SUBSET &amp;imposedSubset]
-  [ENTRY LIMIT &amp;entryLimit]
-  ID &amp;id
+  DMD ID &dmdId
+  [SERVICE-TYPE &serviceType]
+  [USER-CLASS &userClass]
+  [INPUT ATTRIBUTES &InputAttributeTypes]
+  [COMBINATION &combination]
+  [OUTPUT ATTRIBUTES &OutputAttributeTypes]
+  [DEFAULT CONTROL &defaultControls]
+  [MANDATORY CONTROL &mandatoryControls]
+  [SEARCH-RULE CONTROL &searchRuleControls]
+  [FAMILY-GROUPING &familyGrouping]
+  [FAMILY-RETURN &familyReturn]
+  [ADDITIONAL CONTROL &additionalControl]
+  [RELAXATION &relaxation]
+  [ALLOWED SUBSET &allowedSubset]
+  [IMPOSED SUBSET &imposedSubset]
+  [ENTRY LIMIT &entryLimit]
+  ID &id
 }
 
 REQUEST-ATTRIBUTE ::= CLASS {
-  &amp;attributeType       ATTRIBUTE.&amp;id,
-  &amp;SelectedValues      ATTRIBUTE.&amp;Type OPTIONAL,
-  &amp;DefaultValues       SEQUENCE {entryType  OBJECT-CLASS.&amp;id OPTIONAL,
-                                     values     SEQUENCE OF ATTRIBUTE.&amp;Type
+  &attributeType       ATTRIBUTE.&id,
+  &SelectedValues      ATTRIBUTE.&Type OPTIONAL,
+  &DefaultValues       SEQUENCE {entryType  OBJECT-CLASS.&id OPTIONAL,
+                                     values     SEQUENCE OF ATTRIBUTE.&Type
   } OPTIONAL,
-  &amp;contexts            SEQUENCE OF ContextProfile OPTIONAL,
-  &amp;contextCombination  ContextCombination OPTIONAL,
-  &amp;MatchingUse         MatchingUse OPTIONAL,
-  &amp;includeSubtypes     BOOLEAN DEFAULT FALSE
+  &contexts            SEQUENCE OF ContextProfile OPTIONAL,
+  &contextCombination  ContextCombination OPTIONAL,
+  &MatchingUse         MatchingUse OPTIONAL,
+  &includeSubtypes     BOOLEAN DEFAULT FALSE
 }
 WITH SYNTAX {
-  ATTRIBUTE TYPE &amp;attributeType
-  [SELECTED VALUES &amp;SelectedValues]
-  [DEFAULT VALUES &amp;DefaultValues]
-  [CONTEXTS &amp;contexts]
-  [CONTEXT COMBINATION &amp;contextCombination]
-  [MATCHING USE &amp;MatchingUse]
-  [INCLUDE SUBTYPES &amp;includeSubtypes]
+  ATTRIBUTE TYPE &attributeType
+  [SELECTED VALUES &SelectedValues]
+  [DEFAULT VALUES &DefaultValues]
+  [CONTEXTS &contexts]
+  [CONTEXT COMBINATION &contextCombination]
+  [MATCHING USE &MatchingUse]
+  [INCLUDE SUBTYPES &includeSubtypes]
 }
 
 RESULT-ATTRIBUTE ::= CLASS {
-  &amp;attributeType  ATTRIBUTE.&amp;id,
-  &amp;outputValues   OutputValues OPTIONAL,
-  &amp;contexts       ContextProfile OPTIONAL
+  &attributeType  ATTRIBUTE.&id,
+  &outputValues   OutputValues OPTIONAL,
+  &contexts       ContextProfile OPTIONAL
 }
 WITH SYNTAX {
-  ATTRIBUTE TYPE &amp;attributeType
-  [OUTPUT VALUES &amp;outputValues]
-  [CONTEXTS &amp;contexts]
+  ATTRIBUTE TYPE &attributeType
+  [OUTPUT VALUES &outputValues]
+  [CONTEXTS &contexts]
 }
 
 MATCHING-RESTRICTION ::= CLASS {
-  &amp;Restriction  ,
-  &amp;Rules        MATCHING-RULE.&amp;id,
-  &amp;id           OBJECT IDENTIFIER UNIQUE
-}WITH SYNTAX {RESTRICTION &amp;Restriction
-              RULES &amp;Rules
-              ID &amp;id
+  &Restriction  ,
+  &Rules        MATCHING-RULE.&id,
+  &id           OBJECT IDENTIFIER UNIQUE
+}WITH SYNTAX {RESTRICTION &Restriction
+              RULES &Rules
+              ID &id
 }
 
 -- object identifier assignments 
@@ -880,5 +880,5 @@ id-ar-serviceSpecificArea OBJECT IDENTIFIER ::= {id-ar 8}
 
 END -- InformationFramework
 
--- Generated by Asnp, the ASN.1 pretty-printer of France Telecom R&amp;D
+-- Generated by Asnp, the ASN.1 pretty-printer of France Telecom R&D
 

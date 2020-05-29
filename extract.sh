@@ -10,13 +10,13 @@ for filename in ./html/*.utf8.html; do
     # python2 -m html2text --ignore-links ./html/${mod}.utf8.html > ./modules/${mod}.asn1
     cat ./html/${mod}.utf8.html \
         | sed -e 's/<[^>]*>//g' \
-        | sed -e 's/&nbsp;//g' \
-        | sed -e 's/&lt;/</g' \
-        | sed -e 's/&gt;/>/g' \
-        | sed -e 's/&amp;/&/g' \
-        | sed -e 's/&quot;/"/g' \
-        | sed -e "s/&apos;/'/g" \
-        | sed -e 's/&copy;/(C)/g' \
-        | sed -e 's/&reg;/(R)/g' > ./modules/${mod}.asn1
+        | sed -e 's/\&nbsp;//g' \
+        | sed -e 's/\&lt;/</g' \
+        | sed -e 's/\&gt;/>/g' \
+        | sed -e 's/\&amp;/\&/g' \
+        | sed -e 's/\&quot;/"/g' \
+        | sed -e "s/\&apos;/'/g" \
+        | sed -e 's/\&copy;/(C)/g' \
+        | sed -e 's/\&reg;/(R)/g' > ./modules/${mod}.asn1
     echo "Processed module ${mod}"
 done

@@ -120,7 +120,7 @@ ActivateServiceFilteringArg{PARAMETERS-BOUND:bound} ::= SEQUENCE {
   filteringCriteria         [3]  FilteringCriteria{bound},
   startTime                 [4]  DateAndTime OPTIONAL,
   extensions
-    [5]  SEQUENCE SIZE (1..bound.&amp;numOfExtensions) OF
+    [5]  SEQUENCE SIZE (1..bound.&numOfExtensions) OF
            ExtensionField{{SupportedExtensions  {bound}}} OPTIONAL,
   ...
 }
@@ -164,7 +164,7 @@ AnalysedInformationArg{PARAMETERS-BOUND:bound} ::= SEQUENCE {
   routeList                    [10]  RouteList{bound} OPTIONAL,
   travellingClassMark          [11]  TravellingClassMark{bound} OPTIONAL,
   extensions
-    [12]  SEQUENCE SIZE (1..bound.&amp;numOfExtensions) OF
+    [12]  SEQUENCE SIZE (1..bound.&numOfExtensions) OF
             ExtensionField{{SupportedExtensions  {bound}}} OPTIONAL,
   featureCode                  [13]  FeatureCode{bound} OPTIONAL,
   accessCode                   [14]  AccessCode{bound} OPTIONAL,
@@ -200,7 +200,7 @@ AnalyseInformationArg{PARAMETERS-BOUND:bound} ::= SEQUENCE {
   iSDNAccessRelatedInformation     [2]  ISDNAccessRelatedInformation OPTIONAL,
   originalCalledPartyID            [3]  OriginalCalledPartyID{bound} OPTIONAL,
   extensions
-    [4]  SEQUENCE SIZE (1..bound.&amp;numOfExtensions) OF
+    [4]  SEQUENCE SIZE (1..bound.&numOfExtensions) OF
            ExtensionField{{SupportedExtensions  {bound}}} OPTIONAL,
   callingPartyNumber               [5]  CallingPartyNumber{bound} OPTIONAL,
   callingPartysCategory            [6]  CallingPartysCategory OPTIONAL,
@@ -241,7 +241,7 @@ ApplyChargingArg{PARAMETERS-BOUND:bound} ::= SEQUENCE {
     [0]  AChBillingChargingCharacteristics{bound},
   partyToCharge                      [2]  LegID OPTIONAL,
   extensions
-    [3]  SEQUENCE SIZE (1..bound.&amp;numOfExtensions) OF
+    [3]  SEQUENCE SIZE (1..bound.&numOfExtensions) OF
            ExtensionField{{SupportedExtensions  {bound}}} OPTIONAL,
   ...
 }
@@ -289,7 +289,7 @@ AssistRequestInstructionsArg{PARAMETERS-BOUND:bound} ::= SEQUENCE {
   iPAvailable        [1]  IPAvailable{bound} OPTIONAL,
   iPSSPCapabilities  [2]  IPSSPCapabilities{bound} OPTIONAL,
   extensions
-    [3]  SEQUENCE SIZE (1..bound.&amp;numOfExtensions) OF
+    [3]  SEQUENCE SIZE (1..bound.&numOfExtensions) OF
            ExtensionField{{SupportedExtensions  {bound}}} OPTIONAL,
   ...
 }
@@ -318,7 +318,7 @@ AuthorizeTerminationArg{PARAMETERS-BOUND:bound} ::= SEQUENCE {
   originalCalledPartyID            [5]  OriginalCalledPartyID{bound} OPTIONAL,
   travellingClassMark              [6]  TravellingClassMark{bound} OPTIONAL,
   extensions
-    [7]  SEQUENCE SIZE (1..bound.&amp;numOfExtensions) OF
+    [7]  SEQUENCE SIZE (1..bound.&numOfExtensions) OF
            ExtensionField{{SupportedExtensions  {bound}}} OPTIONAL,
   iNServiceCompatibilityResponse   [8]  INServiceCompatibilityResponse OPTIONAL,
   forwardGVNS                      [9]  ForwardGVNS{bound} OPTIONAL,
@@ -344,7 +344,7 @@ CallGapArg{PARAMETERS-BOUND:bound} ::= SEQUENCE {
   controlType    [2]  ControlType OPTIONAL,
   gapTreatment   [3]  GapTreatment{bound} OPTIONAL,
   extensions
-    [4]  SEQUENCE SIZE (1..bound.&amp;numOfExtensions) OF
+    [4]  SEQUENCE SIZE (1..bound.&numOfExtensions) OF
            ExtensionField{{SupportedExtensions  {bound}}} OPTIONAL,
   ...
 }
@@ -365,7 +365,7 @@ CallInformationReportArg{PARAMETERS-BOUND:bound} ::= SEQUENCE {
   requestedInformationList  [0]  RequestedInformationList{bound},
   correlationID             [1]  CorrelationID{bound} OPTIONAL,
   extensions
-    [2]  SEQUENCE SIZE (1..bound.&amp;numOfExtensions) OF
+    [2]  SEQUENCE SIZE (1..bound.&numOfExtensions) OF
            ExtensionField{{SupportedExtensions  {bound}}} OPTIONAL,
   legID                     [3]  LegID OPTIONAL,
   lastEventIndicator        [4]  BOOLEAN DEFAULT FALSE,
@@ -393,7 +393,7 @@ CallInformationRequestArg{PARAMETERS-BOUND:bound} ::= SEQUENCE {
   requestedInformationTypeList  [0]  RequestedInformationTypeList,
   correlationID                 [1]  CorrelationID{bound} OPTIONAL,
   extensions
-    [2]  SEQUENCE SIZE (1..bound.&amp;numOfExtensions) OF
+    [2]  SEQUENCE SIZE (1..bound.&numOfExtensions) OF
            ExtensionField{{SupportedExtensions  {bound}}} OPTIONAL,
   legID                         [3]  LegID OPTIONAL,
   ...
@@ -432,7 +432,7 @@ cancelStatusReportRequest{PARAMETERS-BOUND:bound} OPERATION ::= {
 CancelStatusReportRequestArg{PARAMETERS-BOUND:bound} ::= SEQUENCE {
   resourceID  [0]  ResourceID{bound} OPTIONAL,
   extensions
-    [1]  SEQUENCE SIZE (1..bound.&amp;numOfExtensions) OF
+    [1]  SEQUENCE SIZE (1..bound.&numOfExtensions) OF
            ExtensionField{{SupportedExtensions  {bound}}} OPTIONAL,
   ...
 }
@@ -464,7 +464,7 @@ CollectedInformationArg{PARAMETERS-BOUND:bound} ::= SEQUENCE {
   redirectionInformation       [9]  RedirectionInformation OPTIONAL,
   travellingClassMark          [10]  TravellingClassMark{bound} OPTIONAL,
   extensions
-    [11]  SEQUENCE SIZE (1..bound.&amp;numOfExtensions) OF
+    [11]  SEQUENCE SIZE (1..bound.&numOfExtensions) OF
             ExtensionField{{SupportedExtensions  {bound}}} OPTIONAL,
   featureCode                  [12]  FeatureCode{bound} OPTIONAL,
   accessCode                   [13]  AccessCode{bound} OPTIONAL,
@@ -496,7 +496,7 @@ CollectInformationArg{PARAMETERS-BOUND:bound} ::= SEQUENCE {
   originalCalledPartyID            [2]  OriginalCalledPartyID{bound} OPTIONAL,
   travellingClassMark              [3]  TravellingClassMark{bound} OPTIONAL,
   extensions
-    [4]  SEQUENCE SIZE (1..bound.&amp;numOfExtensions) OF
+    [4]  SEQUENCE SIZE (1..bound.&numOfExtensions) OF
            ExtensionField{{SupportedExtensions  {bound}}} OPTIONAL,
   callingPartyNumber               [5]  CallingPartyNumber{bound} OPTIONAL,
   dialledDigits                    [6]  CalledPartyNumber{bound} OPTIONAL,
@@ -541,7 +541,7 @@ ConnectArg{PARAMETERS-BOUND:bound} ::= SEQUENCE {
   scfID                            [8]  ScfID{bound} OPTIONAL,
   travellingClassMark              [9]  TravellingClassMark{bound} OPTIONAL,
   extensions
-    [10]  SEQUENCE SIZE (1..bound.&amp;numOfExtensions) OF
+    [10]  SEQUENCE SIZE (1..bound.&numOfExtensions) OF
             ExtensionField{{SupportedExtensions  {bound}}} OPTIONAL,
   carrier                          [11]  Carrier OPTIONAL,
   serviceInteractionIndicators
@@ -594,7 +594,7 @@ ConnectToResourceArg{PARAMETERS-BOUND:bound} ::= SEQUENCE {
                              callSegmentID     [1]  CallSegmentID{bound}
             }},
   extensions
-    [4]  SEQUENCE SIZE (1..bound.&amp;numOfExtensions) OF
+    [4]  SEQUENCE SIZE (1..bound.&numOfExtensions) OF
            ExtensionField{{SupportedExtensions  {bound}}} OPTIONAL,
   serviceInteractionIndicators
     [30]  ServiceInteractionIndicators{bound} OPTIONAL,
@@ -636,7 +636,7 @@ ContinueWithArgumentArg{PARAMETERS-BOUND:bound} ::= SEQUENCE {
   forwardGVNS                      [4]  ForwardGVNS{bound} OPTIONAL,
   backwardGVNS                     [5]  BackwardGVNS{bound} OPTIONAL,
   extensions
-    [6]  SEQUENCE SIZE (1..bound.&amp;numOfExtensions) OF
+    [6]  SEQUENCE SIZE (1..bound.&numOfExtensions) OF
            ExtensionField{{SupportedExtensions  {bound}}} OPTIONAL,
   serviceInteractionIndicatorsTwo
     [7]  ServiceInteractionIndicatorsTwo OPTIONAL,
@@ -658,7 +658,7 @@ createCallSegmentAssociation{PARAMETERS-BOUND:bound} OPERATION ::= {
 --  the SSF.
 CreateCallSegmentAssociationArg{PARAMETERS-BOUND:bound} ::= SEQUENCE {
   extensions
-    [0]  SEQUENCE SIZE (1..bound.&amp;numOfExtensions) OF
+    [0]  SEQUENCE SIZE (1..bound.&numOfExtensions) OF
            ExtensionField{{SupportedExtensions  {bound}}} OPTIONAL,
   ...
 }
@@ -698,7 +698,7 @@ DisconnectForwardConnectionWithArgumentArg{PARAMETERS-BOUND:bound} ::=
     CHOICE {legID          [0]  LegID,
             callSegmentID  [1]  CallSegmentID{bound}},
   extensions
-    [2]  SEQUENCE SIZE (1..bound.&amp;numOfExtensions) OF
+    [2]  SEQUENCE SIZE (1..bound.&numOfExtensions) OF
            ExtensionField{{SupportedExtensions  {bound}}} OPTIONAL,
   ...
 }
@@ -722,7 +722,7 @@ DisconnectLegArg{PARAMETERS-BOUND:bound} ::= SEQUENCE {
   legToBeReleased  [0]  LegID,
   releaseCause     [1]  Cause{bound} OPTIONAL,
   extensions
-    [2]  SEQUENCE SIZE (1..bound.&amp;numOfExtensions) OF
+    [2]  SEQUENCE SIZE (1..bound.&numOfExtensions) OF
            ExtensionField{{SupportedExtensions  {bound}}} OPTIONAL,
   ...
 }
@@ -769,7 +769,7 @@ EstablishTemporaryConnectionArg{PARAMETERS-BOUND:bound} ::= SEQUENCE {
             callSegmentID  [7]  CallSegmentID{bound}} OPTIONAL,
   scfID                            [3]  ScfID{bound} OPTIONAL,
   extensions
-    [4]  SEQUENCE SIZE (1..bound.&amp;numOfExtensions) OF
+    [4]  SEQUENCE SIZE (1..bound.&numOfExtensions) OF
            ExtensionField{{SupportedExtensions  {bound}}} OPTIONAL,
   carrier                          [5]  Carrier OPTIONAL,
   serviceInteractionIndicators
@@ -795,7 +795,7 @@ EventNotificationChargingArg{PARAMETERS-BOUND:bound} ::= SEQUENCE {
     [1]  EventSpecificInformationCharging{bound} OPTIONAL,
   legID                             [2]  LegID OPTIONAL,
   extensions
-    [3]  SEQUENCE SIZE (1..bound.&amp;numOfExtensions) OF
+    [3]  SEQUENCE SIZE (1..bound.&numOfExtensions) OF
            ExtensionField{{SupportedExtensions  {bound}}} OPTIONAL,
   monitorMode                       [30]  MonitorMode DEFAULT notifyAndContinue,
   ...
@@ -820,7 +820,7 @@ EventReportBCSMArg{PARAMETERS-BOUND:bound} ::= SEQUENCE {
   legID                         [3]  LegID OPTIONAL,
   miscCallInfo                  [4]  MiscCallInfo DEFAULT {messageType request},
   extensions
-    [5]  SEQUENCE SIZE (1..bound.&amp;numOfExtensions) OF
+    [5]  SEQUENCE SIZE (1..bound.&numOfExtensions) OF
            ExtensionField{{SupportedExtensions  {bound}}} OPTIONAL,
   componentType                 [6]  ComponentType OPTIONAL,
   component                     [7]  Component OPTIONAL,
@@ -846,7 +846,7 @@ EventReportFacilityArg{PARAMETERS-BOUND:bound} ::= SEQUENCE {
   legID                   [2]  LegID OPTIONAL,
   componentCorrelationID  [3]  ComponentCorrelationID OPTIONAL,
   extensions
-    [4]  SEQUENCE SIZE (1..bound.&amp;numOfExtensions) OF
+    [4]  SEQUENCE SIZE (1..bound.&numOfExtensions) OF
            ExtensionField{{SupportedExtensions  {bound}}} OPTIONAL,
   ...
 }
@@ -878,7 +878,7 @@ FacilitySelectedAndAvailableArg{PARAMETERS-BOUND:bound} ::= SEQUENCE {
   routeList                    [8]  RouteList{bound} OPTIONAL,
   travellingClassMark          [9]  TravellingClassMark{bound} OPTIONAL,
   extensions
-    [10]  SEQUENCE SIZE (1..bound.&amp;numOfExtensions) OF
+    [10]  SEQUENCE SIZE (1..bound.&numOfExtensions) OF
             ExtensionField{{SupportedExtensions  {bound}}} OPTIONAL,
   componentType                [11]  ComponentType OPTIONAL,
   component                    [12]  Component OPTIONAL,
@@ -962,7 +962,7 @@ InitialDPArg{PARAMETERS-BOUND:bound} ::= SEQUENCE {
   serviceProfileIdentifier          [13]  ServiceProfileIdentifier OPTIONAL,
   terminalType                      [14]  TerminalType OPTIONAL,
   extensions
-    [15]  SEQUENCE SIZE (1..bound.&amp;numOfExtensions) OF
+    [15]  SEQUENCE SIZE (1..bound.&numOfExtensions) OF
             ExtensionField{{SupportedExtensions  {bound}}} OPTIONAL,
   triggerType                       [16]  TriggerType OPTIONAL,
   highLayerCompatibility            [23]  HighLayerCompatibility OPTIONAL,
@@ -1017,7 +1017,7 @@ InitiateCallAttemptArg{PARAMETERS-BOUND:bound} ::= SEQUENCE {
   iSDNAccessRelatedInformation     [2]  ISDNAccessRelatedInformation OPTIONAL,
   travellingClassMark              [3]  TravellingClassMark{bound} OPTIONAL,
   extensions
-    [4]  SEQUENCE SIZE (1..bound.&amp;numOfExtensions) OF
+    [4]  SEQUENCE SIZE (1..bound.&numOfExtensions) OF
            ExtensionField{{SupportedExtensions  {bound}}} OPTIONAL,
   serviceInteractionIndicators
     [29]  ServiceInteractionIndicators{bound} OPTIONAL,
@@ -1048,7 +1048,7 @@ ManageTriggerDataArg{PARAMETERS-BOUND:bound} ::= SEQUENCE {
   triggerDataIdentifier  [1]  TriggerDataIdentifier{bound},
   registratorIdentifier  [2]  RegistratorIdentifier OPTIONAL,
   extensions
-    [3]  SEQUENCE SIZE (1..bound.&amp;numOfExtensions) OF
+    [3]  SEQUENCE SIZE (1..bound.&numOfExtensions) OF
            ExtensionField{{SupportedExtensions  {bound}}} OPTIONAL,
   ...
 }
@@ -1056,7 +1056,7 @@ ManageTriggerDataArg{PARAMETERS-BOUND:bound} ::= SEQUENCE {
 ManageTriggerDataResultArg{PARAMETERS-BOUND:bound} ::= SEQUENCE {
   actionPerformed  [0]  ActionPerformed,
   extensions
-    [1]  SEQUENCE SIZE (1..bound.&amp;numOfExtensions) OF
+    [1]  SEQUENCE SIZE (1..bound.&numOfExtensions) OF
            ExtensionField{{SupportedExtensions  {bound}}} OPTIONAL,
   ...
 }
@@ -1078,7 +1078,7 @@ MergeCallSegmentsArg{PARAMETERS-BOUND:bound} ::= SEQUENCE {
   sourceCallSegment  [0]  CallSegmentID{bound},
   targetCallSegment  [1]  CallSegmentID{bound} DEFAULT initialCallSegment,
   extensions
-    [2]  SEQUENCE SIZE (1..bound.&amp;numOfExtensions) OF
+    [2]  SEQUENCE SIZE (1..bound.&numOfExtensions) OF
            ExtensionField{{SupportedExtensions  {bound}}} OPTIONAL,
   ...
 }
@@ -1099,16 +1099,16 @@ MoveCallSegmentsArg{PARAMETERS-BOUND:bound} ::= SEQUENCE {
   targetCallSegmentAssociation  [0]  CSAID{bound},
   -- assignement of CSAID by SSF/SCF is ffs.
   callSegments
-    [1]  SEQUENCE SIZE (1..bound.&amp;numOfCSs) OF
+    [1]  SEQUENCE SIZE (1..bound.&numOfCSs) OF
            SEQUENCE {sourceCallSegment
                        [0]  CallSegmentID{bound} DEFAULT initialCallSegment,
                      newCallSegment     [1]  CallSegmentID{bound}},
   legs
-    [2]  SEQUENCE SIZE (1..bound.&amp;numOfLegs) OF
+    [2]  SEQUENCE SIZE (1..bound.&numOfLegs) OF
            SEQUENCE {sourceLeg  [0]  LegID,
                      newLeg     [1]  LegID},
   extensions
-    [2]  SEQUENCE SIZE (1..bound.&amp;numOfExtensions) OF
+    [2]  SEQUENCE SIZE (1..bound.&numOfExtensions) OF
            ExtensionField{{SupportedExtensions  {bound}}} OPTIONAL,
   ...
 }
@@ -1129,7 +1129,7 @@ MoveLegArg{PARAMETERS-BOUND:bound} ::= SEQUENCE {
   legIDToMove        [0]  LegID,
   targetCallSegment  [1]  CallSegmentID{bound} DEFAULT 1,
   extensions
-    [2]  SEQUENCE SIZE (1..bound.&amp;numOfExtensions) OF
+    [2]  SEQUENCE SIZE (1..bound.&numOfExtensions) OF
            ExtensionField{{SupportedExtensions  {bound}}} OPTIONAL,
   ...
 }
@@ -1156,7 +1156,7 @@ OAbandonArg{PARAMETERS-BOUND:bound} ::= SEQUENCE {
   callSegmentID               [1]  CallSegmentID{bound},
   releaseCause                [2]  Cause{bound} OPTIONAL,
   extensions
-    [3]  SEQUENCE SIZE (1..bound.&amp;numOfExtensions) OF
+    [3]  SEQUENCE SIZE (1..bound.&numOfExtensions) OF
            ExtensionField{{SupportedExtensions  {bound}}} OPTIONAL,
   ...
 }
@@ -1190,7 +1190,7 @@ OAnswerArg{PARAMETERS-BOUND:bound} ::= SEQUENCE {
   routeList                    [8]  RouteList{bound} OPTIONAL,
   travellingClassMark          [9]  TravellingClassMark{bound} OPTIONAL,
   extensions
-    [10]  SEQUENCE SIZE (1..bound.&amp;numOfExtensions) OF
+    [10]  SEQUENCE SIZE (1..bound.&numOfExtensions) OF
             ExtensionField{{SupportedExtensions  {bound}}} OPTIONAL,
   ...
 }
@@ -1224,7 +1224,7 @@ OCalledPartyBusyArg{PARAMETERS-BOUND:bound} ::= SEQUENCE {
   routeList                    [10]  RouteList{bound} OPTIONAL,
   travellingClassMark          [11]  TravellingClassMark{bound} OPTIONAL,
   extensions
-    [12]  SEQUENCE SIZE (1..bound.&amp;numOfExtensions) OF
+    [12]  SEQUENCE SIZE (1..bound.&numOfExtensions) OF
             ExtensionField{{SupportedExtensions  {bound}}} OPTIONAL,
   carrier                      [13]  Carrier OPTIONAL,
   ...
@@ -1255,7 +1255,7 @@ ODisconnectArg{PARAMETERS-BOUND:bound} ::= SEQUENCE {
   releaseCause                 [5]  Cause{bound} OPTIONAL,
   routeList                    [6]  RouteList{bound} OPTIONAL,
   extensions
-    [7]  SEQUENCE SIZE (1..bound.&amp;numOfExtensions) OF
+    [7]  SEQUENCE SIZE (1..bound.&numOfExtensions) OF
            ExtensionField{{SupportedExtensions  {bound}}} OPTIONAL,
   carrier                      [8]  Carrier OPTIONAL,
   connectTime                  [9]  Integer4 OPTIONAL,
@@ -1289,7 +1289,7 @@ MidCallArg{PARAMETERS-BOUND:bound} ::= SEQUENCE {
   callingPartySubaddress       [4]  CallingPartySubaddress OPTIONAL,
   featureRequestIndicator      [5]  FeatureRequestIndicator OPTIONAL,
   extensions
-    [6]  SEQUENCE SIZE (1..bound.&amp;numOfExtensions) OF
+    [6]  SEQUENCE SIZE (1..bound.&numOfExtensions) OF
            ExtensionField{{SupportedExtensions  {bound}}} OPTIONAL,
   carrier                      [7]  Carrier OPTIONAL,
   componentType                [8]  ComponentType OPTIONAL,
@@ -1327,7 +1327,7 @@ ONoAnswerArg{PARAMETERS-BOUND:bound} ::= SEQUENCE {
   routeList                    [9]  RouteList{bound} OPTIONAL,
   travellingClassMark          [10]  TravellingClassMark{bound} OPTIONAL,
   extensions
-    [11]  SEQUENCE SIZE (1..bound.&amp;numOfExtensions) OF
+    [11]  SEQUENCE SIZE (1..bound.&numOfExtensions) OF
             ExtensionField{{SupportedExtensions  {bound}}} OPTIONAL,
   carrier                      [12]  Carrier OPTIONAL,
   ...
@@ -1357,7 +1357,7 @@ OriginationAttemptArg{PARAMETERS-BOUND:bound} ::= SEQUENCE {
   carrier                      [5]  Carrier OPTIONAL,
   travellingClassMark          [6]  TravellingClassMark{bound} OPTIONAL,
   extensions
-    [7]  SEQUENCE SIZE (1..bound.&amp;numOfExtensions) OF
+    [7]  SEQUENCE SIZE (1..bound.&numOfExtensions) OF
            ExtensionField{{SupportedExtensions  {bound}}} OPTIONAL,
   componentType                [8]  ComponentType OPTIONAL,
   component                    [9]  Component OPTIONAL,
@@ -1391,7 +1391,7 @@ OriginationAttemptAuthorizedArg{PARAMETERS-BOUND:bound} ::= SEQUENCE {
   callingFacilityGroupMember   [5]  FacilityGroupMember OPTIONAL,
   travellingClassMark          [6]  TravellingClassMark{bound} OPTIONAL,
   extensions
-    [7]  SEQUENCE SIZE (1..bound.&amp;numOfExtensions) OF
+    [7]  SEQUENCE SIZE (1..bound.&numOfExtensions) OF
            ExtensionField{{SupportedExtensions  {bound}}} OPTIONAL,
   carrier                      [8]  Carrier OPTIONAL,
   componentType                [9]  ComponentType OPTIONAL,
@@ -1420,7 +1420,7 @@ OSuspendedArg{PARAMETERS-BOUND:bound} ::= SEQUENCE {
   dpSpecificCommonParameters  [0]  DpSpecificCommonParameters{bound},
   legID                       [1]  LegID OPTIONAL,
   extensions
-    [2]  SEQUENCE SIZE (1..bound.&amp;numOfExtensions) OF
+    [2]  SEQUENCE SIZE (1..bound.&numOfExtensions) OF
            ExtensionField{{SupportedExtensions  {bound}}} OPTIONAL,
   ...
 }
@@ -1445,7 +1445,7 @@ ReconnectArg{PARAMETERS-BOUND:bound} ::= SEQUENCE {
   alertingPattern       [1]  AlertingPattern OPTIONAL,
   displayInformation    [2]  DisplayInformation{bound} OPTIONAL,
   extensions
-    [3]  SEQUENCE SIZE (1..bound.&amp;numOfExtensions) OF
+    [3]  SEQUENCE SIZE (1..bound.&numOfExtensions) OF
            ExtensionField{{SupportedExtensions  {bound}}} OPTIONAL,
   callSegmentID         [4]  CallSegmentID{bound} OPTIONAL,
   ...
@@ -1466,7 +1466,7 @@ releaseCall{PARAMETERS-BOUND:bound} OPERATION ::= {
 ReleaseCallArg{PARAMETERS-BOUND:bound} ::= CHOICE {
   initialCallSegment     Cause{bound},
   associatedCallSegment
-    [1]  SEQUENCE {callSegment   [0]  INTEGER(2..bound.&amp;numOfCSs),
+    [1]  SEQUENCE {callSegment   [0]  INTEGER(2..bound.&numOfCSs),
                    releaseCause  [1]  Cause{bound} OPTIONAL},
   allCallSegments
     [2]  SEQUENCE {releaseCause  [0]  Cause{bound} OPTIONAL}
@@ -1488,7 +1488,7 @@ ReportUTSIArg{PARAMETERS-BOUND:bound} ::= SEQUENCE {
   legID                [1]  LegID DEFAULT receivingSideID:leg1,
   uSIInformation       [2]  USIInformation{bound},
   extensions
-    [3]  SEQUENCE SIZE (1..bound.&amp;numOfExtensions) OF
+    [3]  SEQUENCE SIZE (1..bound.&numOfExtensions) OF
            ExtensionField{{SupportedExtensions  {bound}}} OPTIONAL,
   ...
 }
@@ -1513,7 +1513,7 @@ RequestCurrentStatusReportResultArg{PARAMETERS-BOUND:bound} ::= SEQUENCE {
   resourceStatus  [0]  ResourceStatus,
   resourceID      [1]  ResourceID{bound} OPTIONAL,
   extensions
-    [2]  SEQUENCE SIZE (1..bound.&amp;numOfExtensions) OF
+    [2]  SEQUENCE SIZE (1..bound.&numOfExtensions) OF
            ExtensionField{{SupportedExtensions  {bound}}} OPTIONAL,
   ...
 }
@@ -1537,7 +1537,7 @@ RequestEveryStatusChangeReportArg{PARAMETERS-BOUND:bound} ::= SEQUENCE {
   correlationID    [1]  CorrelationID{bound} OPTIONAL,
   monitorDuration  [2]  Duration OPTIONAL,
   extensions
-    [3]  SEQUENCE SIZE (1..bound.&amp;numOfExtensions) OF
+    [3]  SEQUENCE SIZE (1..bound.&numOfExtensions) OF
            ExtensionField{{SupportedExtensions  {bound}}} OPTIONAL,
   ...
 }
@@ -1564,7 +1564,7 @@ RequestFirstStatusMatchReportArg{PARAMETERS-BOUND:bound} ::= SEQUENCE {
   correlationID     [2]  CorrelationID{bound} OPTIONAL,
   monitorDuration   [3]  Duration OPTIONAL,
   extensions
-    [4]  SEQUENCE SIZE (1..bound.&amp;numOfExtensions) OF
+    [4]  SEQUENCE SIZE (1..bound.&numOfExtensions) OF
            ExtensionField{{SupportedExtensions  {bound}}} OPTIONAL,
   bearerCapability  [5]  BearerCapability{bound} OPTIONAL,
   ...
@@ -1587,7 +1587,7 @@ requestNotificationChargingEvent{PARAMETERS-BOUND:bound} OPERATION ::=
 -- This operation  is used by the SCF to instruct the SSF on how to manage the charging events
 -- which are received from other FEs and not under control of the service logic instance. 
 RequestNotificationChargingEventArg{PARAMETERS-BOUND:bound} ::=
-  SEQUENCE SIZE (1..bound.&amp;numOfChargingEvents) OF ChargingEvent{bound}
+  SEQUENCE SIZE (1..bound.&numOfChargingEvents) OF ChargingEvent{bound}
 
 requestReportBCSMEvent{PARAMETERS-BOUND:bound} OPERATION ::= {
   ARGUMENT       RequestReportBCSMEventArg {bound}
@@ -1613,10 +1613,10 @@ requestReportBCSMEvent{PARAMETERS-BOUND:bound} OPERATION ::= {
 --	   RequestReportBCSMEvent) from the SCF is allowed.
 RequestReportBCSMEventArg{PARAMETERS-BOUND:bound} ::= SEQUENCE {
   bcsmEvents
-    [0]  SEQUENCE SIZE (1..bound.&amp;numOfBCSMEvents) OF BCSMEvent{bound},
+    [0]  SEQUENCE SIZE (1..bound.&numOfBCSMEvents) OF BCSMEvent{bound},
   bcsmEventCorrelationID  [1]  CorrelationID{bound} OPTIONAL,
   extensions
-    [2]  SEQUENCE SIZE (1..bound.&amp;numOfExtensions) OF
+    [2]  SEQUENCE SIZE (1..bound.&numOfExtensions) OF
            ExtensionField{{SupportedExtensions  {bound}}} OPTIONAL,
   ...
 }
@@ -1643,7 +1643,7 @@ RequestReportFacilityEventArg{PARAMETERS-BOUND:bound} ::= SEQUENCE {
   componentCorrelationID  [2]  ComponentCorrelationID OPTIONAL,
   monitorDuration         [3]  Duration,
   extensions
-    [4]  SEQUENCE SIZE (1..bound.&amp;numOfExtensions) OF
+    [4]  SEQUENCE SIZE (1..bound.&numOfExtensions) OF
            ExtensionField{{SupportedExtensions  {bound}}} OPTIONAL,
   ...
 }
@@ -1665,7 +1665,7 @@ requestReportUTSI{PARAMETERS-BOUND:bound} OPERATION ::= {
 RequestReportUTSIArg{PARAMETERS-BOUND:bound} ::= SEQUENCE {
   requestedUTSIList  [0]  RequestedUTSIList{bound},
   extensions
-    [1]  SEQUENCE SIZE (1..bound.&amp;numOfExtensions) OF
+    [1]  SEQUENCE SIZE (1..bound.&numOfExtensions) OF
            ExtensionField{{SupportedExtensions  {bound}}} OPTIONAL,
   legID              [2]  LegID OPTIONAL,
   ...
@@ -1686,7 +1686,7 @@ ResetTimerArg{PARAMETERS-BOUND:bound} ::= SEQUENCE {
   timerID        [0]  TimerID DEFAULT tssf,
   timervalue     [1]  TimerValue,
   extensions
-    [2]  SEQUENCE SIZE (1..bound.&amp;numOfExtensions) OF
+    [2]  SEQUENCE SIZE (1..bound.&numOfExtensions) OF
            ExtensionField{{SupportedExtensions  {bound}}} OPTIONAL,
   callSegmentID  [3]  CallSegmentID{bound} OPTIONAL,
   ...
@@ -1722,7 +1722,7 @@ RouteSelectFailureArg{PARAMETERS-BOUND:bound} ::= SEQUENCE {
   routeList                    [11]  RouteList{bound} OPTIONAL,
   travellingClassMark          [12]  TravellingClassMark{bound} OPTIONAL,
   extensions
-    [13]  SEQUENCE SIZE (1..bound.&amp;numOfExtensions) OF
+    [13]  SEQUENCE SIZE (1..bound.&numOfExtensions) OF
             ExtensionField{{SupportedExtensions  {bound}}} OPTIONAL,
   carrier                      [14]  Carrier OPTIONAL,
   ...
@@ -1752,7 +1752,7 @@ SelectFacilityArg{PARAMETERS-BOUND:bound} ::= SEQUENCE {
   calledFacilityGroupMember        [4]  FacilityGroupMember OPTIONAL,
   originalCalledPartyID            [5]  OriginalCalledPartyID{bound} OPTIONAL,
   extensions
-    [6]  SEQUENCE SIZE (1..bound.&amp;numOfExtensions) OF
+    [6]  SEQUENCE SIZE (1..bound.&numOfExtensions) OF
            ExtensionField{{SupportedExtensions  {bound}}} OPTIONAL,
   displayInformation               [7]  DisplayInformation{bound} OPTIONAL,
   serviceInteractionIndicators
@@ -1797,7 +1797,7 @@ SelectRouteArg{PARAMETERS-BOUND:bound} ::= SEQUENCE {
   scfID                            [6]  ScfID{bound} OPTIONAL,
   travellingClassMark              [7]  TravellingClassMark{bound} OPTIONAL,
   extensions
-    [8]  SEQUENCE SIZE (1..bound.&amp;numOfExtensions) OF
+    [8]  SEQUENCE SIZE (1..bound.&numOfExtensions) OF
            ExtensionField{{SupportedExtensions  {bound}}} OPTIONAL,
   carrier                          [9]  Carrier OPTIONAL,
   serviceInteractionIndicators
@@ -1833,7 +1833,7 @@ SendChargingInformationArg{PARAMETERS-BOUND:bound} ::= SEQUENCE {
     [0]  SCIBillingChargingCharacteristics{bound},
   partyToCharge                      [1]  LegID,
   extensions
-    [2]  SEQUENCE SIZE (1..bound.&amp;numOfExtensions) OF
+    [2]  SEQUENCE SIZE (1..bound.&numOfExtensions) OF
            ExtensionField{{SupportedExtensions  {bound}}} OPTIONAL,
   ...
 }
@@ -1858,7 +1858,7 @@ SendFacilityInformationArg{PARAMETERS-BOUND:bound} ::= SEQUENCE {
   callProcessingOperationCorrelationID
     [4]  CallProcessingOperationCorrelationID DEFAULT fACility,
   extensions
-    [5]  SEQUENCE SIZE (1..bound.&amp;numOfExtensions) OF
+    [5]  SEQUENCE SIZE (1..bound.&numOfExtensions) OF
            ExtensionField{{SupportedExtensions  {bound}}} OPTIONAL,
   ...
 }
@@ -1883,7 +1883,7 @@ SendSTUIArg{PARAMETERS-BOUND:bound} ::= SEQUENCE {
   legID                [1]  LegID DEFAULT sendingSideID:leg1,
   uSIInformation       [2]  USIInformation{bound},
   extensions
-    [3]  SEQUENCE SIZE (1..bound.&amp;numOfExtensions) OF
+    [3]  SEQUENCE SIZE (1..bound.&numOfExtensions) OF
            ExtensionField{{SupportedExtensions  {bound}}} OPTIONAL,
   ...
 }
@@ -1902,7 +1902,7 @@ ServiceFilteringResponseArg{PARAMETERS-BOUND:bound} ::= SEQUENCE {
   countersValue      [0]  CountersValue,
   filteringCriteria  [1]  FilteringCriteria{bound},
   extensions
-    [2]  SEQUENCE SIZE (1..bound.&amp;numOfExtensions) OF
+    [2]  SEQUENCE SIZE (1..bound.&numOfExtensions) OF
            ExtensionField{{SupportedExtensions  {bound}}} OPTIONAL,
   responseCondition  [3]  ResponseCondition OPTIONAL,
   ...
@@ -1922,9 +1922,9 @@ splitLeg{PARAMETERS-BOUND:bound} OPERATION ::= {
 --  or to interrupt the bearer connection between the involved legs of a single two party Call segment.
 SplitLegArg{PARAMETERS-BOUND:bound} ::= SEQUENCE {
   legToBeSplit    [0]  LegID,
-  newCallSegment  [1]  INTEGER(2..bound.&amp;numOfCSs),
+  newCallSegment  [1]  INTEGER(2..bound.&numOfCSs),
   extensions
-    [2]  SEQUENCE SIZE (1..bound.&amp;numOfExtensions) OF
+    [2]  SEQUENCE SIZE (1..bound.&numOfExtensions) OF
            ExtensionField{{SupportedExtensions  {bound}}} OPTIONAL,
   ...
 }
@@ -1944,7 +1944,7 @@ StatusReportArg{PARAMETERS-BOUND:bound} ::= SEQUENCE {
   correlationID    [1]  CorrelationID{bound} OPTIONAL,
   resourceID       [2]  ResourceID{bound} OPTIONAL,
   extensions
-    [3]  SEQUENCE SIZE (1..bound.&amp;numOfExtensions) OF
+    [3]  SEQUENCE SIZE (1..bound.&numOfExtensions) OF
            ExtensionField{{SupportedExtensions  {bound}}} OPTIONAL,
   reportCondition  [4]  ReportCondition OPTIONAL,
   ...
@@ -1974,7 +1974,7 @@ TAnswerArg{PARAMETERS-BOUND:bound} ::= SEQUENCE {
   calledFacilityGroup         [3]  FacilityGroup OPTIONAL,
   calledFacilityGroupMember   [4]  FacilityGroupMember OPTIONAL,
   extensions
-    [5]  SEQUENCE SIZE (1..bound.&amp;numOfExtensions) OF
+    [5]  SEQUENCE SIZE (1..bound.&numOfExtensions) OF
            ExtensionField{{SupportedExtensions  {bound}}} OPTIONAL,
   componentType               [6]  ComponentType OPTIONAL,
   component                   [7]  Component OPTIONAL,
@@ -2006,7 +2006,7 @@ TBusyArg{PARAMETERS-BOUND:bound} ::= SEQUENCE {
   routeList                   [7]  RouteList{bound} OPTIONAL,
   travellingClassMark         [8]  TravellingClassMark{bound} OPTIONAL,
   extensions
-    [9]  SEQUENCE SIZE (1..bound.&amp;numOfExtensions) OF
+    [9]  SEQUENCE SIZE (1..bound.&numOfExtensions) OF
            ExtensionField{{SupportedExtensions  {bound}}} OPTIONAL,
   ...
 }
@@ -2036,7 +2036,7 @@ TDisconnectArg{PARAMETERS-BOUND:bound} ::= SEQUENCE {
   calledFacilityGroupMember   [4]  FacilityGroupMember OPTIONAL,
   releaseCause                [5]  Cause{bound} OPTIONAL,
   extensions
-    [6]  SEQUENCE SIZE (1..bound.&amp;numOfExtensions) OF
+    [6]  SEQUENCE SIZE (1..bound.&numOfExtensions) OF
            ExtensionField{{SupportedExtensions  {bound}}} OPTIONAL,
   connectTime                 [7]  Integer4 OPTIONAL,
   componentType               [8]  ComponentType OPTIONAL,
@@ -2070,7 +2070,7 @@ TermAttemptAuthorizedArg{PARAMETERS-BOUND:bound} ::= SEQUENCE {
   routeList                    [7]  RouteList{bound} OPTIONAL,
   travellingClassMark          [8]  TravellingClassMark{bound} OPTIONAL,
   extensions
-    [9]  SEQUENCE SIZE (1..bound.&amp;numOfExtensions) OF
+    [9]  SEQUENCE SIZE (1..bound.&numOfExtensions) OF
            ExtensionField{{SupportedExtensions  {bound}}} OPTIONAL,
   callingPartySubaddress       [10]  CallingPartySubaddress OPTIONAL,
   ...
@@ -2102,7 +2102,7 @@ TerminationAttemptArg{PARAMETERS-BOUND:bound} ::= SEQUENCE {
   routeList                    [8]  RouteList{bound} OPTIONAL,
   travellingClassMark          [9]  TravellingClassMark{bound} OPTIONAL,
   extensions
-    [10]  SEQUENCE SIZE (1..bound.&amp;numOfExtensions) OF
+    [10]  SEQUENCE SIZE (1..bound.&numOfExtensions) OF
             ExtensionField{{SupportedExtensions  {bound}}} OPTIONAL,
   ...
 }
@@ -2147,7 +2147,7 @@ TNoAnswerArg{PARAMETERS-BOUND:bound} ::= SEQUENCE {
   redirectionInformation      [7]  RedirectionInformation OPTIONAL,
   travellingClassMark         [8]  TravellingClassMark{bound} OPTIONAL,
   extensions
-    [9]  SEQUENCE SIZE (1..bound.&amp;numOfExtensions) OF
+    [9]  SEQUENCE SIZE (1..bound.&numOfExtensions) OF
            ExtensionField{{SupportedExtensions  {bound}}} OPTIONAL,
   componentType               [10]  ComponentType OPTIONAL,
   component                   [11]  Component OPTIONAL,
@@ -2172,7 +2172,7 @@ TSuspendedArg{PARAMETERS-BOUND:bound} ::= SEQUENCE {
   dpSpecificCommonParameters  [0]  DpSpecificCommonParameters{bound},
   legID                       [1]  LegID OPTIONAL,
   extensions
-    [2]  SEQUENCE SIZE (1..bound.&amp;numOfExtensions) OF
+    [2]  SEQUENCE SIZE (1..bound.&numOfExtensions) OF
            ExtensionField{{SupportedExtensions  {bound}}} OPTIONAL,
   ...
 }
@@ -2182,5 +2182,5 @@ TSuspendedArg{PARAMETERS-BOUND:bound} ::= SEQUENCE {
 -- Use for T/EDP-R is ffs.
 END
 
--- Generated by Asnp, the ASN.1 pretty-printer of France Telecom R&amp;D
+-- Generated by Asnp, the ASN.1 pretty-printer of France Telecom R&D
 

@@ -63,18 +63,18 @@ SECURITY-EXCHANGE ::=
    -- This information object class definition is for use when
   -- specifying a particular instance of a security exchange.
   {
-  &amp;SE-Items       SEC-EXCHG-ITEM,
+  &SE-Items       SEC-EXCHG-ITEM,
   -- This is an ASN.1 information object set, comprising a set
   -- of security exchange items
-  &amp;sE-Identifier  Identifier UNIQUE
+  &sE-Identifier  Identifier UNIQUE
   -- A local or global identifier for the particular security
   -- exchange
 }
 WITH SYNTAX
  -- The following syntax is used to specify a particular security
 -- exchange.
-{SE-ITEMS &amp;SE-Items
- IDENTIFIER &amp;sE-Identifier
+{SE-ITEMS &SE-Items
+ IDENTIFIER &sE-Identifier
 }
 
 Identifier ::= CHOICE {local   INTEGER,
@@ -82,27 +82,27 @@ Identifier ::= CHOICE {local   INTEGER,
 }
 
 SEC-EXCHG-ITEM ::= CLASS {
-  &amp;ItemType  ,
+  &ItemType  ,
   --  ASN.1 type for this exchange item
-  &amp;itemId    INTEGER,
+  &itemId    INTEGER,
   --  Identifier for this item, e.g. 1, 2, 3, ..
-  &amp;Errors    SE-ERROR OPTIONAL
+  &Errors    SE-ERROR OPTIONAL
   --  Optional list of errors which may result from
   --  transfer of this item
-}WITH SYNTAX {ITEM-TYPE &amp;ItemType
-              ITEM-ID &amp;itemId
-              [ERRORS &amp;Errors]
+}WITH SYNTAX {ITEM-TYPE &ItemType
+              ITEM-ID &itemId
+              [ERRORS &Errors]
 }
 
 SE-ERROR ::= CLASS {
-  &amp;ParameterType  OPTIONAL,
+  &ParameterType  OPTIONAL,
   -- ASN.1 type of a parameter to accompany the signalling
   -- of the error condition back to the sender of the SEI
-  &amp;errorCode      Identifier UNIQUE
+  &errorCode      Identifier UNIQUE
   -- An identifier used in signalling the error condition
   -- back to the sender of the SEI
-}WITH SYNTAX {[PARAMETER &amp;ParameterType]
-              ERROR-CODE &amp;errorCode
+}WITH SYNTAX {[PARAMETER &ParameterType]
+              ERROR-CODE &errorCode
 }
 
 -- ************************************************ 
@@ -113,37 +113,37 @@ SECURITY-TRANSFORMATION ::=
    -- This information object class definition is for use when
   -- specifying a particular instance of a security transformation.
   {
-  &amp;sT-Identifier           OBJECT IDENTIFIER UNIQUE,
+  &sT-Identifier           OBJECT IDENTIFIER UNIQUE,
   -- Identifier to be used in signalling the application
   -- of the particular security transformation
-  &amp;initialEncodingRules    OBJECT IDENTIFIER DEFAULT {joint-iso-ccitt
+  &initialEncodingRules    OBJECT IDENTIFIER DEFAULT {joint-iso-ccitt
                                                           asn1(1)
                                                           ber-derived(2)
                                                           canonical-encoding(0)},
   -- Default initial encoding rules to generate a bit
   -- string prior to applying the encoding process of a
   -- security transformation.
-  &amp;StaticUnprotectedParm   OPTIONAL,
+  &StaticUnprotectedParm   OPTIONAL,
   -- ASN.1 type for conveying static unprotected parameters
-  &amp;DynamicUnprotectedParm  OPTIONAL,
+  &DynamicUnprotectedParm  OPTIONAL,
   -- ASN.1 type for conveying dynamic unprotected parameters
-  &amp;XformedDataType         ,
+  &XformedDataType         ,
   -- ASN.1 type of the ASN.1 value produced by the security
   -- transformations encoding process
-  &amp;QualifierType           OPTIONAL
-  -- &amp;QualifierType specifies the ASN.1 type of the qualifier
+  &QualifierType           OPTIONAL
+  -- &QualifierType specifies the ASN.1 type of the qualifier
   -- parameter used with the PROTECTED-Q notation.
 }
 WITH SYNTAX
  -- The following syntax is used to specify a particular security
 -- transformation.
 {
-  IDENTIFIER &amp;sT-Identifier
-  [INITIAL-ENCODING-RULES &amp;initialEncodingRules]
-  [STATIC-UNPROT-PARM &amp;StaticUnprotectedParm]
-  [DYNAMIC-UNPROT-PARM &amp;DynamicUnprotectedParm]
-  XFORMED-DATA-TYPE &amp;XformedDataType
-  [QUALIFIER-TYPE &amp;QualifierType]
+  IDENTIFIER &sT-Identifier
+  [INITIAL-ENCODING-RULES &initialEncodingRules]
+  [STATIC-UNPROT-PARM &StaticUnprotectedParm]
+  [DYNAMIC-UNPROT-PARM &DynamicUnprotectedParm]
+  XFORMED-DATA-TYPE &XformedDataType
+  [QUALIFIER-TYPE &QualifierType]
 }
 
 -- ************************************************** 
@@ -179,9 +179,9 @@ PROTECTED{BaseType, PROTECTION-MAPPING:protectionReqd} ::= CHOICE {
   -- and any application relays through which the data
   -- may pass are trusted to maintain the required
   -- protection. This alternative may only be used
-  -- if protectionReqd.&amp;bypassPermitted is TRUE,
+  -- if protectionReqd.&bypassPermitted is TRUE,
   direct
-    [1]  SyntaxStructure{{protectionReqd.&amp;SecurityTransformation}},
+    [1]  SyntaxStructure{{protectionReqd.&SecurityTransformation}},
   -- direct generates a protecting transfer syntax
   -- value, which is encoded using the same encoding
   -- rules as the surrounding ASN.1  (The type
@@ -197,12 +197,12 @@ PROTECTED{BaseType, PROTECTION-MAPPING:protectionReqd} ::= CHOICE {
                                                                     OBJECT
                                                                     IDENTIFIER:
                                                                     protectionReqd.
-                                                                    &amp;protTransferSyntax})
+                                                                    &protTransferSyntax})
                                                            }),
                                  transfer-syntax          (CONSTRAINED BY {
                                                              OBJECT IDENTIFIER:
                                                              protectionReqd.
-                                                               &amp;protTransferSyntax})
+                                                               &protTransferSyntax})
                                }),
               data-value      (CONTAINING BaseType)
             
@@ -211,11 +211,11 @@ PROTECTED{BaseType, PROTECTION-MAPPING:protectionReqd} ::= CHOICE {
 }
 
 PROTECTED-Q{BaseType, PROTECTION-MAPPING:protectionReqd,
-            PROTECTION-MAPPING.&amp;SecurityTransformation.&amp;QualifierType:qualifier}
+            PROTECTION-MAPPING.&SecurityTransformation.&QualifierType:qualifier}
   ::=
   PROTECTED{BaseType, protectionReqd}
     (CONSTRAINED BY {
-       protectionReqd.&amp;SecurityTransformation.&amp;QualifierType:qualifier
+       protectionReqd.&SecurityTransformation.&QualifierType:qualifier
        -- The value of qualifier must be made available to
        -- the security transformation used
        })
@@ -229,31 +229,31 @@ PROTECTED-Q{BaseType, PROTECTION-MAPPING:protectionReqd,
 -- Notation for specifying protection mappings 
 -- ******************************************* 
 PROTECTION-MAPPING ::= CLASS {
-  &amp;SecurityTransformation  SECURITY-TRANSFORMATION,
-  -- &amp;SecurityTransformation specifies an ASN.1 object set of the
+  &SecurityTransformation  SECURITY-TRANSFORMATION,
+  -- &SecurityTransformation specifies an ASN.1 object set of the
   -- SECURITY-TRANSFORMATION class. Use of the particular
   -- protection mapping implies use of one of the specified
   -- transformations, with the choice being left to the
   -- encoding system. Rules for selecting between these security
   -- transformations may be specified in comments.
-  &amp;protTransferSyntax      OBJECT IDENTIFIER DEFAULT {joint-iso-itu-t
+  &protTransferSyntax      OBJECT IDENTIFIER DEFAULT {joint-iso-itu-t
                                                           genericULS(20)
                                                           generalTransferSyntax(2)},
   -- Identifies the particular protecting transfer syntax to
   -- be used in an EMDEDDED PDV encoding for the embedded
   -- option.
-  &amp;bypassPermitted         BOOLEAN DEFAULT FALSE
+  &bypassPermitted         BOOLEAN DEFAULT FALSE
   -- Indicates if bypassing of protection is permitted
 }
 WITH SYNTAX {
-  SECURITY-TRANSFORMATION &amp;SecurityTransformation
-  [PROTECTING-TRANSFER-SYNTAX &amp;protTransferSyntax]
-  [BYPASS-PERMITTED &amp;bypassPermitted]
+  SECURITY-TRANSFORMATION &SecurityTransformation
+  [PROTECTING-TRANSFER-SYNTAX &protTransferSyntax]
+  [BYPASS-PERMITTED &bypassPermitted]
 }
 
 END
 
--- Generated by Asnp, the ASN.1 pretty-printer of France Telecom R&amp;D
+-- Generated by Asnp, the ASN.1 pretty-printer of France Telecom R&D
 
 <!-- content of stack:
 

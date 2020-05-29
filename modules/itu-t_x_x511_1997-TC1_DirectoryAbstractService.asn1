@@ -148,7 +148,7 @@ FamilyReturn ::= SEQUENCE {
   memberSelect
     ENUMERATED {contributingEntriesOnly(1), participatingEntriesOnly(2),
                 compoundEntry(3)},
-  familySelect  SEQUENCE SIZE (1..MAX) OF OBJECT-CLASS.&amp;id OPTIONAL
+  familySelect  SEQUENCE SIZE (1..MAX) OF OBJECT-CLASS.&id OPTIONAL
 }
 
 family-information ATTRIBUTE ::= {
@@ -158,7 +158,7 @@ family-information ATTRIBUTE ::= {
 }
 
 FamilyEntries ::= SEQUENCE {
-  family-class   OBJECT-CLASS.&amp;id, -- structural object class value
+  family-class   OBJECT-CLASS.&id, -- structural object class value
   familyEntries  SEQUENCE OF FamilyEntry
 }
 
@@ -189,12 +189,12 @@ Filter ::= CHOICE {
 }
 
 MatchingRuleAssertion ::= SEQUENCE {
-  matchingRule  [1]  SET SIZE (1..MAX) OF MATCHING-RULE.&amp;id,
+  matchingRule  [1]  SET SIZE (1..MAX) OF MATCHING-RULE.&id,
   type          [2]  AttributeType OPTIONAL,
   matchValue
-    [3]  MATCHING-RULE.&amp;AssertionType
+    [3]  MATCHING-RULE.&AssertionType
            (CONSTRAINED BY {
-              -- matchValue must be a value of type specified by the &amp;AssertionType field of 
+              -- matchValue must be a value of type specified by the &AssertionType field of 
               -- one of the MATCHING-RULE information objects identified by matchingRule -- }),
   dnAttributes  [4]  BOOLEAN DEFAULT FALSE
 }
@@ -202,19 +202,19 @@ MatchingRuleAssertion ::= SEQUENCE {
 FilterItem ::= CHOICE {
   equality          [0]  AttributeValueAssertion,
   substrings
-    [1]  SEQUENCE {type     ATTRIBUTE.&amp;id({SupportedAttributes}),
+    [1]  SEQUENCE {type     ATTRIBUTE.&id({SupportedAttributes}),
                    strings
                      SEQUENCE OF
                        CHOICE {initial
-                                 [0]  ATTRIBUTE.&amp;Type
+                                 [0]  ATTRIBUTE.&Type
                                         ({SupportedAttributes}
                                            {@substrings.type}),
                                any
-                                 [1]  ATTRIBUTE.&amp;Type
+                                 [1]  ATTRIBUTE.&Type
                                         ({SupportedAttributes}
                                            {@substrings.type}),
                                final
-                                 [2]  ATTRIBUTE.&amp;Type
+                                 [2]  ATTRIBUTE.&Type
                                         ({SupportedAttributes}
                                            {@substrings.type}),
                                control  Attribute -- Used to specify interpretation of following items
@@ -238,7 +238,7 @@ PagedResultsRequest ::= CHOICE {
 
 SortKey ::= SEQUENCE {
   type          AttributeType,
-  orderingRule  MATCHING-RULE.&amp;id OPTIONAL
+  orderingRule  MATCHING-RULE.&id OPTIONAL
 }
 
 SecurityParameters ::= SET {
@@ -331,7 +331,7 @@ directoryBindError ERROR ::= {
           error
             CHOICE {serviceError   [1]  ServiceProblem,
                     securityError  [2]  SecurityProblem}},
-     dirqop.&amp;dirBindError-QOP}
+     dirqop.&dirBindError-QOP}
 }
 
 BindKeyInfo ::= ENCRYPTED{BIT STRING}
@@ -353,13 +353,13 @@ ReadArgument ::=
     {SET {object               [0]  Name,
           selection            [1]  EntryInformationSelection DEFAULT {},
           modifyRightsRequest  [2]  BOOLEAN DEFAULT FALSE,
-          COMPONENTS OF CommonArguments}, dirqop.&amp;dapReadArg-QOP}
+          COMPONENTS OF CommonArguments}, dirqop.&dapReadArg-QOP}
 
 ReadResult ::=
   OPTIONALLY-PROTECTED
     {SET {entry         [0]  EntryInformation,
           modifyRights  [1]  ModifyRights OPTIONAL,
-          COMPONENTS OF CommonResults}, dirqop.&amp;dapReadRes-QOP}
+          COMPONENTS OF CommonResults}, dirqop.&dapReadRes-QOP}
 
 ModifyRights ::=
   SET OF
@@ -384,7 +384,7 @@ CompareArgument ::=
   OPTIONALLY-PROTECTED
     {SET {object     [0]  Name,
           purported  [1]  AttributeValueAssertion,
-          COMPONENTS OF CommonArguments}, dirqop.&amp;dapCompareArg-QOP}
+          COMPONENTS OF CommonArguments}, dirqop.&dapCompareArg-QOP}
 
 CompareResult ::=
   OPTIONALLY-PROTECTED
@@ -392,7 +392,7 @@ CompareResult ::=
           matched         [0]  BOOLEAN,
           fromEntry       [1]  BOOLEAN DEFAULT TRUE,
           matchedSubtype  [2]  AttributeType OPTIONAL,
-          COMPONENTS OF CommonResults}, dirqop.&amp;dapCompareRes-QOP}
+          COMPONENTS OF CommonResults}, dirqop.&dapCompareRes-QOP}
 
 abandon OPERATION ::= {
   ARGUMENT  AbandonArgument
@@ -403,14 +403,14 @@ abandon OPERATION ::= {
 
 AbandonArgument ::=
   OPTIONALLY-PROTECTED{SEQUENCE {invokeID  [0]  InvokeId
-    }, dirqop.&amp;dapAbandonArg-QOP}
+    }, dirqop.&dapAbandonArg-QOP}
 
 AbandonResult ::= CHOICE {
   null         NULL,
   information
     OPTIONALLY-PROTECTED{SET {invokeID  InvokeId,
                               COMPONENTS OF CommonResults
-      }, dirqop.&amp;dapAbandonRes-QOP}
+      }, dirqop.&dapAbandonRes-QOP}
 }
 
 list OPERATION ::= {
@@ -425,7 +425,7 @@ ListArgument ::=
     {SET {object        [0]  Name,
           pagedResults  [1]  PagedResultsRequest OPTIONAL,
           listFamily    [2]  BOOLEAN DEFAULT FALSE,
-          COMPONENTS OF CommonArguments}, dirqop.&amp;dapListArg-QOP}
+          COMPONENTS OF CommonArguments}, dirqop.&dapListArg-QOP}
 
 ListResult ::=
   OPTIONALLY-PROTECTED
@@ -441,13 +441,13 @@ ListResult ::=
                       [2]  PartialOutcomeQualifier OPTIONAL,
                     COMPONENTS OF CommonResults},
              uncorrelatedListInfo  [0]  SET OF ListResult
-    }, dirqop.&amp;dapListRes-QOP}
+    }, dirqop.&dapListRes-QOP}
 
 PartialOutcomeQualifier ::= SET {
   limitProblem                   [0]  LimitProblem OPTIONAL,
   unexplored                     [1]  SET OF ContinuationReference OPTIONAL,
   unavailableCriticalExtensions  [2]  BOOLEAN DEFAULT FALSE,
-  unknownErrors                  [3]  SET OF ABSTRACT-SYNTAX.&amp;Type OPTIONAL,
+  unknownErrors                  [3]  SET OF ABSTRACT-SYNTAX.&Type OPTIONAL,
   queryReference                 [4]  OCTET STRING OPTIONAL,
   overspecFilter                 [5]  Filter OPTIONAL,
   notification
@@ -488,7 +488,7 @@ SearchArgument ::=
           hierarchySelections   [11]  HierarchySelections DEFAULT {self},
           searchControlOptions
             [12]  SearchControlOptions DEFAULT {searchAliases},
-          COMPONENTS OF CommonArguments}, dirqop.&amp;dapSearchArg-QOP}
+          COMPONENTS OF CommonArguments}, dirqop.&dapSearchArg-QOP}
 
 HierarchySelections ::= BIT STRING {
   self(0), children(1), parent(2), hierarchy(3), top(4), subtree(5),
@@ -510,7 +510,7 @@ SearchResult ::=
                     altMatching              [3]  BOOLEAN DEFAULT FALSE,
                     COMPONENTS OF CommonResults},
              uncorrelatedSearchInfo  [0]  SET OF SearchResult
-    }, dirqop.&amp;dapSearchRes-QOP}
+    }, dirqop.&dapSearchRes-QOP}
 
 addEntry OPERATION ::= {
   ARGUMENT  AddEntryArgument
@@ -526,13 +526,13 @@ AddEntryArgument ::=
     {SET {object        [0]  Name,
           entry         [1]  SET OF Attribute,
           targetSystem  [2]  AccessPoint OPTIONAL,
-          COMPONENTS OF CommonArguments}, dirqop.&amp;dapAddEntryArg-QOP}
+          COMPONENTS OF CommonArguments}, dirqop.&dapAddEntryArg-QOP}
 
 AddEntryResult ::= CHOICE {
   null         NULL,
   information
     PROTECTED{SET {COMPONENTS OF CommonResults
-      }, dirqop.&amp;dapAddEntryRes-QOP}
+      }, dirqop.&dapAddEntryRes-QOP}
 }
 
 removeEntry OPERATION ::= {
@@ -545,13 +545,13 @@ removeEntry OPERATION ::= {
 RemoveEntryArgument ::=
   OPTIONALLY-PROTECTED{SET {object  [0]  Name,
                             COMPONENTS OF CommonArguments
-    }, dirqop.&amp;dapRemoveEntryArg-QOP}
+    }, dirqop.&dapRemoveEntryArg-QOP}
 
 RemoveEntryResult ::= CHOICE {
   null         NULL,
   information
     PROTECTED{SET {COMPONENTS OF CommonResults
-      }, dirqop.&amp;dapRemoveEntryRes-QOP}
+      }, dirqop.&dapRemoveEntryRes-QOP}
 }
 
 modifyEntry OPERATION ::= {
@@ -568,14 +568,14 @@ ModifyEntryArgument ::=
     {SET {object     [0]  Name,
           changes    [1]  SEQUENCE OF EntryModification,
           selection  [2]  EntryInformationSelection OPTIONAL,
-          COMPONENTS OF CommonArguments}, dirqop.&amp;dapModifyEntryArg-QOP}
+          COMPONENTS OF CommonArguments}, dirqop.&dapModifyEntryArg-QOP}
 
 ModifyEntryResult ::= CHOICE {
   null         NULL,
   information
     OPTIONALLY-PROTECTED{SET {entry  [0]  EntryInformation OPTIONAL,
                               COMPONENTS OF CommonResults
-      }, dirqop.&amp;dapModifyEntryRes-QOP}
+      }, dirqop.&dapModifyEntryRes-QOP}
 }
 
 EntryModification ::= CHOICE {
@@ -600,21 +600,21 @@ ModifyDNArgument ::=
           newRDN        [1]  RelativeDistinguishedName,
           deleteOldRDN  [2]  BOOLEAN DEFAULT FALSE,
           newSuperior   [3]  DistinguishedName OPTIONAL,
-          COMPONENTS OF CommonArguments}, dirqop.&amp;dapModifyDNArg-QOP}
+          COMPONENTS OF CommonArguments}, dirqop.&dapModifyDNArg-QOP}
 
 ModifyDNResult ::= CHOICE {
   null         NULL,
   information
     OPTIONALLY-PROTECTED{SET {newRDN  RelativeDistinguishedName,
                               COMPONENTS OF CommonResults
-      }, dirqop.&amp;dapModifyDNRes-QOP}
+      }, dirqop.&dapModifyDNRes-QOP}
 }
 
 -- Errors and parameters 
 abandoned ERROR ::= { -- not literally an "error"
   PARAMETER OPTIONALLY-PROTECTED
     {SET {COMPONENTS OF CommonResults},
-     dirqop.&amp;dirErrors-QOP}
+     dirqop.&dirErrors-QOP}
   CODE                            id-errcode-abandoned
 }
 
@@ -623,7 +623,7 @@ abandonFailed ERROR ::= {
     {SET {problem    [0]  AbandonProblem,
           operation  [1]  InvokeId,
           COMPONENTS OF CommonResults},
-     dirqop.&amp;dirErrors-QOP}
+     dirqop.&dirErrors-QOP}
   CODE                            id-errcode-abandonFailed
 }
 
@@ -638,7 +638,7 @@ attributeError ERROR ::= {
                              type     [1]  AttributeType,
                              value    [2]  AttributeValue OPTIONAL},
           COMPONENTS OF CommonResults},
-     dirqop.&amp;dirErrors-QOP}
+     dirqop.&dirErrors-QOP}
   CODE                            id-errcode-attributeError
 }
 
@@ -652,7 +652,7 @@ nameError ERROR ::= {
     {SET {problem  [0]  NameProblem,
           matched  [1]  Name,
           COMPONENTS OF CommonResults},
-     dirqop.&amp;dirErrors-QOP}
+     dirqop.&dirErrors-QOP}
   CODE                            id-errcode-nameError
 }
 
@@ -664,7 +664,7 @@ referral ERROR ::= { -- not literally an "error"
   PARAMETER OPTIONALLY-PROTECTED
     {SET {candidate  [0]  ContinuationReference,
           COMPONENTS OF CommonResults},
-     dirqop.&amp;dirErrors-QOP}
+     dirqop.&dirErrors-QOP}
   CODE                            id-errcode-referral
 }
 
@@ -673,7 +673,7 @@ securityError ERROR ::= {
     {SET {problem   [0]  SecurityProblem,
           spkmInfo  [1]  SPKM-ERROR,
           COMPONENTS OF CommonResults},
-     dirqop.&amp;dirErrors-QOP}
+     dirqop.&dirErrors-QOP}
   CODE                            id-errcode-securityError
 }
 
@@ -687,7 +687,7 @@ serviceError ERROR ::= {
   PARAMETER OPTIONALLY-PROTECTED
     {SET {problem  [0]  ServiceProblem,
           COMPONENTS OF CommonResults},
-     dirqop.&amp;dirErrors-QOP}
+     dirqop.&dirErrors-QOP}
   CODE                            id-errcode-serviceError
 }
 
@@ -709,7 +709,7 @@ updateError ERROR ::= {
                    CHOICE {attributeType  AttributeType,
                            attribute      Attribute} OPTIONAL,
           COMPONENTS OF CommonResults},
-     dirqop.&amp;dirErrors-QOP}
+     dirqop.&dirErrors-QOP}
   CODE                            id-errcode-updateError
 }
 
@@ -723,5 +723,5 @@ id-at-family-information OBJECT IDENTIFIER ::= {id-at 64}
 
 END
 
--- Generated by Asnp, the ASN.1 pretty-printer of France Telecom R&amp;D
+-- Generated by Asnp, the ASN.1 pretty-printer of France Telecom R&D
 

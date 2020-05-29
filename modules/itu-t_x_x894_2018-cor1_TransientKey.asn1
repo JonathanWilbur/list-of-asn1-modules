@@ -78,4 +78,3 @@ children  ArchiveTreeList  OPTIONAL
 ArchiveTreeList ::= SEQUENCE SIZE(1..MAX) OF ArchiveTree
 UriList ::= SEQUENCE SIZE(1..MAX) OF Uri
 END  -- TransientKey
-

@@ -52,8 +52,8 @@ AccessCode{B2:b2} ::= LocationNumber{b2}
 -- Of local significance.
 AChBillingChargingCharacteristics{B2:b2} ::=
   OCTET STRING
-    (SIZE (b2.&amp;minAChBillingChargingLength..
-             b2.&amp;maxAChBillingChargingLength))
+    (SIZE (b2.&minAChBillingChargingLength..
+             b2.&maxAChBillingChargingLength))
 
 -- The AChBillingChargingCharacteristics parameter specifies the charging related information
 -- to be provided by the SSF and the conditions on which this information has to be reported
@@ -113,7 +113,7 @@ AssistingSSPIPRoutingAddress{B2:b2} ::=
 -- Indicates the destination address of the SRF for the assist procedure.
 BackwardGVNS{B2:b2} ::=
   OCTET STRING
-    (SIZE (b2.&amp;minBackwardGVNSLength..b2.&amp;maxBackwardGVNSLength))
+    (SIZE (b2.&minBackwardGVNSLength..b2.&maxBackwardGVNSLength))
 
 -- Indicates the GVNS Backward information. Refer to Q.735, §6 for encoding.
 BackwardServiceInteractionInd ::= SEQUENCE {
@@ -136,7 +136,7 @@ BCSMEvent{B2:b2} ::= SEQUENCE {
 
 -- Indicates the BCSM Event information for monitoring.
 BearerCapability{B2:b2} ::= CHOICE {
-  bearerCap  [0]  OCTET STRING(SIZE (2..b2.&amp;maxBearerCapabilityLength)),
+  bearerCap  [0]  OCTET STRING(SIZE (2..b2.&maxBearerCapabilityLength)),
   tmr        [1]  OCTET STRING(SIZE (1))
 }
 
@@ -148,8 +148,8 @@ BothwayThroughConnectionInd ::= ENUMERATED {
 
 CalledDirectoryNumber{B2:b2} ::=
   OCTET STRING
-    (SIZE (b2.&amp;minCalledDirectoryNumberLength..
-             b2.&amp;maxCalledDirectoryNumberLength))
+    (SIZE (b2.&minCalledDirectoryNumberLength..
+             b2.&maxCalledDirectoryNumberLength))
 
 -- Indicates the Called Directory Number. Refer to Q.763  'Called Directory Number' for encoding.
 CalledPartyBusinessGroupID ::= OCTET STRING
@@ -158,20 +158,20 @@ CalledPartyBusinessGroupID ::= OCTET STRING
 -- operator specific.
 CalledPartyNumber{B2:b2} ::=
   OCTET STRING
-    (SIZE (b2.&amp;minCalledPartyNumberLength..
-             b2.&amp;maxCalledPartyNumberLength))
+    (SIZE (b2.&minCalledPartyNumberLength..
+             b2.&maxCalledPartyNumberLength))
 
 -- Indicates the Called Party Number.. Refer to Q.763 for encoding.
 CalledPartySubaddress{B2:b2} ::=
   OCTET STRING
-    (SIZE (b2.&amp;minCalledPartySubaddressLength..
-             b2.&amp;maxCalledPartySubaddressLength))
+    (SIZE (b2.&minCalledPartySubaddressLength..
+             b2.&maxCalledPartySubaddressLength))
 
 -- Indicates the Called Party Subaddress. . Refer to Q.763 for encoding.
 CallingGeodeticLocation{B2:b2} ::=
   OCTET STRING
-    (SIZE (b2.&amp;minCallingGeodeticLocationLength..
-             b2.&amp;maxCallingGeodeticLocationLength))
+    (SIZE (b2.&minCallingGeodeticLocationLength..
+             b2.&maxCallingGeodeticLocationLength))
 
 -- The coding of this parameter is based on the appropriate mapping with the ISUP parameter Calling Geodetic Location. 
 -- Refer to Q.763 for encoding. 
@@ -186,14 +186,14 @@ CallingPartyBusinessGroupID ::= OCTET STRING
 -- operator specific.
 CallingPartyNumber{B2:b2} ::=
   OCTET STRING
-    (SIZE (b2.&amp;minCallingPartyNumberLength..
-             b2.&amp;maxCallingPartyNumberLength))
+    (SIZE (b2.&minCallingPartyNumberLength..
+             b2.&maxCallingPartyNumberLength))
 
 -- Indicates the Calling Party Number.  Refer to Q.763 for encoding.
 CallingPartySubaddress{B2:b2} ::=
   OCTET STRING
-    (SIZE (b2.&amp;minCallingPartySubaddressLength..
-             b2.&amp;maxCallingPartySubaddressLength))
+    (SIZE (b2.&minCallingPartySubaddressLength..
+             b2.&maxCallingPartySubaddressLength))
 
 -- Indicates the Calling Party Subaddress. . Refer to Q.763  for encoding.
 CallingPartysCategory ::= OCTET STRING(SIZE (1))
@@ -203,7 +203,7 @@ CallProcessingOperationCorrelationID ::= ENUMERATED {
   aLERTing(1), sETUP(5), cONNect(7), dISConnect(69), rELease(77),
   rELeaseCOMPlete(90), fACility(98)}
 
-CallReference{B2:b2} ::= OCTET STRING(SIZE (1..b2.&amp;maxCallReferenceLength))
+CallReference{B2:b2} ::= OCTET STRING(SIZE (1..b2.&maxCallReferenceLength))
 
 -- The coding of this parameter is network specific.
 -- A possible coding is the Q.763 call reference 
@@ -211,7 +211,7 @@ CallReference{B2:b2} ::= OCTET STRING(SIZE (1..b2.&amp;maxCallReferenceLength))
 -- The Call Reference value is unique within one network. When transit through a private
 -- network the uniqueness of the call reference parameter is not maintained
 CallResult{B2:b2} ::=
-  OCTET STRING(SIZE (b2.&amp;minCallResultLength..b2.&amp;maxCallResultLength))
+  OCTET STRING(SIZE (b2.&minCallResultLength..b2.&maxCallResultLength))
 
 -- This parameter provides the SCF with the charging related information previously requested
 -- using the ApplyCharging operation. This shall include the partyToCharge parameter as
@@ -221,10 +221,10 @@ CallResult{B2:b2} ::=
 -- costs, tariff change and time of change, time stamps, durations, etc.
 -- Examples of conditions on which the charging related information are to be reported may be:
 -- threshold value reached, timer expiration, tariff change, end of connection configuration, etc.
-CallSegmentID{B2:b2} ::= INTEGER(1..b2.&amp;numOfCSs)
+CallSegmentID{B2:b2} ::= INTEGER(1..b2.&numOfCSs)
 
 Carrier{B2:b2} ::=
-  OCTET STRING(SIZE (b2.&amp;minCarrierLength..b2.&amp;maxCarrierLength))
+  OCTET STRING(SIZE (b2.&minCarrierLength..b2.&maxCarrierLength))
 
 -- Contains the carrier selection field (first octet) followed by either  Carrier ID information (option 1) , or the Transit
 --Network selection information (option 2), depending on the network.
@@ -247,7 +247,7 @@ Carrier{B2:b2} ::=
 --The encoding that should be used is dependent on the network. It is a hard-coded decision based
 -- on the region  in which the switch is located.
 Cause{B2:b2} ::=
-  OCTET STRING(SIZE (b2.&amp;minCauseLength..b2.&amp;maxCauseLength))
+  OCTET STRING(SIZE (b2.&minCauseLength..b2.&maxCauseLength))
 
 -- Indicates the cause for interface related information. Refer to the Q.763 Cause  parameter for encoding
 -- For the use of cause and location values refer to Q.850.
@@ -274,7 +274,7 @@ ChargingEvent{B2:b2} ::= SEQUENCE {
 }
 
 -- This parameter indicates the charging event  type and corresponding monitor mode and LedID
-CNInfo{B2:b2} ::= OCTET STRING(SIZE (1..b2.&amp;maxCNInfoLength))
+CNInfo{B2:b2} ::= OCTET STRING(SIZE (1..b2.&maxCNInfoLength))
 
 -- encoding of cNInfo  is similar to the NNI specific information in the APP parameter in Q.765.1
 --first octet contains Q.765.1 CNID indicator, only bit 5 and 6 are significant. This is followed by zero to 12 octets 
@@ -323,7 +323,7 @@ CountersValue ::= SEQUENCE SIZE (0..numOfCounters) OF CounterAndValue
 
 CreateOrRemoveIndicator ::= ENUMERATED {create(0), remove(1)}
 
-CSAID{B2:b2} ::= INTEGER(1..b2.&amp;numOfCSAs)
+CSAID{B2:b2} ::= INTEGER(1..b2.&numOfCSAs)
 
 -- Indicates the SSF CSA identifier
 CutAndPaste ::= INTEGER(0..2)
@@ -356,11 +356,11 @@ DefaultFaultHandling{B2:b2, B3:b3} ::= SEQUENCE {
 }
 
 DestinationRoutingAddress{B2:b2} ::=
-  SEQUENCE SIZE (1..b2.&amp;numOfAddresses) OF CalledPartyNumber{b2}
+  SEQUENCE SIZE (1..b2.&numOfAddresses) OF CalledPartyNumber{b2}
 
 -- Indicates the list of Called Party Numbers (primary and alternates).
 Digits{B2:b2} ::=
-  OCTET STRING(SIZE (b2.&amp;minDigitsLength..b2.&amp;maxDigitsLength))
+  OCTET STRING(SIZE (b2.&minDigitsLength..b2.&maxDigitsLength))
 
 -- Indicates the address signalling digits. Refer to the Q.763 Generic Number and Generic Digits parameter
 -- for encoding. The coding of the subfield's 'NumberQualifier' in Generic Number and 'TypeOfDigits' in
@@ -376,8 +376,8 @@ Digits{B2:b2} ::=
 --MidCallInfoType,, iNServiceControlCode for MidCallInfo.
 DisplayInformation{B2:b2} ::=
   IA5String
-    (SIZE (b2.&amp;minDisplayInformationLength..
-             b2.&amp;maxDisplayInformationLength))
+    (SIZE (b2.&minDisplayInformationLength..
+             b2.&maxDisplayInformationLength))
 
 -- Indicates the display information
 -- Delivery of DisplayInformation parameter to Private Networks cannot be guaranteed due to signalling
@@ -533,8 +533,8 @@ EventSpecificInformationBCSM{B2:b2} ::= CHOICE {
 -- The unit for the connectTime is 100 milliseconds
 EventSpecificInformationCharging{B2:b2} ::=
   OCTET STRING
-    (SIZE (b2.&amp;minEventSpecificInformationChargingLength..
-             b2.&amp;maxEventSpecificInformationChargingLength))
+    (SIZE (b2.&minEventSpecificInformationChargingLength..
+             b2.&maxEventSpecificInformationChargingLength))
 
 -- defined by network operator.
 -- Its content is network signalling/operator specific. 
@@ -558,8 +558,8 @@ EventTypeBCSM ::= ENUMERATED {
 -- The value range 100- 127 is reserved for bearer related events
 EventTypeCharging{B2:b2} ::=
   OCTET STRING
-    (SIZE (b2.&amp;minEventTypeChargingLength..
-             b2.&amp;maxEventTypeChargingLength))
+    (SIZE (b2.&minEventTypeChargingLength..
+             b2.&maxEventTypeChargingLength))
 
 -- This parameter indicates the charging event type. .
 -- Its content is network signalling / operator specific. 
@@ -582,8 +582,8 @@ FacilityGroupMember ::= INTEGER
 -- Indicates the specific member of a trunk group or multi-line hunt group.
 FCIBillingChargingCharacteristics{B2:b2} ::=
   OCTET STRING
-    (SIZE (b2.&amp;minFCIBillingChargingLength..
-             b2.&amp;maxFCIBillingChargingLength))
+    (SIZE (b2.&minFCIBillingChargingLength..
+             b2.&maxFCIBillingChargingLength))
 
 -- This parameter indicates the billing and/or charging characteristics.
 -- Its content is network operator specific.
@@ -678,7 +678,7 @@ ForwardCallIndicators ::= OCTET STRING(SIZE (2))
 -- Indicates the Forward Call Indicators. Refer to Q.763 for encoding
 ForwardGVNS{B2:b2} ::=
   OCTET STRING
-    (SIZE (b2.&amp;minForwardGVNSLength..b2.&amp;maxForwardGVNSLength))
+    (SIZE (b2.&minForwardGVNSLength..b2.&maxForwardGVNSLength))
 
 -- Indicates the GVNS Forward information. Refer to Q.735, §6 for encoding.
 ForwardingCondition ::= ENUMERATED {busy(0), noanswer(1), any(2)}
@@ -766,16 +766,16 @@ GapTreatment{B2:b2, B3:b3} ::= CHOICE {
 -- The default value for Cause is the same as in ISUP.
 GenericName{B2:b2} ::=
   OCTET STRING
-    (SIZE (b2.&amp;minGenericNameLength..b2.&amp;maxGenericNameLength))
+    (SIZE (b2.&minGenericNameLength..b2.&maxGenericNameLength))
 
 -- Refer to Q.931 Display Information for encoding.
 GenericNumber{B2:b2} ::=
   OCTET STRING
-    (SIZE (b2.&amp;minGenericNumberLength..b2.&amp;maxGenericNumberLength))
+    (SIZE (b2.&minGenericNumberLength..b2.&maxGenericNumberLength))
 
 -- Refer to Q.763 Generic Number for encoding.
 GenericNumbers{B2:b2} ::=
-  SET SIZE (1..b2.&amp;numOfGenericNumbers) OF GenericNumber{b2}
+  SET SIZE (1..b2.&numOfGenericNumbers) OF GenericNumber{b2}
 
 HighLayerCompatibility ::= OCTET STRING(SIZE (highLayerCompatibilityLength))
 
@@ -800,7 +800,7 @@ INprofile{B1:b1, B2:b2} ::= SEQUENCE {
 }
 
 INServiceCompatibilityIndication{B2:b2} ::=
-  SEQUENCE SIZE (1..b2.&amp;numOfInServiceCompatibilityIndLength) OF Entry
+  SEQUENCE SIZE (1..b2.&numOfInServiceCompatibilityIndLength) OF Entry
 
 INServiceCompatibilityResponse ::= Entry
 
@@ -809,7 +809,7 @@ Interval ::= INTEGER(-1..60000)
 -- Units are milliseconds. A -1 value denotes infinite.
 IPAvailable{B2:b2} ::=
   OCTET STRING
-    (SIZE (b2.&amp;minIPAvailableLength..b2.&amp;maxIPAvailableLength))
+    (SIZE (b2.&minIPAvailableLength..b2.&maxIPAvailableLength))
 
 -- defined by network operator.
 -- Indicates that the resource is available.
@@ -820,16 +820,16 @@ IPRoutingAddress{B2:b2} ::=
 -- Indicates the routing address for the IP.
 IPSSPCapabilities{B2:b2} ::=
   OCTET STRING
-    (SIZE (b2.&amp;minIPSSPCapabilitiesLength..
-             b2.&amp;maxIPSSPCapabilitiesLength))
+    (SIZE (b2.&minIPSSPCapabilitiesLength..
+             b2.&maxIPSSPCapabilitiesLength))
 
 -- defined by network operator.
 -- Indicates the SRF resources available at the SSP.
 -- Its content is network operator specific
 ISDNAccessRelatedInformation{B2:b2} ::=
   OCTET STRING
-    (SIZE (b2.&amp;minISDNAccessRelatedInfoLength..
-             b2.&amp;maxISDNAccessRelatedInfoLength))
+    (SIZE (b2.&minISDNAccessRelatedInfoLength..
+             b2.&maxISDNAccessRelatedInfoLength))
 
 -- Indicates the destination user network interface related information. Refer to the Q.763 Access 
 -- Transport parameter for encoding.
@@ -856,14 +856,14 @@ leg2 LegType ::= '02'H
 
 LocationNumber{B2:b2} ::=
   OCTET STRING
-    (SIZE (b2.&amp;minLocationNumberLength..b2.&amp;maxLocationNumberLength))
+    (SIZE (b2.&minLocationNumberLength..b2.&maxLocationNumberLength))
 
 -- Indicates the Location Number for the calling party. Refer to Q.763 (White book) for encoding.
 MaximumNumberOfCounters ::= INTEGER(1..numOfCounters)
 
 MidCallControlInfo{B2:b2} ::=
   SEQUENCE 
-    SIZE (b2.&amp;minMidCallControlInfoNum..b2.&amp;maxMidCallControlInfoNum)
+    SIZE (b2.&minMidCallControlInfoNum..b2.&maxMidCallControlInfoNum)
     OF
     SEQUENCE {midCallInfoType    [0]  MidCallInfoType{b2},
               midCallReportType
@@ -903,8 +903,8 @@ NumberOfDigits ::= INTEGER(1..255)
 -- Indicates the number of digits to be collected
 OriginalCalledPartyID{B2:b2} ::=
   OCTET STRING
-    (SIZE (b2.&amp;minOriginalCalledPartyIDLength..
-             b2.&amp;maxOriginalCalledPartyIDLength))
+    (SIZE (b2.&minOriginalCalledPartyIDLength..
+             b2.&maxOriginalCalledPartyIDLength))
 
 -- Indicates the original called number. d Refer to the Q.763 Original Called Number for encoding.
 ProfileIdentifier{B2:b2} ::= CHOICE {
@@ -915,13 +915,13 @@ ProfileIdentifier{B2:b2} ::= CHOICE {
 -- Please note that 'CalledPartyNumber' is used to address a subscriber access line.
 --The data type was reused from the existing types to avoid the definition of a new one.
 Reason{B2:b2} ::=
-  OCTET STRING(SIZE (b2.&amp;minReasonLength..b2.&amp;maxReasonLength))
+  OCTET STRING(SIZE (b2.&minReasonLength..b2.&maxReasonLength))
 
 -- Its content is network operator specific
 RedirectingPartyID{B2:b2} ::=
   OCTET STRING
-    (SIZE (b2.&amp;minRedirectingPartyIDLength..
-             b2.&amp;maxRedirectingPartyIDLength))
+    (SIZE (b2.&minRedirectingPartyIDLength..
+             b2.&maxRedirectingPartyIDLength))
 
 -- Indicates redirecting number. Refer to the Q.763 Redirecting number for encoding.
 RedirectionInformation ::= OCTET STRING(SIZE (2))
@@ -970,7 +970,7 @@ RequestedUTSI{B2:b2} ::= SEQUENCE {
 }
 
 RequestedUTSIList{B2:b2} ::=
-  SEQUENCE SIZE (b2.&amp;minRequestedUTSINum..b2.&amp;maxRequestedUTSINum) OF
+  SEQUENCE SIZE (b2.&minRequestedUTSINum..b2.&maxRequestedUTSINum) OF
     RequestedUTSI{b2}
 
 ResourceID{B2:b2} ::= CHOICE {
@@ -991,17 +991,17 @@ ResponseCondition ::= ENUMERATED {intermediateResponse(0), lastResponse(1)
 -- ResponseCondition is used to identify the reason why ServiceFilteringResponse operation is sent.
 RouteList{B2:b2} ::=
   SEQUENCE SIZE (1..3) OF
-    OCTET STRING(SIZE (b2.&amp;minRouteListLength..b2.&amp;maxRouteListLength))
+    OCTET STRING(SIZE (b2.&minRouteListLength..b2.&maxRouteListLength))
 
 -- Indicates a list of trunk groups or a route index. .
 -- Its content is network operator specific
 RouteingNumber{B2:b2} ::=
   OCTET STRING
-    (SIZE (b2.&amp;minRouteingNumberLength..b2.&amp;maxRouteingNumberLength))
+    (SIZE (b2.&minRouteingNumberLength..b2.&maxRouteingNumberLength))
 
 -- Indicates the Routeing Number. Refer to Q.763  parameter Network Routeing Number for encoding.
 ScfID{B2:b2} ::=
-  OCTET STRING(SIZE (b2.&amp;minScfIDLength..b2.&amp;maxScfIDLength))
+  OCTET STRING(SIZE (b2.&minScfIDLength..b2.&maxScfIDLength))
 
 -- defined by network operator.
 -- Indicates the SCF identity.
@@ -1014,8 +1014,8 @@ ScfID{B2:b2} ::=
 -- Other encoding schemes are also possible as a network specific option..
 SCIBillingChargingCharacteristics{B2:b2} ::=
   OCTET STRING
-    (SIZE (b2.&amp;minSCIBillingChargingLength..
-             b2.&amp;maxSCIBillingChargingLength))
+    (SIZE (b2.&minSCIBillingChargingLength..
+             b2.&maxSCIBillingChargingLength))
 
 -- This parameter indicates the billing and/or charging characteristics.
 --  Its content is network signalling / operator specific
@@ -1032,7 +1032,7 @@ SCIBillingChargingCharacteristics{B2:b2} ::=
 -- chargeMessages (scenario 3.2)
 SDSSinformation{B2:b2} ::=
   OCTET STRING
-    (SIZE (b2.&amp;minSDSSinformationLength..b2.&amp;maxSDSSinformationLength))
+    (SIZE (b2.&minSDSSinformationLength..b2.&maxSDSSinformationLength))
 
 -- Its content is network operator specific
 ServiceAddressInformation ::= SEQUENCE {
@@ -1045,8 +1045,8 @@ ServiceAddressInformation ::= SEQUENCE {
 -- Information that represents the result of trigger analysis and allows the SCF to choose the appropriate service logic
 ServiceInteractionIndicators{B2:b2} ::=
   OCTET STRING
-    (SIZE (b2.&amp;minServiceInteractionIndicatorsLength..
-             b2.&amp;maxServiceInteractionIndicatorsLength))
+    (SIZE (b2.&minServiceInteractionIndicatorsLength..
+             b2.&maxServiceInteractionIndicatorsLength))
 
 -- Indicators which are exchanged between SSP and SCP to resolve interactions between IN based services
 -- and network based services, respectively between different IN based services.
@@ -1135,8 +1135,8 @@ ServingAreaID{B2:b2} ::=
 -- Defined by the network operator.
 SFBillingChargingCharacteristics{B2:b2} ::=
   OCTET STRING
-    (SIZE (b2.&amp;minSFBillingChargingLength..
-             b2.&amp;maxSFBillingChargingLength))
+    (SIZE (b2.&minSFBillingChargingLength..
+             b2.&maxSFBillingChargingLength))
 
 -- This parameter indicates the billing and/or charging characteristics for filtered calls.
 -- Its content is network signalling/operator specific.
@@ -1179,8 +1179,8 @@ TravellingClassMark{B2:b2} ::= LocationNumber{b2}
 -- The Numbering Plan Indicator field shall be set to "Spare" (value 000).
 -- Maximum 2 digits.
 TriggerData ::= SEQUENCE {
-  triggerId   [0]  TRIGGER.&amp;id({SupportedTriggers}),
-  triggerPar  [1]  TRIGGER.&amp;Parameter({SupportedTriggers}{@triggerId}),
+  triggerId   [0]  TRIGGER.&id({SupportedTriggers}),
+  triggerPar  [1]  TRIGGER.&Parameter({SupportedTriggers}{@triggerId}),
   ...
 }
 
@@ -1195,7 +1195,7 @@ TriggerDataIdentifier{B1:b1, B2:b2} ::= SEQUENCE {
 TriggerDPType ::= ENUMERATED {tdp-r(0), tdp-n(1)}
 
 TriggerResults{B2:b2} ::=
-  SEQUENCE SIZE (1..b2.&amp;numOfTriggers) OF TriggerResult
+  SEQUENCE SIZE (1..b2.&numOfTriggers) OF TriggerResult
 
 TriggerResult ::= SEQUENCE {
   tDPIdentifer     [0]  INTEGER,
@@ -1204,7 +1204,7 @@ TriggerResult ::= SEQUENCE {
   ...
 }
 
-Triggers{B2:b2} ::= SEQUENCE SIZE (1..b2.&amp;numOfTriggers) OF Trigger
+Triggers{B2:b2} ::= SEQUENCE SIZE (1..b2.&numOfTriggers) OF Trigger
 
 Trigger ::= SEQUENCE {
   tDPIdentifier  [0]  INTEGER,
@@ -1227,7 +1227,7 @@ TriggerType ::= ENUMERATED {
 -- 4-11: Reserved; 15,16: Reserved; 19-24: Reserved
 USIInformation{B2:b2} ::=
   OCTET STRING
-    (SIZE (b2.&amp;minUSIInformationLength..b2.&amp;maxUSIInformationLength))
+    (SIZE (b2.&minUSIInformationLength..b2.&maxUSIInformationLength))
 
 -- Its content is network signalling/operator specific
 USIMonitorMode ::= ENUMERATED {monitoringActive(0), monitoringInactive(1)
@@ -1238,8 +1238,8 @@ USIServiceIndicator{B2:b2} ::= CHOICE {
   global  OBJECT IDENTIFIER,
   local
     OCTET STRING
-      (SIZE (b2.&amp;minUSIServiceIndicatorLength..
-               b2.&amp;maxUSIServiceIndicatorLength))
+      (SIZE (b2.&minUSIServiceIndicatorLength..
+               b2.&maxUSIServiceIndicatorLength))
 }
 
 -- In case of local its content is network signalling/operator specific
@@ -1258,5 +1258,5 @@ numOfInfoItems INTEGER ::= 5
 
 END
 
--- Generated by Asnp, the ASN.1 pretty-printer of France Telecom R&amp;D
+-- Generated by Asnp, the ASN.1 pretty-printer of France Telecom R&D
 

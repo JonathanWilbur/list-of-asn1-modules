@@ -169,53 +169,53 @@ ms-submission PORT ::= {
 
 -- X413ATTRIBUTE information object class
 X413ATTRIBUTE ::= CLASS {
-  &amp;id               AttributeType UNIQUE,
-  &amp;Type             ,
-  &amp;equalityMatch    MATCHING-RULE OPTIONAL,
-  &amp;substringsMatch  MATCHING-RULE OPTIONAL,
-  &amp;orderingMatch    MATCHING-RULE OPTIONAL,
-  &amp;numeration       ENUMERATED {single-valued(0), multi-valued(1)},
+  &id               AttributeType UNIQUE,
+  &Type             ,
+  &equalityMatch    MATCHING-RULE OPTIONAL,
+  &substringsMatch  MATCHING-RULE OPTIONAL,
+  &orderingMatch    MATCHING-RULE OPTIONAL,
+  &numeration       ENUMERATED {single-valued(0), multi-valued(1)},
   -- 1994 extension 
-  &amp;OtherMatches     MATCHING-RULE OPTIONAL
+  &OtherMatches     MATCHING-RULE OPTIONAL
 }
 WITH SYNTAX {
-  WITH ATTRIBUTE-SYNTAX &amp;Type,
-  [EQUALITY MATCHING-RULE &amp;equalityMatch,]
-  [SUBSTRINGS MATCHING-RULE &amp;substringsMatch,]
-  [ORDERING MATCHING-RULE &amp;orderingMatch,]
-  [OTHER MATCHING-RULES &amp;OtherMatches,]
-  NUMERATION &amp;numeration,
-  ID &amp;id
+  WITH ATTRIBUTE-SYNTAX &Type,
+  [EQUALITY MATCHING-RULE &equalityMatch,]
+  [SUBSTRINGS MATCHING-RULE &substringsMatch,]
+  [ORDERING MATCHING-RULE &orderingMatch,]
+  [OTHER MATCHING-RULES &OtherMatches,]
+  NUMERATION &numeration,
+  ID &id
 }
 
 Attribute ::= SEQUENCE {
-  attribute-type    X413ATTRIBUTE.&amp;id({AttributeTable}),
+  attribute-type    X413ATTRIBUTE.&id({AttributeTable}),
   attribute-values
     SEQUENCE SIZE (1..ub-attribute-values) OF
-      X413ATTRIBUTE.&amp;Type({AttributeTable}{@attribute-type})
+      X413ATTRIBUTE.&Type({AttributeTable}{@attribute-type})
 }
 
 AttributeType ::= OBJECT IDENTIFIER
 
 -- AUTO-ACTION information object class
 AUTO-ACTION ::= CLASS {
-  &amp;id                     AutoActionType UNIQUE,
-  &amp;RegistrationParameter  OPTIONAL,
-  &amp;Errors                 AUTO-ACTION-ERROR OPTIONAL
+  &id                     AutoActionType UNIQUE,
+  &RegistrationParameter  OPTIONAL,
+  &Errors                 AUTO-ACTION-ERROR OPTIONAL
 }
 WITH SYNTAX {
-  [REGISTRATION PARAMETER IS &amp;RegistrationParameter]
-  [ERRORS &amp;Errors]
-  IDENTIFIED BY &amp;id
+  [REGISTRATION PARAMETER IS &RegistrationParameter]
+  [ERRORS &Errors]
+  IDENTIFIED BY &id
 }
 
 AutoActionType ::= OBJECT IDENTIFIER
 
 AutoActionRegistration ::= SEQUENCE {
-  auto-action-type         AUTO-ACTION.&amp;id({AutoActionTable}),
+  auto-action-type         AUTO-ACTION.&id({AutoActionTable}),
   registration-identifier  [0]  INTEGER(1..ub-per-auto-action) DEFAULT 1,
   registration-parameter
-    [1]  AUTO-ACTION.&amp;RegistrationParameter
+    [1]  AUTO-ACTION.&RegistrationParameter
            ({AutoActionTable}{@auto-action-type}) OPTIONAL
 }
 
@@ -225,9 +225,9 @@ AUTO-ACTION-ERROR ::=
 
 AutoActionError ::= SET {
   error-code
-    [0]  AUTO-ACTION-ERROR.&amp;errorCode({AutoActionErrorTable}),
+    [0]  AUTO-ACTION-ERROR.&errorCode({AutoActionErrorTable}),
   error-parameter
-    [1]  AUTO-ACTION-ERROR.&amp;ParameterType
+    [1]  AUTO-ACTION-ERROR.&ParameterType
            ({AutoActionErrorTable}{@error-code}) OPTIONAL
 }
 
@@ -296,10 +296,10 @@ MSBindResult ::= SET {
   responder-credentials         [2]  ResponderCredentials,
   available-auto-actions
     [3]  SET SIZE (1..ub-auto-actions) OF
-           AUTO-ACTION.&amp;id({AutoActionTable}) OPTIONAL,
+           AUTO-ACTION.&id({AutoActionTable}) OPTIONAL,
   available-attribute-types
     [4]  SET SIZE (1..ub-attributes-supported) OF
-           X413ATTRIBUTE.&amp;id({AttributeTable}) OPTIONAL,
+           X413ATTRIBUTE.&id({AttributeTable}) OPTIONAL,
   alert-indication              [5]  BOOLEAN DEFAULT FALSE,
   content-types-supported
     [6]  SET SIZE (1..ub-content-types) OF OBJECT IDENTIFIER OPTIONAL,
@@ -391,37 +391,37 @@ Filter ::= CHOICE {
 FilterItem ::= CHOICE {
   equality           [0]  AttributeValueAssertion,
   substrings
-    [1]  SEQUENCE {type     X413ATTRIBUTE.&amp;id({AttributeTable}),
+    [1]  SEQUENCE {type     X413ATTRIBUTE.&id({AttributeTable}),
                    strings
                      SEQUENCE OF
                        CHOICE {initial
-                                 [0]  X413ATTRIBUTE.&amp;Type
+                                 [0]  X413ATTRIBUTE.&Type
                                         ({AttributeTable}{@substrings.type}),
                                any
-                                 [1]  X413ATTRIBUTE.&amp;Type
+                                 [1]  X413ATTRIBUTE.&Type
                                         ({AttributeTable}{@substrings.type}),
                                final
-                                 [2]  X413ATTRIBUTE.&amp;Type
+                                 [2]  X413ATTRIBUTE.&Type
                                         ({AttributeTable}{@substrings.type})
                        }},
   greater-or-equal   [2]  AttributeValueAssertion,
   less-or-equal      [3]  AttributeValueAssertion,
-  present            [4]  X413ATTRIBUTE.&amp;id({AttributeTable}),
+  present            [4]  X413ATTRIBUTE.&id({AttributeTable}),
   approximate-match  [5]  AttributeValueAssertion,
   -- 1994 extension 
   other-match        [6]  MatchingRuleAssertion
 }
 
 MatchingRuleAssertion ::= SEQUENCE {
-  matching-rule   [0]  MATCHING-RULE.&amp;id({MatchingRuleTable}),
-  attribute-type  [1]  X413ATTRIBUTE.&amp;id,
+  matching-rule   [0]  MATCHING-RULE.&id({MatchingRuleTable}),
+  attribute-type  [1]  X413ATTRIBUTE.&id,
   match-value
-    [2]  MATCHING-RULE.&amp;AssertionType({MatchingRuleTable}{@matching-rule})
+    [2]  MATCHING-RULE.&AssertionType({MatchingRuleTable}{@matching-rule})
 }
 
 AttributeValueAssertion ::= SEQUENCE {
-  attribute-type   X413ATTRIBUTE.&amp;id({AttributeTable}),
-  attribute-value  X413ATTRIBUTE.&amp;Type({AttributeTable}{@attribute-type})
+  attribute-type   X413ATTRIBUTE.&id({AttributeTable}),
+  attribute-value  X413ATTRIBUTE.&Type({AttributeTable}{@attribute-type})
 }
 
 Selector ::= SET {
@@ -442,7 +442,7 @@ OverrideRestrictions ::= BIT STRING {
 EntryInformationSelection ::= SET SIZE (0..ub-per-entry) OF AttributeSelection
 
 AttributeSelection ::= SET {
-  type   X413ATTRIBUTE.&amp;id({AttributeTable}),
+  type   X413ATTRIBUTE.&id({AttributeTable}),
   from
     [0]  INTEGER(1..ub-attribute-values)
       OPTIONAL --used if type is multi valued--,
@@ -460,7 +460,7 @@ EntryInformation ::= SEQUENCE {
 }
 
 AttributeValueCount ::= SEQUENCE {
-  type   [0]  X413ATTRIBUTE.&amp;id({AttributeTable}),
+  type   [0]  X413ATTRIBUTE.&id({AttributeTable}),
   total  [1]  INTEGER
 }
 
@@ -516,7 +516,7 @@ SummarizeArgument ::= SET {
   selector              [1]  Selector,
   summary-requests
     [2]  SEQUENCE SIZE (1..ub-summaries) OF
-           X413ATTRIBUTE.&amp;id({AttributeTable})
+           X413ATTRIBUTE.&id({AttributeTable})
       OPTIONAL -- absent if no summaries are requested--,
   -- 1994 extension 
   summarize-extensions  [3]  MSExtensions OPTIONAL
@@ -544,8 +544,8 @@ Summary ::= SET {
   present
     [1]  SET SIZE (1..ub-attribute-values)
            OF--one for each X413ATTRIBUTE value present--
-           SEQUENCE {type   X413ATTRIBUTE.&amp;id({AttributeTable}),
-                     value  X413ATTRIBUTE.&amp;Type({AttributeTable}{@.type}),
+           SEQUENCE {type   X413ATTRIBUTE.&id({AttributeTable}),
+                     value  X413ATTRIBUTE.&Type({AttributeTable}{@.type}),
                      count  INTEGER(1..ub-messages)} OPTIONAL
 }
 
@@ -663,10 +663,10 @@ Register-MSArgument ::= SET {
       OPTIONAL,
   list-attribute-defaults
     [2]  SET SIZE (0..ub-default-registrations) OF
-           X413ATTRIBUTE.&amp;id({AttributeTable}) OPTIONAL,
+           X413ATTRIBUTE.&id({AttributeTable}) OPTIONAL,
   fetch-attribute-defaults
     [3]  SET SIZE (0..ub-default-registrations) OF
-           X413ATTRIBUTE.&amp;id({AttributeTable}) OPTIONAL,
+           X413ATTRIBUTE.&id({AttributeTable}) OPTIONAL,
   change-credentials
     [4]  SEQUENCE {old-credentials
                      [0]  Credentials(WITH COMPONENTS {
@@ -688,7 +688,7 @@ Register-MSArgument ::= SET {
 }
 
 AutoActionDeregistration ::= SEQUENCE {
-  auto-action-type         AUTO-ACTION.&amp;id({AutoActionTable}),
+  auto-action-type         AUTO-ACTION.&id({AutoActionTable}),
   registration-identifier  [0]  INTEGER(1..ub-per-auto-action) DEFAULT 1
 }
 
@@ -696,10 +696,10 @@ UARegistration ::= SET {
   ua-registration-identifier   [0]  RegistrationIdentifier,
   ua-list-attribute-defaults
     [1]  SET SIZE (0..ub-default-registrations) OF
-           X413ATTRIBUTE.&amp;id({AttributeTable}) OPTIONAL,
+           X413ATTRIBUTE.&id({AttributeTable}) OPTIONAL,
   ua-fetch-attribute-defaults
     [2]  SET SIZE (0..ub-default-registrations) OF
-           X413ATTRIBUTE.&amp;id({AttributeTable}) OPTIONAL,
+           X413ATTRIBUTE.&id({AttributeTable}) OPTIONAL,
   ua-submission-defaults       [3]  MSSubmissionOptions OPTIONAL,
   content-specific-defaults    [4]  MSExtensions OPTIONAL
 }
@@ -722,7 +722,7 @@ RegistrationTypes ::= SET {
                      fetch-attribute-defaults(2), ua-registrations(3),
                      submission-defaults(4), message-group-registrations(5)}
       OPTIONAL,
-  extended-registrations   [1]  SET OF MS-EXTENSION.&amp;id OPTIONAL,
+  extended-registrations   [1]  SET OF MS-EXTENSION.&id OPTIONAL,
   restrict-message-groups  [2]  MessageGroupsRestriction OPTIONAL
 }
 
@@ -755,10 +755,10 @@ Register-MSResult ::= CHOICE {
              OPTIONAL,
          list-attribute-defaults
            [1]  SET SIZE (1..ub-default-registrations) OF
-                  X413ATTRIBUTE.&amp;id({AttributeTable}) OPTIONAL,
+                  X413ATTRIBUTE.&id({AttributeTable}) OPTIONAL,
          fetch-attribute-defaults
            [2]  SET SIZE (1..ub-default-registrations) OF
-                  X413ATTRIBUTE.&amp;id({AttributeTable}) OPTIONAL,
+                  X413ATTRIBUTE.&id({AttributeTable}) OPTIONAL,
          ua-registrations
            [3]  SET SIZE (1..ub-ua-registrations) OF UARegistration OPTIONAL,
          submission-defaults            [4]  MSSubmissionOptions OPTIONAL,
@@ -812,18 +812,18 @@ EntryModification ::= SET {
   strict        [0]  BOOLEAN DEFAULT FALSE,
   modification
     CHOICE {add-attribute     [1]  Attribute,
-            remove-attribute  [2]  X413ATTRIBUTE.&amp;id({AttributeTable}),
+            remove-attribute  [2]  X413ATTRIBUTE.&id({AttributeTable}),
             add-values        [3]  OrderedAttribute,
             remove-values     [4]  OrderedAttribute}
 }
 
 OrderedAttribute ::= SEQUENCE {
-  attribute-type    X413ATTRIBUTE.&amp;id({AttributeTable}),
+  attribute-type    X413ATTRIBUTE.&id({AttributeTable}),
   attribute-values
     SEQUENCE SIZE (1..ub-attribute-values) OF
       SEQUENCE {-- at least one must be specified 
                 value
-                  [0]  X413ATTRIBUTE.&amp;Type
+                  [0]  X413ATTRIBUTE.&Type
                          ({AttributeTable}{@attribute-type}) OPTIONAL,
                 position  [1]  INTEGER(1..ub-attribute-values) OPTIONAL
       }
@@ -909,9 +909,9 @@ attribute-error ABSTRACT-ERROR ::= {
     SET {problems
            [0]  SET SIZE (1..ub-per-entry) OF
                   SET {problem  [0]  AttributeProblem,
-                       type     [1]  X413ATTRIBUTE.&amp;id({AttributeTable}),
+                       type     [1]  X413ATTRIBUTE.&id({AttributeTable}),
                        value
-                         [2]  X413ATTRIBUTE.&amp;Type({AttributeTable}{@.type})
+                         [2]  X413ATTRIBUTE.&Type({AttributeTable}{@.type})
                            OPTIONAL}}
   CODE       err-attribute-error
 }
@@ -930,7 +930,7 @@ auto-action-request-error ABSTRACT-ERROR ::= {
     SET {problems
            [0]  SET SIZE (1..ub-auto-registrations) OF
                   SET {problem  [0]  AutoActionRequestProblem,
-                       type     [1]  AUTO-ACTION.&amp;id({AutoActionTable})
+                       type     [1]  AUTO-ACTION.&id({AutoActionTable})
                   }}
   CODE       err-auto-action-request-error
 }
@@ -1094,5 +1094,5 @@ EntryClassErrorParameter ::= SET {
 
 END -- of MS Abstract Service
 
--- Generated by Asnp, the ASN.1 pretty-printer of France Telecom R&amp;D
+-- Generated by Asnp, the ASN.1 pretty-printer of France Telecom R&D
 

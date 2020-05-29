@@ -17,25 +17,25 @@ BEGIN
 -- the OPERATION and ERROR information objects defined here are equivalent to the respective MACROs in
 -- TCAPMessages {ccitt recommendation q 773 modules(2) messages(1) version2(2) } of Rec. Q.773 (1993) 
 OPERATION ::= CLASS {
-  &amp;ArgumentType   OPTIONAL,
-  &amp;ResultType     OPTIONAL,
-  &amp;Errors         ERROR OPTIONAL,
-  &amp;Linked         OPERATION OPTIONAL,
-  &amp;operationCode  Code UNIQUE OPTIONAL
+  &ArgumentType   OPTIONAL,
+  &ResultType     OPTIONAL,
+  &Errors         ERROR OPTIONAL,
+  &Linked         OPERATION OPTIONAL,
+  &operationCode  Code UNIQUE OPTIONAL
 }
 WITH SYNTAX {
-  [PARAMETER &amp;ArgumentType]
-  [RESULT &amp;ResultType]
-  [ERRORS &amp;Errors]
-  [LINKED &amp;Linked]
-  [CODE &amp;operationCode]
+  [PARAMETER &ArgumentType]
+  [RESULT &ResultType]
+  [ERRORS &Errors]
+  [LINKED &Linked]
+  [CODE &operationCode]
 }
 
 ERROR ::= CLASS {
-  &amp;ParameterType  OPTIONAL,
-  &amp;errorCode      Code UNIQUE OPTIONAL
-}WITH SYNTAX {[PARAMETER &amp;ParameterType]
-              [CODE &amp;errorCode]
+  &ParameterType  OPTIONAL,
+  &errorCode      Code UNIQUE OPTIONAL
+}WITH SYNTAX {[PARAMETER &ParameterType]
+              [CODE &errorCode]
 }
 
 Code ::= CHOICE {localValue   INTEGER,
@@ -96,9 +96,9 @@ ActionArgument ::= SEQUENCE {
 }
 
 ActionInfo ::= SEQUENCE {
-  actionType     [3] IMPLICIT CNF-ACTION.&amp;operationCode({ActionSet}),
+  actionType     [3] IMPLICIT CNF-ACTION.&operationCode({ActionSet}),
   actionInfoArg
-    [4]  CNF-ACTION.&amp;ActionArgType({ActionSet}{@actionType}) OPTIONAL
+    [4]  CNF-ACTION.&ActionArgType({ActionSet}{@actionType}) OPTIONAL
 }
 
 ActionSet CNF-ACTION ::=
@@ -112,7 +112,7 @@ ActionResult ::= SEQUENCE {
 }
 
 ActionTypeId ::= CHOICE {
-  localForm  [3] IMPLICIT CNF-ACTION.&amp;operationCode,
+  localForm  [3] IMPLICIT CNF-ACTION.&operationCode,
   ...
 }
 
@@ -125,22 +125,22 @@ EventReportArgument ::= SEQUENCE {
   managedObjectClass     ObjectClass,
   managedObjectInstance  ObjectInstance,
   eventTime              [5] IMPLICIT GeneralizedTime OPTIONAL,
-  eventType              [7] IMPLICIT EVENT.&amp;operationCode({EventSet}),
+  eventType              [7] IMPLICIT EVENT.&operationCode({EventSet}),
   eventInfo
-    [8]  EVENT.&amp;EventInfoType({EventSet}{@eventType}) OPTIONAL
+    [8]  EVENT.&EventInfoType({EventSet}{@eventType}) OPTIONAL
 }
 
 EventSet EVENT ::=
   {...}
 
-EventTypeId ::= CHOICE {localForm  [7] IMPLICIT EVENT.&amp;operationCode,
+EventTypeId ::= CHOICE {localForm  [7] IMPLICIT EVENT.&operationCode,
                         ...
 }
 
 ActionReply ::= SEQUENCE {
-  actionType       [3] IMPLICIT CNF-ACTION.&amp;operationCode({ActionSet}),
+  actionType       [3] IMPLICIT CNF-ACTION.&operationCode({ActionSet}),
   actionReplyInfo
-    [4]  CNF-ACTION.&amp;ActionResultType({ActionSet}{@actionType})
+    [4]  CNF-ACTION.&ActionResultType({ActionSet}{@actionType})
 }
 
 AccessControl ::= EXTERNAL
@@ -150,9 +150,9 @@ InvalidArgumentValue ::= CHOICE {
   actionValue  [0] IMPLICIT ActionInfo,
   eventValue
     [1] IMPLICIT SEQUENCE {eventType
-                             [7] IMPLICIT EVENT.&amp;operationCode({EventSet}),
+                             [7] IMPLICIT EVENT.&operationCode({EventSet}),
                            eventInfo
-                             [8]  EVENT.&amp;EventInfoType
+                             [8]  EVENT.&EventInfoType
                                     ({EventSet}{@.eventType}) OPTIONAL
   }
 }
@@ -190,9 +190,9 @@ ProcessingFailure ::= SEQUENCE {
 SpecificError ::= INTEGER -- defined by object class 
 
 SpecificErrorInfo ::= SEQUENCE {
-  errorType  [0] IMPLICIT SPECIFIC-ERROR.&amp;errorCode({ErrorSet}),
+  errorType  [0] IMPLICIT SPECIFIC-ERROR.&errorCode({ErrorSet}),
   errorParm
-    [1]  SPECIFIC-ERROR.&amp;ProcessingErrorParmType({ErrorSet}{@errorType})
+    [1]  SPECIFIC-ERROR.&ProcessingErrorParmType({ErrorSet}{@errorType})
       OPTIONAL
 }
 
@@ -204,33 +204,33 @@ Timer ::= INTEGER -- seconds -
 -- Specific event reports are categorized by object class. The protocol uses may be described
 -- by the EVENT MACRO below. 
 EVENT ::= CLASS {
-  &amp;EventInfoType  OPTIONAL,
-  &amp;operationCode  INTEGER UNIQUE OPTIONAL
-}WITH SYNTAX {[EVENTINFO &amp;EventInfoType]
-              [CODE &amp;operationCode]
+  &EventInfoType  OPTIONAL,
+  &operationCode  INTEGER UNIQUE OPTIONAL
+}WITH SYNTAX {[EVENTINFO &EventInfoType]
+              [CODE &operationCode]
 }
 
 -- Specific Actions are categorized by object class. The protocol uses may be described
 -- by the CNF-ACTION INFORMATION OBJECT below. 
 CNF-ACTION ::= CLASS {
-  &amp;ActionArgType     OPTIONAL,
-  &amp;ActionResultType  OPTIONAL,
-  &amp;SpecificErrors    SPECIFIC-ERROR OPTIONAL,
-  &amp;operationCode     INTEGER UNIQUE OPTIONAL
+  &ActionArgType     OPTIONAL,
+  &ActionResultType  OPTIONAL,
+  &SpecificErrors    SPECIFIC-ERROR OPTIONAL,
+  &operationCode     INTEGER UNIQUE OPTIONAL
 }
 WITH SYNTAX {
-  [ACTIONARG &amp;ActionArgType]
-  [ACTIONRESULT &amp;ActionResultType]
-  [SPECIFICERRORS &amp;SpecificErrors]
-  [CODE &amp;operationCode]
+  [ACTIONARG &ActionArgType]
+  [ACTIONRESULT &ActionResultType]
+  [SPECIFICERRORS &SpecificErrors]
+  [CODE &operationCode]
 }
 
 -- Errors that are action or event specific are defined using the SPECIFIC-ERROR macro below. 
 SPECIFIC-ERROR ::= CLASS {
-  &amp;ProcessingErrorParmType  OPTIONAL,
-  &amp;errorCode                INTEGER UNIQUE OPTIONAL
-}WITH SYNTAX {[PARAMETER &amp;ProcessingErrorParmType]
-              [CODE &amp;errorCode]
+  &ProcessingErrorParmType  OPTIONAL,
+  &errorCode                INTEGER UNIQUE OPTIONAL
+}WITH SYNTAX {[PARAMETER &ProcessingErrorParmType]
+              [CODE &errorCode]
 }
 
 -- specific OMASE constructs follow 
@@ -424,5 +424,5 @@ ErrorTag ::= INTEGER {
 
 END -- OMASE protocol 
 
--- Generated by Asnp, the ASN.1 pretty-printer of France Telecom R&amp;D
+-- Generated by Asnp, the ASN.1 pretty-printer of France Telecom R&D
 

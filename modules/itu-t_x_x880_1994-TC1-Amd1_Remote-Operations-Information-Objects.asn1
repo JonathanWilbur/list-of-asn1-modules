@@ -21,106 +21,106 @@ IMPORTS
       remote-operations(4) useful-definitions(7) version2(1)};
 
 OPERATION ::= CLASS {
-  &amp;ArgumentType          OPTIONAL,
-  &amp;argumentTypeOptional  BOOLEAN OPTIONAL,
-  &amp;returnResult          BOOLEAN DEFAULT TRUE,
-  &amp;ResultType            OPTIONAL,
-  &amp;resultTypeOptional    BOOLEAN OPTIONAL,
-  &amp;Errors                ERROR OPTIONAL,
-  &amp;Linked                OPERATION OPTIONAL,
-  &amp;synchronous           BOOLEAN DEFAULT FALSE,
-  &amp;idempotent            BOOLEAN DEFAULT FALSE,
-  &amp;alwaysReturns         BOOLEAN DEFAULT TRUE,
-  &amp;InvokePriority        Priority OPTIONAL,
-  &amp;ResultPriority        Priority OPTIONAL,
-  &amp;operationCode         Code UNIQUE OPTIONAL
+  &ArgumentType          OPTIONAL,
+  &argumentTypeOptional  BOOLEAN OPTIONAL,
+  &returnResult          BOOLEAN DEFAULT TRUE,
+  &ResultType            OPTIONAL,
+  &resultTypeOptional    BOOLEAN OPTIONAL,
+  &Errors                ERROR OPTIONAL,
+  &Linked                OPERATION OPTIONAL,
+  &synchronous           BOOLEAN DEFAULT FALSE,
+  &idempotent            BOOLEAN DEFAULT FALSE,
+  &alwaysReturns         BOOLEAN DEFAULT TRUE,
+  &InvokePriority        Priority OPTIONAL,
+  &ResultPriority        Priority OPTIONAL,
+  &operationCode         Code UNIQUE OPTIONAL
 }
 WITH SYNTAX {
-  [ARGUMENT &amp;ArgumentType
-   [OPTIONAL &amp;argumentTypeOptional]]
-  [RESULT &amp;ResultType
-   [OPTIONAL &amp;resultTypeOptional]]
-  [RETURN RESULT &amp;returnResult]
-  [ERRORS &amp;Errors]
-  [LINKED &amp;Linked]
-  [SYNCHRONOUS &amp;synchronous]
-  [IDEMPOTENT &amp;idempotent]
-  [ALWAYS RESPONDS &amp;alwaysReturns]
-  [INVOKE PRIORITY &amp;InvokePriority]
-  [RESULT-PRIORITY &amp;ResultPriority]
-  [CODE &amp;operationCode]
+  [ARGUMENT &ArgumentType
+   [OPTIONAL &argumentTypeOptional]]
+  [RESULT &ResultType
+   [OPTIONAL &resultTypeOptional]]
+  [RETURN RESULT &returnResult]
+  [ERRORS &Errors]
+  [LINKED &Linked]
+  [SYNCHRONOUS &synchronous]
+  [IDEMPOTENT &idempotent]
+  [ALWAYS RESPONDS &alwaysReturns]
+  [INVOKE PRIORITY &InvokePriority]
+  [RESULT-PRIORITY &ResultPriority]
+  [CODE &operationCode]
 }
 
 ERROR ::= CLASS {
-  &amp;ParameterType          OPTIONAL,
-  &amp;parameterTypeOptional  BOOLEAN OPTIONAL,
-  &amp;ErrorPriority          Priority OPTIONAL,
-  &amp;errorCode              Code UNIQUE OPTIONAL
+  &ParameterType          OPTIONAL,
+  &parameterTypeOptional  BOOLEAN OPTIONAL,
+  &ErrorPriority          Priority OPTIONAL,
+  &errorCode              Code UNIQUE OPTIONAL
 }
 WITH SYNTAX {
-  [PARAMETER &amp;ParameterType
-   [OPTIONAL &amp;parameterTypeOptional]]
-  [PRIORITY &amp;ErrorPriority]
-  [CODE &amp;errorCode]
+  [PARAMETER &ParameterType
+   [OPTIONAL &parameterTypeOptional]]
+  [PRIORITY &ErrorPriority]
+  [CODE &errorCode]
 }
 
 OPERATION-PACKAGE ::= CLASS {
-  &amp;Both      OPERATION OPTIONAL,
-  &amp;Consumer  OPERATION OPTIONAL,
-  &amp;Supplier  OPERATION OPTIONAL,
-  &amp;id        OBJECT IDENTIFIER UNIQUE OPTIONAL
+  &Both      OPERATION OPTIONAL,
+  &Consumer  OPERATION OPTIONAL,
+  &Supplier  OPERATION OPTIONAL,
+  &id        OBJECT IDENTIFIER UNIQUE OPTIONAL
 }
 -- continued on the next page
 WITH SYNTAX {
-  [OPERATIONS &amp;Both]
-  [CONSUMER INVOKES &amp;Supplier]
-  [SUPPLIER INVOKES &amp;Consumer]
-  [ID &amp;id]
+  [OPERATIONS &Both]
+  [CONSUMER INVOKES &Supplier]
+  [SUPPLIER INVOKES &Consumer]
+  [ID &id]
 }
 
 CONNECTION-PACKAGE ::= CLASS {
-  &amp;bind                OPERATION DEFAULT emptyBind,
-  &amp;unbind              OPERATION DEFAULT emptyUnbind,
-  &amp;responderCanUnbind  BOOLEAN DEFAULT FALSE,
-  &amp;unbindCanFail       BOOLEAN DEFAULT FALSE,
-  &amp;id                  OBJECT IDENTIFIER UNIQUE OPTIONAL
+  &bind                OPERATION DEFAULT emptyBind,
+  &unbind              OPERATION DEFAULT emptyUnbind,
+  &responderCanUnbind  BOOLEAN DEFAULT FALSE,
+  &unbindCanFail       BOOLEAN DEFAULT FALSE,
+  &id                  OBJECT IDENTIFIER UNIQUE OPTIONAL
 }
 WITH SYNTAX {
-  [BIND &amp;bind]
-  [UNBIND &amp;unbind]
-  [RESPONDER UNBIND &amp;responderCanUnbind]
-  [FAILURE TO UNBIND &amp;unbindCanFail]
-  [ID &amp;id]
+  [BIND &bind]
+  [UNBIND &unbind]
+  [RESPONDER UNBIND &responderCanUnbind]
+  [FAILURE TO UNBIND &unbindCanFail]
+  [ID &id]
 }
 
 CONTRACT ::= CLASS {
-  &amp;connection           CONNECTION-PACKAGE OPTIONAL,
-  &amp;OperationsOf         OPERATION-PACKAGE OPTIONAL,
-  &amp;InitiatorConsumerOf  OPERATION-PACKAGE OPTIONAL,
-  &amp;InitiatorSupplierOf  OPERATION-PACKAGE OPTIONAL,
-  &amp;id                   OBJECT IDENTIFIER UNIQUE OPTIONAL
+  &connection           CONNECTION-PACKAGE OPTIONAL,
+  &OperationsOf         OPERATION-PACKAGE OPTIONAL,
+  &InitiatorConsumerOf  OPERATION-PACKAGE OPTIONAL,
+  &InitiatorSupplierOf  OPERATION-PACKAGE OPTIONAL,
+  &id                   OBJECT IDENTIFIER UNIQUE OPTIONAL
 }
 WITH SYNTAX {
-  [CONNECTION &amp;connection]
-  [OPERATIONS OF &amp;OperationsOf]
-  [INITIATOR CONSUMER OF &amp;InitiatorConsumerOf]
-  [RESPONDER CONSUMER OF &amp;InitiatorSupplierOf]
-  [ID &amp;id]
+  [CONNECTION &connection]
+  [OPERATIONS OF &OperationsOf]
+  [INITIATOR CONSUMER OF &InitiatorConsumerOf]
+  [RESPONDER CONSUMER OF &InitiatorSupplierOf]
+  [ID &id]
 }
 
 ROS-OBJECT-CLASS ::= CLASS {
-  &amp;Is                    ROS-OBJECT-CLASS OPTIONAL,
-  &amp;Initiates             CONTRACT OPTIONAL,
-  &amp;Responds              CONTRACT OPTIONAL,
-  &amp;InitiatesAndResponds  CONTRACT OPTIONAL,
-  &amp;id                    OBJECT IDENTIFIER UNIQUE
+  &Is                    ROS-OBJECT-CLASS OPTIONAL,
+  &Initiates             CONTRACT OPTIONAL,
+  &Responds              CONTRACT OPTIONAL,
+  &InitiatesAndResponds  CONTRACT OPTIONAL,
+  &id                    OBJECT IDENTIFIER UNIQUE
 }
 WITH SYNTAX {
-  [IS &amp;Is]
-  [BOTH &amp;InitiatesAndResponds]
-  [INITIATES &amp;Initiates]
-  [RESPONDS &amp;Responds]
-  ID &amp;id
+  [IS &Is]
+  [BOTH &InitiatesAndResponds]
+  [INITIATES &Initiates]
+  [RESPONDS &Responds]
+  ID &id
 }
 
 Code ::= CHOICE {local   INTEGER,
@@ -131,5 +131,5 @@ Priority ::= INTEGER(0..MAX)
 
 END -- end of Information Object specifications
 
--- Generated by Asnp, the ASN.1 pretty-printer of France Telecom R&amp;D
+-- Generated by Asnp, the ASN.1 pretty-printer of France Telecom R&D
 

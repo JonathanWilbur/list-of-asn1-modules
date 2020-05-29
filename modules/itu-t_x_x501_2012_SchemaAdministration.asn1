@@ -54,7 +54,7 @@ dITStructureRules ATTRIBUTE ::= {
   WITH SYNTAX             DITStructureRuleDescription
   EQUALITY MATCHING RULE  integerFirstComponentMatch
   USAGE                   directoryOperation
-  LDAP-SYNTAX             dITStructureRuleDescription.&amp;id
+  LDAP-SYNTAX             dITStructureRuleDescription.&id
   LDAP-NAME               {"dITStructureRules"}
   ID                      id-soa-dITStructureRule
 }
@@ -71,7 +71,7 @@ dITContentRules ATTRIBUTE ::= {
   WITH SYNTAX             DITContentRuleDescription
   EQUALITY MATCHING RULE  objectIdentifierFirstComponentMatch
   USAGE                   directoryOperation
-  LDAP-SYNTAX             dITContentRuleDescription.&amp;id
+  LDAP-SYNTAX             dITContentRuleDescription.&id
   LDAP-NAME               {"dITContentRules"}
   ID                      id-soa-dITContentRules
 }
@@ -88,13 +88,13 @@ matchingRules ATTRIBUTE ::= {
   WITH SYNTAX             MatchingRuleDescription
   EQUALITY MATCHING RULE  objectIdentifierFirstComponentMatch
   USAGE                   directoryOperation
-  LDAP-SYNTAX             matchingRuleDescription.&amp;id
+  LDAP-SYNTAX             matchingRuleDescription.&id
   LDAP-NAME               {"matchingRules"}
   ID                      id-soa-matchingRules
 }
 
 MatchingRuleDescription ::= SEQUENCE {
-  identifier   MATCHING-RULE.&amp;id,
+  identifier   MATCHING-RULE.&id,
   name         SET SIZE (1..MAX) OF UnboundedDirectoryString OPTIONAL,
   description  UnboundedDirectoryString OPTIONAL,
   obsolete     BOOLEAN DEFAULT FALSE,
@@ -107,13 +107,13 @@ attributeTypes ATTRIBUTE ::= {
   WITH SYNTAX             AttributeTypeDescription
   EQUALITY MATCHING RULE  objectIdentifierFirstComponentMatch
   USAGE                   directoryOperation
-  LDAP-SYNTAX             attributeTypeDescription.&amp;id
+  LDAP-SYNTAX             attributeTypeDescription.&id
   LDAP-NAME               {"attributeTypes"}
   ID                      id-soa-attributeTypes
 }
 
 AttributeTypeDescription ::= SEQUENCE {
-  identifier   ATTRIBUTE.&amp;id,
+  identifier   ATTRIBUTE.&id,
   name         SET SIZE (1..MAX) OF UnboundedDirectoryString OPTIONAL,
   description  UnboundedDirectoryString OPTIONAL,
   obsolete     BOOLEAN DEFAULT FALSE,
@@ -122,10 +122,10 @@ AttributeTypeDescription ::= SEQUENCE {
 }
 
 AttributeTypeInformation ::= SEQUENCE {
-  derivation       [0]  ATTRIBUTE.&amp;id OPTIONAL,
-  equalityMatch    [1]  MATCHING-RULE.&amp;id OPTIONAL,
-  orderingMatch    [2]  MATCHING-RULE.&amp;id OPTIONAL,
-  substringsMatch  [3]  MATCHING-RULE.&amp;id OPTIONAL,
+  derivation       [0]  ATTRIBUTE.&id OPTIONAL,
+  equalityMatch    [1]  MATCHING-RULE.&id OPTIONAL,
+  orderingMatch    [2]  MATCHING-RULE.&id OPTIONAL,
+  substringsMatch  [3]  MATCHING-RULE.&id OPTIONAL,
   attributeSyntax  [4]  UnboundedDirectoryString OPTIONAL,
   multi-valued     [5]  BOOLEAN DEFAULT TRUE,
   collective       [6]  BOOLEAN DEFAULT FALSE,
@@ -138,13 +138,13 @@ objectClasses ATTRIBUTE ::= {
   WITH SYNTAX             ObjectClassDescription
   EQUALITY MATCHING RULE  objectIdentifierFirstComponentMatch
   USAGE                   directoryOperation
-  LDAP-SYNTAX             objectClassDescription.&amp;id
+  LDAP-SYNTAX             objectClassDescription.&id
   LDAP-NAME               {"objectClasses"}
   ID                      id-soa-objectClasses
 }
 
 ObjectClassDescription ::= SEQUENCE {
-  identifier   OBJECT-CLASS.&amp;id,
+  identifier   OBJECT-CLASS.&id,
   name         SET SIZE (1..MAX) OF UnboundedDirectoryString OPTIONAL,
   description  UnboundedDirectoryString OPTIONAL,
   obsolete     BOOLEAN DEFAULT FALSE,
@@ -153,10 +153,10 @@ ObjectClassDescription ::= SEQUENCE {
 }
 
 ObjectClassInformation ::= SEQUENCE {
-  subclassOf   SET SIZE (1..MAX) OF OBJECT-CLASS.&amp;id OPTIONAL,
+  subclassOf   SET SIZE (1..MAX) OF OBJECT-CLASS.&id OPTIONAL,
   kind         ObjectClassKind DEFAULT structural,
-  mandatories  [3]  SET SIZE (1..MAX) OF ATTRIBUTE.&amp;id OPTIONAL,
-  optionals    [4]  SET SIZE (1..MAX) OF ATTRIBUTE.&amp;id OPTIONAL,
+  mandatories  [3]  SET SIZE (1..MAX) OF ATTRIBUTE.&id OPTIONAL,
+  optionals    [4]  SET SIZE (1..MAX) OF ATTRIBUTE.&id OPTIONAL,
   ...
 }
 
@@ -164,13 +164,13 @@ nameForms ATTRIBUTE ::= {
   WITH SYNTAX             NameFormDescription
   EQUALITY MATCHING RULE  objectIdentifierFirstComponentMatch
   USAGE                   directoryOperation
-  LDAP-SYNTAX             nameFormDescription.&amp;id
+  LDAP-SYNTAX             nameFormDescription.&id
   LDAP-NAME               {"nameForms"}
   ID                      id-soa-nameForms
 }
 
 NameFormDescription ::= SEQUENCE {
-  identifier   NAME-FORM.&amp;id,
+  identifier   NAME-FORM.&id,
   name         SET SIZE (1..MAX) OF UnboundedDirectoryString OPTIONAL,
   description  UnboundedDirectoryString OPTIONAL,
   obsolete     BOOLEAN DEFAULT FALSE,
@@ -179,9 +179,9 @@ NameFormDescription ::= SEQUENCE {
 }
 
 NameFormInformation ::= SEQUENCE {
-  subordinate        OBJECT-CLASS.&amp;id,
-  namingMandatories  SET OF ATTRIBUTE.&amp;id,
-  namingOptionals    SET SIZE (1..MAX) OF ATTRIBUTE.&amp;id OPTIONAL,
+  subordinate        OBJECT-CLASS.&id,
+  namingMandatories  SET OF ATTRIBUTE.&id,
+  namingOptionals    SET SIZE (1..MAX) OF ATTRIBUTE.&id OPTIONAL,
   ...
 }
 
@@ -189,17 +189,17 @@ matchingRuleUse ATTRIBUTE ::= {
   WITH SYNTAX             MatchingRuleUseDescription
   EQUALITY MATCHING RULE  objectIdentifierFirstComponentMatch
   USAGE                   directoryOperation
-  LDAP-SYNTAX             matchingRuleUseDescription.&amp;id
+  LDAP-SYNTAX             matchingRuleUseDescription.&id
   LDAP-NAME               {"matchingRuleUse"}
   ID                      id-soa-matchingRuleUse
 }
 
 MatchingRuleUseDescription ::= SEQUENCE {
-  identifier   MATCHING-RULE.&amp;id,
+  identifier   MATCHING-RULE.&id,
   name         SET SIZE (1..MAX) OF UnboundedDirectoryString OPTIONAL,
   description  UnboundedDirectoryString OPTIONAL,
   obsolete     BOOLEAN DEFAULT FALSE,
-  information  [0]  SET OF ATTRIBUTE.&amp;id,
+  information  [0]  SET OF ATTRIBUTE.&id,
   ...
 }
 
@@ -209,7 +209,7 @@ structuralObjectClass ATTRIBUTE ::= {
   SINGLE VALUE            TRUE
   NO USER MODIFICATION    TRUE
   USAGE                   directoryOperation
-  LDAP-SYNTAX             oid.&amp;id
+  LDAP-SYNTAX             oid.&id
   LDAP-NAME               {"structuralObjectClass"}
   ID                      id-soa-structuralObjectClass
 }
@@ -220,7 +220,7 @@ governingStructureRule ATTRIBUTE ::= {
   SINGLE VALUE            TRUE
   NO USER MODIFICATION    TRUE
   USAGE                   directoryOperation
-  LDAP-SYNTAX             integer.&amp;id
+  LDAP-SYNTAX             integer.&id
   LDAP-NAME               {"governingStructureRule"}
   ID                      id-soa-governingStructureRule
 }
@@ -233,7 +233,7 @@ contextTypes ATTRIBUTE ::= {
 }
 
 ContextDescription ::= SEQUENCE {
-  identifier   CONTEXT.&amp;id,
+  identifier   CONTEXT.&id,
   name         SET SIZE (1..MAX) OF UnboundedDirectoryString OPTIONAL,
   description  UnboundedDirectoryString OPTIONAL,
   obsolete     BOOLEAN DEFAULT FALSE,
@@ -255,7 +255,7 @@ dITContextUse ATTRIBUTE ::= {
 }
 
 DITContextUseDescription ::= SEQUENCE {
-  identifier   ATTRIBUTE.&amp;id,
+  identifier   ATTRIBUTE.&id,
   name         SET SIZE (1..MAX) OF UnboundedDirectoryString OPTIONAL,
   description  UnboundedDirectoryString OPTIONAL,
   obsolete     BOOLEAN DEFAULT FALSE,
@@ -264,8 +264,8 @@ DITContextUseDescription ::= SEQUENCE {
 }
 
 DITContextUseInformation ::= SEQUENCE {
-  mandatoryContexts  [1]  SET SIZE (1..MAX) OF CONTEXT.&amp;id OPTIONAL,
-  optionalContexts   [2]  SET SIZE (1..MAX) OF CONTEXT.&amp;id OPTIONAL,
+  mandatoryContexts  [1]  SET SIZE (1..MAX) OF CONTEXT.&id OPTIONAL,
+  optionalContexts   [2]  SET SIZE (1..MAX) OF CONTEXT.&id OPTIONAL,
   ...
 }
 
@@ -277,11 +277,11 @@ friends ATTRIBUTE ::= {
 }
 
 FriendsDescription ::= SEQUENCE {
-  anchor       ATTRIBUTE.&amp;id,
+  anchor       ATTRIBUTE.&id,
   name         SET SIZE (1..MAX) OF UnboundedDirectoryString OPTIONAL,
   description  UnboundedDirectoryString OPTIONAL,
   obsolete     BOOLEAN DEFAULT FALSE,
-  friends      [0]  SET SIZE (1..MAX) OF ATTRIBUTE.&amp;id,
+  friends      [0]  SET SIZE (1..MAX) OF ATTRIBUTE.&id,
   ...
 }
 
@@ -318,5 +318,5 @@ id-soa-friends OBJECT IDENTIFIER ::= {id-soa 13}
 
 END -- SchemaAdministration
 
--- Generated by Asnp, the ASN.1 pretty-printer of France Telecom R&amp;D
+-- Generated by Asnp, the ASN.1 pretty-printer of France Telecom R&D
 

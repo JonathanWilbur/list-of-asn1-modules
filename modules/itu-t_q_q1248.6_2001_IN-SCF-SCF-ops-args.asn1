@@ -141,7 +141,7 @@ EstablishChargingRecordArg{B1:b1, B2:b2, B6:b6} ::=
                splitcharge
                  [16]  ChargingSignallingInformation OPTIONAL,
                reportCondition        [22]  ReportConditionEvent{b6} OPTIONAL,
-               ...}, scfqop.&amp;scfArgumentQOP}
+               ...}, scfqop.&scfArgumentQOP}
 
 handlingInformationRequest{B1:b1, B2:b2, B6:b6} OPERATION ::= {
   ARGUMENT         HandlingInformationRequestArg {b1,
@@ -177,7 +177,7 @@ HandlingInformationRequestArg{B1:b1, B2:b2, B6:b6} ::=
                originalCalledPartyID
                  [7]  OriginalCalledPartyID{b2} OPTIONAL,
                numberOfCallAttempts
-                 [8]  INTEGER(1..b6.&amp;ub-nbCall) OPTIONAL,
+                 [8]  INTEGER(1..b6.&ub-nbCall) OPTIONAL,
                highLayerCompatibility
                  [9]  HighLayerCompatibility{b2} OPTIONAL,
                bearerCapability             [10]  BearerCapability{b2} OPTIONAL,
@@ -191,7 +191,7 @@ HandlingInformationRequestArg{B1:b1, B2:b2, B6:b6} ::=
                  [16]  CallingPartyBusinessGroupID OPTIONAL,
                securityParameters           [17]  SecurityParameters OPTIONAL,
                extensions                   [18]  Extensions{b1} OPTIONAL,
-               ...}, scfqop.&amp;scfArgumentQOP}
+               ...}, scfqop.&scfArgumentQOP}
 
 handlingInformationResult{B1:b1, B2:b2} OPERATION ::= {
   ARGUMENT         HandlingInformationResultArg {b1,
@@ -223,7 +223,7 @@ HandlingInformationResultArg{B1:b1, B2:b2} ::=
                callingPartysCategory   [9]  CallingPartysCategory OPTIONAL,
                securityParameters      [10]  SecurityParameters OPTIONAL,
                extensions              [11]  Extensions{b1} OPTIONAL,
-               ...}, scfqop.&amp;scfArgumentQOP}
+               ...}, scfqop.&scfArgumentQOP}
 
 initiateCallRequest{B1:b1, B2:b2} OPERATION ::= {
   ARGUMENT         InitiateCallRequestArg {b1,
@@ -248,7 +248,7 @@ InitiateCallRequestArg{B1:b1, B2:b2} ::=
                    OPTIONAL,
                securityParameters      [2]  SecurityParameters OPTIONAL,
                extensions              [3]  Extensions{b1} OPTIONAL,
-               ...}, scfqop.&amp;scfArgumentQOP}
+               ...}, scfqop.&scfArgumentQOP}
 
 networkCapability{B1:b1} OPERATION ::= {
   ARGUMENT  NetworkCapabilityArg {b1}
@@ -270,7 +270,7 @@ NetworkCapabilityArg{B1:b1} ::=
                supplementaryServices     [2]  SupplementaryServices OPTIONAL,
                securityParameters        [3]  SecurityParameters OPTIONAL,
                extensions                [4]  Extensions{b1} OPTIONAL,
-               ...}, scfqop.&amp;scfArgumentQOP}
+               ...}, scfqop.&scfArgumentQOP}
 
 NetworkCapabilityResultArg{B1:b1} ::=
   OPTIONALLY-PROTECTED
@@ -279,7 +279,7 @@ NetworkCapabilityResultArg{B1:b1} ::=
                supplementaryServices     [2]  SupplementaryServices OPTIONAL,
                securityParameters        [3]  SecurityParameters OPTIONAL,
                extensions                [4]  Extensions{b1} OPTIONAL,
-               ...}, scfqop.&amp;scfArgumentQOP}
+               ...}, scfqop.&scfArgumentQOP}
 
 notificationProvided{B1:b1, B2:b2} OPERATION ::= {
   ARGUMENT         NotificationProvidedArg {b1,
@@ -305,7 +305,7 @@ NotificationProvidedArg{B1:b1, B2:b2} ::=
                securityParameters       [2]  SecurityParameters OPTIONAL,
                extensions               [3]  Extensions{b1} OPTIONAL,
                partyID                  [4]  PartyID OPTIONAL,
-               ...}, scfqop.&amp;scfArgumentQOP}
+               ...}, scfqop.&scfArgumentQOP}
 
 confirmedNotificationProvided{B1:b1, B2:b2} OPERATION ::=
   makeConfirm{notificationProvided{b1, b2},
@@ -337,7 +337,7 @@ ProvideAnnouncementRequestArg{B1:b1, B2:b2} ::=
                userToConnect                [4]  UserToConnect OPTIONAL,
                requestAnnouncementComplete  [5]  BOOLEAN DEFAULT TRUE,
                extensions                   [6]  Extensions{b1} OPTIONAL,
-               ...}, scfqop.&amp;scfArgumentQOP}
+               ...}, scfqop.&scfArgumentQOP}
 
 provideUserInformation{B1:b1, B2:b2, B6:b6} OPERATION ::= {
   ARGUMENT  ProvideUserInformationArg {b1,
@@ -367,14 +367,14 @@ ProvideUserInformationArg{B1:b1, B2:b2} ::=
                extensions              [8]  Extensions{b1} OPTIONAL,
                srfAddress              [10]  CalledPartyNumber{b2} OPTIONAL,
                userToConnect           [11]  UserToConnect OPTIONAL,
-               ...}, scfqop.&amp;scfArgumentQOP}
+               ...}, scfqop.&scfArgumentQOP}
 
 ProvideUserInformationResultArg{B1:b1, B6:b6} ::=
   OPTIONALLY-PROTECTED
     {SEQUENCE {userInformation     [0]  ReceivedInformation{b6},
                securityParameters  [1]  SecurityParameters OPTIONAL,
                extensions          [2]  Extensions{b1} OPTIONAL
-    }, scfqop.&amp;scfArgumentQOP}
+    }, scfqop.&scfArgumentQOP}
 
 reportChargingInformation{B1:b1, B2:b2, B6:b6} OPERATION ::= {
   ARGUMENT         ReportChargingInformationArg {b1,
@@ -407,7 +407,7 @@ ReportChargingInformationArg{B1:b1, B2:b2, B6:b6} ::=
                ...,
                ...,
                extensions                  [31]  Extensions{b1} OPTIONAL
-    }, scfqop.&amp;scfArgumentQOP}
+    }, scfqop.&scfArgumentQOP}
 
 confirmedReportChargingInformation{B1:b1, B2:b2, B6:b6} OPERATION ::=
   makeConfirm{reportChargingInformation{b1, b2, b6},
@@ -436,7 +436,7 @@ RequestNotificationArg{B1:b1, B2:b2} ::=
                ...,
                ...,
                extensions              [30]  Extensions{b1} OPTIONAL
-    }, scfqop.&amp;scfArgumentQOP}
+    }, scfqop.&scfArgumentQOP}
 
 runUserScript{B1:b1, B2:b2, B6:b6} OPERATION ::= {
   ARGUMENT  RunUserScriptArg {b1,
@@ -463,7 +463,7 @@ RunUserScriptArg{B1:b1, B2:b2} ::=
                ...,
                ...,
                extensions          [30]  Extensions{b1} OPTIONAL
-    }, scfqop.&amp;scfArgumentQOP}
+    }, scfqop.&scfArgumentQOP}
 
 RunUserScriptResultArg{B1:b1, B6:b6} ::=
   ProvideUserInformationResultArg{b1, b6}
@@ -514,22 +514,22 @@ TransferSTSIArg{B1:b1, B6:b6} ::=
                ...,
                ...,
                extensions          [3]  Extensions{b1} OPTIONAL
-    }, scfqop.&amp;scfArgumentQOP}
+    }, scfqop.&scfArgumentQOP}
 
 scfChained{OPERATION:operation, B1:b1, B2:b2, B6:b6} OPERATION ::= {
   ARGUMENT OPTIONALLY-PROTECTED
     {SEQUENCE {chainedArgument  ChainingArgument{b1, b2},
-               argument         [0]  operation.&amp;ArgumentType OPTIONAL
+               argument         [0]  operation.&ArgumentType OPTIONAL
      },
-     scfqop.&amp;scfArgumentQOP}
+     scfqop.&scfArgumentQOP}
   RESULT OPTIONALLY-PROTECTED
     {SEQUENCE {chainedResult  ChainingResult{b1, b2, b6},
-               result         [0]  operation.&amp;ResultType OPTIONAL
+               result         [0]  operation.&ResultType OPTIONAL
      },
-     scfqop.&amp;scfArgumentQOP}
+     scfqop.&scfArgumentQOP}
   ERRORS
-    {operation.&amp;Errors | chainingRefused | securityError | scfReferral}
-  CODE                           operation.&amp;operationCode
+    {operation.&Errors | chainingRefused | securityError | scfReferral}
+  CODE                           operation.&operationCode
 }
 
 ChainingArgument{B1:b1, B2:b2} ::= SEQUENCE {
@@ -553,10 +553,10 @@ ChainingResult{B1:b1, B2:b2, B6:b6} ::= SEQUENCE {
 }
 
 makeConfirm{OPERATION:operation, Code:code} OPERATION ::= {
-  ARGUMENT         operation.&amp;ArgumentType
-  OPTIONAL         operation.&amp;argumentTypeOptional
+  ARGUMENT         operation.&ArgumentType
+  OPTIONAL         operation.&argumentTypeOptional
   RESULT           NULL
-  ERRORS           {operation.&amp;Errors}
+  ERRORS           {operation.&Errors}
   ALWAYS RESPONDS  TRUE
   CODE             code
 }
@@ -596,5 +596,5 @@ chainedRunUserScript{B1:b1, B2:b2, B6:b6} OPERATION ::=
 
 END
 
--- Generated by Asnp, the ASN.1 pretty-printer of France Telecom R&amp;D
+-- Generated by Asnp, the ASN.1 pretty-printer of France Telecom R&D
 

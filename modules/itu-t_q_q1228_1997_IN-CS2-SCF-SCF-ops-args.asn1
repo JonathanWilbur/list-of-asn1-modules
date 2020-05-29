@@ -104,10 +104,10 @@ EstablishChargingRecordArg{PARAMETERS-BOUND:bound} ::=
                     reportExpected      [2]  BOOLEAN DEFAULT TRUE,
                     securityParameters  [3]  SecurityParameters OPTIONAL,
                     extensions
-                      [4]  SEQUENCE SIZE (1..bound.&amp;numOfExtensions) OF
+                      [4]  SEQUENCE SIZE (1..bound.&numOfExtensions) OF
                              ExtensionField{{SupportedExtensions  {bound}}}
                         OPTIONAL,
-                    ...}, scfqop.&amp;scfArgumentQOP}
+                    ...}, scfqop.&scfArgumentQOP}
 
 handlingInformationRequest{PARAMETERS-BOUND:bound} OPERATION ::= {
   ARGUMENT       HandlingInformationRequestArg {bound}
@@ -140,7 +140,7 @@ HandlingInformationRequestArg{PARAMETERS-BOUND:bound} ::=
                originalCalledPartyID
                  [7]  OriginalCalledPartyID{bound} OPTIONAL,
                numberOfCallAttempts
-                 [8]  INTEGER(1..bound.&amp;ub-nbCall) OPTIONAL,
+                 [8]  INTEGER(1..bound.&ub-nbCall) OPTIONAL,
                highLayerCompatibility
                  [9]  HighLayerCompatibility OPTIONAL,
                bearerCapability
@@ -154,10 +154,10 @@ HandlingInformationRequestArg{PARAMETERS-BOUND:bound} ::=
                callingPartyBusinessGroupID  [16]  OCTET STRING OPTIONAL,
                securityParameters           [17]  SecurityParameters OPTIONAL,
                extensions
-                 [18]  SEQUENCE SIZE (1..bound.&amp;numOfExtensions) OF
+                 [18]  SEQUENCE SIZE (1..bound.&numOfExtensions) OF
                          ExtensionField{{SupportedExtensions  {bound}}}
                    OPTIONAL,
-               ...}, scfqop.&amp;scfArgumentQOP}
+               ...}, scfqop.&scfArgumentQOP}
 
 handlingInformationResult{PARAMETERS-BOUND:bound} OPERATION ::= {
   ARGUMENT       HandlingInformationResultArg {bound}
@@ -188,10 +188,10 @@ HandlingInformationResultArg{PARAMETERS-BOUND:bound} ::=
                callingPartysCategory   [9]  CallingPartysCategory OPTIONAL,
                securityParameters      [10]  SecurityParameters OPTIONAL,
                extensions
-                 [11]  SEQUENCE SIZE (1..bound.&amp;numOfExtensions) OF
+                 [11]  SEQUENCE SIZE (1..bound.&numOfExtensions) OF
                          ExtensionField{{SupportedExtensions  {bound}}}
                    OPTIONAL,
-               ...}, scfqop.&amp;scfArgumentQOP}
+               ...}, scfqop.&scfArgumentQOP}
 
 networkCapability{PARAMETERS-BOUND:bound} OPERATION ::= {
   ARGUMENT  NetworkCapabilityArg {bound}
@@ -213,9 +213,9 @@ NetworkCapabilityArg{PARAMETERS-BOUND:bound} ::=
                supplementaryServices     [2]  SupplementaryServices OPTIONAL,
                securityParameters        [3]  SecurityParameters OPTIONAL,
                extensions
-                 [4]  SEQUENCE SIZE (1..bound.&amp;numOfExtensions) OF
+                 [4]  SEQUENCE SIZE (1..bound.&numOfExtensions) OF
                         ExtensionField{{SupportedExtensions  {bound}}} OPTIONAL,
-               ...}, scfqop.&amp;scfArgumentQOP}
+               ...}, scfqop.&scfArgumentQOP}
 
 NetworkCapabilityResultArg{PARAMETERS-BOUND:bound} ::=
   OPTIONALLY-PROTECTED
@@ -224,9 +224,9 @@ NetworkCapabilityResultArg{PARAMETERS-BOUND:bound} ::=
                supplementaryServices     [2]  SupplementaryServices OPTIONAL,
                securityParameters        [3]  SecurityParameters OPTIONAL,
                extensions
-                 [4]  SEQUENCE SIZE (1..bound.&amp;numOfExtensions) OF
+                 [4]  SEQUENCE SIZE (1..bound.&numOfExtensions) OF
                         ExtensionField{{SupportedExtensions  {bound}}} OPTIONAL,
-               ...}, scfqop.&amp;scfArgumentQOP}
+               ...}, scfqop.&scfArgumentQOP}
 
 notificationProvided{PARAMETERS-BOUND:bound} OPERATION ::= {
   ARGUMENT         NotificationProvidedArg {bound}
@@ -251,10 +251,10 @@ NotificationProvidedArg{PARAMETERS-BOUND:bound} ::=
                  [1]  NotificationInformation{bound} OPTIONAL,
                securityParameters       [2]  SecurityParameters OPTIONAL,
                extensions
-                 [3]  SEQUENCE SIZE (1..bound.&amp;numOfExtensions) OF
+                 [3]  SEQUENCE SIZE (1..bound.&numOfExtensions) OF
                         ExtensionField{{SupportedExtensions  {bound}}} OPTIONAL,
                partyID                  [4]  PartyID OPTIONAL,
-               ...}, scfqop.&amp;scfArgumentQOP}
+               ...}, scfqop.&scfArgumentQOP}
 
 confirmedNotificationProvided{PARAMETERS-BOUND:bound} OPERATION ::=
   makeConfirm{notificationProvided{bound},
@@ -285,9 +285,9 @@ ProvideUserInformationArg{PARAMETERS-BOUND:bound} ::=
                preferredLanguage       [6]  Language OPTIONAL,
                securityParameters      [7]  SecurityParameters OPTIONAL,
                extensions
-                 [8]  SEQUENCE SIZE (1..bound.&amp;numOfExtensions) OF
+                 [8]  SEQUENCE SIZE (1..bound.&numOfExtensions) OF
                         ExtensionField{{SupportedExtensions  {bound}}} OPTIONAL,
-               ...}, scfqop.&amp;scfArgumentQOP}
+               ...}, scfqop.&scfArgumentQOP}
 
 CollectedInfo ::= CHOICE {
   collectedDigits  [0]  CollectedDigits,
@@ -334,9 +334,9 @@ ProvideUserInformationResultArg{PARAMETERS-BOUND:bound} ::=
     {SEQUENCE {userInformation     [0]  ReceivedInformation{bound},
                securityParameters  [1]  SecurityParameters OPTIONAL,
                extensions
-                 [1]  SEQUENCE SIZE (1..bound.&amp;numOfExtensions) OF
+                 [1]  SEQUENCE SIZE (1..bound.&numOfExtensions) OF
                         ExtensionField{{SupportedExtensions  {bound}}} OPTIONAL
-    }, scfqop.&amp;scfArgumentQOP}
+    }, scfqop.&scfArgumentQOP}
 
 reportChargingInformation{PARAMETERS-BOUND:bound} OPERATION ::= {
   ARGUMENT  ReportChargingInformationArg {bound}
@@ -359,7 +359,7 @@ ReportChargingInformationArg{PARAMETERS-BOUND:bound} ::=
                uniqueCallID         [2]  CallIdentifier OPTIONAL,
                accountNumber        [3]  AccountNumber OPTIONAL,
                securityParameters   [4]  SecurityParameters OPTIONAL
-    }, scfqop.&amp;scfArgumentQOP}
+    }, scfqop.&scfArgumentQOP}
 
 CallIdentifier ::= Integer4
 
@@ -385,7 +385,7 @@ RequestNotificationArg{PARAMETERS-BOUND:bound} ::=
   OPTIONALLY-PROTECTED
     {SEQUENCE {requestedNotifications  [0]  RequestedNotifications{bound},
                securityParameters      [1]  SecurityParameters OPTIONAL
-    }, scfqop.&amp;scfArgumentQOP}
+    }, scfqop.&scfArgumentQOP}
 
 scfBind{PARAMETERS-BOUND:bound} OPERATION ::= {
   ARGUMENT  SCFBindArgument {bound}
@@ -421,17 +421,17 @@ scfChained{OPERATION:operation, PARAMETERS-BOUND:bound} OPERATION ::=
 {
   ARGUMENT OPTIONALLY-PROTECTED
     {SEQUENCE {chainedArgument  ChainingArgument{bound},
-               argument         [0]  operation.&amp;ArgumentType OPTIONAL
+               argument         [0]  operation.&ArgumentType OPTIONAL
      },
-     scfqop.&amp;scfArgumentQOP}
+     scfqop.&scfArgumentQOP}
   RESULT OPTIONALLY-PROTECTED
     {SEQUENCE {chainedResult  ChainingResult{bound},
-               result         [0]  operation.&amp;ResultType OPTIONAL
+               result         [0]  operation.&ResultType OPTIONAL
      },
-     scfqop.&amp;scfArgumentQOP}
+     scfqop.&scfArgumentQOP}
   ERRORS
-    {operation.&amp;Errors | chainingRefused | securityError | scfReferral}
-  CODE                           operation.&amp;operationCode
+    {operation.&Errors | chainingRefused | securityError | scfReferral}
+  CODE                           operation.&operationCode
 }
 
 ChainingArgument{PARAMETERS-BOUND:bound} ::= SEQUENCE {
@@ -443,7 +443,7 @@ ChainingArgument{PARAMETERS-BOUND:bound} ::= SEQUENCE {
   timeLimit               [4]  UTCTime OPTIONAL,
   securityParameters      [5]  SecurityParameters OPTIONAL,
   extensions
-    [6]  SEQUENCE SIZE (1..bound.&amp;numOfExtensions) OF
+    [6]  SEQUENCE SIZE (1..bound.&numOfExtensions) OF
            ExtensionField{{SupportedExtensions  {bound}}} OPTIONAL,
   ...
 }
@@ -453,16 +453,16 @@ ChainingResult{PARAMETERS-BOUND:bound} ::= SEQUENCE {
   traceInformation    [1]  TraceInformation{bound},
   securityParameters  [2]  SecurityParameters OPTIONAL,
   extensions
-    [3]  SEQUENCE SIZE (1..bound.&amp;numOfExtensions) OF
+    [3]  SEQUENCE SIZE (1..bound.&numOfExtensions) OF
            ExtensionField{{SupportedExtensions  {bound}}} OPTIONAL,
   ...
 }
 
 makeConfirm{OPERATION:operation, Code:code} OPERATION ::= {
-  ARGUMENT         operation.&amp;ArgumentType
-  OPTIONAL         operation.&amp;argumentTypeOptional
+  ARGUMENT         operation.&ArgumentType
+  OPTIONAL         operation.&argumentTypeOptional
   RESULT           NULL
-  ERRORS           {operation.&amp;Errors}
+  ERRORS           {operation.&Errors}
   ALWAYS RESPONDS  TRUE
   CODE             code
 }
@@ -498,18 +498,18 @@ chainedRequestNotification{PARAMETERS-BOUND:bound} OPERATION ::=
   scfChained{requestNotification{bound}, bound}
 
 SCFQOP ::= CLASS {
-  &amp;scfqop-id        OBJECT IDENTIFIER UNIQUE,
-  &amp;scfBindErrorQOP  PROTECTION-MAPPING,
-  &amp;scfErrorsQOP     PROTECTION-MAPPING,
-  &amp;scfArgumentQOP   PROTECTION-MAPPING,
-  &amp;scfResultQOP     PROTECTION-MAPPING
+  &scfqop-id        OBJECT IDENTIFIER UNIQUE,
+  &scfBindErrorQOP  PROTECTION-MAPPING,
+  &scfErrorsQOP     PROTECTION-MAPPING,
+  &scfArgumentQOP   PROTECTION-MAPPING,
+  &scfResultQOP     PROTECTION-MAPPING
 }
 WITH SYNTAX {
-  SCFQOP-ID &amp;scfqop-id,
-  SCFBINDERROR-QOP &amp;scfBindErrorQOP,
-  SCFERRORS-QOP &amp;scfErrorsQOP,
-  SCFOPARG-QOP &amp;scfArgumentQOP,
-  SCFOPRES-QOP &amp;scfResultQOP
+  SCFQOP-ID &scfqop-id,
+  SCFBINDERROR-QOP &scfBindErrorQOP,
+  SCFERRORS-QOP &scfErrorsQOP,
+  SCFOPARG-QOP &scfArgumentQOP,
+  SCFOPRES-QOP &scfResultQOP
 }
 
 -- The following must be replaced by implementations before being used :
@@ -563,7 +563,7 @@ ScfTaskRefusedParameter ::=
                                                           -- other values FFS
                                                           },
                securityParameters  [1]  SecurityParameters OPTIONAL
-    }, scfqop.&amp;scfErrorsQOP}
+    }, scfqop.&scfErrorsQOP}
 
 scfReferral ERROR ::= {
   PARAMETER  ReferralParameter
@@ -574,9 +574,9 @@ ReferralParameter ::=
   OPTIONALLY-PROTECTED
     {SEQUENCE {tryhere             [0]  AccessPointInformation,
                securityParameters  [1]  SecurityParameters OPTIONAL
-    }, scfqop.&amp;scfErrorsQOP}
+    }, scfqop.&scfErrorsQOP}
 
 END
 
--- Generated by Asnp, the ASN.1 pretty-printer of France Telecom R&amp;D
+-- Generated by Asnp, the ASN.1 pretty-printer of France Telecom R&D
 

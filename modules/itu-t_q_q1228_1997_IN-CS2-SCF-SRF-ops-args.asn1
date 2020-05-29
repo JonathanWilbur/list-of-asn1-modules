@@ -64,7 +64,7 @@ PlayAnnouncementArg{PARAMETERS-BOUND:bound} ::= SEQUENCE {
   disconnectFromIPForbidden    [1]  BOOLEAN DEFAULT TRUE,
   requestAnnouncementComplete  [2]  BOOLEAN DEFAULT TRUE,
   extensions
-    [3]  SEQUENCE SIZE (1..bound.&amp;numOfExtensions) OF
+    [3]  SEQUENCE SIZE (1..bound.&numOfExtensions) OF
            ExtensionField{{SupportedExtensions  {bound}}} OPTIONAL,
   connectedParty
     CHOICE {legID          [4]  LegID,
@@ -91,7 +91,7 @@ PromptAndCollectUserInformationArg{PARAMETERS-BOUND:bound} ::= SEQUENCE {
   disconnectFromIPForbidden  [1]  BOOLEAN DEFAULT TRUE,
   informationToSend          [2]  InformationToSend{bound} OPTIONAL,
   extensions
-    [3]  SEQUENCE SIZE (1..bound.&amp;numOfExtensions) OF
+    [3]  SEQUENCE SIZE (1..bound.&numOfExtensions) OF
            ExtensionField{{SupportedExtensions  {bound}}} OPTIONAL,
   callSegmentID              [4]  CallSegmentID{bound} OPTIONAL,
   ...
@@ -118,7 +118,7 @@ PromptAndReceiveMessageArg{PARAMETERS-BOUND:bound} ::= SEQUENCE {
   disconnectFromIPForbidden  [0]  BOOLEAN DEFAULT TRUE,
   informationToSend          [1]  InformationToSend{bound} OPTIONAL,
   extensions
-    [3]  SEQUENCE SIZE (0..bound.&amp;numOfExtensions) OF
+    [3]  SEQUENCE SIZE (0..bound.&numOfExtensions) OF
            ExtensionField{{SupportedExtensions  {bound}}} OPTIONAL,
   subscriberID               [4]  GenericNumber{bound} OPTIONAL,
   mailBoxID                  [5]  MailBoxID{bound} OPTIONAL,
@@ -132,9 +132,9 @@ MessageReceivedArg{PARAMETERS-BOUND:bound} ::= SEQUENCE {
   receivedStatus        [0]  ReceivedStatus,
   recordedMessageID     [1]  RecordedMessageID OPTIONAL,
   recordedMessageUnits
-    [2]  INTEGER(1..bound.&amp;maxRecordedMessageUnits) OPTIONAL,
+    [2]  INTEGER(1..bound.&maxRecordedMessageUnits) OPTIONAL,
   extensions
-    [3]  SEQUENCE SIZE (1..bound.&amp;numOfExtensions) OF
+    [3]  SEQUENCE SIZE (1..bound.&numOfExtensions) OF
            ExtensionField{{SupportedExtensions  {bound}}} OPTIONAL,
   ...
 }
@@ -154,11 +154,11 @@ scriptClose{PARAMETERS-BOUND:bound} OPERATION ::= {
 -- instance of the "User Interaction" script : the context is released.
 ScriptCloseArg{PARAMETERS-BOUND:bound, EXTENSION:SupportedUIScripts} ::=
   SEQUENCE {
-  uIScriptId            UISCRIPT.&amp;id({SupportedUIScripts}),
+  uIScriptId            UISCRIPT.&id({SupportedUIScripts}),
   uIScriptSpecificInfo
-    [0]  UISCRIPT.&amp;SpecificInfo({SupportedUIScripts}{@uIScriptId}) OPTIONAL,
+    [0]  UISCRIPT.&SpecificInfo({SupportedUIScripts}{@uIScriptId}) OPTIONAL,
   extensions
-    [1]  SEQUENCE SIZE (1..bound.&amp;numOfExtensions) OF
+    [1]  SEQUENCE SIZE (1..bound.&numOfExtensions) OF
            ExtensionField{{SupportedExtensions  {bound}}} OPTIONAL,
   callSegmentID         [2]  CallSegmentID{bound} OPTIONAL,
   ...
@@ -177,11 +177,11 @@ scriptEvent{PARAMETERS-BOUND:bound} OPERATION ::= {
 -- execution of the instance of User Interaction script.
 ScriptEventArg{PARAMETERS-BOUND:bound, EXTENSION:SupportedUIScripts} ::=
   SEQUENCE {
-  uIScriptId          UISCRIPT.&amp;id({SupportedUIScripts}),
+  uIScriptId          UISCRIPT.&id({SupportedUIScripts}),
   uIScriptResult
-    [0]  UISCRIPT.&amp;Result({SupportedUIScripts}{@uIScriptId}) OPTIONAL,
+    [0]  UISCRIPT.&Result({SupportedUIScripts}{@uIScriptId}) OPTIONAL,
   extensions
-    [1]  SEQUENCE SIZE (1..bound.&amp;numOfExtensions) OF
+    [1]  SEQUENCE SIZE (1..bound.&numOfExtensions) OF
            ExtensionField{{SupportedExtensions  {bound}}} OPTIONAL,
   callSegmentID       [2]  CallSegmentID{bound} OPTIONAL,
   lastEventIndicator  [3]  BOOLEAN DEFAULT FALSE,
@@ -201,11 +201,11 @@ scriptInformation{PARAMETERS-BOUND:bound} OPERATION ::= {
 -- Direction: SCF ® SRF, Timer :Tinf
 ScriptInformationArg{PARAMETERS-BOUND:bound, EXTENSION:SupportedUIScripts} ::=
   SEQUENCE {
-  uIScriptId            UISCRIPT.&amp;id({SupportedUIScripts}),
+  uIScriptId            UISCRIPT.&id({SupportedUIScripts}),
   uIScriptSpecificInfo
-    [0]  UISCRIPT.&amp;SpecificInfo({SupportedUIScripts}{@uIScriptId}) OPTIONAL,
+    [0]  UISCRIPT.&SpecificInfo({SupportedUIScripts}{@uIScriptId}) OPTIONAL,
   extensions
-    [1]  SEQUENCE SIZE (0..bound.&amp;numOfExtensions) OF
+    [1]  SEQUENCE SIZE (0..bound.&numOfExtensions) OF
            ExtensionField{{SupportedExtensions  {bound}}} OPTIONAL,
   callSegmentID         [2]  CallSegmentID{bound} OPTIONAL,
   ...
@@ -227,11 +227,11 @@ scriptRun{PARAMETERS-BOUND:bound} OPERATION ::= {
 -- instance. A context is partially defined for it if necessary.
 ScriptRunArg{PARAMETERS-BOUND:bound, EXTENSION:SupportedUIScripts} ::=
   SEQUENCE {
-  uIScriptId                 UISCRIPT.&amp;id({SupportedUIScripts}),
+  uIScriptId                 UISCRIPT.&id({SupportedUIScripts}),
   uIScriptSpecificInfo
-    [0]  UISCRIPT.&amp;SpecificInfo({SupportedUIScripts}{@uIScriptId}) OPTIONAL,
+    [0]  UISCRIPT.&SpecificInfo({SupportedUIScripts}{@uIScriptId}) OPTIONAL,
   extensions
-    [1]  SEQUENCE SIZE (1..bound.&amp;numOfExtensions) OF
+    [1]  SEQUENCE SIZE (1..bound.&numOfExtensions) OF
            ExtensionField{{SupportedExtensions  {bound}}} OPTIONAL,
   disconnectFromIPForbidden  [2]  BOOLEAN DEFAULT TRUE,
   callSegmentID              [3]  CallSegmentID{bound} OPTIONAL,
@@ -252,5 +252,5 @@ SpecializedResourceReportArg ::= NULL
 
 END
 
--- Generated by Asnp, the ASN.1 pretty-printer of France Telecom R&amp;D
+-- Generated by Asnp, the ASN.1 pretty-printer of France Telecom R&D
 

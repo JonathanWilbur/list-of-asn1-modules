@@ -101,8 +101,8 @@ Version ::= INTEGER {v1(0), v2(1), v3(2)}
 CertificateSerialNumber ::= INTEGER
 
 AlgorithmIdentifier{ALGORITHM:SupportedAlgorithms} ::= SEQUENCE {
-  algorithm   ALGORITHM.&amp;id({SupportedAlgorithms}),
-  parameters  ALGORITHM.&amp;Type({SupportedAlgorithms}{@algorithm}) OPTIONAL,
+  algorithm   ALGORITHM.&id({SupportedAlgorithms}),
+  parameters  ALGORITHM.&Type({SupportedAlgorithms}{@algorithm}) OPTIONAL,
   ...
 }
 
@@ -113,10 +113,10 @@ AlgorithmIdentifier{ALGORITHM:SupportedAlgorithms} ::= SEQUENCE {
 SupportedAlgorithms ALGORITHM ::=
   {...}
 
-ALGORITHM ::= CLASS {&amp;Type  OPTIONAL,
-                     &amp;id    OBJECT IDENTIFIER UNIQUE
-}WITH SYNTAX {[PARMS &amp;Type]
-              IDENTIFIED BY &amp;id
+ALGORITHM ::= CLASS {&Type  OPTIONAL,
+                     &id    OBJECT IDENTIFIER UNIQUE
+}WITH SYNTAX {[PARMS &Type]
+              IDENTIFIED BY &id
 }
 
 ecPublicKey ALGORITHM ::= {
@@ -153,11 +153,11 @@ Extensions ::= SEQUENCE OF Extension
 -- significant, the specification of those individual extensions shall include the
 -- rules for the significance of the order therein
 Extension ::= SEQUENCE {
-  extnId     EXTENSION.&amp;id({ExtensionSet}),
+  extnId     EXTENSION.&id({ExtensionSet}),
   critical   BOOLEAN DEFAULT FALSE,
   extnValue
     OCTET STRING
-      (CONTAINING EXTENSION.&amp;ExtnType({ExtensionSet}{@extnId})
+      (CONTAINING EXTENSION.&ExtnType({ExtensionSet}{@extnId})
        ENCODED BY
        der),
   ...
@@ -169,10 +169,10 @@ der OBJECT IDENTIFIER ::=
 ExtensionSet EXTENSION ::=
   {...}
 
-EXTENSION ::= CLASS {&amp;id        OBJECT IDENTIFIER UNIQUE,
-                     &amp;ExtnType  
-}WITH SYNTAX {SYNTAX &amp;ExtnType
-              IDENTIFIED BY &amp;id
+EXTENSION ::= CLASS {&id        OBJECT IDENTIFIER UNIQUE,
+                     &ExtnType  
+}WITH SYNTAX {SYNTAX &ExtnType
+              IDENTIFIED BY &id
 }
 
 -- other PKI certificate constructs
@@ -281,7 +281,7 @@ pkiCertPath OBJECT-CLASS ::= {
 userCertificate ATTRIBUTE ::= {
   WITH SYNTAX             Certificate
   EQUALITY MATCHING RULE  certificateExactMatch
-  LDAP-SYNTAX             x509Certificate.&amp;id
+  LDAP-SYNTAX             x509Certificate.&id
   LDAP-NAME               {"userCertificate"}
   LDAP-DESC               "X.509 user certificate"
   ID                      id-at-userCertificate
@@ -290,7 +290,7 @@ userCertificate ATTRIBUTE ::= {
 cACertificate ATTRIBUTE ::= {
   WITH SYNTAX             Certificate
   EQUALITY MATCHING RULE  certificateExactMatch
-  LDAP-SYNTAX             x509Certificate.&amp;id
+  LDAP-SYNTAX             x509Certificate.&id
   LDAP-NAME               {"cACertificate"}
   LDAP-DESC               "X.509 CA certificate"
   ID                      id-at-cAcertificate
@@ -299,7 +299,7 @@ cACertificate ATTRIBUTE ::= {
 crossCertificatePair ATTRIBUTE ::= {
   WITH SYNTAX             CertificatePair
   EQUALITY MATCHING RULE  certificatePairExactMatch
-  LDAP-SYNTAX             x509CertificatePair.&amp;id
+  LDAP-SYNTAX             x509CertificatePair.&id
   LDAP-NAME               {"crossCertificatePair"}
   LDAP-DESC               "X.509 cross certificate pair"
   ID                      id-at-crossCertificatePair
@@ -321,7 +321,7 @@ CertificatePair ::= SEQUENCE {
 certificateRevocationList ATTRIBUTE ::= {
   WITH SYNTAX             CertificateList
   EQUALITY MATCHING RULE  certificateListExactMatch
-  LDAP-SYNTAX             x509CertificateList.&amp;id
+  LDAP-SYNTAX             x509CertificateList.&id
   LDAP-NAME               {"certificateRevocationList"}
   LDAP-DESC               "X.509 certificate revocation list"
   ID                      id-at-certificateRevocationList
@@ -330,7 +330,7 @@ certificateRevocationList ATTRIBUTE ::= {
 authorityRevocationList ATTRIBUTE ::= {
   WITH SYNTAX             CertificateList
   EQUALITY MATCHING RULE  certificateListExactMatch
-  LDAP-SYNTAX             x509CertificateList.&amp;id
+  LDAP-SYNTAX             x509CertificateList.&id
   LDAP-NAME               {"authorityRevocationList"}
   LDAP-DESC               "X.509 authority revocation list"
   ID                      id-at-authorityRevocationList
@@ -339,7 +339,7 @@ authorityRevocationList ATTRIBUTE ::= {
 deltaRevocationList ATTRIBUTE ::= {
   WITH SYNTAX             CertificateList
   EQUALITY MATCHING RULE  certificateListExactMatch
-  LDAP-SYNTAX             x509CertificateList.&amp;id
+  LDAP-SYNTAX             x509CertificateList.&id
   LDAP-NAME               {"deltaRevocationList"}
   LDAP-DESC               "X.509 delta revocation list"
   ID                      id-at-deltaRevocationList
@@ -348,7 +348,7 @@ deltaRevocationList ATTRIBUTE ::= {
 supportedAlgorithms ATTRIBUTE ::= {
   WITH SYNTAX             SupportedAlgorithm
   EQUALITY MATCHING RULE  algorithmIdentifierMatch
-  LDAP-SYNTAX             x509SupportedAlgorithm.&amp;id
+  LDAP-SYNTAX             x509SupportedAlgorithm.&id
   LDAP-NAME               {"supportedAlgorithms"}
   LDAP-DESC               "X.509 support algorithms"
   ID                      id-at-supportedAlgorithms
@@ -377,7 +377,7 @@ InfoSyntax ::= CHOICE {
 
 POLICY ::= TYPE-IDENTIFIER
 
-HashedPolicyInfo ::= POLICY.&amp;Type({Policies})
+HashedPolicyInfo ::= POLICY.&Type({Policies})
 
 Policies POLICY ::=
   {...} -- Defined by implementors 
@@ -402,7 +402,7 @@ pkiPath ATTRIBUTE ::= {WITH SYNTAX  PkiPath
 userPassword ATTRIBUTE ::= {
   WITH SYNTAX             OCTET STRING(SIZE (0..MAX))
   EQUALITY MATCHING RULE  octetStringMatch
-  LDAP-SYNTAX             octetString.&amp;id
+  LDAP-SYNTAX             octetString.&id
   LDAP-NAME               {"userPassword"}
   ID                      id-at-userPassword
 }
@@ -411,7 +411,7 @@ userPwd ATTRIBUTE ::= {
   WITH SYNTAX             UserPwd
   EQUALITY MATCHING RULE  userPwdMatch
   SINGLE VALUE            TRUE
-  LDAP-SYNTAX             userPwdDescription.&amp;id
+  LDAP-SYNTAX             userPwdDescription.&id
   LDAP-NAME               {"userPwd"}
   ID                      id-at-userPwd
 }
@@ -432,7 +432,7 @@ pwdStartTime ATTRIBUTE ::= {
   ORDERING MATCHING RULE  generalizedTimeOrderingMatch
   SINGLE VALUE            TRUE
   USAGE                   directoryOperation
-  LDAP-SYNTAX             generalizedTime.&amp;id
+  LDAP-SYNTAX             generalizedTime.&id
   LDAP-NAME               {"pwdStartTime"}
   ID                      id-oa-pwdStartTime
 }
@@ -443,7 +443,7 @@ pwdExpiryTime ATTRIBUTE ::= {
   ORDERING MATCHING RULE  generalizedTimeOrderingMatch
   SINGLE VALUE            TRUE
   USAGE                   directoryOperation
-  LDAP-SYNTAX             generalizedTime.&amp;id
+  LDAP-SYNTAX             generalizedTime.&id
   LDAP-NAME               {"pwdExpiryTime"}
   ID                      id-oa-pwdExpiryTime
 }
@@ -454,7 +454,7 @@ pwdEndTime ATTRIBUTE ::= {
   ORDERING MATCHING RULE  generalizedTimeOrderingMatch
   SINGLE VALUE            TRUE
   USAGE                   directoryOperation
-  LDAP-SYNTAX             generalizedTime.&amp;id
+  LDAP-SYNTAX             generalizedTime.&id
   LDAP-NAME               {"pwdEndTime"}
   ID                      id-oa-pwdEndTime
 }
@@ -465,7 +465,7 @@ pwdFails ATTRIBUTE ::= {
   ORDERING MATCHING RULE  integerOrderingMatch
   SINGLE VALUE            TRUE
   USAGE                   dSAOperation
-  LDAP-SYNTAX             integer.&amp;id
+  LDAP-SYNTAX             integer.&id
   LDAP-NAME               {"pwdFails"}
   ID                      id-oa-pwdFails
 }
@@ -476,7 +476,7 @@ pwdFailureTime ATTRIBUTE ::= {
   ORDERING MATCHING RULE  generalizedTimeOrderingMatch
   SINGLE VALUE            TRUE
   USAGE                   dSAOperation
-  LDAP-SYNTAX             generalizedTime.&amp;id
+  LDAP-SYNTAX             generalizedTime.&id
   LDAP-NAME               {"pwdFailureTime"}
   ID                      id-oa-pwdFailureTime
 }
@@ -487,7 +487,7 @@ pwdGracesUsed ATTRIBUTE ::= {
   ORDERING MATCHING RULE  integerOrderingMatch
   SINGLE VALUE            TRUE
   USAGE                   dSAOperation
-  LDAP-SYNTAX             integer.&amp;id
+  LDAP-SYNTAX             integer.&id
   LDAP-NAME               {"pwdGracesUsed"}
   ID                      id-oa-pwdGracesUsed
 }
@@ -503,7 +503,7 @@ pwdModifyEntryAllowed ATTRIBUTE ::= {
   EQUALITY MATCHING RULE  booleanMatch
   SINGLE VALUE            TRUE
   USAGE                   directoryOperation
-  LDAP-SYNTAX             boolean.&amp;id
+  LDAP-SYNTAX             boolean.&id
   LDAP-NAME               {"pwdModifyEntryAllowed"}
   ID                      id-oa-pwdModifyEntryAllowed
 }
@@ -513,7 +513,7 @@ pwdChangeAllowed ATTRIBUTE ::= {
   EQUALITY MATCHING RULE  booleanMatch
   SINGLE VALUE            TRUE
   USAGE                   directoryOperation
-  LDAP-SYNTAX             boolean.&amp;id
+  LDAP-SYNTAX             boolean.&id
   LDAP-NAME               {"pwdChangeAllowed"}
   ID                      id-oa-pwdChangeAllowed
 }
@@ -524,7 +524,7 @@ pwdMaxAge ATTRIBUTE ::= {
   ORDERING MATCHING RULE  integerOrderingMatch
   SINGLE VALUE            TRUE
   USAGE                   directoryOperation
-  LDAP-SYNTAX             integer.&amp;id
+  LDAP-SYNTAX             integer.&id
   LDAP-NAME               {"pwdMaxAge"}
   ID                      id-oa-pwdMaxAge
 }
@@ -535,7 +535,7 @@ pwdExpiryAge ATTRIBUTE ::= {
   ORDERING MATCHING RULE  integerOrderingMatch
   SINGLE VALUE            TRUE
   USAGE                   directoryOperation
-  LDAP-SYNTAX             integer.&amp;id
+  LDAP-SYNTAX             integer.&id
   LDAP-NAME               {"pwdExpiryAge"}
   ID                      id-oa-pwdExpiryAge
 }
@@ -545,7 +545,7 @@ pwdMinLength ATTRIBUTE ::= {
   EQUALITY MATCHING RULE  integerMatch
   SINGLE VALUE            TRUE
   USAGE                   directoryOperation
-  LDAP-SYNTAX             integer.&amp;id
+  LDAP-SYNTAX             integer.&id
   LDAP-NAME               {"pwdMinLength"}
   ID                      id-oa-pwdMinLength
 }
@@ -555,7 +555,7 @@ pwdVocabulary ATTRIBUTE ::= {
   EQUALITY MATCHING RULE  bitStringMatch
   SINGLE VALUE            TRUE
   USAGE                   directoryOperation
-  LDAP-SYNTAX             pwdVocabularyDescription.&amp;id
+  LDAP-SYNTAX             pwdVocabularyDescription.&id
   LDAP-NAME               {"pwdVocabulary"}
   ID                      id-oa-pwdVocabulary
 }
@@ -567,7 +567,7 @@ pwdAlphabet ATTRIBUTE ::= {
   WITH SYNTAX   PwdAlphabet
   SINGLE VALUE  TRUE
   USAGE         directoryOperation
-  LDAP-SYNTAX   pwdAlphabetDescription.&amp;id
+  LDAP-SYNTAX   pwdAlphabetDescription.&id
   LDAP-NAME     {"pwdAlphabet"}
   ID            id-oa-pwdAlphabet
 }
@@ -577,7 +577,7 @@ PwdAlphabet ::= SEQUENCE OF UTF8String
 pwdDictionaries ATTRIBUTE ::= {
   SUBTYPE OF   uri
   USAGE        directoryOperation
-  LDAP-SYNTAX  directoryString.&amp;id
+  LDAP-SYNTAX  directoryString.&id
   LDAP-NAME    {"pwdDictionaries"}
   ID           id-oa-pwdDictionaries
 }
@@ -588,7 +588,7 @@ pwdExpiryWarning ATTRIBUTE ::= {
   ORDERING MATCHING RULE  integerOrderingMatch
   SINGLE VALUE            TRUE
   USAGE                   directoryOperation
-  LDAP-SYNTAX             integer.&amp;id
+  LDAP-SYNTAX             integer.&id
   LDAP-NAME               {"pwdExpiryWarning"}
   ID                      id-oa-pwdExpiryWarning
 }
@@ -599,7 +599,7 @@ pwdGraces ATTRIBUTE ::= {
   ORDERING MATCHING RULE  integerOrderingMatch
   SINGLE VALUE            TRUE
   USAGE                   directoryOperation
-  LDAP-SYNTAX             integer.&amp;id
+  LDAP-SYNTAX             integer.&id
   LDAP-NAME               {"pwdGraces"}
   ID                      id-oa-pwdGraces
 }
@@ -610,7 +610,7 @@ pwdFailureDuration ATTRIBUTE ::= {
   ORDERING MATCHING RULE  integerOrderingMatch
   SINGLE VALUE            TRUE
   USAGE                   directoryOperation
-  LDAP-SYNTAX             integer.&amp;id
+  LDAP-SYNTAX             integer.&id
   LDAP-NAME               {"pwdFailureDuration"}
   ID                      id-oa-pwdFailureDuration
 }
@@ -621,7 +621,7 @@ pwdLockoutDuration ATTRIBUTE ::= {
   ORDERING MATCHING RULE  integerOrderingMatch
   SINGLE VALUE            TRUE
   USAGE                   directoryOperation
-  LDAP-SYNTAX             integer.&amp;id
+  LDAP-SYNTAX             integer.&id
   LDAP-NAME               {"pwdLockoutDuration"}
   ID                      id-oa-pwdLockoutDuration
 }
@@ -632,7 +632,7 @@ pwdMaxFailures ATTRIBUTE ::= {
   ORDERING MATCHING RULE  integerOrderingMatch
   SINGLE VALUE            TRUE
   USAGE                   directoryOperation
-  LDAP-SYNTAX             integer.&amp;id
+  LDAP-SYNTAX             integer.&id
   LDAP-NAME               {"pwdMaxFailures"}
   ID                      id-oa-pwdMaxFailures
 }
@@ -643,7 +643,7 @@ pwdMaxTimeInHistory ATTRIBUTE ::= {
   ORDERING MATCHING RULE  integerOrderingMatch
   SINGLE VALUE            TRUE
   USAGE                   directoryOperation
-  LDAP-SYNTAX             integer.&amp;id
+  LDAP-SYNTAX             integer.&id
   LDAP-NAME               {"pwdMaxTimeInHistory"}
   ID                      id-oa-pwdMaxTimeInHistory
 }
@@ -654,7 +654,7 @@ pwdMinTimeInHistory ATTRIBUTE ::= {
   ORDERING MATCHING RULE  integerOrderingMatch
   SINGLE VALUE            TRUE
   USAGE                   directoryOperation
-  LDAP-SYNTAX             integer.&amp;id
+  LDAP-SYNTAX             integer.&id
   LDAP-NAME               {"pwdMinTimeInHistory"}
   ID                      id-oa-pwdMinTimeInHistory
 }
@@ -665,7 +665,7 @@ pwdHistorySlots ATTRIBUTE ::= {
   ORDERING MATCHING RULE  integerOrderingMatch
   SINGLE VALUE            TRUE
   USAGE                   directoryOperation
-  LDAP-SYNTAX             integer.&amp;id
+  LDAP-SYNTAX             integer.&id
   LDAP-NAME               {"pwdHistorySlots"}
   ID                      id-oa-pwdHistorySlots
 }
@@ -676,7 +676,7 @@ pwdRecentlyExpiredDuration ATTRIBUTE ::= {
   ORDERING MATCHING RULE  integerOrderingMatch
   SINGLE VALUE            TRUE
   USAGE                   directoryOperation
-  LDAP-SYNTAX             integer.&amp;id
+  LDAP-SYNTAX             integer.&id
   LDAP-NAME               {"pwdRecentlyExpiredDuration"}
   ID                      id-oa-pwdRecentlyExpiredDuration
 }
@@ -686,7 +686,7 @@ pwdEncAlg ATTRIBUTE ::= {
   EQUALITY MATCHING RULE  pwdEncAlgMatch
   SINGLE VALUE            TRUE
   USAGE                   directoryOperation
-  LDAP-SYNTAX             pwdEncAlgDescription.&amp;id
+  LDAP-SYNTAX             pwdEncAlgDescription.&id
   LDAP-NAME               {"pwdEncAlg"}
   ID                      id-oa-pwdEncAlg
 }
@@ -695,14 +695,14 @@ PwdEncAlg ::= AlgorithmIdentifier{{SupportedAlgorithms}}
 
 userPwdMatch MATCHING-RULE ::= {
   SYNTAX       UserPwd
-  LDAP-SYNTAX  userPwdDescription.&amp;id
+  LDAP-SYNTAX  userPwdDescription.&id
   LDAP-NAME    {"userPwdMatch"}
   ID           id-mr-userPwdMatch
 }
 
 pwdEncAlgMatch MATCHING-RULE ::= {
   SYNTAX       PwdEncAlg
-  LDAP-SYNTAX  pwdEncAlgDescription.&amp;id
+  LDAP-SYNTAX  pwdEncAlgDescription.&id
   LDAP-NAME    {"pwdEncAlgMatch"}
   ID           id-mr-pwdEncAlgMatch
 }
@@ -882,5 +882,5 @@ id-lsx-x509SupportedAlgorithm OBJECT IDENTIFIER ::= {id-lsx 49}
 
 END -- AuthenticationFramework
 
--- Generated by Asnp, the ASN.1 pretty-printer of France Telecom R&amp;D
+-- Generated by Asnp, the ASN.1 pretty-printer of France Telecom R&D
 

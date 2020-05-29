@@ -292,32 +292,32 @@ m-Set-Confirmed OPERATION ::= {
 -- Action types, Attribute types,  Event Report types, and their associated ASN.1 type definitions, 
 -- the alternative approach using GDMO templates, as defined in ITU-T Rec. 722 | ISO/IEC 10165-5, 
 -- continues to be available for use with this Recommendation | International Standard.
-CMIP-ACTION ::= CLASS {&amp;id     ActionTypeId UNIQUE,
-                       &amp;Value  
-}WITH SYNTAX {TYPE &amp;Value
-              ID &amp;id
+CMIP-ACTION ::= CLASS {&id     ActionTypeId UNIQUE,
+                       &Value  
+}WITH SYNTAX {TYPE &Value
+              ID &id
 }
 
-CMIP-ATTRIBUTE ::= CLASS {&amp;id     AttributeId UNIQUE,
-                          &amp;Value  
-}WITH SYNTAX {TYPE &amp;Value
-              ID &amp;id
+CMIP-ATTRIBUTE ::= CLASS {&id     AttributeId UNIQUE,
+                          &Value  
+}WITH SYNTAX {TYPE &Value
+              ID &id
 }
 
-CMIP-AVA ::= CLASS {&amp;id     OBJECT IDENTIFIER UNIQUE,
-                    &amp;Value  
+CMIP-AVA ::= CLASS {&id     OBJECT IDENTIFIER UNIQUE,
+                    &Value  
 }
 
-CMIP-EVENT ::= CLASS {&amp;id     EventTypeId UNIQUE,
-                      &amp;Value  
-}WITH SYNTAX {TYPE &amp;Value
-              ID &amp;id
+CMIP-EVENT ::= CLASS {&id     EventTypeId UNIQUE,
+                      &Value  
+}WITH SYNTAX {TYPE &Value
+              ID &id
 }
 
-CMIP-SPECIFICERROR ::= CLASS {&amp;id     OBJECT IDENTIFIER UNIQUE,
-                              &amp;Value  
-}WITH SYNTAX {TYPE &amp;Value
-              ID &amp;id
+CMIP-SPECIFICERROR ::= CLASS {&id     OBJECT IDENTIFIER UNIQUE,
+                              &Value  
+}WITH SYNTAX {TYPE &Value
+              ID &id
 }
 
 -- Supporting type definitions
@@ -347,21 +347,21 @@ ActionErrorInfo ::= SEQUENCE {
                 invalidArgumentValue(15), ...
                 },
   errorInfo
-    CHOICE {actionType      CMIP-ACTION.&amp;id({ActionSet}),
+    CHOICE {actionType      CMIP-ACTION.&id({ActionSet}),
             actionArgument  [0]  NoSuchArgument,
             argumentValue   [1]  InvalidArgumentValue},
   ...
 }
 
 ActionInfo ::= SEQUENCE {
-  actionType     CMIP-ACTION.&amp;id({ActionSet}),
+  actionType     CMIP-ACTION.&id({ActionSet}),
   actionInfoArg
-    [4]  CMIP-ACTION.&amp;Value({ActionSet}{@.actionType}) OPTIONAL
+    [4]  CMIP-ACTION.&Value({ActionSet}{@.actionType}) OPTIONAL
 }
 
 ActionReply ::= SEQUENCE {
-  actionType       CMIP-ACTION.&amp;id({ActionSet}),
-  actionReplyInfo  [4]  CMIP-ACTION.&amp;Value({ActionSet}{@.actionType})
+  actionType       CMIP-ACTION.&id({ActionSet}),
+  actionReplyInfo  [4]  CMIP-ACTION.&Value({ActionSet}{@.actionType})
 }
 
 ActionResult ::= SEQUENCE {
@@ -384,8 +384,8 @@ ActionTypeId ::= CHOICE {
 -- Where this alternative is used, the permissible values for the integers and their meanings shall be defined
 -- as part of the application context in which they are used
 Attribute ::= SEQUENCE {
-  id     CMIP-ATTRIBUTE.&amp;id({AttributeSet}),
-  value  CMIP-ATTRIBUTE.&amp;Value({AttributeSet}{@.id})
+  id     CMIP-ATTRIBUTE.&id({AttributeSet}),
+  value  CMIP-ATTRIBUTE.&Value({AttributeSet}{@.id})
 }
 
 AttributeError ::= SEQUENCE {
@@ -396,9 +396,9 @@ AttributeError ::= SEQUENCE {
   modifyOperator  [2] IMPLICIT ModifyOperator OPTIONAL, -- present for invalidOperator
   
   -- and invalidOperation
-  attributeId     CMIP-ATTRIBUTE.&amp;id({AttributeSet}),
+  attributeId     CMIP-ATTRIBUTE.&id({AttributeSet}),
   attributeValue
-    CMIP-ATTRIBUTE.&amp;Value({AttributeSet}{@.attributeId}) OPTIONAL
+    CMIP-ATTRIBUTE.&Value({AttributeSet}{@.attributeId}) OPTIONAL
   -- value is absent for setToDefault
 }
 
@@ -421,8 +421,8 @@ AttributeSet CMIP-ATTRIBUTE ::=
   {...}
 
 AttributeValueAssertion ::= SEQUENCE {
-  id     CMIP-AVA.&amp;id({AvaSet}),
-  value  CMIP-AVA.&amp;Value({AvaSet}{@.id})
+  id     CMIP-AVA.&id({AvaSet}),
+  value  CMIP-AVA.&Value({AvaSet}{@.id})
 }
 
 AvaSet CMIP-AVA ::=
@@ -496,17 +496,17 @@ DeleteResult ::= SEQUENCE {
 DistinguishedName ::= RDNSequence
 
 EventReply ::= SEQUENCE {
-  eventType       CMIP-EVENT.&amp;id({EventSet}),
-  eventReplyInfo  [8]  CMIP-EVENT.&amp;Value({EventSet}{@.eventType}) OPTIONAL
+  eventType       CMIP-EVENT.&id({EventSet}),
+  eventReplyInfo  [8]  CMIP-EVENT.&Value({EventSet}{@.eventType}) OPTIONAL
 }
 
 EventReportArgument ::= SEQUENCE {
   managedObjectClass     ObjectClass,
   managedObjectInstance  ObjectInstance,
   eventTime              [5] IMPLICIT GeneralizedTime OPTIONAL,
-  eventType              CMIP-EVENT.&amp;id({EventSet}),
+  eventType              CMIP-EVENT.&id({EventSet}),
   eventInfo
-    [8]  CMIP-EVENT.&amp;Value({EventSet}{@.eventType}) OPTIONAL,
+    [8]  CMIP-EVENT.&Value({EventSet}{@.eventType}) OPTIONAL,
   ...
 }
 
@@ -578,9 +578,9 @@ GetResult ::= SEQUENCE {
 InvalidArgumentValue ::= CHOICE {
   actionValue  [0] IMPLICIT ActionInfo,
   eventValue
-    [1] IMPLICIT SEQUENCE {eventType  CMIP-EVENT.&amp;id({EventSet}),
+    [1] IMPLICIT SEQUENCE {eventType  CMIP-EVENT.&id({EventSet}),
                            eventInfo
-                             [8]  CMIP-EVENT.&amp;Value
+                             [8]  CMIP-EVENT.&Value
                                     ({EventSet}{@.eventType}) OPTIONAL
   }
 }
@@ -604,24 +604,24 @@ ModifyOperator ::= INTEGER {
 
 NoSuchAction ::= SEQUENCE {
   managedObjectClass  ObjectClass,
-  actionType          CMIP-ACTION.&amp;id({ActionSet}),
+  actionType          CMIP-ACTION.&id({ActionSet}),
   ...
 }
 
 NoSuchArgument ::= CHOICE {
   actionId
     [0] IMPLICIT SEQUENCE {managedObjectClass  ObjectClass OPTIONAL,
-                           actionType          CMIP-ACTION.&amp;id({ActionSet})
+                           actionType          CMIP-ACTION.&id({ActionSet})
   },
   eventId
     [1] IMPLICIT SEQUENCE {managedObjectClass  ObjectClass OPTIONAL,
-                           eventType           CMIP-EVENT.&amp;id({EventSet})
+                           eventType           CMIP-EVENT.&id({EventSet})
   }
 }
 
 NoSuchEventType ::= SEQUENCE {
   managedObjectClass  ObjectClass,
-  eventType           CMIP-EVENT.&amp;id({EventSet}),
+  eventType           CMIP-EVENT.&id({EventSet}),
   ...
 }
 
@@ -672,9 +672,9 @@ SetArgument ::= SEQUENCE {
                     SEQUENCE {modifyOperator
                                 [2] IMPLICIT ModifyOperator DEFAULT replace,
                               attributeId
-                                CMIP-ATTRIBUTE.&amp;id({AttributeSet}),
+                                CMIP-ATTRIBUTE.&id({AttributeSet}),
                               attributeValue
-                                CMIP-ATTRIBUTE.&amp;Value
+                                CMIP-ATTRIBUTE.&Value
                                   ({AttributeSet}{@.attributeId}) OPTIONAL
                     },
   -- value is absent for setToDefault
@@ -703,8 +703,8 @@ SetResult ::= SEQUENCE {
 }
 
 SpecificErrorInfo ::= SEQUENCE {
-  errorId    CMIP-SPECIFICERROR.&amp;id({SpecificErrorSet}),
-  errorInfo  CMIP-SPECIFICERROR.&amp;Value({SpecificErrorSet}{@.errorId})
+  errorId    CMIP-SPECIFICERROR.&id({SpecificErrorSet}),
+  errorInfo  CMIP-SPECIFICERROR.&Value({SpecificErrorSet}{@.errorId})
 }
 
 SpecificErrorSet CMIP-SPECIFICERROR ::=
@@ -716,5 +716,5 @@ ROSEapdus ::=
 
 END -- End of CMIP syntax definitions
 
--- Generated by Asnp, the ASN.1 pretty-printer of France Telecom R&amp;D
+-- Generated by Asnp, the ASN.1 pretty-printer of France Telecom R&D
 

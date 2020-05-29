@@ -73,29 +73,29 @@ establishOperationalBinding OPERATION ::= {
 EstablishOperationalBindingArgument ::=
   OPTIONALLY-PROTECTED
     {SEQUENCE {bindingType
-                 [0]  OPERATIONAL-BINDING.&amp;id({OpBindingSet}),
+                 [0]  OPERATIONAL-BINDING.&id({OpBindingSet}),
                bindingID           [1]  OperationalBindingID OPTIONAL,
                accessPoint         [2]  AccessPoint,
                -- symmetric, Role A initiates, or Role B initiates 
                initiator
                  CHOICE {symmetric
                            [3]  OPERATIONAL-BINDING.
-                                  &amp;both.&amp;EstablishParam
+                                  &both.&EstablishParam
                                   ({OpBindingSet}{@bindingType}),
                          roleA-initiates
                            [4]  OPERATIONAL-BINDING.
-                                  &amp;roleA.&amp;EstablishParam
+                                  &roleA.&EstablishParam
                                   ({OpBindingSet}{@bindingType}),
                          roleB-initiates
                            [5]  OPERATIONAL-BINDING.
-                                  &amp;roleB.&amp;EstablishParam
+                                  &roleB.&EstablishParam
                                   ({OpBindingSet}{@bindingType})} OPTIONAL,
                agreement
-                 [6]  OPERATIONAL-BINDING.&amp;Agreement
+                 [6]  OPERATIONAL-BINDING.&Agreement
                         ({OpBindingSet}{@bindingType}),
                valid               [7]  Validity DEFAULT {},
                securityParameters  [8]  SecurityParameters OPTIONAL
-    }, dirqop.&amp;dopEstablishOpBindArg-QOP}
+    }, dirqop.&dopEstablishOpBindArg-QOP}
 
 OperationalBindingID ::= SEQUENCE {identifier  INTEGER,
                                    version     INTEGER
@@ -112,21 +112,21 @@ Validity ::= SEQUENCE {
 
 EstablishOperationalBindingResult ::=
   OPTIONALLY-PROTECTED
-    {SET {bindingType  [0]  OPERATIONAL-BINDING.&amp;id({OpBindingSet}),
+    {SET {bindingType  [0]  OPERATIONAL-BINDING.&id({OpBindingSet}),
           bindingID    [1]  OperationalBindingID OPTIONAL,
           accessPoint  [2]  AccessPoint,
           -- symmetric, Role A replies , or Role B replies 
           initiator
             CHOICE {symmetric
-                      [3]  OPERATIONAL-BINDING.&amp;both.&amp;EstablishParam
+                      [3]  OPERATIONAL-BINDING.&both.&EstablishParam
                              ({OpBindingSet}{@bindingType}),
                     roleA-replies
-                      [4]  OPERATIONAL-BINDING.&amp;roleA.&amp;EstablishParam
+                      [4]  OPERATIONAL-BINDING.&roleA.&EstablishParam
                              ({OpBindingSet}{@bindingType}),
                     roleB-replies
-                      [5]  OPERATIONAL-BINDING.&amp;roleB.&amp;EstablishParam
+                      [5]  OPERATIONAL-BINDING.&roleB.&EstablishParam
                              ({OpBindingSet}{@bindingType})} OPTIONAL,
-          COMPONENTS OF CommonResults}, dirqop.&amp;dopEstablishOpBindRes-QOP}
+          COMPONENTS OF CommonResults}, dirqop.&dopEstablishOpBindRes-QOP}
 
 modifyOperationalBinding OPERATION ::= {
   ARGUMENT  ModifyOperationalBindingArgument
@@ -138,40 +138,40 @@ modifyOperationalBinding OPERATION ::= {
 ModifyOperationalBindingArgument ::=
   OPTIONALLY-PROTECTED
     {SEQUENCE {bindingType
-                 [0]  OPERATIONAL-BINDING.&amp;id({OpBindingSet}),
+                 [0]  OPERATIONAL-BINDING.&id({OpBindingSet}),
                bindingID           [1]  OperationalBindingID,
                accessPoint         [2]  AccessPoint OPTIONAL,
                -- symmetric, Role A initiates, or Role B initiates 
                initiator
                  CHOICE {symmetric
-                           [3]  OPERATIONAL-BINDING.&amp;both.&amp;ModifyParam
+                           [3]  OPERATIONAL-BINDING.&both.&ModifyParam
                                   ({OpBindingSet}{@bindingType}),
                          roleA-initiates
-                           [4]  OPERATIONAL-BINDING.&amp;roleA.&amp;ModifyParam
+                           [4]  OPERATIONAL-BINDING.&roleA.&ModifyParam
                                   ({OpBindingSet}{@bindingType}),
                          roleB-initiates
-                           [5]  OPERATIONAL-BINDING.&amp;roleB.&amp;ModifyParam
+                           [5]  OPERATIONAL-BINDING.&roleB.&ModifyParam
                                   ({OpBindingSet}{@bindingType})} OPTIONAL,
                newBindingID        [6]  OperationalBindingID,
                newAgreement
-                 [7]  OPERATIONAL-BINDING.&amp;Agreement
+                 [7]  OPERATIONAL-BINDING.&Agreement
                         ({OpBindingSet}{@bindingType}) OPTIONAL,
                valid               [8]  Validity OPTIONAL,
                securityParameters  [9]  SecurityParameters OPTIONAL
-    }, dirqop.&amp;dopModifyOpBindArg-QOP}
+    }, dirqop.&dopModifyOpBindArg-QOP}
 
 ModifyOperationalBindingResult ::= CHOICE {
   null       [0]  NULL,
   protected
     [1]  PROTECTED{SET {newBindingID  OperationalBindingID,
                         bindingType
-                          OPERATIONAL-BINDING.&amp;id({OpBindingSet}),
+                          OPERATIONAL-BINDING.&id({OpBindingSet}),
                         newAgreement
-                          [0]  OPERATIONAL-BINDING.&amp;Agreement
+                          [0]  OPERATIONAL-BINDING.&Agreement
                                  ({OpBindingSet}{@bindingType}) OPTIONAL,
                         valid         [1]  Validity OPTIONAL,
                         COMPONENTS OF CommonResults
-           }, dirqop.&amp;dopModifyOpBindRes-QOP}
+           }, dirqop.&dopModifyOpBindRes-QOP}
 }
 
 terminateOperationalBinding OPERATION ::= {
@@ -184,42 +184,42 @@ terminateOperationalBinding OPERATION ::= {
 TerminateOperationalBindingArgument ::=
   OPTIONALLY-PROTECTED
     {SEQUENCE {bindingType
-                 [0]  OPERATIONAL-BINDING.&amp;id({OpBindingSet}),
+                 [0]  OPERATIONAL-BINDING.&id({OpBindingSet}),
                bindingID           [1]  OperationalBindingID,
                -- symmetric, Role A initiates, or Role B initiates 
                initiator
                  CHOICE {symmetric
                            [2]  OPERATIONAL-BINDING.
-                                  &amp;both.&amp;TerminateParam
+                                  &both.&TerminateParam
                                   ({OpBindingSet}{@bindingType}),
                          roleA-initiates
                            [3]  OPERATIONAL-BINDING.
-                                  &amp;roleA.&amp;TerminateParam
+                                  &roleA.&TerminateParam
                                   ({OpBindingSet}{@bindingType}),
                          roleB-initiates
                            [4]  OPERATIONAL-BINDING.
-                                  &amp;roleB.&amp;TerminateParam
+                                  &roleB.&TerminateParam
                                   ({OpBindingSet}{@bindingType})} OPTIONAL,
                terminateAt         [5]  Time OPTIONAL,
                securityParameters  [6]  SecurityParameters OPTIONAL
-    }, dirqop.&amp;dopTermOpBindArg-QOP}
+    }, dirqop.&dopTermOpBindArg-QOP}
 
 TerminateOperationalBindingResult ::= CHOICE {
   null       [0]  NULL,
   protected
     [1]  PROTECTED{SET {bindingID    OperationalBindingID,
                         bindingType
-                          OPERATIONAL-BINDING.&amp;id({OpBindingSet}),
+                          OPERATIONAL-BINDING.&id({OpBindingSet}),
                         terminateAt  GeneralizedTime OPTIONAL,
                         COMPONENTS OF CommonResults
-           }, dirqop.&amp;dopTermOpBindRes-QOP}
+           }, dirqop.&dopTermOpBindRes-QOP}
 }
 
 -- errors and parameters 
 operationalBindingError ERROR ::= {
   PARAMETER OPTIONALLY-PROTECTED
     {OpBindingErrorParam,
-     dirqop.&amp;dirErrors-QOP}
+     dirqop.&dirErrors-QOP}
   CODE                            id-err-operationalBindingError
 }
 
@@ -230,9 +230,9 @@ OpBindingErrorParam ::= SET {
                      roleAssignment(5), invalidStartTime(6), invalidEndTime(7),
                      invalidAgreement(8), currentlyNotDecidable(9),
                      modificationNotAllowed(10)},
-  bindingType        [1]  OPERATIONAL-BINDING.&amp;id({OpBindingSet}) OPTIONAL,
+  bindingType        [1]  OPERATIONAL-BINDING.&id({OpBindingSet}) OPTIONAL,
   agreementProposal
-    [2]  OPERATIONAL-BINDING.&amp;Agreement({OpBindingSet}{@bindingType})
+    [2]  OPERATIONAL-BINDING.&Agreement({OpBindingSet}{@bindingType})
       OPTIONAL,
   retryAt            [3]  Time OPTIONAL,
   COMPONENTS OF CommonResults
@@ -240,45 +240,45 @@ OpBindingErrorParam ::= SET {
 
 -- information object classes 
 OPERATIONAL-BINDING ::= CLASS {
-  &amp;Agreement    ,
-  &amp;Cooperation  OP-BINDING-COOP,
-  &amp;both         OP-BIND-ROLE OPTIONAL,
-  &amp;roleA        OP-BIND-ROLE OPTIONAL,
-  &amp;roleB        OP-BIND-ROLE OPTIONAL,
-  &amp;id           OBJECT IDENTIFIER UNIQUE
+  &Agreement    ,
+  &Cooperation  OP-BINDING-COOP,
+  &both         OP-BIND-ROLE OPTIONAL,
+  &roleA        OP-BIND-ROLE OPTIONAL,
+  &roleB        OP-BIND-ROLE OPTIONAL,
+  &id           OBJECT IDENTIFIER UNIQUE
 }
 WITH SYNTAX {
-  AGREEMENT &amp;Agreement
-  APPLICATION CONTEXTS &amp;Cooperation
-  [SYMMETRIC &amp;both]
+  AGREEMENT &Agreement
+  APPLICATION CONTEXTS &Cooperation
+  [SYMMETRIC &both]
   [ASYMMETRIC
-   [ROLE-A &amp;roleA]
-   [ROLE-B &amp;roleB]]
-  ID &amp;id
+   [ROLE-A &roleA]
+   [ROLE-B &roleB]]
+  ID &id
 }
 
 OP-BINDING-COOP ::= CLASS {
-  &amp;applContext  APPLICATION-CONTEXT,
-  &amp;Operations   OPERATION OPTIONAL
-}WITH SYNTAX {&amp;applContext
-              [APPLIES TO &amp;Operations]
+  &applContext  APPLICATION-CONTEXT,
+  &Operations   OPERATION OPTIONAL
+}WITH SYNTAX {&applContext
+              [APPLIES TO &Operations]
 }
 
 OP-BIND-ROLE ::= CLASS {
-  &amp;establish       BOOLEAN DEFAULT FALSE,
-  &amp;EstablishParam  OPTIONAL,
-  &amp;modify          BOOLEAN DEFAULT FALSE,
-  &amp;ModifyParam     OPTIONAL,
-  &amp;terminate       BOOLEAN DEFAULT FALSE,
-  &amp;TerminateParam  OPTIONAL
+  &establish       BOOLEAN DEFAULT FALSE,
+  &EstablishParam  OPTIONAL,
+  &modify          BOOLEAN DEFAULT FALSE,
+  &ModifyParam     OPTIONAL,
+  &terminate       BOOLEAN DEFAULT FALSE,
+  &TerminateParam  OPTIONAL
 }
 WITH SYNTAX {
-  [ESTABLISHMENT-INITIATOR &amp;establish]
-  [ESTABLISHMENT-PARAMETER &amp;EstablishParam]
-  [MODIFICATION-INITIATOR &amp;modify]
-  [MODIFICATION-PARAMETER &amp;ModifyParam]
-  [TERMINATION-INITIATOR &amp;terminate]
-  [TERMINATION-PARAMETER &amp;TerminateParam]
+  [ESTABLISHMENT-INITIATOR &establish]
+  [ESTABLISHMENT-PARAMETER &EstablishParam]
+  [MODIFICATION-INITIATOR &modify]
+  [MODIFICATION-PARAMETER &ModifyParam]
+  [TERMINATION-INITIATOR &terminate]
+  [TERMINATION-PARAMETER &TerminateParam]
 }
 
 OpBindingSet OPERATIONAL-BINDING ::=
@@ -287,7 +287,7 @@ OpBindingSet OPERATIONAL-BINDING ::=
 
 END
 
--- Generated by Asnp, the ASN.1 pretty-printer of France Telecom R&amp;D
+-- Generated by Asnp, the ASN.1 pretty-printer of France Telecom R&D
 
 <!-- content of stack:
 

@@ -78,7 +78,7 @@ matchingRules ATTRIBUTE ::= {
 }
 
 MatchingRuleDescription ::= SEQUENCE {
-  identifier   MATCHING-RULE.&amp;id,
+  identifier   MATCHING-RULE.&id,
   name         SET SIZE (1..MAX) OF UnboundedDirectoryString OPTIONAL,
   description  UnboundedDirectoryString OPTIONAL,
   obsolete     BOOLEAN DEFAULT FALSE,
@@ -94,7 +94,7 @@ attributeTypes ATTRIBUTE ::= {
 }
 
 AttributeTypeDescription ::= SEQUENCE {
-  identifier   ATTRIBUTE.&amp;id,
+  identifier   ATTRIBUTE.&id,
   name         SET SIZE (1..MAX) OF UnboundedDirectoryString OPTIONAL,
   description  UnboundedDirectoryString OPTIONAL,
   obsolete     BOOLEAN DEFAULT FALSE,
@@ -102,10 +102,10 @@ AttributeTypeDescription ::= SEQUENCE {
 }
 
 AttributeTypeInformation ::= SEQUENCE {
-  derivation       [0]  ATTRIBUTE.&amp;id OPTIONAL,
-  equalityMatch    [1]  MATCHING-RULE.&amp;id OPTIONAL,
-  orderingMatch    [2]  MATCHING-RULE.&amp;id OPTIONAL,
-  substringsMatch  [3]  MATCHING-RULE.&amp;id OPTIONAL,
+  derivation       [0]  ATTRIBUTE.&id OPTIONAL,
+  equalityMatch    [1]  MATCHING-RULE.&id OPTIONAL,
+  orderingMatch    [2]  MATCHING-RULE.&id OPTIONAL,
+  substringsMatch  [3]  MATCHING-RULE.&id OPTIONAL,
   attributeSyntax  [4]  UnboundedDirectoryString OPTIONAL,
   multi-valued     [5]  BOOLEAN DEFAULT TRUE,
   collective       [6]  BOOLEAN DEFAULT FALSE,
@@ -121,7 +121,7 @@ objectClasses ATTRIBUTE ::= {
 }
 
 ObjectClassDescription ::= SEQUENCE {
-  identifier   OBJECT-CLASS.&amp;id,
+  identifier   OBJECT-CLASS.&id,
   name         SET SIZE (1..MAX) OF UnboundedDirectoryString OPTIONAL,
   description  UnboundedDirectoryString OPTIONAL,
   obsolete     BOOLEAN DEFAULT FALSE,
@@ -129,10 +129,10 @@ ObjectClassDescription ::= SEQUENCE {
 }
 
 ObjectClassInformation ::= SEQUENCE {
-  subclassOf   SET SIZE (1..MAX) OF OBJECT-CLASS.&amp;id OPTIONAL,
+  subclassOf   SET SIZE (1..MAX) OF OBJECT-CLASS.&id OPTIONAL,
   kind         ObjectClassKind DEFAULT structural,
-  mandatories  [3]  SET SIZE (1..MAX) OF ATTRIBUTE.&amp;id OPTIONAL,
-  optionals    [4]  SET SIZE (1..MAX) OF ATTRIBUTE.&amp;id OPTIONAL
+  mandatories  [3]  SET SIZE (1..MAX) OF ATTRIBUTE.&id OPTIONAL,
+  optionals    [4]  SET SIZE (1..MAX) OF ATTRIBUTE.&id OPTIONAL
 }
 
 nameForms ATTRIBUTE ::= {
@@ -143,7 +143,7 @@ nameForms ATTRIBUTE ::= {
 }
 
 NameFormDescription ::= SEQUENCE {
-  identifier   NAME-FORM.&amp;id,
+  identifier   NAME-FORM.&id,
   name         SET SIZE (1..MAX) OF UnboundedDirectoryString OPTIONAL,
   description  UnboundedDirectoryString OPTIONAL,
   obsolete     BOOLEAN DEFAULT FALSE,
@@ -151,9 +151,9 @@ NameFormDescription ::= SEQUENCE {
 }
 
 NameFormInformation ::= SEQUENCE {
-  subordinate        OBJECT-CLASS.&amp;id,
-  namingMandatories  SET OF ATTRIBUTE.&amp;id,
-  namingOptionals    SET SIZE (1..MAX) OF ATTRIBUTE.&amp;id OPTIONAL
+  subordinate        OBJECT-CLASS.&id,
+  namingMandatories  SET OF ATTRIBUTE.&id,
+  namingOptionals    SET SIZE (1..MAX) OF ATTRIBUTE.&id OPTIONAL
 }
 
 matchingRuleUse ATTRIBUTE ::= {
@@ -164,11 +164,11 @@ matchingRuleUse ATTRIBUTE ::= {
 }
 
 MatchingRuleUseDescription ::= SEQUENCE {
-  identifier   MATCHING-RULE.&amp;id,
+  identifier   MATCHING-RULE.&id,
   name         SET SIZE (1..MAX) OF UnboundedDirectoryString OPTIONAL,
   description  UnboundedDirectoryString OPTIONAL,
   obsolete     BOOLEAN DEFAULT FALSE,
-  information  [0]  SET OF ATTRIBUTE.&amp;id
+  information  [0]  SET OF ATTRIBUTE.&id
 }
 
 structuralObjectClass ATTRIBUTE ::= {
@@ -197,7 +197,7 @@ contextTypes ATTRIBUTE ::= {
 }
 
 ContextDescription ::= SEQUENCE {
-  identifier   CONTEXT.&amp;id,
+  identifier   CONTEXT.&id,
   name         SET SIZE (1..MAX) OF UnboundedDirectoryString OPTIONAL,
   description  UnboundedDirectoryString OPTIONAL,
   obsolete     BOOLEAN DEFAULT FALSE,
@@ -217,7 +217,7 @@ dITContextUse ATTRIBUTE ::= {
 }
 
 DITContextUseDescription ::= SEQUENCE {
-  identifier   ATTRIBUTE.&amp;id,
+  identifier   ATTRIBUTE.&id,
   name         SET SIZE (1..MAX) OF UnboundedDirectoryString OPTIONAL,
   description  UnboundedDirectoryString OPTIONAL,
   obsolete     BOOLEAN DEFAULT FALSE,
@@ -225,8 +225,8 @@ DITContextUseDescription ::= SEQUENCE {
 }
 
 DITContextUseInformation ::= SEQUENCE {
-  mandatoryContexts  [1]  SET SIZE (1..MAX) OF CONTEXT.&amp;id OPTIONAL,
-  optionalContexts   [2]  SET SIZE (1..MAX) OF CONTEXT.&amp;id OPTIONAL
+  mandatoryContexts  [1]  SET SIZE (1..MAX) OF CONTEXT.&id OPTIONAL,
+  optionalContexts   [2]  SET SIZE (1..MAX) OF CONTEXT.&id OPTIONAL
 }
 
 friends ATTRIBUTE ::= {
@@ -237,11 +237,11 @@ friends ATTRIBUTE ::= {
 }
 
 FriendsDescription ::= SEQUENCE {
-  anchor       ATTRIBUTE.&amp;id,
+  anchor       ATTRIBUTE.&id,
   name         SET SIZE (1..MAX) OF UnboundedDirectoryString OPTIONAL,
   description  UnboundedDirectoryString OPTIONAL,
   obsolete     BOOLEAN DEFAULT FALSE,
-  friends      [0]  SET SIZE (1..MAX) OF ATTRIBUTE.&amp;id
+  friends      [0]  SET SIZE (1..MAX) OF ATTRIBUTE.&id
 }
 
 -- object identifier assignments 
@@ -277,5 +277,5 @@ id-soa-friends OBJECT IDENTIFIER ::= {id-soa 13}
 
 END -- SchemaAdministration
 
--- Generated by Asnp, the ASN.1 pretty-printer of France Telecom R&amp;D
+-- Generated by Asnp, the ASN.1 pretty-printer of France Telecom R&D
 

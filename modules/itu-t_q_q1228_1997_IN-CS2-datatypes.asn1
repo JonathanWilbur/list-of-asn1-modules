@@ -38,8 +38,8 @@ AccountNumber ::= NumericString(SIZE (1..151))
 
 AChBillingChargingCharacteristics{PARAMETERS-BOUND:bound} ::=
   OCTET STRING
-    (SIZE (bound.&amp;minAChBillingChargingLength..
-             bound.&amp;maxAChBillingChargingLength))
+    (SIZE (bound.&minAChBillingChargingLength..
+             bound.&maxAChBillingChargingLength))
 
 -- The AChBillingChargingCharacteristics parameter specifies the charging related information
 -- to be provided by the SSF and the conditions on which this information has to be reported
@@ -93,7 +93,7 @@ AssistingSSPIPRoutingAddress{PARAMETERS-BOUND:bound} ::=
 -- Indicates the destination address of the SRF for the assist procedure.
 BackwardGVNS{PARAMETERS-BOUND:bound} ::=
   OCTET STRING
-    (SIZE (bound.&amp;minBackwardGVNSLength..bound.&amp;maxBackwardGVNSLength))
+    (SIZE (bound.&minBackwardGVNSLength..bound.&maxBackwardGVNSLength))
 
 -- Indicates the GVNS Backward information. Refer to clause 6/Q.735 for encoding.
 BackwardServiceInteractionInd ::= SEQUENCE {
@@ -126,7 +126,7 @@ BearerCapabilities ::= BIT STRING {
   bc7khzAudio(9), video(10)}
 
 BearerCapability{PARAMETERS-BOUND:bound} ::= CHOICE {
-  bearerCap  [0]  OCTET STRING(SIZE (2..bound.&amp;maxBearerCapabilityLength)),
+  bearerCap  [0]  OCTET STRING(SIZE (2..bound.&maxBearerCapabilityLength)),
   tmr        [1]  OCTET STRING(SIZE (1))
 }
 
@@ -154,8 +154,8 @@ CalledPartyBusinessGroupID ::= OCTET STRING
 -- operator specific.
 CalledPartyNumber{PARAMETERS-BOUND:bound} ::=
   OCTET STRING
-    (SIZE (bound.&amp;minCalledPartyNumberLength..
-             bound.&amp;maxCalledPartyNumberLength))
+    (SIZE (bound.&minCalledPartyNumberLength..
+             bound.&maxCalledPartyNumberLength))
 
 -- Indicates the Called Party Number. Refer to Rec. Q.763 for encoding.
 CalledPartySubaddress ::= OCTET STRING
@@ -169,8 +169,8 @@ CallingPartyBusinessGroupID ::= OCTET STRING
 -- operator specific.
 CallingPartyNumber{PARAMETERS-BOUND:bound} ::=
   OCTET STRING
-    (SIZE (bound.&amp;minCallingPartyNumberLength..
-             bound.&amp;maxCallingPartyNumberLength))
+    (SIZE (bound.&minCallingPartyNumberLength..
+             bound.&maxCallingPartyNumberLength))
 
 -- Indicates the Calling Party Number. Refer to Rec. Q.763 for encoding.
 CallingPartySubaddress ::= OCTET STRING
@@ -192,7 +192,7 @@ CallRecord{PARAMETERS-BOUND:bound} ::= SEQUENCE {
 
 CallResult{PARAMETERS-BOUND:bound} ::=
   OCTET STRING
-    (SIZE (bound.&amp;minCallResultLength..bound.&amp;maxCallResultLength))
+    (SIZE (bound.&minCallResultLength..bound.&maxCallResultLength))
 
 -- This parameter provides the SCF with the charging related information previously requested
 -- using the ApplyCharging operation. This shall include the partyToCharge parameter as
@@ -202,7 +202,7 @@ CallResult{PARAMETERS-BOUND:bound} ::=
 -- costs, tariff change and time of change, time stamps, durations, etc.
 -- Examples of conditions on which the charging related information are to be reported may be:
 -- threshold value reached, timer expiration, tariff change, end of connection configuration, etc.
-CallSegmentID{PARAMETERS-BOUND:bound} ::= INTEGER(1..bound.&amp;numOfCSs)
+CallSegmentID{PARAMETERS-BOUND:bound} ::= INTEGER(1..bound.&numOfCSs)
 
 initialCallSegment INTEGER ::= 1
 
@@ -214,7 +214,7 @@ CallUnrelatedDpSpecificCommonParameters{PARAMETERS-BOUND:bound} ::= SEQUENCE {
   locationNumber             [2]  LocationNumber{bound} OPTIONAL,
   terminalType               [3]  TerminalType DEFAULT isdn,
   extensions
-    [4]  SEQUENCE SIZE (1..bound.&amp;numOfExtensions) OF
+    [4]  SEQUENCE SIZE (1..bound.&numOfExtensions) OF
            ExtensionField{{SupportedExtensions  {bound}}} OPTIONAL
   --	...
 }
@@ -236,7 +236,7 @@ Carrier ::= OCTET STRING
 -- Carrier ID has a one-octet field indicating the number of digits followed by the digits encoded using BCD
 -- Detailed coding is for further study. It is of local significance and carrying it through the ISUP is for further study
 Cause{PARAMETERS-BOUND:bound} ::=
-  OCTET STRING(SIZE (minCauseLength..bound.&amp;maxCauseLength))
+  OCTET STRING(SIZE (minCauseLength..bound.&maxCauseLength))
 
 -- Indicates the cause for interface related information. Refer to the Q.763 Cause parameter for encoding.
 -- For the use of cause and location values, refer to Rec. Q.850
@@ -266,17 +266,17 @@ ChargingEvent{PARAMETERS-BOUND:bound} ::= SEQUENCE {
 -- This parameter indicates the charging event  type and corresponding
 -- monitor mode and LedID
 ChargingParameters{PARAMETERS-BOUND:bound} ::= SEQUENCE {
-  unitsPerInterval         [0]  INTEGER(0..bound.&amp;maxUnitsPerInterval),
-  timePerInterval          [1]  INTEGER(0..bound.&amp;maxTimePerInterval),
-  scalingFactor            [2]  INTEGER(0..bound.&amp;maxScalingFactor),
+  unitsPerInterval         [0]  INTEGER(0..bound.&maxUnitsPerInterval),
+  timePerInterval          [1]  INTEGER(0..bound.&maxTimePerInterval),
+  scalingFactor            [2]  INTEGER(0..bound.&maxScalingFactor),
   initialUnitIncrement
-    [3]  INTEGER(0..bound.&amp;maxInitialUnitIncrement) OPTIONAL,
+    [3]  INTEGER(0..bound.&maxInitialUnitIncrement) OPTIONAL,
   unitsPerDataInterval
-    [4]  INTEGER(0..bound.&amp;maxUnitsPerDataInterval) OPTIONAL,
+    [4]  INTEGER(0..bound.&maxUnitsPerDataInterval) OPTIONAL,
   segmentsPerDataInterval
-    [5]  INTEGER(0..bound.&amp;maxSegmentsPerDataInterval) OPTIONAL,
+    [5]  INTEGER(0..bound.&maxSegmentsPerDataInterval) OPTIONAL,
   initialTimeInterval
-    [6]  INTEGER(0..bound.&amp;maxInitialTimeInterval) OPTIONAL
+    [6]  INTEGER(0..bound.&maxInitialTimeInterval) OPTIONAL
 }
 
 CollectedDigits ::= SEQUENCE {
@@ -364,7 +364,7 @@ CreditUnit ::= INTEGER(0..maxCreditUnit)
 
 CriticalityType ::= ENUMERATED {ignore(0), abort(1)}
 
-CSAID{PARAMETERS-BOUND:bound} ::= INTEGER(1..bound.&amp;numOfCSAs)
+CSAID{PARAMETERS-BOUND:bound} ::= INTEGER(1..bound.&numOfCSAs)
 
 -- Indicates the SSF CSA identifier
 CurrencyID ::= PrintableString(SIZE (3)) -- ISO 639 code
@@ -372,7 +372,7 @@ CurrencyID ::= PrintableString(SIZE (3)) -- ISO 639 code
 
 CurrencyValue{PARAMETERS-BOUND:bound} ::= SEQUENCE {
   currency  CurrencyID,
-  amount    INTEGER(0..bound.&amp;maxAmount)
+  amount    INTEGER(0..bound.&maxAmount)
 }
 
 CutAndPaste ::= INTEGER(0..22)
@@ -396,7 +396,7 @@ DestinationRoutingAddress{PARAMETERS-BOUND:bound} ::=
 
 -- Indicates the list of Called Party Numbers (primary and alternates).
 Digits{PARAMETERS-BOUND:bound} ::=
-  OCTET STRING(SIZE (bound.&amp;minDigitsLength..bound.&amp;maxDigitsLength))
+  OCTET STRING(SIZE (bound.&minDigitsLength..bound.&maxDigitsLength))
 
 -- Indicates the address signalling digits. Refer to the Q.763 Generic Number and Generic Digits parameters 
 -- for encoding. The coding of the subfields 'NumberQualifier' in Generic Number and 'TypeOfDigits' in
@@ -411,8 +411,8 @@ Digits{PARAMETERS-BOUND:bound} ::=
 -- MidCallInfoType, iNServiceControlCode for MidCallInfo.
 DisplayInformation{PARAMETERS-BOUND:bound} ::=
   IA5String
-    (SIZE (bound.&amp;minDisplayInformationLength..
-             bound.&amp;maxDisplayInformationLength))
+    (SIZE (bound.&minDisplayInformationLength..
+             bound.&maxDisplayInformationLength))
 
 -- Indicates the display information.
 -- Delivery of DisplayInformation parameter to Private Networks cannot be guaranteed due to signalling 
@@ -431,7 +431,7 @@ DpSpecificCommonParameters{PARAMETERS-BOUND:bound} ::= SEQUENCE {
   serviceProfileIdentifier          [10]  ServiceProfileIdentifier OPTIONAL,
   terminalType                      [11]  TerminalType OPTIONAL,
   extensions
-    [12]  SEQUENCE SIZE (1..bound.&amp;numOfExtensions) OF
+    [12]  SEQUENCE SIZE (1..bound.&numOfExtensions) OF
             ExtensionField{{SupportedExtensions  {bound}}} OPTIONAL,
   chargeNumber                      [13]  ChargeNumber{bound} OPTIONAL,
   servingAreaID                     [14]  ServingAreaID{bound} OPTIONAL,
@@ -560,8 +560,8 @@ EventSpecificInformationBCSM{PARAMETERS-BOUND:bound} ::= CHOICE {
 -- The unit for the connectTime is 100 milliseconds
 EventSpecificInformationCharging{PARAMETERS-BOUND:bound} ::=
   OCTET STRING
-    (SIZE (bound.&amp;minEventSpecificInformationChargingLength..
-             bound.&amp;maxEventSpecificInformationChargingLength))
+    (SIZE (bound.&minEventSpecificInformationChargingLength..
+             bound.&maxEventSpecificInformationChargingLength))
 
 -- defined by network operator.
 -- Indicates the charging related information specific to the event.
@@ -584,8 +584,8 @@ EventTypeBCUSM ::= ENUMERATED {
 
 EventTypeCharging{PARAMETERS-BOUND:bound} ::=
   OCTET STRING
-    (SIZE (bound.&amp;minEventTypeChargingLength..
-             bound.&amp;maxEventTypeChargingLength))
+    (SIZE (bound.&minEventTypeChargingLength..
+             bound.&maxEventTypeChargingLength))
 
 -- This parameter indicates the charging event type. Its content is network-operator specific.
 -- 
@@ -595,10 +595,10 @@ EventTypeCharging{PARAMETERS-BOUND:bound} ::=
 -- 					chargeMessages (1)
 -- 					}
 ExtensionField{EXTENSION:SupportedExtensions} ::= SEQUENCE {
-  type         EXTENSION.&amp;id({SupportedExtensions}),
+  type         EXTENSION.&id({SupportedExtensions}),
   -- shall identify the value of an EXTENSION type
   criticality  CriticalityType DEFAULT ignore,
-  value        [1]  EXTENSION.&amp;ExtensionType({SupportedExtensions}{@type})
+  value        [1]  EXTENSION.&ExtensionType({SupportedExtensions}{@type})
 }
 
 --This parameter indicates an extension of an argument data type. Its content is network-operator specific
@@ -620,8 +620,8 @@ FailureCause ::= OCTET STRING
 -- for TDP activation/deactivation. 
 FCIBillingChargingCharacteristics{PARAMETERS-BOUND:bound} ::=
   OCTET STRING
-    (SIZE (bound.&amp;minFCIBillingChargingLength..
-             bound.&amp;maxFCIBillingChargingLength))
+    (SIZE (bound.&minFCIBillingChargingLength..
+             bound.&maxFCIBillingChargingLength))
 
 -- This parameter indicates the billing and/or charging characteristics. Its content is network-operator specific.
 -- An example datatype definition for this parameter is given below:
@@ -707,7 +707,7 @@ ForwardCallIndicators ::= OCTET STRING(SIZE (2))
 -- Indicates the Forward Call Indicators. Refer to Rec. Q.763 for encoding
 ForwardGVNS{PARAMETERS-BOUND:bound} ::=
   OCTET STRING
-    (SIZE (bound.&amp;minForwardGVNSLength..bound.&amp;maxForwardGVNSLength))
+    (SIZE (bound.&minForwardGVNSLength..bound.&maxForwardGVNSLength))
 
 -- Indicates the GVNS Forward information. Refer to clause 6/Q.735, for encoding.
 ForwardingCondition ::= ENUMERATED {busy(0), noanswer(1), any(2)}
@@ -770,15 +770,15 @@ GapTreatment{PARAMETERS-BOUND:bound} ::= CHOICE {
 -- The default value for Cause is the same as in ISUP.
 GenericName{PARAMETERS-BOUND:bound} ::=
   OCTET STRING
-    (SIZE (bound.&amp;minGenericNameLength..bound.&amp;maxGenericNameLength))
+    (SIZE (bound.&minGenericNameLength..bound.&maxGenericNameLength))
 
 GenericNumber{PARAMETERS-BOUND:bound} ::=
   OCTET STRING
-    (SIZE (bound.&amp;minGenericNumberLength..bound.&amp;maxGenericNumberLength))
+    (SIZE (bound.&minGenericNumberLength..bound.&maxGenericNumberLength))
 
 -- Refer to Q.763 Generic Number for encoding.
 GenericNumbers{PARAMETERS-BOUND:bound} ::=
-  SET SIZE (1..bound.&amp;numOfGenericNumbers) OF GenericNumber{bound}
+  SET SIZE (1..bound.&numOfGenericNumbers) OF GenericNumber{bound}
 
 HighLayerCompatibilities ::= BIT STRING {
   telephony(0), facsimileGroup2-3(1), facsimileGroup4classeI(2),
@@ -806,7 +806,7 @@ InbandInfo{PARAMETERS-BOUND:bound} ::= SEQUENCE {
 InformationToRecord{PARAMETERS-BOUND:bound} ::= SEQUENCE {
   messageID               [0]  ElementaryMessageID OPTIONAL,
   messageDeletionTimeOut  [1]  INTEGER(1..3600) OPTIONAL,
-  timeToRecord            [3]  INTEGER(0..bound.&amp;maxRecordingTime) OPTIONAL,
+  timeToRecord            [3]  INTEGER(0..bound.&maxRecordingTime) OPTIONAL,
   controlDigits
     [4]  SEQUENCE {endOfRecordingDigit
                      [0]  OCTET STRING(SIZE (1..2)) OPTIONAL,
@@ -835,7 +835,7 @@ InfoToSend{PARAMETERS-BOUND:bound} ::= CHOICE {
 InfoType ::= ENUMERATED {numericString(0), characterString(1), iA5String(2)}
 
 INServiceCompatibilityIndication{PARAMETERS-BOUND:bound} ::=
-  SEQUENCE SIZE (1..bound.&amp;numOfInServiceCompatibilityIndLength) OF Entry
+  SEQUENCE SIZE (1..bound.&numOfInServiceCompatibilityIndLength) OF Entry
 
 INServiceCompatibilityResponse ::= Entry
 
@@ -857,7 +857,7 @@ InvokeID ::= InvokeIdType
 -- Operation invoke identifier.
 IPAvailable{PARAMETERS-BOUND:bound} ::=
   OCTET STRING
-    (SIZE (bound.&amp;minIPAvailableLength..bound.&amp;maxIPAvailableLength))
+    (SIZE (bound.&minIPAvailableLength..bound.&maxIPAvailableLength))
 
 -- defined by network operator.
 -- Indicates that the resource is available.
@@ -867,8 +867,8 @@ IPRoutingAddress{PARAMETERS-BOUND:bound} ::=
 -- Indicates the routing address for the IP.
 IPSSPCapabilities{PARAMETERS-BOUND:bound} ::=
   OCTET STRING
-    (SIZE (bound.&amp;minIPSSPCapabilitiesLength..
-             bound.&amp;maxIPSSPCapabilitiesLength))
+    (SIZE (bound.&minIPSSPCapabilitiesLength..
+             bound.&maxIPSSPCapabilitiesLength))
 
 -- defined by network operator.
 -- Indicates the SRF resources available at the SSP.
@@ -900,13 +900,13 @@ leg2 LegType ::= '02'H
 
 LocationNumber{PARAMETERS-BOUND:bound} ::=
   OCTET STRING
-    (SIZE (bound.&amp;minLocationNumberLength..
-             bound.&amp;maxLocationNumberLength))
+    (SIZE (bound.&minLocationNumberLength..
+             bound.&maxLocationNumberLength))
 
 -- Indicates the Location Number for the calling party. Refer to Rec. Q.763 (White Book) for encoding.
 MailBoxID{PARAMETERS-BOUND:bound} ::=
   OCTET STRING
-    (SIZE (bound.&amp;minMailBoxIDLength..bound.&amp;maxMailBoxIDLength))
+    (SIZE (bound.&minMailBoxIDLength..bound.&maxMailBoxIDLength))
 
 MaximumNumberOfCounters ::= INTEGER(1..numOfCounters)
 
@@ -920,15 +920,15 @@ MessageID{PARAMETERS-BOUND:bound} ::= CHOICE {
   text
     [1]  SEQUENCE {messageContent
                      [0]  IA5String
-                            (SIZE (bound.&amp;minMessageContentLength..
-                                     bound.&amp;maxMessageContentLength)),
+                            (SIZE (bound.&minMessageContentLength..
+                                     bound.&maxMessageContentLength)),
                    attributes
                      [1]  OCTET STRING
-                            (SIZE (bound.&amp;minAttributesLength..
-                                     bound.&amp;maxAttributesLength)) OPTIONAL
+                            (SIZE (bound.&minAttributesLength..
+                                     bound.&maxAttributesLength)) OPTIONAL
   },
   elementaryMessageIDs
-    [29]  SEQUENCE SIZE (1..bound.&amp;numOfMessageIDs) OF Integer4,
+    [29]  SEQUENCE SIZE (1..bound.&numOfMessageIDs) OF Integer4,
   variableMessage
     [30]  SEQUENCE {elementaryMessageID  [0]  Integer4,
                     variableParts
@@ -939,8 +939,8 @@ MessageID{PARAMETERS-BOUND:bound} ::= CHOICE {
 -- OPTIONAL denotes network-operator specific use.
 MidCallControlInfo{PARAMETERS-BOUND:bound} ::=
   SEQUENCE 
-    SIZE (bound.&amp;minMidCallControlInfoNum..
-            bound.&amp;maxMidCallControlInfoNum) OF
+    SIZE (bound.&minMidCallControlInfoNum..
+            bound.&maxMidCallControlInfoNum) OF
     SEQUENCE {midCallInfoType    [0]  MidCallInfoType{bound},
               midCallReportType
                 [1]  ENUMERATED {inMonitoringState(0), inAnyState(1)}
@@ -1029,8 +1029,8 @@ OperationCode ::= CHOICE {globalCode  OBJECT IDENTIFIER,
 -- message from the user. (see 8.2.2/Q.932 for encoding)
 OriginalCalledPartyID{PARAMETERS-BOUND:bound} ::=
   OCTET STRING
-    (SIZE (bound.&amp;minOriginalCalledPartyIDLength..
-             bound.&amp;maxOriginalCalledPartyIDLength))
+    (SIZE (bound.&minOriginalCalledPartyIDLength..
+             bound.&maxOriginalCalledPartyIDLength))
 
 -- Indicates the original called number. Refer to the Q.763 Original Called Number for encoding.
 PartyID ::= INTEGER
@@ -1046,12 +1046,12 @@ ProfileIdentifier{PARAMETERS-BOUND:bound} ::= CHOICE {
 -- Please note that 'CalledPartyNumber' is used to address a subscriber access line.
 -- The data type was reused from the existing types to avoid the definition of a new one.
 Reason{PARAMETERS-BOUND:bound} ::=
-  OCTET STRING(SIZE (bound.&amp;minReasonLength..bound.&amp;maxReasonLength))
+  OCTET STRING(SIZE (bound.&minReasonLength..bound.&maxReasonLength))
 
 ReceivedInformation{PARAMETERS-BOUND:bound} ::=
   SEQUENCE 
-    SIZE (bound.&amp;minReceivedInformationLength..
-            bound.&amp;maxReceivedInformationLength) OF IA5String
+    SIZE (bound.&minReceivedInformationLength..
+            bound.&maxReceivedInformationLength) OF IA5String
 
 -- size limit to be added
 ReceivedStatus ::= ENUMERATED {
@@ -1061,8 +1061,8 @@ RecordedMessageID ::= Integer4
 
 RedirectingPartyID{PARAMETERS-BOUND:bound} ::=
   OCTET STRING
-    (SIZE (bound.&amp;minRedirectingPartyIDLength..
-             bound.&amp;maxRedirectingPartyIDLength))
+    (SIZE (bound.&minRedirectingPartyIDLength..
+             bound.&maxRedirectingPartyIDLength))
 
 -- Indicates redirecting number. Refer to the Q.763 Redirecting number for encoding.
 RedirectionInformation ::= OCTET STRING(SIZE (2))
@@ -1110,7 +1110,7 @@ RequestedUTSI{PARAMETERS-BOUND:bound} ::= SEQUENCE {
 
 RequestedUTSIList{PARAMETERS-BOUND:bound} ::=
   SEQUENCE 
-    SIZE (bound.&amp;minRequestedUTSINum..bound.&amp;maxRequestedUTSINum) OF
+    SIZE (bound.&minRequestedUTSINum..bound.&maxRequestedUTSINum) OF
     RequestedUTSI{bound}
 
 ResourceID{PARAMETERS-BOUND:bound} ::= CHOICE {
@@ -1136,7 +1136,7 @@ ResponseCondition ::= ENUMERATED {intermediateResponse(0), lastResponse(1)
 RouteList{PARAMETERS-BOUND:bound} ::=
   SEQUENCE SIZE (1..3) OF
     OCTET STRING
-      (SIZE (bound.&amp;minRouteListLength..bound.&amp;maxRouteListLength))
+      (SIZE (bound.&minRouteListLength..bound.&maxRouteListLength))
 
 -- Indicates a list of trunk groups or a route index. See Rec. Q.1224 for additional information on this item.
 RoutingAddress{PARAMETERS-BOUND:bound} ::= CHOICE {
@@ -1146,11 +1146,11 @@ RoutingAddress{PARAMETERS-BOUND:bound} ::= CHOICE {
 
 ScfAddress{PARAMETERS-BOUND:bound} ::=
   OCTET STRING
-    (SIZE (bound.&amp;minScfAddressLength..bound.&amp;maxScfAddressLength))
+    (SIZE (bound.&minScfAddressLength..bound.&maxScfAddressLength))
 
 -- ISDN address 
 ScfID{PARAMETERS-BOUND:bound} ::=
-  OCTET STRING(SIZE (bound.&amp;minScfIDLength..bound.&amp;maxScfIDLength))
+  OCTET STRING(SIZE (bound.&minScfIDLength..bound.&maxScfIDLength))
 
 -- defined by network operator.
 -- Indicates the SCF identity.
@@ -1162,8 +1162,8 @@ ScfID{PARAMETERS-BOUND:bound} ::=
 -- Other encoding schemes are also possible.
 SCIBillingChargingCharacteristics{PARAMETERS-BOUND:bound} ::=
   OCTET STRING
-    (SIZE (bound.&amp;minSCIBillingChargingLength..
-             bound.&amp;maxSCIBillingChargingLength))
+    (SIZE (bound.&minSCIBillingChargingLength..
+             bound.&maxSCIBillingChargingLength))
 
 -- This parameter indicates the billing and/or charging characteristics. Its content is network-operator specific.
 -- An example datatype definition for this parameter is given below:
@@ -1186,8 +1186,8 @@ ServiceAddressInformation ::= SEQUENCE {
 -- Information that represents the result of trigger analysis and allows the SCF to choose the appropriate service logic
 ServiceInteractionIndicators{PARAMETERS-BOUND:bound} ::=
   OCTET STRING
-    (SIZE (bound.&amp;minServiceInteractionIndicatorsLength..
-             bound.&amp;maxServiceInteractionIndicatorsLength))
+    (SIZE (bound.&minServiceInteractionIndicatorsLength..
+             bound.&maxServiceInteractionIndicatorsLength))
 
 -- Indicators which are exchanged between SSP and SCP to resolve interactions between IN-based services
 -- and network-based services, respectively between different IN-based services.
@@ -1241,8 +1241,8 @@ ServingAreaID{PARAMETERS-BOUND:bound} ::=
 -- Defined by the network operator.
 SFBillingChargingCharacteristics{PARAMETERS-BOUND:bound} ::=
   OCTET STRING
-    (SIZE (bound.&amp;minSFBillingChargingLength..
-             bound.&amp;maxSFBillingChargingLength))
+    (SIZE (bound.&minSFBillingChargingLength..
+             bound.&maxSFBillingChargingLength))
 
 -- This parameter indicates the billing and/or charging characteristics for filtered calls.
 -- Its content is network-operator specific
@@ -1311,7 +1311,7 @@ TriggerDataIdentifier{PARAMETERS-BOUND:bound} ::= SEQUENCE {
   triggerID          [0]  EventTypeBCSM,
   profileIdentifier  [1]  ProfileIdentifier{bound},
   extensions
-    [2]  SEQUENCE SIZE (1..bound.&amp;numOfExtensions) OF
+    [2]  SEQUENCE SIZE (1..bound.&numOfExtensions) OF
            ExtensionField{{SupportedExtensions  {bound}}} OPTIONAL
 }
 
@@ -1349,16 +1349,16 @@ UserInteractionModes ::= BIT STRING {voiceMessage(0), tone(1), display(2)}
 
 USIInformation{PARAMETERS-BOUND:bound} ::=
   OCTET STRING
-    (SIZE (bound.&amp;minUSIInformationLength..
-             bound.&amp;maxUSIInformationLength))
+    (SIZE (bound.&minUSIInformationLength..
+             bound.&maxUSIInformationLength))
 
 USIMonitorMode ::= ENUMERATED {monitoringActive(0), monitoringInactive(1)}
 
 --  Indicates if the monitoring relationship for the specified UTSI IE should be activated or deactivated.
 USIServiceIndicator{PARAMETERS-BOUND:bound} ::=
   OCTET STRING
-    (SIZE (bound.&amp;minUSIServiceIndicatorLength..
-             bound.&amp;maxUSIServiceIndicatorLength))
+    (SIZE (bound.&minUSIServiceIndicatorLength..
+             bound.&maxUSIServiceIndicatorLength))
 
 VariablePart{PARAMETERS-BOUND:bound} ::= CHOICE {
   integer  [0]  Integer4,
@@ -1393,5 +1393,5 @@ maxCreditUnit INTEGER ::= 65536
 
 END
 
--- Generated by Asnp, the ASN.1 pretty-printer of France Telecom R&amp;D
+-- Generated by Asnp, the ASN.1 pretty-printer of France Telecom R&D
 

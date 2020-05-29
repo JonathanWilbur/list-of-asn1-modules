@@ -95,4 +95,3 @@ iri-calor RELATIVE-OID-IRI ::= "Modalities/Calor"
 iri-electro RELATIVE-OID-IRI ::= "Modalities/Electro"
 
 END
-

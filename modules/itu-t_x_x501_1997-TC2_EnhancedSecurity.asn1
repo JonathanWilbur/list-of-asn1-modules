@@ -72,8 +72,8 @@ OPTIONALLY-PROTECTED-SEQ{Type} ::= CHOICE {
 --			initEncRules	OBJECT IDENTIFIER DEFAULT { joint-iso-itu-t  asn1(1)  ber(1) },
 --			encAlgorithm	AlgorithmIdentifier OPTIONAL, -- -- Identifies the encryption algorithm,
 --			keyInformation	SEQUENCE {
---				kiClass	KEY-INFORMATION.&amp;kiClass ({SupportedKIClasses}),
---				keyInfo	KEY-INFORMATION.&amp;KiType ({SupportedKIClasses} {@kiClass})
+--				kiClass	KEY-INFORMATION.&kiClass ({SupportedKIClasses}),
+--				keyInfo	KEY-INFORMATION.&KiType ({SupportedKIClasses} {@kiClass})
 --						} OPTIONAL,
 -- Key information may assume various formats, governed by supported members
 -- of the KEY-INFORMATION information object class (defined in ITU-T
@@ -96,7 +96,7 @@ OPTIONALLY-PROTECTED-SEQ{Type} ::= CHOICE {
 --			{
 --				PROTECTED
 --				{
---				ABSTRACT-SYNTAX.&amp;Type,
+--				ABSTRACT-SYNTAX.&Type,
 --				signed
 --				},
 --			encrypted
@@ -121,79 +121,79 @@ OPTIONALLY-PROTECTED-SEQ{Type} ::= CHOICE {
 -- required throughout directory operation. 
 -- The Quality Of Protection can be signed, encrypted, signedAndEncrypt
 -- {
---	&amp;dirqop-Id    						OBJECT IDENTIFIER UNIQUE,
---	&amp;dirBindError-QOP					PROTECTION-MAPPING:protectionReqd,
---	&amp;dirErrors-QOP						PROTECTION-MAPPING:protectionReqd,
---	&amp;dapReadArg-QOP					PROTECTION-MAPPING:protectionReqd,
---	&amp;dapReadRes-QOP					PROTECTION-MAPPING:protectionReqd,
---	&amp;dapCompareArg-QOP  				PROTECTION-MAPPING:protectionReqd,
---	&amp;dapCompareRes-QOP  				PROTECTION-MAPPING:protectionReqd,
---	&amp;dapListArg-QOP					PROTECTION-MAPPING:protectionReqd,
---	&amp;dapListRes-QOP					PROTECTION-MAPPING:protectionReqd,
---	&amp;dapSearchArg-QOP					PROTECTION-MAPPING:protectionReqd,
---	&amp;dapSearchRes-QOP					PROTECTION-MAPPING:protectionReqd,
---	&amp;dapAbandonArg-QOP  				PROTECTION-MAPPING:protectionReqd,
---	&amp;dapAbandonRes-QOP  				PROTECTION-MAPPING:protectionReqd,
---	&amp;dapAddEntryArg-QOP  				PROTECTION-MAPPING:protectionReqd,
---	&amp;dapAddEntryRes-QOP				PROTECTION-MAPPING:protectionReqd,
---	&amp;dapRemoveEntryArg-QOP				PROTECTION-MAPPING:protectionReqd,
---	&amp;dapRemoveEntryRes-QOP				PROTECTION-MAPPING:protectionReqd,
---	&amp;dapModifyEntryArg-QOP				PROTECTION-MAPPING:protectionReqd,
---	&amp;dapModifyEntryRes-QOP				PROTECTION-MAPPING:protectionReqd,
---	&amp;dapModifyDNArg-QOP				PROTECTION-MAPPING:protectionReqd,
---	&amp;dapModifyDNRes-QOP				PROTECTION-MAPPING:protectionReqd,
---	&amp;dspChainedOp-QOP					PROTECTION-MAPPING:protectionReqd,
---	&amp;dispShadowAgreeInfo-QOP  			PROTECTION-MAPPING:protectionReqd,
---	&amp;dispCoorShadowArg-QOP				PROTECTION-MAPPING:protectionReqd,
---	&amp;dispCoorShadowRes-QOP				PROTECTION-MAPPING:protectionReqd,
---	&amp;dispUpdateShadowArg-QOP			PROTECTION-MAPPING:protectionReqd,
---	&amp;dispUpdateShadowRes-QOP			PROTECTION-MAPPING:protectionReqd,
---	&amp;dispRequestShadowUpdateArg-QOP		PROTECTION-MAPPING:protectionReqd,
---	&amp;dispRequestShadowUpdateRes-QOP		PROTECTION-MAPPING:protectionReqd,
---	&amp;dopEstablishOpBindArg-QOP			PROTECTION-MAPPING:protectionReqd,
---	&amp;dopEstablishOpBindRes-QOP			PROTECTION-MAPPING:protectionReqd,
---	&amp;dopModifyOpBindArg-QOP   			PROTECTION-MAPPING:protectionReqd,
---	&amp;dopModifyOpBindRes-QOP   			PROTECTION-MAPPING:protectionReqd,
---	&amp;dopTermOpBindArg-QOP				PROTECTION-MAPPING:protectionReqd,
---	&amp;dopTermOpBindRes-QOP				PROTECTION-MAPPING:protectionReqd
+--	&dirqop-Id    						OBJECT IDENTIFIER UNIQUE,
+--	&dirBindError-QOP					PROTECTION-MAPPING:protectionReqd,
+--	&dirErrors-QOP						PROTECTION-MAPPING:protectionReqd,
+--	&dapReadArg-QOP					PROTECTION-MAPPING:protectionReqd,
+--	&dapReadRes-QOP					PROTECTION-MAPPING:protectionReqd,
+--	&dapCompareArg-QOP  				PROTECTION-MAPPING:protectionReqd,
+--	&dapCompareRes-QOP  				PROTECTION-MAPPING:protectionReqd,
+--	&dapListArg-QOP					PROTECTION-MAPPING:protectionReqd,
+--	&dapListRes-QOP					PROTECTION-MAPPING:protectionReqd,
+--	&dapSearchArg-QOP					PROTECTION-MAPPING:protectionReqd,
+--	&dapSearchRes-QOP					PROTECTION-MAPPING:protectionReqd,
+--	&dapAbandonArg-QOP  				PROTECTION-MAPPING:protectionReqd,
+--	&dapAbandonRes-QOP  				PROTECTION-MAPPING:protectionReqd,
+--	&dapAddEntryArg-QOP  				PROTECTION-MAPPING:protectionReqd,
+--	&dapAddEntryRes-QOP				PROTECTION-MAPPING:protectionReqd,
+--	&dapRemoveEntryArg-QOP				PROTECTION-MAPPING:protectionReqd,
+--	&dapRemoveEntryRes-QOP				PROTECTION-MAPPING:protectionReqd,
+--	&dapModifyEntryArg-QOP				PROTECTION-MAPPING:protectionReqd,
+--	&dapModifyEntryRes-QOP				PROTECTION-MAPPING:protectionReqd,
+--	&dapModifyDNArg-QOP				PROTECTION-MAPPING:protectionReqd,
+--	&dapModifyDNRes-QOP				PROTECTION-MAPPING:protectionReqd,
+--	&dspChainedOp-QOP					PROTECTION-MAPPING:protectionReqd,
+--	&dispShadowAgreeInfo-QOP  			PROTECTION-MAPPING:protectionReqd,
+--	&dispCoorShadowArg-QOP				PROTECTION-MAPPING:protectionReqd,
+--	&dispCoorShadowRes-QOP				PROTECTION-MAPPING:protectionReqd,
+--	&dispUpdateShadowArg-QOP			PROTECTION-MAPPING:protectionReqd,
+--	&dispUpdateShadowRes-QOP			PROTECTION-MAPPING:protectionReqd,
+--	&dispRequestShadowUpdateArg-QOP		PROTECTION-MAPPING:protectionReqd,
+--	&dispRequestShadowUpdateRes-QOP		PROTECTION-MAPPING:protectionReqd,
+--	&dopEstablishOpBindArg-QOP			PROTECTION-MAPPING:protectionReqd,
+--	&dopEstablishOpBindRes-QOP			PROTECTION-MAPPING:protectionReqd,
+--	&dopModifyOpBindArg-QOP   			PROTECTION-MAPPING:protectionReqd,
+--	&dopModifyOpBindRes-QOP   			PROTECTION-MAPPING:protectionReqd,
+--	&dopTermOpBindArg-QOP				PROTECTION-MAPPING:protectionReqd,
+--	&dopTermOpBindRes-QOP				PROTECTION-MAPPING:protectionReqd
 -- }
 -- WITH SYNTAX
 -- {
---	DIRQOP-ID   						&amp;dirqop-Id
---	DIRECTORYBINDERROR-QOP			&amp;dirBindError-QOP
---	DIRERRORS-QOP					&amp;dirErrors-QOP
---	DAPREADARG-QOP					&amp;dapReadArg-QOP
---	DAPREADRES-QOP					&amp;dapReadRes-QOP
---	DAPCOMPAREARG-QOP				&amp;dapCompareArg-QOP
---	DAPCOMPARERES-QOP				&amp;dapCompareRes-QOP
---	DAPLISTARG-QOP					&amp;dapListArg-QOP
---	DAPLISTRES-QOP					&amp;dapListRes-QOP
---	DAPSEARCHARG-QOP   				&amp;dapSearchArg-QOP
---	DAPSEARCHRES-QOP   				&amp;dapSearchRes-QOP
---	DAPABANDONARG-QOP				&amp;dapAbandonArg-QOP
---	DAPABANDONRES-QOP				&amp;dapAbandonRes-QOP
---	DAPADDENTRYARG-QOP				&amp;dapAddEntryArg-QOP
---	DAPADDENTRYRES-QOP				&amp;dapAddEntryRes-QOP
---	DAPREMOVEENTRYARG-QOP			&amp;dapRemoveEntryArg-QOP
---	DAPREMOVEENTRYRES-QOP			&amp;dapRemoveEntryRes-QOP
---	DAPMODIFYENTRYARG-QOP  			&amp;dapModifyEntryArg-QOP
---	DAPMODIFYENTRYRES-QOP  			&amp;dapModifyEntryRes-QOP
---	DAPMODIFYDNARG-QOP				&amp;dapModifyDNArg-QOP
---	DAPMODIFYDNRES-QOP				&amp;dapModifyDNRes-QOP
---	DSPCHAINEDOP-QOP					&amp;dspChainedOp-QOP
---	DISPSHADOWAGREEINFO-QOP			&amp;dispShadowAgreeInfo-QOP
---	DISPCOORSHADOWARG-QOP			&amp;dispCoorShadowArg-QOP
---	DISPCOORSHADOWRES-QOP			&amp;dispCoorShadowRes-QOP
---	DISPUPDATESHADOWARG-QOP			&amp;dispUpdateShadowArg-QOP
---	DISPUPDATESHADOWRES-QOP			&amp;dispUpdateShadowRes-QOP
---	DISPREQUESTSHADOWUPDATEARG-QOP	&amp;dispRequestShadowUpdateArg-QOP
---	DISPREQUESTSHADOWUPDATERES-QOP	&amp;dispRequestShadowUpdateRes-QOP
---	DOPESTABLISHOPBINDARG-QOP  		&amp;dopEstablishOpBindArg-QOP
---	DOPESTABLISHOPBINDRES-QOP   		&amp;dopEstablishOpBindRes-QOP
---	DOPMODIFYOPBINDARG-QOP			&amp;dopModifyOpBindArg-QOP
---	DOPMODIFYOPBINDRES-QOP			&amp;dopModifyOpBindRes-QOP
---	DOPTERMINATEOPBINDARG-QOP   		&amp;dopTermOpBindArg-QOP
---	DOPTERMINATEOPBINDRES-QOP   		&amp;dopTermOpBindRes-QOP
+--	DIRQOP-ID   						&dirqop-Id
+--	DIRECTORYBINDERROR-QOP			&dirBindError-QOP
+--	DIRERRORS-QOP					&dirErrors-QOP
+--	DAPREADARG-QOP					&dapReadArg-QOP
+--	DAPREADRES-QOP					&dapReadRes-QOP
+--	DAPCOMPAREARG-QOP				&dapCompareArg-QOP
+--	DAPCOMPARERES-QOP				&dapCompareRes-QOP
+--	DAPLISTARG-QOP					&dapListArg-QOP
+--	DAPLISTRES-QOP					&dapListRes-QOP
+--	DAPSEARCHARG-QOP   				&dapSearchArg-QOP
+--	DAPSEARCHRES-QOP   				&dapSearchRes-QOP
+--	DAPABANDONARG-QOP				&dapAbandonArg-QOP
+--	DAPABANDONRES-QOP				&dapAbandonRes-QOP
+--	DAPADDENTRYARG-QOP				&dapAddEntryArg-QOP
+--	DAPADDENTRYRES-QOP				&dapAddEntryRes-QOP
+--	DAPREMOVEENTRYARG-QOP			&dapRemoveEntryArg-QOP
+--	DAPREMOVEENTRYRES-QOP			&dapRemoveEntryRes-QOP
+--	DAPMODIFYENTRYARG-QOP  			&dapModifyEntryArg-QOP
+--	DAPMODIFYENTRYRES-QOP  			&dapModifyEntryRes-QOP
+--	DAPMODIFYDNARG-QOP				&dapModifyDNArg-QOP
+--	DAPMODIFYDNRES-QOP				&dapModifyDNRes-QOP
+--	DSPCHAINEDOP-QOP					&dspChainedOp-QOP
+--	DISPSHADOWAGREEINFO-QOP			&dispShadowAgreeInfo-QOP
+--	DISPCOORSHADOWARG-QOP			&dispCoorShadowArg-QOP
+--	DISPCOORSHADOWRES-QOP			&dispCoorShadowRes-QOP
+--	DISPUPDATESHADOWARG-QOP			&dispUpdateShadowArg-QOP
+--	DISPUPDATESHADOWRES-QOP			&dispUpdateShadowRes-QOP
+--	DISPREQUESTSHADOWUPDATEARG-QOP	&dispRequestShadowUpdateArg-QOP
+--	DISPREQUESTSHADOWUPDATERES-QOP	&dispRequestShadowUpdateRes-QOP
+--	DOPESTABLISHOPBINDARG-QOP  		&dopEstablishOpBindArg-QOP
+--	DOPESTABLISHOPBINDRES-QOP   		&dopEstablishOpBindRes-QOP
+--	DOPMODIFYOPBINDARG-QOP			&dopModifyOpBindArg-QOP
+--	DOPMODIFYOPBINDRES-QOP			&dopModifyOpBindRes-QOP
+--	DOPTERMINATEOPBINDARG-QOP   		&dopTermOpBindArg-QOP
+--	DOPTERMINATEOPBINDRES-QOP   		&dopTermOpBindRes-QOP
 -- }
 attributeValueSecurityLabelContext CONTEXT ::= {
   WITH SYNTAX
@@ -241,9 +241,9 @@ ClassList ::= BIT STRING {
   topSecret(5)}
 
 SecurityCategory ::= SEQUENCE {
-  type   [0]  SECURITY-CATEGORY.&amp;id({SecurityCategoriesTable}),
+  type   [0]  SECURITY-CATEGORY.&id({SecurityCategoriesTable}),
   value
-    [1] EXPLICIT SECURITY-CATEGORY.&amp;Type({SecurityCategoriesTable}{@type})
+    [1] EXPLICIT SECURITY-CATEGORY.&Type({SecurityCategoriesTable}{@type})
 }
 
 SECURITY-CATEGORY ::= TYPE-IDENTIFIER
@@ -316,8 +316,8 @@ AVIHash ::= HASH{AttributeTypeValueContexts}
 
 -- Attribute type and value with associated context values
 AttributeTypeValueContexts ::= SEQUENCE {
-  type         ATTRIBUTE.&amp;id({SupportedAttributes}),
-  value        ATTRIBUTE.&amp;Type({SupportedAttributes}{@type}),
+  type         ATTRIBUTE.&id({SupportedAttributes}),
+  value        ATTRIBUTE.&Type({SupportedAttributes}{@type}),
   contextList  SET SIZE (1..MAX) OF Context OPTIONAL
 }
 
@@ -374,5 +374,5 @@ id-avc-attributeValueIntegrityInfoContext OBJECT IDENTIFIER ::= {id-avc 4}
 
 END -- EnhancedSecurity
 
--- Generated by Asnp, the ASN.1 pretty-printer of France Telecom R&amp;D
+-- Generated by Asnp, the ASN.1 pretty-printer of France Telecom R&D
 

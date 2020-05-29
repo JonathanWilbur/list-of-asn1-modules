@@ -93,7 +93,7 @@ name ATTRIBUTE ::= {
   WITH SYNTAX               UnboundedDirectoryString
   EQUALITY MATCHING RULE    caseIgnoreMatch
   SUBSTRINGS MATCHING RULE  caseIgnoreSubstringsMatch
-  LDAP-SYNTAX               directoryString.&amp;id
+  LDAP-SYNTAX               directoryString.&id
   LDAP-NAME                 {"name"}
   ID                        id-at-name
 }
@@ -101,7 +101,7 @@ name ATTRIBUTE ::= {
 commonName ATTRIBUTE ::= {
   SUBTYPE OF   name
   WITH SYNTAX  UnboundedDirectoryString
-  LDAP-SYNTAX  directoryString.&amp;id
+  LDAP-SYNTAX  directoryString.&id
   LDAP-NAME    {"cn",
                 "commonName"}
   ID           id-at-commonName
@@ -110,7 +110,7 @@ commonName ATTRIBUTE ::= {
 surname ATTRIBUTE ::= {
   SUBTYPE OF   name
   WITH SYNTAX  UnboundedDirectoryString
-  LDAP-SYNTAX  directoryString.&amp;id
+  LDAP-SYNTAX  directoryString.&id
   LDAP-NAME    {"sn"}
   ID           id-at-surname
 }
@@ -118,7 +118,7 @@ surname ATTRIBUTE ::= {
 givenName ATTRIBUTE ::= {
   SUBTYPE OF   name
   WITH SYNTAX  UnboundedDirectoryString
-  LDAP-SYNTAX  directoryString.&amp;id
+  LDAP-SYNTAX  directoryString.&id
   LDAP-NAME    {"givenName"}
   ID           id-at-givenName
 }
@@ -126,7 +126,7 @@ givenName ATTRIBUTE ::= {
 initials ATTRIBUTE ::= {
   SUBTYPE OF   name
   WITH SYNTAX  UnboundedDirectoryString
-  LDAP-SYNTAX  directoryString.&amp;id
+  LDAP-SYNTAX  directoryString.&id
   LDAP-NAME    {"initials"}
   ID           id-at-initials
 }
@@ -134,7 +134,7 @@ initials ATTRIBUTE ::= {
 generationQualifier ATTRIBUTE ::= {
   SUBTYPE OF   name
   WITH SYNTAX  UnboundedDirectoryString
-  LDAP-SYNTAX  directoryString.&amp;id
+  LDAP-SYNTAX  directoryString.&id
   LDAP-NAME    {"generationQualifier"}
   ID           id-at-generationQualifier
 }
@@ -142,7 +142,7 @@ generationQualifier ATTRIBUTE ::= {
 uniqueIdentifier ATTRIBUTE ::= {
   WITH SYNTAX             UniqueIdentifier
   EQUALITY MATCHING RULE  bitStringMatch
-  LDAP-SYNTAX             bitString.&amp;id
+  LDAP-SYNTAX             bitString.&id
   LDAP-NAME               {"x500UniqueIdentifier"}
   ID                      id-at-uniqueIdentifier
 }
@@ -154,7 +154,7 @@ dnQualifier ATTRIBUTE ::= {
   EQUALITY MATCHING RULE    caseIgnoreMatch
   ORDERING MATCHING RULE    caseIgnoreOrderingMatch
   SUBSTRINGS MATCHING RULE  caseIgnoreSubstringsMatch
-  LDAP-SYNTAX               printableString.&amp;id
+  LDAP-SYNTAX               printableString.&id
   LDAP-NAME                 {"dnQualifier"}
   ID                        id-at-dnQualifier
 }
@@ -163,7 +163,7 @@ serialNumber ATTRIBUTE ::= {
   WITH SYNTAX               PrintableString(SIZE (1..MAX))
   EQUALITY MATCHING RULE    caseIgnoreMatch
   SUBSTRINGS MATCHING RULE  caseIgnoreSubstringsMatch
-  LDAP-SYNTAX               printableString.&amp;id
+  LDAP-SYNTAX               printableString.&id
   LDAP-NAME                 {"serialNumber"}
   ID                        id-at-serialNumber
 }
@@ -190,7 +190,7 @@ UUID ::= OCTET STRING(SIZE (16)) -- UUID format only
 
 uri ATTRIBUTE ::= {
   WITH SYNTAX URI EQUALITY MATCHING RULE  uriMatch
-  LDAP-SYNTAX                             directoryString.&amp;id
+  LDAP-SYNTAX                             directoryString.&id
   LDAP-NAME                               {"uri"}
   ID                                      id-at-uri
 }
@@ -199,14 +199,14 @@ URI ::= UTF8String
 
 urn ATTRIBUTE ::= {
   SUBTYPE OF   uri
-  LDAP-SYNTAX  directoryString.&amp;id
+  LDAP-SYNTAX  directoryString.&id
   LDAP-NAME    {"urn"}
   ID           id-at-urn
 }
 
 url ATTRIBUTE ::= {
   SUBTYPE OF   uri
-  LDAP-SYNTAX  directoryString.&amp;id
+  LDAP-SYNTAX  directoryString.&id
   LDAP-NAME    {"url"}
   ID           id-at-url
 }
@@ -215,7 +215,7 @@ countryName ATTRIBUTE ::= {
   SUBTYPE OF    name
   WITH SYNTAX   CountryName
   SINGLE VALUE  TRUE
-  LDAP-SYNTAX   countryString.&amp;id
+  LDAP-SYNTAX   countryString.&id
   LDAP-NAME     {"c"}
   ID            id-at-countryName
 }
@@ -226,7 +226,7 @@ CountryName ::= PrintableString(SIZE (2)) -- ISO 3166 codes only
 localityName ATTRIBUTE ::= {
   SUBTYPE OF   name
   WITH SYNTAX  UnboundedDirectoryString
-  LDAP-SYNTAX  directoryString.&amp;id
+  LDAP-SYNTAX  directoryString.&id
   LDAP-NAME    {"l"}
   ID           id-at-localityName
 }
@@ -240,7 +240,7 @@ collectiveLocalityName ATTRIBUTE ::= {
 stateOrProvinceName ATTRIBUTE ::= {
   SUBTYPE OF   name
   WITH SYNTAX  UnboundedDirectoryString
-  LDAP-SYNTAX  directoryString.&amp;id
+  LDAP-SYNTAX  directoryString.&id
   LDAP-NAME    {"st"}
   ID           id-at-stateOrProvinceName
 }
@@ -255,7 +255,7 @@ streetAddress ATTRIBUTE ::= {
   WITH SYNTAX               UnboundedDirectoryString
   EQUALITY MATCHING RULE    caseIgnoreMatch
   SUBSTRINGS MATCHING RULE  caseIgnoreSubstringsMatch
-  LDAP-SYNTAX               directoryString.&amp;id
+  LDAP-SYNTAX               directoryString.&id
   LDAP-NAME                 {"street"}
   ID                        id-at-streetAddress
 }
@@ -270,7 +270,7 @@ houseIdentifier ATTRIBUTE ::= {
   WITH SYNTAX               UnboundedDirectoryString
   EQUALITY MATCHING RULE    caseIgnoreMatch
   SUBSTRINGS MATCHING RULE  caseIgnoreSubstringsMatch
-  LDAP-SYNTAX               directoryString.&amp;id
+  LDAP-SYNTAX               directoryString.&id
   LDAP-NAME                 {"houseIdentifier"}
   ID                        id-at-houseIdentifier
 }
@@ -278,7 +278,7 @@ houseIdentifier ATTRIBUTE ::= {
 utmCoordinates ATTRIBUTE ::= {
   WITH SYNTAX   UtmCoordinates
   SINGLE VALUE  TRUE
-  LDAP-SYNTAX   utmCoords.&amp;id
+  LDAP-SYNTAX   utmCoords.&id
   LDAP-NAME     {"utmCoordinates"}
   ID            id-at-utmCoordinates
 }
@@ -292,7 +292,7 @@ UtmCoordinates ::= SEQUENCE {
 organizationName ATTRIBUTE ::= {
   SUBTYPE OF   name
   WITH SYNTAX  UnboundedDirectoryString
-  LDAP-SYNTAX  directoryString.&amp;id
+  LDAP-SYNTAX  directoryString.&id
   LDAP-NAME    {"o"}
   ID           id-at-organizationName
 }
@@ -306,7 +306,7 @@ collectiveOrganizationName ATTRIBUTE ::= {
 organizationalUnitName ATTRIBUTE ::= {
   SUBTYPE OF   name
   WITH SYNTAX  UnboundedDirectoryString
-  LDAP-SYNTAX  directoryString.&amp;id
+  LDAP-SYNTAX  directoryString.&id
   LDAP-NAME    {"ou"}
   ID           id-at-organizationalUnitName
 }
@@ -320,7 +320,7 @@ collectiveOrganizationalUnitName ATTRIBUTE ::= {
 title ATTRIBUTE ::= {
   SUBTYPE OF   name
   WITH SYNTAX  UnboundedDirectoryString
-  LDAP-SYNTAX  directoryString.&amp;id
+  LDAP-SYNTAX  directoryString.&id
   LDAP-NAME    {"title"}
   ID           id-at-title
 }
@@ -330,7 +330,7 @@ organizationIdentifier ATTRIBUTE ::= {
   EQUALITY MATCHING RULE    caseIgnoreMatch
   SUBSTRINGS MATCHING RULE  caseIgnoreSubstringsMatch
   SINGLE VALUE              TRUE
-  LDAP-SYNTAX               directoryString.&amp;id
+  LDAP-SYNTAX               directoryString.&id
   LDAP-NAME                 {"organizationIdentifier"}
   ID                        id-at-organizationIdentifier
 }
@@ -339,20 +339,20 @@ description ATTRIBUTE ::= {
   WITH SYNTAX               UnboundedDirectoryString
   EQUALITY MATCHING RULE    caseIgnoreMatch
   SUBSTRINGS MATCHING RULE  caseIgnoreSubstringsMatch
-  LDAP-SYNTAX               directoryString.&amp;id
+  LDAP-SYNTAX               directoryString.&id
   LDAP-NAME                 {"description"}
   ID                        id-at-description
 }
 
 searchGuide ATTRIBUTE ::= {
   WITH SYNTAX  Guide
-  LDAP-SYNTAX  guide.&amp;id
+  LDAP-SYNTAX  guide.&id
   LDAP-NAME    {"searchGuide"}
   ID           id-at-searchGuide
 }
 
 Guide ::= SET {
-  objectClass  [0]  OBJECT-CLASS.&amp;id OPTIONAL,
+  objectClass  [0]  OBJECT-CLASS.&id OPTIONAL,
   criteria     [1]  Criteria,
   ...
 }
@@ -376,13 +376,13 @@ CriteriaItem ::= CHOICE {
 
 enhancedSearchGuide ATTRIBUTE ::= {
   WITH SYNTAX  EnhancedGuide
-  LDAP-SYNTAX  enhancedGuide.&amp;id
+  LDAP-SYNTAX  enhancedGuide.&id
   LDAP-NAME    {"enhancedSearchGuide"}
   ID           id-at-enhancedSearchGuide
 }
 
 EnhancedGuide ::= SEQUENCE {
-  objectClass  [0]  OBJECT-CLASS.&amp;id,
+  objectClass  [0]  OBJECT-CLASS.&id,
   criteria     [1]  Criteria,
   subset
     [2]  INTEGER {baseObject(0), oneLevel(1), wholeSubtree(2)} DEFAULT oneLevel,
@@ -393,7 +393,7 @@ businessCategory ATTRIBUTE ::= {
   WITH SYNTAX               UnboundedDirectoryString
   EQUALITY MATCHING RULE    caseIgnoreMatch
   SUBSTRINGS MATCHING RULE  caseIgnoreSubstringsMatch
-  LDAP-SYNTAX               directoryString.&amp;id
+  LDAP-SYNTAX               directoryString.&id
   LDAP-NAME                 {"businessCategory"}
   ID                        id-at-businessCategory
 }
@@ -402,7 +402,7 @@ postalAddress ATTRIBUTE ::= {
   WITH SYNTAX               PostalAddress
   EQUALITY MATCHING RULE    caseIgnoreListMatch
   SUBSTRINGS MATCHING RULE  caseIgnoreListSubstringsMatch
-  LDAP-SYNTAX               postalAddr.&amp;id
+  LDAP-SYNTAX               postalAddr.&id
   LDAP-NAME                 {"postalAddress"}
   ID                        id-at-postalAddress
 }
@@ -419,7 +419,7 @@ postalCode ATTRIBUTE ::= {
   WITH SYNTAX               UnboundedDirectoryString
   EQUALITY MATCHING RULE    caseIgnoreMatch
   SUBSTRINGS MATCHING RULE  caseIgnoreSubstringsMatch
-  LDAP-SYNTAX               directoryString.&amp;id
+  LDAP-SYNTAX               directoryString.&id
   LDAP-NAME                 {"postalCode"}
   ID                        id-at-postalCode
 }
@@ -434,7 +434,7 @@ postOfficeBox ATTRIBUTE ::= {
   WITH SYNTAX               UnboundedDirectoryString
   EQUALITY MATCHING RULE    caseIgnoreMatch
   SUBSTRINGS MATCHING RULE  caseIgnoreSubstringsMatch
-  LDAP-SYNTAX               directoryString.&amp;id
+  LDAP-SYNTAX               directoryString.&id
   LDAP-NAME                 {"postOfficeBox"}
   ID                        id-at-postOfficeBox
 }
@@ -449,7 +449,7 @@ physicalDeliveryOfficeName ATTRIBUTE ::= {
   WITH SYNTAX               UnboundedDirectoryString
   EQUALITY MATCHING RULE    caseIgnoreMatch
   SUBSTRINGS MATCHING RULE  caseIgnoreSubstringsMatch
-  LDAP-SYNTAX               directoryString.&amp;id
+  LDAP-SYNTAX               directoryString.&id
   LDAP-NAME                 {"physicalDeliveryOfficeName"}
   ID                        id-at-physicalDeliveryOfficeName
 }
@@ -464,7 +464,7 @@ telephoneNumber ATTRIBUTE ::= {
   WITH SYNTAX               TelephoneNumber
   EQUALITY MATCHING RULE    telephoneNumberMatch
   SUBSTRINGS MATCHING RULE  telephoneNumberSubstringsMatch
-  LDAP-SYNTAX               printableString.&amp;id
+  LDAP-SYNTAX               printableString.&id
   LDAP-NAME                 {"telephoneNumber"}
   ID                        id-at-telephoneNumber
 }
@@ -483,7 +483,7 @@ collectiveTelephoneNumber ATTRIBUTE ::= {
 
 telexNumber ATTRIBUTE ::= {
   WITH SYNTAX  TelexNumber
-  LDAP-SYNTAX  telexNr.&amp;id
+  LDAP-SYNTAX  telexNr.&id
   LDAP-NAME    {"telexNumber"}
   ID           id-at-telexNumber
 }
@@ -511,7 +511,7 @@ facsimileTelephoneNumber ATTRIBUTE ::= {
   WITH SYNTAX               FacsimileTelephoneNumber
   EQUALITY MATCHING RULE    facsimileNumberMatch
   SUBSTRINGS MATCHING RULE  facsimileNumberSubstringsMatch
-  LDAP-SYNTAX               facsimileTelephoneNr.&amp;id
+  LDAP-SYNTAX               facsimileTelephoneNr.&id
   LDAP-NAME                 {"facsimileTelephoneNumber"}
   ID                        id-at-facsimileTelephoneNumber
 }
@@ -532,7 +532,7 @@ x121Address ATTRIBUTE ::= {
   WITH SYNTAX               X121Address
   EQUALITY MATCHING RULE    numericStringMatch
   SUBSTRINGS MATCHING RULE  numericStringSubstringsMatch
-  LDAP-SYNTAX               numericString.&amp;id
+  LDAP-SYNTAX               numericString.&id
   LDAP-NAME                 {"x121Address"}
   ID                        id-at-x121Address
 }
@@ -546,7 +546,7 @@ internationalISDNNumber ATTRIBUTE ::= {
   WITH SYNTAX               InternationalISDNNumber
   EQUALITY MATCHING RULE    numericStringMatch
   SUBSTRINGS MATCHING RULE  numericStringSubstringsMatch
-  LDAP-SYNTAX               numericString.&amp;id
+  LDAP-SYNTAX               numericString.&id
   LDAP-NAME                 {"internationalISDNNumber"}
   ID                        id-at-internationalISDNNumber
 }
@@ -567,7 +567,7 @@ collectiveInternationalISDNNumber ATTRIBUTE ::= {
 registeredAddress ATTRIBUTE ::= {
   SUBTYPE OF   postalAddress
   WITH SYNTAX  PostalAddress
-  LDAP-SYNTAX  postalAddr.&amp;id
+  LDAP-SYNTAX  postalAddr.&id
   LDAP-NAME    {"registeredAddress"}
   ID           id-at-registeredAddress
 }
@@ -576,7 +576,7 @@ destinationIndicator ATTRIBUTE ::= {
   WITH SYNTAX               DestinationIndicator
   EQUALITY MATCHING RULE    caseIgnoreMatch
   SUBSTRINGS MATCHING RULE  caseIgnoreSubstringsMatch
-  LDAP-SYNTAX               printableString.&amp;id
+  LDAP-SYNTAX               printableString.&id
   LDAP-NAME                 {"destinationIndicator"}
   ID                        id-at-destinationIndicator
 }
@@ -604,7 +604,7 @@ CommunicationsNetwork ::= OBJECT IDENTIFIER
 preferredDeliveryMethod ATTRIBUTE ::= {
   WITH SYNTAX   PreferredDeliveryMethod
   SINGLE VALUE  TRUE
-  LDAP-SYNTAX   deliveryMethod.&amp;id
+  LDAP-SYNTAX   deliveryMethod.&id
   LDAP-NAME     {"preferredDeliveryMethod"}
   ID            id-at-preferredDeliveryMethod
 }
@@ -651,14 +651,14 @@ ProtocolInformation ::= SEQUENCE {
 distinguishedName ATTRIBUTE ::= {
   WITH SYNTAX             DistinguishedName
   EQUALITY MATCHING RULE  distinguishedNameMatch
-  LDAP-SYNTAX             dn.&amp;id
+  LDAP-SYNTAX             dn.&id
   LDAP-NAME               {"distinguishedName"}
   ID                      id-at-distinguishedName
 }
 
 member ATTRIBUTE ::= {
   SUBTYPE OF   distinguishedName
-  LDAP-SYNTAX  dn.&amp;id
+  LDAP-SYNTAX  dn.&id
   LDAP-NAME    {"member"}
   ID           id-at-member
 }
@@ -666,7 +666,7 @@ member ATTRIBUTE ::= {
 uniqueMember ATTRIBUTE ::= {
   WITH SYNTAX             NameAndOptionalUID
   EQUALITY MATCHING RULE  uniqueMemberMatch
-  LDAP-SYNTAX             nameAndOptionalUID.&amp;id
+  LDAP-SYNTAX             nameAndOptionalUID.&id
   LDAP-NAME               {"uniqueMember"}
   ID                      id-at-uniqueMember
 }
@@ -679,21 +679,21 @@ NameAndOptionalUID ::= SEQUENCE {
 
 owner ATTRIBUTE ::= {
   SUBTYPE OF   distinguishedName
-  LDAP-SYNTAX  dn.&amp;id
+  LDAP-SYNTAX  dn.&id
   LDAP-NAME    {"owner"}
   ID           id-at-owner
 }
 
 roleOccupant ATTRIBUTE ::= {
   SUBTYPE OF   distinguishedName
-  LDAP-SYNTAX  dn.&amp;id
+  LDAP-SYNTAX  dn.&id
   LDAP-NAME    {"roleOccupant"}
   ID           id-at-roleOccupant
 }
 
 seeAlso ATTRIBUTE ::= {
   SUBTYPE OF   distinguishedName
-  LDAP-SYNTAX  dn.&amp;id
+  LDAP-SYNTAX  dn.&id
   LDAP-NAME    {"seeAlso"}
   ID           id-at-seeAlso
 }
@@ -730,7 +730,7 @@ urnC ATTRIBUTE ::= {
   WITH SYNTAX             PrintableString
   EQUALITY MATCHING RULE  caseExactMatch
   SINGLE VALUE            TRUE
-  LDAP-SYNTAX             printableString.&amp;id
+  LDAP-SYNTAX             printableString.&id
   LDAP-NAME               {"urnC"}
   ID                      id-at-urnC
 }
@@ -740,7 +740,7 @@ tagOid ATTRIBUTE ::= {
   WITH SYNTAX             OBJECT IDENTIFIER
   EQUALITY MATCHING RULE  objectIdentifierMatch
   SINGLE VALUE            TRUE
-  LDAP-SYNTAX             oid.&amp;id
+  LDAP-SYNTAX             oid.&id
   LDAP-NAME               {"tagOid"}
   ID                      id-at-tagOid
 }
@@ -748,7 +748,7 @@ tagOid ATTRIBUTE ::= {
 uiiFormat ATTRIBUTE ::= {
   WITH SYNTAX   UiiFormat
   SINGLE VALUE  TRUE
-  LDAP-SYNTAX   uiiForm.&amp;id
+  LDAP-SYNTAX   uiiForm.&id
   LDAP-NAME     {"uiiFormat"}
   ID            id-at-uiiFormat
 }
@@ -768,7 +768,7 @@ UiiFilter ::= CHOICE {
   not   [3]  UiiFilter
 }
 
-UiiItem ::= SEQUENCE {type    ATTRIBUTE.&amp;id,
+UiiItem ::= SEQUENCE {type    ATTRIBUTE.&id,
                       length  INTEGER OPTIONAL
 }
 
@@ -776,14 +776,14 @@ uiiInUrn ATTRIBUTE ::= {
   WITH SYNTAX             UTF8String
   EQUALITY MATCHING RULE  caseExactMatch
   SINGLE VALUE            TRUE
-  LDAP-SYNTAX             directoryString.&amp;id
+  LDAP-SYNTAX             directoryString.&id
   LDAP-NAME               {"uiiInUrn"}
   ID                      id-at-uiiInUrn
 }
 
 contentUrl ATTRIBUTE ::= {
   SUBTYPE OF   url
-  LDAP-SYNTAX  directoryString.&amp;id
+  LDAP-SYNTAX  directoryString.&id
   LDAP-NAME    {"contentUrl"}
   ID           id-at-contentUrl
 }
@@ -791,7 +791,7 @@ contentUrl ATTRIBUTE ::= {
 uii ATTRIBUTE ::= {
   WITH SYNTAX             BIT STRING
   EQUALITY MATCHING RULE  bitStringMatch
-  LDAP-SYNTAX             bitString.&amp;id
+  LDAP-SYNTAX             bitString.&id
   LDAP-NAME               {"uii"}
   ID                      id-at-uii
 }
@@ -799,7 +799,7 @@ uii ATTRIBUTE ::= {
 epc ATTRIBUTE ::= {
   WITH SYNTAX             BIT STRING
   EQUALITY MATCHING RULE  bitStringMatch
-  LDAP-SYNTAX             bitString.&amp;id
+  LDAP-SYNTAX             bitString.&id
   LDAP-NAME               {"epc"}
   ID                      id-at-epc
 }
@@ -807,7 +807,7 @@ epc ATTRIBUTE ::= {
 tagAfi ATTRIBUTE ::= {
   WITH SYNTAX             OCTET STRING
   EQUALITY MATCHING RULE  octetStringMatch
-  LDAP-SYNTAX             octetString.&amp;id
+  LDAP-SYNTAX             octetString.&id
   LDAP-NAME               {"tagAfi"}
   ID                      id-at-tagAfi
 }
@@ -815,7 +815,7 @@ tagAfi ATTRIBUTE ::= {
 epcFormat ATTRIBUTE ::= {
   WITH SYNTAX   EpcFormat
   SINGLE VALUE  TRUE
-  LDAP-SYNTAX   epcForm.&amp;id
+  LDAP-SYNTAX   epcForm.&id
   LDAP-NAME     {"epcFormat"}
   ID            id-at-epcFormat
 }
@@ -838,14 +838,14 @@ EpcFormat ::= SEQUENCE {
 epcInUrn ATTRIBUTE ::= {
   SUBTYPE OF    urn
   SINGLE VALUE  TRUE
-  LDAP-SYNTAX   directoryString.&amp;id
+  LDAP-SYNTAX   directoryString.&id
   LDAP-NAME     {"epcInUrn"}
   ID            id-at-epcInUrn
 }
 
 ldapUrl ATTRIBUTE ::= {
   SUBTYPE OF   url
-  LDAP-SYNTAX  directoryString.&amp;id
+  LDAP-SYNTAX  directoryString.&id
   LDAP-NAME    {"ldapUrl"}
   ID           id-at-ldapUrl
 }
@@ -853,7 +853,7 @@ ldapUrl ATTRIBUTE ::= {
 tagLocation ATTRIBUTE ::= {
   SUBTYPE OF    utmCoordinates
   SINGLE VALUE  TRUE
-  LDAP-SYNTAX   utmCoords.&amp;id
+  LDAP-SYNTAX   utmCoords.&id
   LDAP-NAME     {"tagLocation"}
   ID            id-at-tagLocation
 }
@@ -941,7 +941,7 @@ multipleMatchingLocalities ATTRIBUTE ::= {
 }
 
 MultipleMatchingLocalities ::= SEQUENCE {
-  matchingRuleUsed  MATCHING-RULE.&amp;id OPTIONAL,
+  matchingRuleUsed  MATCHING-RULE.&id OPTIONAL,
   attributeList     SEQUENCE OF AttributeValueAssertion,
   ...
 }
@@ -984,7 +984,7 @@ uid ATTRIBUTE ::= {
   WITH SYNTAX               UnboundedDirectoryString
   EQUALITY MATCHING RULE    caseIgnoreMatch
   SUBSTRINGS MATCHING RULE  caseIgnoreSubstringsMatch
-  LDAP-SYNTAX               directoryString.&amp;id
+  LDAP-SYNTAX               directoryString.&id
   LDAP-NAME                 {"uid"}
   ID                        id-coat-uid
 }
@@ -993,7 +993,7 @@ dc ATTRIBUTE ::= {
   WITH SYNTAX               IA5String
   EQUALITY MATCHING RULE    caseIgnoreMatch
   SUBSTRINGS MATCHING RULE  caseIgnoreSubstringsMatch
-  LDAP-SYNTAX               ia5String.&amp;id
+  LDAP-SYNTAX               ia5String.&id
   LDAP-NAME                 {"dc"}
   ID                        id-coat-dc
 }
@@ -1001,42 +1001,42 @@ dc ATTRIBUTE ::= {
 -- Matching rules 
 caseExactMatch MATCHING-RULE ::= {
   SYNTAX       UnboundedDirectoryString
-  LDAP-SYNTAX  directoryString.&amp;id
+  LDAP-SYNTAX  directoryString.&id
   LDAP-NAME    {"caseExactMatch"}
   ID           id-mr-caseExactMatch
 }
 
 caseIgnoreMatch MATCHING-RULE ::= {
   SYNTAX       UnboundedDirectoryString
-  LDAP-SYNTAX  directoryString.&amp;id
+  LDAP-SYNTAX  directoryString.&id
   LDAP-NAME    {"caseIgnoreMatch"}
   ID           id-mr-caseIgnoreMatch
 }
 
 caseExactOrderingMatch MATCHING-RULE ::= {
   SYNTAX       UnboundedDirectoryString
-  LDAP-SYNTAX  directoryString.&amp;id
+  LDAP-SYNTAX  directoryString.&id
   LDAP-NAME    {"caseExactOrderingMatch"}
   ID           id-mr-caseExactOrderingMatch
 }
 
 caseIgnoreOrderingMatch MATCHING-RULE ::= {
   SYNTAX       UnboundedDirectoryString
-  LDAP-SYNTAX  directoryString.&amp;id
+  LDAP-SYNTAX  directoryString.&id
   LDAP-NAME    {"caseIgnoreOrderingMatch"}
   ID           id-mr-caseIgnoreOrderingMatch
 }
 
 caseExactSubstringsMatch MATCHING-RULE ::= {
   SYNTAX       SubstringAssertion -- only the PrintableString choice
-  LDAP-SYNTAX  substringAssertion.&amp;id
+  LDAP-SYNTAX  substringAssertion.&id
   LDAP-NAME    {"caseExactSubstringsMatch"}
   ID           id-mr-caseExactSubstringsMatch
 }
 
 caseIgnoreSubstringsMatch MATCHING-RULE ::= {
   SYNTAX       SubstringAssertion
-  LDAP-SYNTAX  substringAssertion.&amp;id
+  LDAP-SYNTAX  substringAssertion.&id
   LDAP-NAME    {"caseIgnoreSubstringsMatch"}
   ID           id-mr-caseIgnoreSubstringsMatch
 }
@@ -1053,28 +1053,28 @@ SubstringAssertion ::=
 
 numericStringMatch MATCHING-RULE ::= {
   SYNTAX       NumericString
-  LDAP-SYNTAX  numericString.&amp;id
+  LDAP-SYNTAX  numericString.&id
   LDAP-NAME    {"numericStringMatch"}
   ID           id-mr-numericStringMatch
 }
 
 numericStringOrderingMatch MATCHING-RULE ::= {
   SYNTAX       NumericString
-  LDAP-SYNTAX  numericString.&amp;id
+  LDAP-SYNTAX  numericString.&id
   LDAP-NAME    {"numericStringOrderingMatch"}
   ID           id-mr-numericStringOrderingMatch
 }
 
 numericStringSubstringsMatch MATCHING-RULE ::= {
   SYNTAX       SubstringAssertion
-  LDAP-SYNTAX  substringAssertion.&amp;id
+  LDAP-SYNTAX  substringAssertion.&id
   LDAP-NAME    {"numericStringSubstringsMatch"}
   ID           id-mr-numericStringSubstringsMatch
 }
 
 caseIgnoreListMatch MATCHING-RULE ::= {
   SYNTAX       CaseIgnoreList
-  LDAP-SYNTAX  postalAddr.&amp;id
+  LDAP-SYNTAX  postalAddr.&id
   LDAP-NAME    {"caseIgnoreListMatch"}
   ID           id-mr-caseIgnoreListMatch
 }
@@ -1083,7 +1083,7 @@ CaseIgnoreList ::= SEQUENCE OF UnboundedDirectoryString
 
 caseIgnoreListSubstringsMatch MATCHING-RULE ::= {
   SYNTAX       SubstringAssertion
-  LDAP-SYNTAX  substringAssertion.&amp;id
+  LDAP-SYNTAX  substringAssertion.&id
   LDAP-NAME    {"caseIgnoreListSubstringsMatch"}
   ID           id-mr-caseIgnoreListSubstringsMatch
 }
@@ -1095,42 +1095,42 @@ storedPrefixMatch MATCHING-RULE ::= {
 
 booleanMatch MATCHING-RULE ::= {
   SYNTAX       BOOLEAN
-  LDAP-SYNTAX  bitString.&amp;id
+  LDAP-SYNTAX  bitString.&id
   LDAP-NAME    {"booleanMatch"}
   ID           id-mr-booleanMatch
 }
 
 integerMatch MATCHING-RULE ::= {
   SYNTAX       INTEGER
-  LDAP-SYNTAX  integer.&amp;id
+  LDAP-SYNTAX  integer.&id
   LDAP-NAME    {"integerMatch"}
   ID           id-mr-integerMatch
 }
 
 integerOrderingMatch MATCHING-RULE ::= {
   SYNTAX       INTEGER
-  LDAP-SYNTAX  integer.&amp;id
+  LDAP-SYNTAX  integer.&id
   LDAP-NAME    {"integerOrderingMatch"}
   ID           id-mr-integerOrderingMatch
 }
 
 bitStringMatch MATCHING-RULE ::= {
   SYNTAX       BIT STRING
-  LDAP-SYNTAX  bitString.&amp;id
+  LDAP-SYNTAX  bitString.&id
   LDAP-NAME    {"bitStringMatch"}
   ID           id-mr-bitStringMatch
 }
 
 octetStringMatch MATCHING-RULE ::= {
   SYNTAX       OCTET STRING
-  LDAP-SYNTAX  octetString.&amp;id
+  LDAP-SYNTAX  octetString.&id
   LDAP-NAME    {"octetStringMatch"}
   ID           id-mr-octetStringMatch
 }
 
 octetStringOrderingMatch MATCHING-RULE ::= {
   SYNTAX       OCTET STRING
-  LDAP-SYNTAX  octetString.&amp;id
+  LDAP-SYNTAX  octetString.&id
   LDAP-NAME    {"octetStringOrderingMatch"}
   ID           id-mr-octetStringOrderingMatch
 }
@@ -1149,14 +1149,14 @@ OctetSubstringAssertion ::=
 
 telephoneNumberMatch MATCHING-RULE ::= {
   SYNTAX       TelephoneNumber
-  LDAP-SYNTAX  telephoneNr.&amp;id
+  LDAP-SYNTAX  telephoneNr.&id
   LDAP-NAME    {"telephoneNumberMatch"}
   ID           id-mr-telephoneNumberMatch
 }
 
 telephoneNumberSubstringsMatch MATCHING-RULE ::= {
   SYNTAX       SubstringAssertion
-  LDAP-SYNTAX  substringAssertion.&amp;id
+  LDAP-SYNTAX  substringAssertion.&id
   LDAP-NAME    {"telephoneNumberSubstringsMatch"}
   ID           id-mr-telephoneNumberSubstringsMatch
 }
@@ -1168,7 +1168,7 @@ presentationAddressMatch MATCHING-RULE ::= {
 
 uniqueMemberMatch MATCHING-RULE ::= {
   SYNTAX       NameAndOptionalUID
-  LDAP-SYNTAX  nameAndOptionalUID.&amp;id
+  LDAP-SYNTAX  nameAndOptionalUID.&id
   LDAP-NAME    {"uniqueMemberMatch"}
   ID           id-mr-uniqueMemberMatch
 }
@@ -1204,7 +1204,7 @@ uTCTimeOrderingMatch MATCHING-RULE ::= {
 generalizedTimeMatch MATCHING-RULE ::= {
   SYNTAX       GeneralizedTime
   -- as per 46.3 b) or c) of Rec. ITU-T X.680 | ISO/IEC 8824-1
-  LDAP-SYNTAX  generalizedTime.&amp;id
+  LDAP-SYNTAX  generalizedTime.&id
   LDAP-NAME    {"generalizedTimeMatch"}
   ID           id-mr-generalizedTimeMatch
 }
@@ -1212,7 +1212,7 @@ generalizedTimeMatch MATCHING-RULE ::= {
 generalizedTimeOrderingMatch MATCHING-RULE ::= {
   SYNTAX       GeneralizedTime
   -- as per 46.3 b) or c) of Rec. ITU-T X.680 | ISO/IEC 8824-1
-  LDAP-SYNTAX  generalizedTime.&amp;id
+  LDAP-SYNTAX  generalizedTime.&id
   LDAP-NAME    {"generalizedTimeOrderingMatch"}
   ID           id-mr-generalizedTimeOrderingMatch
 }
@@ -1222,35 +1222,35 @@ systemProposedMatch MATCHING-RULE ::= {ID  id-mr-systemProposedMatch
 
 integerFirstComponentMatch MATCHING-RULE ::= {
   SYNTAX       INTEGER
-  LDAP-SYNTAX  integer.&amp;id
+  LDAP-SYNTAX  integer.&id
   LDAP-NAME    {"integerFirstComponentMatch"}
   ID           id-mr-integerFirstComponentMatch
 }
 
 objectIdentifierFirstComponentMatch MATCHING-RULE ::= {
   SYNTAX       OBJECT IDENTIFIER
-  LDAP-SYNTAX  oid.&amp;id
+  LDAP-SYNTAX  oid.&id
   LDAP-NAME    {"objectIdentifierFirstComponentMatch"}
   ID           id-mr-objectIdentifierFirstComponentMatch
 }
 
 directoryStringFirstComponentMatch MATCHING-RULE ::= {
   SYNTAX       UnboundedDirectoryString
-  LDAP-SYNTAX  directoryString.&amp;id
+  LDAP-SYNTAX  directoryString.&id
   LDAP-NAME    {"directoryStringFirstComponentMatch"}
   ID           id-mr-directoryStringFirstComponentMatch
 }
 
 wordMatch MATCHING-RULE ::= {
   SYNTAX       UnboundedDirectoryString
-  LDAP-SYNTAX  directoryString.&amp;id
+  LDAP-SYNTAX  directoryString.&id
   LDAP-NAME    {"wordMatch"}
   ID           id-mr-wordMatch
 }
 
 keywordMatch MATCHING-RULE ::= {
   SYNTAX       UnboundedDirectoryString
-  LDAP-SYNTAX  directoryString.&amp;id
+  LDAP-SYNTAX  directoryString.&id
   LDAP-NAME    {"keywordMatch"}
   ID           id-mr-keywordMatch
 }
@@ -1307,7 +1307,7 @@ nullMatch MATCHING-RULE ::= {ID  id-mr-nullMatch
 }
 
 ZONAL-MATCHING ::=
-  MAPPING-BASED-MATCHING{ZonalSelect, TRUE, ZonalResult, zonalMatch.&amp;id}
+  MAPPING-BASED-MATCHING{ZonalSelect, TRUE, ZonalResult, zonalMatch.&id}
 
 ZonalSelect ::= SEQUENCE OF AttributeType
 
@@ -1322,7 +1322,7 @@ zonalMatch MATCHING-RULE ::= {
 
 uriMatch MATCHING-RULE ::= {
   SYNTAX       UTF8String
-  LDAP-SYNTAX  directoryString.&amp;id
+  LDAP-SYNTAX  directoryString.&id
   LDAP-NAME    {"uriMatch"}
   ID           id-mr-uriMatch
 }
@@ -1330,21 +1330,21 @@ uriMatch MATCHING-RULE ::= {
 -- LDAP defined matching rules
 caseExactIA5Match MATCHING-RULE ::= {
   SYNTAX       IA5String
-  LDAP-SYNTAX  ia5String.&amp;id
+  LDAP-SYNTAX  ia5String.&id
   LDAP-NAME    {"caseExactIA5Match"}
   ID           id-lmr-caseExactIA5Match
 }
 
 caseIgnoreIA5Match MATCHING-RULE ::= {
   SYNTAX       IA5String
-  LDAP-SYNTAX  ia5String.&amp;id
+  LDAP-SYNTAX  ia5String.&id
   LDAP-NAME    {"caseIgnoreIA5Match"}
   ID           id-lmr-caseIgnoreIA5Match
 }
 
 caseIgnoreIA5SubstringsMatch MATCHING-RULE ::= {
   SYNTAX       SubstringAssertion
-  LDAP-SYNTAX  substringAssertion.&amp;id
+  LDAP-SYNTAX  substringAssertion.&id
   LDAP-NAME    {"caseIgnoreIA5SubstringsMatch"}
   ID           id-lmr-caseIgnoreIA5Match
 }
@@ -2400,5 +2400,5 @@ id-avc-ldapAttributeOption OBJECT IDENTIFIER ::=
 
 END -- SelectedAttributeTypes
 
--- Generated by Asnp, the ASN.1 pretty-printer of France Telecom R&amp;D
+-- Generated by Asnp, the ASN.1 pretty-printer of France Telecom R&D
 

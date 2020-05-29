@@ -23,17 +23,17 @@ IMPORTS
     FROM Telebiometrics {joint-iso-itu-t(2) telebiometrics(42) tmm(1)
       modules(0)      modules(0) main(0) version(0)};
 
-IDENTIFICATION ::= 0db>CLASS {&amp;category        OID UNIQUE,
-                          &amp;Identification  
-}WITH SYNTAX {CATEGORY &amp;category
-              IDENTIFIED WITH &amp;Identification
+IDENTIFICATION ::= 0db>CLASS {&category        OID UNIQUE,
+                          &Identification  
+}WITH SYNTAX {CATEGORY &category
+              IDENTIFIED WITH &Identification
 }
 
 OID ::= OBJECT IDENTIFIER
 
 Identification ::= SEQUENCE {
-  category        IDENTIFICATION.&amp;category({Categories}),
-  identification  IDENTIFICATION.&amp;Identification({Categories}{@category})
+  category        IDENTIFICATION.&category({Categories}),
+  identification  IDENTIFICATION.&Identification({Categories}{@category})
 }
 
 Categories IDENTIFICATION ::=
@@ -48,21 +48,21 @@ patientIdentification IDENTIFICATION ::= {
 }
 
 PatientIdentification ::= SEQUENCE {
-  scheme      PATIENT-SCHEME.&amp;id({PatientSchemes}),
-  schemeName  PATIENT-SCHEME.&amp;name({PatientSchemes}{@.scheme}) OPTIONAL,
-  patientId   PATIENT-SCHEME.&amp;Identification({PatientSchemes}{@.scheme})
+  scheme      PATIENT-SCHEME.&id({PatientSchemes}),
+  schemeName  PATIENT-SCHEME.&name({PatientSchemes}{@.scheme}) OPTIONAL,
+  patientId   PATIENT-SCHEME.&Identification({PatientSchemes}{@.scheme})
 }
 
 PATIENT-SCHEME ::= CLASS {
-  &amp;id              OID UNIQUE,
-  &amp;name            SchemeName OPTIONAL,
-  &amp;Identification  
+  &id              OID UNIQUE,
+  &name            SchemeName OPTIONAL,
+  &Identification  
 }
 WITH SYNTAX {
   SCHEME
-  [NAME &amp;name]
-  IDENTIFIED BY &amp;id
-  USING &amp;Identification
+  [NAME &name]
+  IDENTIFIED BY &id
+  USING &Identification
 }
 
 SchemeName ::= CHOICE {string  ISO646String,
@@ -79,30 +79,30 @@ medicalStaffIdentification IDENTIFICATION ::= {
 }
 
 MedicalStaffIdentification ::= SEQUENCE {
-  scheme          MEDICAL-STAFF-SCHEME.&amp;id({MedicalStaffSchemes}),
+  scheme          MEDICAL-STAFF-SCHEME.&id({MedicalStaffSchemes}),
   schemeName
-    MEDICAL-STAFF-SCHEME.&amp;name({MedicalStaffSchemes}{@.scheme}) OPTIONAL,
+    MEDICAL-STAFF-SCHEME.&name({MedicalStaffSchemes}{@.scheme}) OPTIONAL,
   medicalStaffId
-    MEDICAL-STAFF-SCHEME.&amp;Identification({MedicalStaffSchemes}{@.scheme}),
+    MEDICAL-STAFF-SCHEME.&Identification({MedicalStaffSchemes}{@.scheme}),
   qualifications
-    MEDICAL-STAFF-SCHEME.&amp;Qualifications({MedicalStaffSchemes}{@.scheme})
+    MEDICAL-STAFF-SCHEME.&Qualifications({MedicalStaffSchemes}{@.scheme})
       OPTIONAL
 }
 
 MEDICAL-STAFF-SCHEME ::= CLASS {
-  &amp;id              OID UNIQUE,
-  &amp;name            SchemeName OPTIONAL,
-  &amp;Identification  ,
-  &amp;Qualifications  ,
-  &amp;Observer        
+  &id              OID UNIQUE,
+  &name            SchemeName OPTIONAL,
+  &Identification  ,
+  &Qualifications  ,
+  &Observer        
 }
 WITH SYNTAX {
   SCHEME
-  [NAME &amp;name]
-  IDENTIFIED BY &amp;id
-  USING &amp;Identification
-  WITH &amp;Qualifications
-  AND &amp;Observer
+  [NAME &name]
+  IDENTIFIED BY &id
+  USING &Identification
+  WITH &Qualifications
+  AND &Observer
 }
 
 MedicalStaffSchemes MEDICAL-STAFF-SCHEME ::=
@@ -114,11 +114,11 @@ observerIdentification IDENTIFICATION ::= {
 }
 
 ObserverIdentification ::= SEQUENCE {
-  scheme      MEDICAL-STAFF-SCHEME.&amp;id({MedicalStaffSchemes}),
+  scheme      MEDICAL-STAFF-SCHEME.&id({MedicalStaffSchemes}),
   schemeName
-    MEDICAL-STAFF-SCHEME.&amp;name({MedicalStaffSchemes}{@.scheme}) OPTIONAL,
+    MEDICAL-STAFF-SCHEME.&name({MedicalStaffSchemes}{@.scheme}) OPTIONAL,
   observerId
-    MEDICAL-STAFF-SCHEME.&amp;Observer({MedicalStaffSchemes}{@.scheme})
+    MEDICAL-STAFF-SCHEME.&Observer({MedicalStaffSchemes}{@.scheme})
 }
 
 pharmaceuticalStaffIdentification IDENTIFICATION ::= {
@@ -127,13 +127,13 @@ pharmaceuticalStaffIdentification IDENTIFICATION ::= {
 }
 
 PharmaceuticalStaffIdentification ::= SEQUENCE {
-  scheme          MEDICAL-STAFF-SCHEME.&amp;id({MedicalStaffSchemes}),
+  scheme          MEDICAL-STAFF-SCHEME.&id({MedicalStaffSchemes}),
   schemeName
-    MEDICAL-STAFF-SCHEME.&amp;name({MedicalStaffSchemes}{@.scheme}) OPTIONAL,
+    MEDICAL-STAFF-SCHEME.&name({MedicalStaffSchemes}{@.scheme}) OPTIONAL,
   medicalStaffId
-    MEDICAL-STAFF-SCHEME.&amp;Identification({MedicalStaffSchemes}{@.scheme}),
+    MEDICAL-STAFF-SCHEME.&Identification({MedicalStaffSchemes}{@.scheme}),
   qualifications
-    MEDICAL-STAFF-SCHEME.&amp;Qualifications({MedicalStaffSchemes}{@.scheme})
+    MEDICAL-STAFF-SCHEME.&Qualifications({MedicalStaffSchemes}{@.scheme})
       OPTIONAL
 }
 
@@ -143,24 +143,24 @@ laboratoryIdentification IDENTIFICATION ::= {
 }
 
 LaboratoryIdentification ::= SEQUENCE {
-  scheme          LABORATORY-SCHEME.&amp;id({LaboratorySchemes}),
+  scheme          LABORATORY-SCHEME.&id({LaboratorySchemes}),
   schemeName
-    LABORATORY-SCHEME.&amp;name({LaboratorySchemes}{@.scheme}) OPTIONAL,
+    LABORATORY-SCHEME.&name({LaboratorySchemes}{@.scheme}) OPTIONAL,
   qualifications
-    LABORATORY-SCHEME.&amp;Qualifications({LaboratorySchemes}{@.scheme})
+    LABORATORY-SCHEME.&Qualifications({LaboratorySchemes}{@.scheme})
       OPTIONAL
 }
 
 LABORATORY-SCHEME ::= CLASS {
-  &amp;id              OID UNIQUE,
-  &amp;name            SchemeName OPTIONAL,
-  &amp;Qualifications  
+  &id              OID UNIQUE,
+  &name            SchemeName OPTIONAL,
+  &Qualifications  
 }
 WITH SYNTAX {
   SCHEME
-  [NAME &amp;name]
-  IDENTIFIED BY &amp;id
-  WITH &amp;Qualifications
+  [NAME &name]
+  IDENTIFIED BY &id
+  WITH &Qualifications
 }
 
 LaboratorySchemes LABORATORY-SCHEME ::=
@@ -172,46 +172,46 @@ manufacturerIdentification IDENTIFICATION ::= {
 }
 
 ManufacturerIdentification ::= SEQUENCE {
-  scheme          MANUFACTURER-SCHEME.&amp;id({ManufacturerSchemes}),
+  scheme          MANUFACTURER-SCHEME.&id({ManufacturerSchemes}),
   schemeName
-    MANUFACTURER-SCHEME.&amp;name({ManufacturerSchemes}{@.scheme}) OPTIONAL,
+    MANUFACTURER-SCHEME.&name({ManufacturerSchemes}{@.scheme}) OPTIONAL,
   manufacturerId
-    MANUFACTURER-SCHEME.&amp;Manufacturer({ManufacturerSchemes}{@.scheme}),
+    MANUFACTURER-SCHEME.&Manufacturer({ManufacturerSchemes}{@.scheme}),
   drugId
-    MANUFACTURER-SCHEME.&amp;Drug({ManufacturerSchemes}{@.scheme})
+    MANUFACTURER-SCHEME.&Drug({ManufacturerSchemes}{@.scheme})
 }
 
 MANUFACTURER-SCHEME ::= CLASS {
-  &amp;id            OID UNIQUE,
-  &amp;name          SchemeName OPTIONAL,
-  &amp;Manufacturer  ,
-  &amp;Drug          
+  &id            OID UNIQUE,
+  &name          SchemeName OPTIONAL,
+  &Manufacturer  ,
+  &Drug          
 }
 WITH SYNTAX {
   SCHEME
-  [NAME &amp;name]
-  IDENTIFIED BY &amp;id
-  FOR &amp;Manufacturer
-  PRODUCING &amp;Drug
+  [NAME &name]
+  IDENTIFIED BY &id
+  FOR &Manufacturer
+  PRODUCING &Drug
 }
 
 ManufacturerSchemes MANUFACTURER-SCHEME ::=
   {...}
 
 DEVICE-SCHEME ::= CLASS {
-  &amp;id                OID UNIQUE,
-  &amp;name              SchemeName OPTIONAL,
-  &amp;Manufacturer      ,
-  &amp;Device            ,
-  &amp;supportedFormats  Supported-formats
+  &id                OID UNIQUE,
+  &name              SchemeName OPTIONAL,
+  &Manufacturer      ,
+  &Device            ,
+  &supportedFormats  Supported-formats
 }
 WITH SYNTAX {
   SCHEME
-  [NAME &amp;name]
-  IDENTIFIED BY &amp;id
-  FOR &amp;Manufacturer
-  PRODUCING &amp;Device
-  SUPPORTING &amp;supportedFormats
+  [NAME &name]
+  IDENTIFIED BY &id
+  FOR &Manufacturer
+  PRODUCING &Device
+  SUPPORTING &supportedFormats
 }
 
 Supported-formats ::= CHOICE {oids  SEQUENCE OF OID,
@@ -224,13 +224,13 @@ deviceIdentification IDENTIFICATION ::= {
 }
 
 DeviceIdentification ::= SEQUENCE {
-  scheme          DEVICE-SCHEME.&amp;id({DeviceSchemes}),
-  schemeName      DEVICE-SCHEME.&amp;name({DeviceSchemes}{@.scheme}) OPTIONAL,
+  scheme          DEVICE-SCHEME.&id({DeviceSchemes}),
+  schemeName      DEVICE-SCHEME.&name({DeviceSchemes}{@.scheme}) OPTIONAL,
   manufacturerId
-    DEVICE-SCHEME.&amp;Manufacturer({DeviceSchemes}{@.scheme}) OPTIONAL,
-  device          DEVICE-SCHEME.&amp;Device({DeviceSchemes}{@.scheme}),
+    DEVICE-SCHEME.&Manufacturer({DeviceSchemes}{@.scheme}) OPTIONAL,
+  device          DEVICE-SCHEME.&Device({DeviceSchemes}{@.scheme}),
   formats
-    DEVICE-SCHEME.&amp;supportedFormats({DeviceSchemes}{@.scheme})
+    DEVICE-SCHEME.&supportedFormats({DeviceSchemes}{@.scheme})
 }
 
 DeviceSchemes DEVICE-SCHEME ::=
@@ -242,26 +242,26 @@ softwareIdentification IDENTIFICATION ::= {
 }
 
 SOFTWARE-SCHEME ::= CLASS {
-  &amp;id            OID UNIQUE,
-  &amp;name          SchemeName OPTIONAL,
-  &amp;Manufacturer  ,
-  &amp;Software      
+  &id            OID UNIQUE,
+  &name          SchemeName OPTIONAL,
+  &Manufacturer  ,
+  &Software      
 }
 WITH SYNTAX {
   SCHEME
-  [NAME &amp;name]
-  IDENTIFIED BY &amp;id
-  FOR &amp;Manufacturer
-  PRODUCING &amp;Software
+  [NAME &name]
+  IDENTIFIED BY &id
+  FOR &Manufacturer
+  PRODUCING &Software
 }
 
 SoftwareIdentification ::= SEQUENCE {
-  scheme          SOFTWARE-SCHEME.&amp;id({SoftwareSchemes}),
+  scheme          SOFTWARE-SCHEME.&id({SoftwareSchemes}),
   schemeName
-    SOFTWARE-SCHEME.&amp;name({SoftwareSchemes}{@.scheme}) OPTIONAL,
+    SOFTWARE-SCHEME.&name({SoftwareSchemes}{@.scheme}) OPTIONAL,
   manufacturerId
-    SOFTWARE-SCHEME.&amp;Manufacturer({SoftwareSchemes}{@.scheme}) OPTIONAL,
-  software        SOFTWARE-SCHEME.&amp;Software({SoftwareSchemes}{@.scheme})
+    SOFTWARE-SCHEME.&Manufacturer({SoftwareSchemes}{@.scheme}) OPTIONAL,
+  software        SOFTWARE-SCHEME.&Software({SoftwareSchemes}{@.scheme})
 }
 
 SoftwareSchemes SOFTWARE-SCHEME ::=
@@ -273,30 +273,30 @@ insuranceIdentification IDENTIFICATION ::= {
 }
 
 InsuranceIdentification ::= SEQUENCE {
-  scheme          INSURANCE-SCHEME.&amp;id({InsuranceSchemes}),
+  scheme          INSURANCE-SCHEME.&id({InsuranceSchemes}),
   schemeName
-    INSURANCE-SCHEME.&amp;name({InsuranceSchemes}{@.scheme}) OPTIONAL,
-  manufacturerId  INSURANCE-SCHEME.&amp;Company({InsuranceSchemes}{@.scheme}),
+    INSURANCE-SCHEME.&name({InsuranceSchemes}{@.scheme}) OPTIONAL,
+  manufacturerId  INSURANCE-SCHEME.&Company({InsuranceSchemes}{@.scheme}),
   insurance
-    INSURANCE-SCHEME.&amp;InsuranceType({InsuranceSchemes}{@.scheme}),
+    INSURANCE-SCHEME.&InsuranceType({InsuranceSchemes}{@.scheme}),
   insuranceCert
-    INSURANCE-SCHEME.&amp;Certification({InsuranceSchemes}{@.scheme})
+    INSURANCE-SCHEME.&Certification({InsuranceSchemes}{@.scheme})
 }
 
 INSURANCE-SCHEME ::= CLASS {
-  &amp;id             OID UNIQUE,
-  &amp;name           SchemeName OPTIONAL,
-  &amp;Company        ,
-  &amp;InsuranceType  ,
-  &amp;Certification  
+  &id             OID UNIQUE,
+  &name           SchemeName OPTIONAL,
+  &Company        ,
+  &InsuranceType  ,
+  &Certification  
 }
 WITH SYNTAX {
   SCHEME
-  [NAME &amp;name]
-  IDENTIFIED BY &amp;id
-  FOR &amp;Company
-  USING &amp;InsuranceType
-  CERTIFIED WITH &amp;Certification
+  [NAME &name]
+  IDENTIFIED BY &id
+  FOR &Company
+  USING &InsuranceType
+  CERTIFIED WITH &Certification
 }
 
 InsuranceSchemes INSURANCE-SCHEME ::=
@@ -308,31 +308,31 @@ medicalRecordIdentification IDENTIFICATION ::= {
 }
 
 MedicalRecordIdentification ::= SEQUENCE {
-  scheme       MEDICAL-RECORD-SCHEME.&amp;id({MedicalRecordSchemes}),
+  scheme       MEDICAL-RECORD-SCHEME.&id({MedicalRecordSchemes}),
   schemeName
-    MEDICAL-RECORD-SCHEME.&amp;name({MedicalRecordSchemes}{@.scheme}) OPTIONAL,
+    MEDICAL-RECORD-SCHEME.&name({MedicalRecordSchemes}{@.scheme}) OPTIONAL,
   definingOrg
-    MEDICAL-RECORD-SCHEME.&amp;Organisation({MedicalRecordSchemes}{@.scheme}),
+    MEDICAL-RECORD-SCHEME.&Organisation({MedicalRecordSchemes}{@.scheme}),
   recordType
-    MEDICAL-RECORD-SCHEME.&amp;RecordType({MedicalRecordSchemes}{@.scheme}),
+    MEDICAL-RECORD-SCHEME.&RecordType({MedicalRecordSchemes}{@.scheme}),
   record
-    MEDICAL-RECORD-SCHEME.&amp;Record({MedicalRecordSchemes}{@.scheme})
+    MEDICAL-RECORD-SCHEME.&Record({MedicalRecordSchemes}{@.scheme})
 }
 
 MEDICAL-RECORD-SCHEME ::= CLASS {
-  &amp;id            OID UNIQUE,
-  &amp;name          SchemeName OPTIONAL,
-  &amp;Organisation  ,
-  &amp;RecordType    ,
-  &amp;Record        
+  &id            OID UNIQUE,
+  &name          SchemeName OPTIONAL,
+  &Organisation  ,
+  &RecordType    ,
+  &Record        
 }
 WITH SYNTAX {
   SCHEME
-  [NAME &amp;name]
-  IDENTIFIED BY &amp;id
-  FOR &amp;Organisation
-  USING &amp;RecordType
-  WITH FORMAT &amp;Record
+  [NAME &name]
+  IDENTIFIED BY &id
+  FOR &Organisation
+  USING &RecordType
+  WITH FORMAT &Record
 }
 
 MedicalRecordSchemes MEDICAL-RECORD-SCHEME ::=
@@ -341,6 +341,6 @@ MedicalRecordSchemes MEDICAL-RECORD-SCHEME ::=
 END
 
 		-- Generated by Asnp, 
-		the ASN.1 pretty-printer of France Telecom R&amp;D
+		the ASN.1 pretty-printer of France Telecom R&D
 	
 

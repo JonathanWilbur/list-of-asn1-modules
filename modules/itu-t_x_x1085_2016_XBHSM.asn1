@@ -39,4 +39,3 @@ IMPORTS authenticationFramework
 	InstanceOfBHSM-PID ::= INSTANCE OF BHSM-PSID({SupportedBHSM-PSID})
 	SupportedBHSM-PSID BHSM-PSID ::= {bioRef,...}
 END
-

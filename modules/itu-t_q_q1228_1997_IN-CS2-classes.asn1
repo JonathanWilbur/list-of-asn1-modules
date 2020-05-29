@@ -101,14 +101,14 @@ scf ROS-OBJECT-CLASS ::= {
 }
 
 EXTENSION ::= CLASS {
-  &amp;ExtensionType  ,
-  &amp;criticality    CriticalityType DEFAULT ignore,
-  &amp;id             Code
+  &ExtensionType  ,
+  &criticality    CriticalityType DEFAULT ignore,
+  &id             Code
 }
 WITH SYNTAX {
-  EXTENSION-SYNTAX &amp;ExtensionType
-  [CRITICALITY &amp;criticality]
-  IDENTIFIED BY &amp;id
+  EXTENSION-SYNTAX &ExtensionType
+  [CRITICALITY &criticality]
+  IDENTIFIED BY &id
 }
 
 -- Example of addition of an extension named 'Some Network Specific Indicator' of type
@@ -148,19 +148,19 @@ boundedExtension{PARAMETERS-BOUND:bound} EXTENSION ::= {
 -- this is just an example of an EXTENSION that uses the bound parameter
 BoundedExtensionSyntax{PARAMETERS-BOUND:bound} ::= SEQUENCE {
   digits
-    OCTET STRING(SIZE (bound.&amp;minDigitsLength..bound.&amp;maxDigitsLength))
+    OCTET STRING(SIZE (bound.&minDigitsLength..bound.&maxDigitsLength))
 }
 
 -- SupportedExtension is the full set of the network operator extensions.
 UISCRIPT ::= CLASS {
-  &amp;SpecificInfo  OPTIONAL,
-  &amp;Result        OPTIONAL,
-  &amp;id            Code
+  &SpecificInfo  OPTIONAL,
+  &Result        OPTIONAL,
+  &id            Code
 }
 WITH SYNTAX {
-  [WITH-SPECIFICINFO &amp;SpecificInfo]
-  [WITH-RESULT &amp;Result]
-  IDENTIFIED BY &amp;id
+  [WITH-SPECIFICINFO &SpecificInfo]
+  [WITH-RESULT &Result]
+  IDENTIFIED BY &id
 }
 
 firstScript UISCRIPT ::= {IDENTIFIED BY  local:1
@@ -182,7 +182,7 @@ boundedScript{PARAMETERS-BOUND:bound} UISCRIPT ::= {
 -- this is just an example of a UISCRIPT syntax that uses the bound parameter
 BoundedSpecificInfo{PARAMETERS-BOUND:bound} ::= SEQUENCE {
   digits
-    OCTET STRING(SIZE (bound.&amp;minDigitsLength..bound.&amp;maxDigitsLength))
+    OCTET STRING(SIZE (bound.&minDigitsLength..bound.&maxDigitsLength))
 }
 
 -- SupportedUIScripts is the full set of User Interaction scripts.
@@ -198,192 +198,192 @@ emptyConnectionPackage CONNECTION-PACKAGE ::= {
 }
 
 PARAMETERS-BOUND ::= CLASS {
-  &amp;minAChBillingChargingLength                INTEGER,
-  &amp;maxAChBillingChargingLength                INTEGER,
-  &amp;minAttributesLength                        INTEGER,
-  &amp;maxAttributesLength                        INTEGER,
-  &amp;minBackwardGVNSLength                      INTEGER,
-  &amp;maxBackwardGVNSLength                      INTEGER,
-  &amp;maxBearerCapabilityLength                  INTEGER,
-  &amp;minCalledPartyNumberLength                 INTEGER,
-  &amp;maxCalledPartyNumberLength                 INTEGER,
-  &amp;minCallingPartyNumberLength                INTEGER,
-  &amp;maxCallingPartyNumberLength                INTEGER,
-  &amp;minCallResultLength                        INTEGER,
-  &amp;maxCallResultLength                        INTEGER,
-  &amp;maxCauseLength                             INTEGER,
-  &amp;minDigitsLength                            INTEGER,
-  &amp;maxDigitsLength                            INTEGER,
-  &amp;minDisplayInformationLength                INTEGER,
-  &amp;maxDisplayInformationLength                INTEGER,
-  &amp;minEventSpecificInformationChargingLength  INTEGER,
-  &amp;maxEventSpecificInformationChargingLength  INTEGER,
-  &amp;minEventTypeChargingLength                 INTEGER,
-  &amp;maxEventTypeChargingLength                 INTEGER,
-  &amp;minFCIBillingChargingLength                INTEGER,
-  &amp;maxFCIBillingChargingLength                INTEGER,
-  &amp;minForwardGVNSLength                       INTEGER,
-  &amp;maxForwardGVNSLength                       INTEGER,
-  &amp;minGenericNameLength                       INTEGER,
-  &amp;maxGenericNameLength                       INTEGER,
-  &amp;minGenericNumberLength                     INTEGER,
-  &amp;maxGenericNumberLength                     INTEGER,
-  &amp;maxInitialTimeInterval                     INTEGER,
-  &amp;maxINServiceCompatibilityIndLength         INTEGER,
-  &amp;minIPAvailableLength                       INTEGER,
-  &amp;maxIPAvailableLength                       INTEGER,
-  &amp;minIPSSPCapabilitiesLength                 INTEGER,
-  &amp;maxIPSSPCapabilitiesLength                 INTEGER,
-  &amp;minLocationNumberLength                    INTEGER,
-  &amp;maxLocationNumberLength                    INTEGER,
-  &amp;minMailBoxIDLength                         INTEGER,
-  &amp;maxMailBoxIDLength                         INTEGER,
-  &amp;minMessageContentLength                    INTEGER,
-  &amp;maxMessageContentLength                    INTEGER,
-  &amp;minMidCallControlInfoNum                   INTEGER,
-  &amp;maxMidCallControlInfoNum                   INTEGER,
-  &amp;minOriginalCalledPartyIDLength             INTEGER,
-  &amp;maxOriginalCalledPartyIDLength             INTEGER,
-  &amp;minReasonLength                            INTEGER,
-  &amp;maxReasonLength                            INTEGER,
-  &amp;minReceivedInformationLength               INTEGER,
-  &amp;maxReceivedInformationLength               INTEGER,
-  &amp;maxRecordedMessageUnits                    INTEGER,
-  &amp;maxRecordingTime                           INTEGER,
-  &amp;minRedirectingPartyIDLength                INTEGER,
-  &amp;maxRedirectingPartyIDLength                INTEGER,
-  &amp;minRequestedUTSINum                        INTEGER,
-  &amp;maxRequestedUTSINum                        INTEGER,
-  &amp;minRouteListLength                         INTEGER,
-  &amp;maxRouteListLength                         INTEGER,
-  &amp;minScfIDLength                             INTEGER,
-  &amp;maxScfIDLength                             INTEGER,
-  &amp;minScfAddressLength                        INTEGER,
-  &amp;maxScfAddressLength                        INTEGER,
-  &amp;minSCIBillingChargingLength                INTEGER,
-  &amp;maxSCIBillingChargingLength                INTEGER,
-  &amp;minServiceInteractionIndicatorsLength      INTEGER,
-  &amp;maxServiceInteractionIndicatorsLength      INTEGER,
-  &amp;minSFBillingChargingLength                 INTEGER,
-  &amp;maxSFBillingChargingLength                 INTEGER,
-  &amp;minUSIInformationLength                    INTEGER,
-  &amp;maxUSIInformationLength                    INTEGER,
-  &amp;minUSIServiceIndicatorLength               INTEGER,
-  &amp;maxUSIServiceIndicatorLength               INTEGER,
-  &amp;numOfBCSMEvents                            INTEGER,
-  &amp;numOfBCUSMEvents                           INTEGER,
-  &amp;numOfChargingEvents                        INTEGER,
-  &amp;numOfCSAs                                  INTEGER,
-  &amp;numOfCSs                                   INTEGER,
-  &amp;numOfExtensions                            INTEGER,
-  &amp;numOfGenericNumbers                        INTEGER,
-  &amp;numOfInServiceCompatibilityIndLength       INTEGER,
-  &amp;numOfLegs                                  INTEGER,
-  &amp;numOfMessageIDs                            INTEGER,
-  &amp;maxAmount                                  INTEGER,
-  &amp;maxInitialUnitIncrement                    INTEGER,
-  &amp;maxScalingFactor                           INTEGER,
-  &amp;maxSegmentsPerDataInterval                 INTEGER,
-  &amp;maxTimePerInterval                         INTEGER,
-  &amp;maxUnitsPerDataInterval                    INTEGER,
-  &amp;maxUnitsPerInterval                        INTEGER,
-  &amp;ub-maxUserCredit                           INTEGER,
-  &amp;ub-nbCall                                  INTEGER
+  &minAChBillingChargingLength                INTEGER,
+  &maxAChBillingChargingLength                INTEGER,
+  &minAttributesLength                        INTEGER,
+  &maxAttributesLength                        INTEGER,
+  &minBackwardGVNSLength                      INTEGER,
+  &maxBackwardGVNSLength                      INTEGER,
+  &maxBearerCapabilityLength                  INTEGER,
+  &minCalledPartyNumberLength                 INTEGER,
+  &maxCalledPartyNumberLength                 INTEGER,
+  &minCallingPartyNumberLength                INTEGER,
+  &maxCallingPartyNumberLength                INTEGER,
+  &minCallResultLength                        INTEGER,
+  &maxCallResultLength                        INTEGER,
+  &maxCauseLength                             INTEGER,
+  &minDigitsLength                            INTEGER,
+  &maxDigitsLength                            INTEGER,
+  &minDisplayInformationLength                INTEGER,
+  &maxDisplayInformationLength                INTEGER,
+  &minEventSpecificInformationChargingLength  INTEGER,
+  &maxEventSpecificInformationChargingLength  INTEGER,
+  &minEventTypeChargingLength                 INTEGER,
+  &maxEventTypeChargingLength                 INTEGER,
+  &minFCIBillingChargingLength                INTEGER,
+  &maxFCIBillingChargingLength                INTEGER,
+  &minForwardGVNSLength                       INTEGER,
+  &maxForwardGVNSLength                       INTEGER,
+  &minGenericNameLength                       INTEGER,
+  &maxGenericNameLength                       INTEGER,
+  &minGenericNumberLength                     INTEGER,
+  &maxGenericNumberLength                     INTEGER,
+  &maxInitialTimeInterval                     INTEGER,
+  &maxINServiceCompatibilityIndLength         INTEGER,
+  &minIPAvailableLength                       INTEGER,
+  &maxIPAvailableLength                       INTEGER,
+  &minIPSSPCapabilitiesLength                 INTEGER,
+  &maxIPSSPCapabilitiesLength                 INTEGER,
+  &minLocationNumberLength                    INTEGER,
+  &maxLocationNumberLength                    INTEGER,
+  &minMailBoxIDLength                         INTEGER,
+  &maxMailBoxIDLength                         INTEGER,
+  &minMessageContentLength                    INTEGER,
+  &maxMessageContentLength                    INTEGER,
+  &minMidCallControlInfoNum                   INTEGER,
+  &maxMidCallControlInfoNum                   INTEGER,
+  &minOriginalCalledPartyIDLength             INTEGER,
+  &maxOriginalCalledPartyIDLength             INTEGER,
+  &minReasonLength                            INTEGER,
+  &maxReasonLength                            INTEGER,
+  &minReceivedInformationLength               INTEGER,
+  &maxReceivedInformationLength               INTEGER,
+  &maxRecordedMessageUnits                    INTEGER,
+  &maxRecordingTime                           INTEGER,
+  &minRedirectingPartyIDLength                INTEGER,
+  &maxRedirectingPartyIDLength                INTEGER,
+  &minRequestedUTSINum                        INTEGER,
+  &maxRequestedUTSINum                        INTEGER,
+  &minRouteListLength                         INTEGER,
+  &maxRouteListLength                         INTEGER,
+  &minScfIDLength                             INTEGER,
+  &maxScfIDLength                             INTEGER,
+  &minScfAddressLength                        INTEGER,
+  &maxScfAddressLength                        INTEGER,
+  &minSCIBillingChargingLength                INTEGER,
+  &maxSCIBillingChargingLength                INTEGER,
+  &minServiceInteractionIndicatorsLength      INTEGER,
+  &maxServiceInteractionIndicatorsLength      INTEGER,
+  &minSFBillingChargingLength                 INTEGER,
+  &maxSFBillingChargingLength                 INTEGER,
+  &minUSIInformationLength                    INTEGER,
+  &maxUSIInformationLength                    INTEGER,
+  &minUSIServiceIndicatorLength               INTEGER,
+  &maxUSIServiceIndicatorLength               INTEGER,
+  &numOfBCSMEvents                            INTEGER,
+  &numOfBCUSMEvents                           INTEGER,
+  &numOfChargingEvents                        INTEGER,
+  &numOfCSAs                                  INTEGER,
+  &numOfCSs                                   INTEGER,
+  &numOfExtensions                            INTEGER,
+  &numOfGenericNumbers                        INTEGER,
+  &numOfInServiceCompatibilityIndLength       INTEGER,
+  &numOfLegs                                  INTEGER,
+  &numOfMessageIDs                            INTEGER,
+  &maxAmount                                  INTEGER,
+  &maxInitialUnitIncrement                    INTEGER,
+  &maxScalingFactor                           INTEGER,
+  &maxSegmentsPerDataInterval                 INTEGER,
+  &maxTimePerInterval                         INTEGER,
+  &maxUnitsPerDataInterval                    INTEGER,
+  &maxUnitsPerInterval                        INTEGER,
+  &ub-maxUserCredit                           INTEGER,
+  &ub-nbCall                                  INTEGER
 }
 WITH SYNTAX {
-  MINIMUM-FOR-ACH-BILLING-CHARGING &amp;minAChBillingChargingLength
-  MAXIMUM-FOR-ACH-BILLING-CHARGING &amp;maxAChBillingChargingLength
-  MINIMUM-FOR-ATTRIBUTES &amp;minAttributesLength
-  MAXIMUM-FOR-ATTRIBUTES &amp;maxAttributesLength
-  MINIMUM-FOR-BACKWARD-GVNS &amp;minBackwardGVNSLength
-  MAXIMUM-FOR-BACKWARD-GVNS &amp;maxBackwardGVNSLength
-  MAXIMUM-FOR-BEARER-CAPABILITY &amp;maxBearerCapabilityLength
-  MINIMUM-FOR-CALLED-PARTY-NUMBER &amp;minCalledPartyNumberLength
-  MAXIMUM-FOR-CALLED-PARTY-NUMBER &amp;maxCalledPartyNumberLength
-  MINIMUM-FOR-CALLING-PARTY-NUMBER &amp;minCallingPartyNumberLength
-  MAXIMUM-FOR-CALLING-PARTY-NUMBER &amp;maxCallingPartyNumberLength
-  MINIMUM-FOR-CALL-RESULT &amp;minCallResultLength
-  MAXIMUM-FOR-CALL-RESULT &amp;maxCallResultLength
-  MAXIMUM-FOR-CAUSE &amp;maxCauseLength
-  MINIMUM-FOR-DIGITS &amp;minDigitsLength
-  MAXIMUM-FOR-DIGITS &amp;maxDigitsLength
-  MINIMUM-FOR-DISPLAY &amp;minDisplayInformationLength
-  MAXIMUM-FOR-DISPLAY &amp;maxDisplayInformationLength
+  MINIMUM-FOR-ACH-BILLING-CHARGING &minAChBillingChargingLength
+  MAXIMUM-FOR-ACH-BILLING-CHARGING &maxAChBillingChargingLength
+  MINIMUM-FOR-ATTRIBUTES &minAttributesLength
+  MAXIMUM-FOR-ATTRIBUTES &maxAttributesLength
+  MINIMUM-FOR-BACKWARD-GVNS &minBackwardGVNSLength
+  MAXIMUM-FOR-BACKWARD-GVNS &maxBackwardGVNSLength
+  MAXIMUM-FOR-BEARER-CAPABILITY &maxBearerCapabilityLength
+  MINIMUM-FOR-CALLED-PARTY-NUMBER &minCalledPartyNumberLength
+  MAXIMUM-FOR-CALLED-PARTY-NUMBER &maxCalledPartyNumberLength
+  MINIMUM-FOR-CALLING-PARTY-NUMBER &minCallingPartyNumberLength
+  MAXIMUM-FOR-CALLING-PARTY-NUMBER &maxCallingPartyNumberLength
+  MINIMUM-FOR-CALL-RESULT &minCallResultLength
+  MAXIMUM-FOR-CALL-RESULT &maxCallResultLength
+  MAXIMUM-FOR-CAUSE &maxCauseLength
+  MINIMUM-FOR-DIGITS &minDigitsLength
+  MAXIMUM-FOR-DIGITS &maxDigitsLength
+  MINIMUM-FOR-DISPLAY &minDisplayInformationLength
+  MAXIMUM-FOR-DISPLAY &maxDisplayInformationLength
   MINIMUM-FOR-EVENT-SPECIFIC-CHARGING
-    &amp;minEventSpecificInformationChargingLength
+    &minEventSpecificInformationChargingLength
   MAXIMUM-FOR-EVENT-SPECIFIC-CHARGING
-    &amp;maxEventSpecificInformationChargingLength
-  MINIMUM-FOR-EVENT-TYPE-CHARGING &amp;minEventTypeChargingLength
-  MAXIMUM-FOR-EVENT-TYPE-CHARGING &amp;maxEventTypeChargingLength
-  MINIMUM-FOR-FCI-BILLING-CHARGING &amp;minFCIBillingChargingLength
-  MAXIMUM-FOR-FCI-BILLING-CHARGING &amp;maxFCIBillingChargingLength
-  MINIMUM-FOR-FORWARD-GVNS &amp;minForwardGVNSLength
-  MAXIMUM-FOR-FORWARD-GVNS &amp;maxForwardGVNSLength
-  MINIMUM-FOR-GENERIC-NAME &amp;minGenericNameLength
-  MAXIMUM-FOR-GENERIC-NAME &amp;maxGenericNameLength
-  MINIMUM-FOR-GENERIC-NUMBER &amp;minGenericNumberLength
-  MAXIMUM-FOR-GENERIC-NUMBER &amp;maxGenericNumberLength
-  MAXIMUM-FOR-INITIAL-TIME-INTERVAL &amp;maxInitialTimeInterval
-  MAXIMUM-FOR-IN-SERVICE-COMPATIBILITY &amp;maxINServiceCompatibilityIndLength
-  MINIMUM-FOR-IP-AVAILABLE &amp;minIPAvailableLength
-  MAXIMUM-FOR-IP-AVAILABLE &amp;maxIPAvailableLength
-  MINIMUM-FOR-IP-SSP-CAPABILITIES &amp;minIPSSPCapabilitiesLength
-  MAXIMUM-FOR-IP-SSP-CAPABILITIES &amp;maxIPSSPCapabilitiesLength
-  MINIMUM-FOR-LOCATION-NUMBER &amp;minLocationNumberLength
-  MAXIMUM-FOR-LOCATION-NUMBER &amp;maxLocationNumberLength
-  MINIMUM-FOR-MAIL-BOX-ID &amp;minMailBoxIDLength
-  MAXIMUM-FOR-MAIL-BOX-ID &amp;maxMailBoxIDLength
-  MINIMUM-FOR-MESSAGE-CONTENT &amp;minMessageContentLength
-  MAXIMUM-FOR-MESSAGE-CONTENT &amp;maxMessageContentLength
-  MINIMUM-FOR-MID-CALL-CONTROL-INFO &amp;minMidCallControlInfoNum
-  MAXIMUM-FOR-MID-CALL-CONTROL-INFO &amp;maxMidCallControlInfoNum
-  MINIMUM-FOR-ORIGINAL-CALLED-PARTY-ID &amp;minOriginalCalledPartyIDLength
-  MAXIMUM-FOR-ORIGINAL-CALLED-PARTY-ID &amp;maxOriginalCalledPartyIDLength
-  MINIMUM-FOR-REASON &amp;minReasonLength
-  MAXIMUM-FOR-REASON &amp;maxReasonLength
-  MINIMUM-FOR-RECEIVED-INFORMATION &amp;minReceivedInformationLength
-  MAXIMUM-FOR-RECEIVED-INFORMATION &amp;maxReceivedInformationLength
-  MAXIMUM-FOR-RECORDED-MESSAGE-UNITS &amp;maxRecordedMessageUnits
-  MAXIMUM-FOR-RECORDING-TIME &amp;maxRecordingTime
-  MINIMUM-FOR-REDIRECTING-ID &amp;minRedirectingPartyIDLength
-  MAXIMUM-FOR-REDIRECTING-ID &amp;maxRedirectingPartyIDLength
-  MINIMUM-FOR-REQUESTED-UTSI-NUM &amp;minRequestedUTSINum
-  MAXIMUM-FOR-REQUESTED-UTSI-NUM &amp;maxRequestedUTSINum
-  MINIMUM-FOR-ROUTE-LIST &amp;minRouteListLength
-  MAXIMUM-FOR-ROUTE-LIST &amp;maxRouteListLength
-  MINIMUM-FOR-SCF-ID &amp;minScfIDLength
-  MAXIMUM-FOR-SCF-ID &amp;maxScfIDLength
-  MINIMUM-FOR-SCF-ADDRESS &amp;minScfAddressLength
-  MAXIMUM-FOR-SCF-ADDRESS &amp;maxScfAddressLength
-  MINIMUM-FOR-SCI-BILLING-CHARGING &amp;minSCIBillingChargingLength
-  MAXIMUM-FOR-SCI-BILLING-CHARGING &amp;maxSCIBillingChargingLength
-  MINIMUM-FOR-SII &amp;minServiceInteractionIndicatorsLength
-  MAXIMUM-FOR-SII &amp;maxServiceInteractionIndicatorsLength
-  MINIMUM-FOR-SF-BILLING-CHARGING &amp;minSFBillingChargingLength
-  MAXIMUM-FOR-SF-BILLING-CHARGING &amp;maxSFBillingChargingLength
-  MINIMUM-FOR-USI-INFORMATION &amp;minUSIInformationLength
-  MAXIMUM-FOR-USI-INFORMATION &amp;maxUSIInformationLength
-  MINIMUM-FOR-USI-SERVICE-INDICATOR &amp;minUSIServiceIndicatorLength
-  MAXIMUM-FOR-USI-SERVICE-INDICATOR &amp;maxUSIServiceIndicatorLength
-  NUM-OF-BCSM-EVENT &amp;numOfBCSMEvents
-  NUM-OF-BCUSM-EVENT &amp;numOfBCUSMEvents
-  NUM-OF-CHARGING-EVENT &amp;numOfChargingEvents
-  NUM-OF-CSAS &amp;numOfCSAs
-  NUM-OF-CSS &amp;numOfCSs
-  NUM-OF-EXTENSIONS &amp;numOfExtensions
-  NUM-OF-GENERIC-NUMBERS &amp;numOfGenericNumbers
-  NUM-OF-IN-SERVICE-COMPATIBILITY-ID &amp;numOfInServiceCompatibilityIndLength
-  NUM-OF-LEGS &amp;numOfLegs
-  NUM-OF-MESSAGE-IDS &amp;numOfMessageIDs
-  MAXIMUM-FOR-AMOUNT &amp;maxAmount
-  MAXIMUM-FOR-INITIAL-UNIT-INCREMENT &amp;maxInitialUnitIncrement
-  MAXIMUM-FOR-SCALING-FACTOR &amp;maxScalingFactor
-  MAXIMUM-FOR-SEGMENTS-PER-DATA-INTERVAL &amp;maxSegmentsPerDataInterval
-  MAXIMUM-FOR-TIME-PER-INTERVAL &amp;maxTimePerInterval
-  MAXIMUM-FOR-UNITS-PER-DATA-INTERVAL &amp;maxUnitsPerDataInterval
-  MAXIMUM-FOR-UNITS-PER-INTERVAL &amp;maxUnitsPerInterval
-  MAXIMUM-FOR-UB-USER-CREDIT &amp;ub-maxUserCredit
-  MAXIMUM-FOR-UB-NB-CALL &amp;ub-nbCall
+    &maxEventSpecificInformationChargingLength
+  MINIMUM-FOR-EVENT-TYPE-CHARGING &minEventTypeChargingLength
+  MAXIMUM-FOR-EVENT-TYPE-CHARGING &maxEventTypeChargingLength
+  MINIMUM-FOR-FCI-BILLING-CHARGING &minFCIBillingChargingLength
+  MAXIMUM-FOR-FCI-BILLING-CHARGING &maxFCIBillingChargingLength
+  MINIMUM-FOR-FORWARD-GVNS &minForwardGVNSLength
+  MAXIMUM-FOR-FORWARD-GVNS &maxForwardGVNSLength
+  MINIMUM-FOR-GENERIC-NAME &minGenericNameLength
+  MAXIMUM-FOR-GENERIC-NAME &maxGenericNameLength
+  MINIMUM-FOR-GENERIC-NUMBER &minGenericNumberLength
+  MAXIMUM-FOR-GENERIC-NUMBER &maxGenericNumberLength
+  MAXIMUM-FOR-INITIAL-TIME-INTERVAL &maxInitialTimeInterval
+  MAXIMUM-FOR-IN-SERVICE-COMPATIBILITY &maxINServiceCompatibilityIndLength
+  MINIMUM-FOR-IP-AVAILABLE &minIPAvailableLength
+  MAXIMUM-FOR-IP-AVAILABLE &maxIPAvailableLength
+  MINIMUM-FOR-IP-SSP-CAPABILITIES &minIPSSPCapabilitiesLength
+  MAXIMUM-FOR-IP-SSP-CAPABILITIES &maxIPSSPCapabilitiesLength
+  MINIMUM-FOR-LOCATION-NUMBER &minLocationNumberLength
+  MAXIMUM-FOR-LOCATION-NUMBER &maxLocationNumberLength
+  MINIMUM-FOR-MAIL-BOX-ID &minMailBoxIDLength
+  MAXIMUM-FOR-MAIL-BOX-ID &maxMailBoxIDLength
+  MINIMUM-FOR-MESSAGE-CONTENT &minMessageContentLength
+  MAXIMUM-FOR-MESSAGE-CONTENT &maxMessageContentLength
+  MINIMUM-FOR-MID-CALL-CONTROL-INFO &minMidCallControlInfoNum
+  MAXIMUM-FOR-MID-CALL-CONTROL-INFO &maxMidCallControlInfoNum
+  MINIMUM-FOR-ORIGINAL-CALLED-PARTY-ID &minOriginalCalledPartyIDLength
+  MAXIMUM-FOR-ORIGINAL-CALLED-PARTY-ID &maxOriginalCalledPartyIDLength
+  MINIMUM-FOR-REASON &minReasonLength
+  MAXIMUM-FOR-REASON &maxReasonLength
+  MINIMUM-FOR-RECEIVED-INFORMATION &minReceivedInformationLength
+  MAXIMUM-FOR-RECEIVED-INFORMATION &maxReceivedInformationLength
+  MAXIMUM-FOR-RECORDED-MESSAGE-UNITS &maxRecordedMessageUnits
+  MAXIMUM-FOR-RECORDING-TIME &maxRecordingTime
+  MINIMUM-FOR-REDIRECTING-ID &minRedirectingPartyIDLength
+  MAXIMUM-FOR-REDIRECTING-ID &maxRedirectingPartyIDLength
+  MINIMUM-FOR-REQUESTED-UTSI-NUM &minRequestedUTSINum
+  MAXIMUM-FOR-REQUESTED-UTSI-NUM &maxRequestedUTSINum
+  MINIMUM-FOR-ROUTE-LIST &minRouteListLength
+  MAXIMUM-FOR-ROUTE-LIST &maxRouteListLength
+  MINIMUM-FOR-SCF-ID &minScfIDLength
+  MAXIMUM-FOR-SCF-ID &maxScfIDLength
+  MINIMUM-FOR-SCF-ADDRESS &minScfAddressLength
+  MAXIMUM-FOR-SCF-ADDRESS &maxScfAddressLength
+  MINIMUM-FOR-SCI-BILLING-CHARGING &minSCIBillingChargingLength
+  MAXIMUM-FOR-SCI-BILLING-CHARGING &maxSCIBillingChargingLength
+  MINIMUM-FOR-SII &minServiceInteractionIndicatorsLength
+  MAXIMUM-FOR-SII &maxServiceInteractionIndicatorsLength
+  MINIMUM-FOR-SF-BILLING-CHARGING &minSFBillingChargingLength
+  MAXIMUM-FOR-SF-BILLING-CHARGING &maxSFBillingChargingLength
+  MINIMUM-FOR-USI-INFORMATION &minUSIInformationLength
+  MAXIMUM-FOR-USI-INFORMATION &maxUSIInformationLength
+  MINIMUM-FOR-USI-SERVICE-INDICATOR &minUSIServiceIndicatorLength
+  MAXIMUM-FOR-USI-SERVICE-INDICATOR &maxUSIServiceIndicatorLength
+  NUM-OF-BCSM-EVENT &numOfBCSMEvents
+  NUM-OF-BCUSM-EVENT &numOfBCUSMEvents
+  NUM-OF-CHARGING-EVENT &numOfChargingEvents
+  NUM-OF-CSAS &numOfCSAs
+  NUM-OF-CSS &numOfCSs
+  NUM-OF-EXTENSIONS &numOfExtensions
+  NUM-OF-GENERIC-NUMBERS &numOfGenericNumbers
+  NUM-OF-IN-SERVICE-COMPATIBILITY-ID &numOfInServiceCompatibilityIndLength
+  NUM-OF-LEGS &numOfLegs
+  NUM-OF-MESSAGE-IDS &numOfMessageIDs
+  MAXIMUM-FOR-AMOUNT &maxAmount
+  MAXIMUM-FOR-INITIAL-UNIT-INCREMENT &maxInitialUnitIncrement
+  MAXIMUM-FOR-SCALING-FACTOR &maxScalingFactor
+  MAXIMUM-FOR-SEGMENTS-PER-DATA-INTERVAL &maxSegmentsPerDataInterval
+  MAXIMUM-FOR-TIME-PER-INTERVAL &maxTimePerInterval
+  MAXIMUM-FOR-UNITS-PER-DATA-INTERVAL &maxUnitsPerDataInterval
+  MAXIMUM-FOR-UNITS-PER-INTERVAL &maxUnitsPerInterval
+  MAXIMUM-FOR-UB-USER-CREDIT &ub-maxUserCredit
+  MAXIMUM-FOR-UB-NB-CALL &ub-nbCall
 }
 
 -- The following instance of the parameter bound is just an example
@@ -484,5 +484,5 @@ networkSpecificBoundSet PARAMETERS-BOUND ::= {
 
 END
 
--- Generated by Asnp, the ASN.1 pretty-printer of France Telecom R&amp;D
+-- Generated by Asnp, the ASN.1 pretty-printer of France Telecom R&D
 
